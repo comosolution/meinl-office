@@ -6,7 +6,7 @@ import {
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
   IconLogout,
-  IconUserCircle,
+  IconUsersGroup,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +33,7 @@ export default function Sidebar() {
     {
       name: "Personen",
       href: "/person",
-      icon: <IconUserCircle size={20} />,
+      icon: <IconUsersGroup size={20} />,
     },
   ];
 
@@ -53,13 +53,12 @@ export default function Sidebar() {
 
   return (
     <aside
+      id="sidebar"
       className={`h-screen ${
         isCollapsed ? "w-[64px]" : "w-[260px]"
       } sticky top-0 z-50 flex flex-col gap-4 py-4 shadow-2xl transition-all duration-300 overflow-x-hidden`}
       style={{
         borderRight: defaultBorder,
-        backgroundImage:
-          "linear-gradient(23deg, var(--main) -33%, #f3e7e9 33%, #f5f5f5 100%)",
       }}
     >
       <div
@@ -97,7 +96,7 @@ export default function Sidebar() {
                 key={index}
                 label={entry.name}
                 active={active}
-                color={active ? "dark" : "red"}
+                color="red"
                 variant={active ? "filled" : "subtle"}
                 leftSection={entry.icon}
                 component={Link}
@@ -110,7 +109,7 @@ export default function Sidebar() {
         <NavLink
           label="Ausloggen"
           active
-          color="white"
+          color="dark"
           leftSection={<IconLogout size={20} />}
           className={navLink(isCollapsed)}
         />
