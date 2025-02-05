@@ -52,16 +52,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           >
             Alle Personen
           </Button>
-          <Button
-            color="gray"
-            variant="transparent"
-            size="xs"
-            leftSection={<IconChevronLeft size={16} />}
-            component={Link}
-            href={`/company/${company.kdnr}`}
-          >
-            {company.name1}
-          </Button>
         </div>
         <Contact
           email={person.email}
