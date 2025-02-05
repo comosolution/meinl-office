@@ -1,5 +1,6 @@
 import { Person } from "@/app/lib/interfaces";
 import {
+  Autocomplete,
   Button,
   Checkbox,
   Fieldset,
@@ -22,7 +23,6 @@ export default function InfoTab({ person }: { person: Person }) {
   });
 
   const advisors = person.betreutvon.split(",");
-
   const allCompetences = [
     "Administration",
     "Hardcase",
@@ -50,14 +50,23 @@ export default function InfoTab({ person }: { person: Person }) {
         })}
       >
         <Fieldset legend="Person">
-          <TextInput
+          <Autocomplete
             label="Anrede"
+            data={["Frau", "Herr"]}
             key={form.key("anrede")}
             {...form.getInputProps("anrede")}
             readOnly={!edit}
           />
-          <TextInput
+          <Autocomplete
             label="Titel"
+            data={[
+              "Dr.",
+              "Dr. med.",
+              "Dr.-Ing.",
+              "Dipl.-Ing.",
+              "Prof.",
+              "Prof. Dr.",
+            ]}
             key={form.key("titel")}
             {...form.getInputProps("titel")}
             readOnly={!edit}
@@ -118,8 +127,9 @@ export default function InfoTab({ person }: { person: Person }) {
             {...form.getInputProps("instrument")}
             readOnly={!edit}
           />
-          <TextInput
+          <Autocomplete
             label="T-Shirt"
+            data={["XS", "S", "M", "L", "XL", "XXL"]}
             key={form.key("tshirt")}
             {...form.getInputProps("tshirt")}
             readOnly={!edit}
