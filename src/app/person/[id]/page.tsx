@@ -11,6 +11,7 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import InfoTab from "./tabs/infoTab";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -62,7 +63,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             {company.name1}
           </Button>
         </div>
-        <Contact email={person.email} phone={person.telefon} />
+        <Contact
+          email={person.email}
+          phone={person.telefon}
+          mobile={person.mobil}
+        />
       </div>
       <header className="flex flex-col gap-1 p-4">
         <h1 className="text-4xl">
@@ -93,9 +98,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="info" className="py-4">
-          <form></form>
-        </Tabs.Panel>
+        <InfoTab person={person} />
       </Tabs>
     </main>
   ) : (

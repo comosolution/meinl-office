@@ -1,12 +1,14 @@
 import { Button, Tooltip } from "@mantine/core";
-import { IconMail, IconPhone } from "@tabler/icons-react";
+import { IconDeviceMobile, IconMail, IconPhone } from "@tabler/icons-react";
 
 export default function Contact({
   email,
   phone,
+  mobile,
 }: {
   email?: string;
   phone?: string;
+  mobile?: string;
 }) {
   return (
     <div className="flex gap-2">
@@ -17,7 +19,18 @@ export default function Contact({
             size="xs"
             leftSection={<IconPhone size={16} />}
           >
-            Anrufen
+            Festnetz anrufen
+          </Button>
+        </Tooltip>
+      )}
+      {mobile && (
+        <Tooltip label={mobile} withArrow>
+          <Button
+            variant="light"
+            size="xs"
+            leftSection={<IconDeviceMobile size={16} />}
+          >
+            Mobil anrufen
           </Button>
         </Tooltip>
       )}

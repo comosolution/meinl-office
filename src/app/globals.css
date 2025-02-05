@@ -21,4 +21,5 @@ body {
 
 .mantine-Input-input:read-only {
   background: var(--mantine-color-gray-light);
+  transition: 300ms background ease-in-out;
 }

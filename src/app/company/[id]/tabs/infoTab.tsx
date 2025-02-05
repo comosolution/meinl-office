@@ -1,4 +1,8 @@
-import { FormValues, getInitialValues, validateForm } from "@/app/lib/form";
+import {
+  FormValues,
+  getInitialValues,
+  validateForm,
+} from "@/app/company/[id]/form";
 import { Company } from "@/app/lib/interfaces";
 import { Button, Fieldset, NumberInput, Tabs, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";

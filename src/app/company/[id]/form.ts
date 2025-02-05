@@ -1,5 +1,5 @@
-import { Company } from "./interfaces";
-import { notEmptyValidation } from "./utils";
+import { Company } from "../../lib/interfaces";
+import { notEmptyValidation } from "../../lib/utils";
 
 export const getInitialValues = (company: Company) => {
   return {
