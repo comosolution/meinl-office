@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@mantine/core";
+import { NavLink } from "@mantine/core";
 import {
   IconBuildingWarehouse,
   IconLayoutDashboard,
@@ -9,11 +9,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { JSX } from "react";
 import { defaultBorder } from "../lib/styles";
 import Search from "./search";
 
 export default function Sidebar() {
+  const path = usePathname();
   const nav = [
     {
       name: "Startseite",
@@ -34,7 +34,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="h-screen w-[260px] sticky top-0 z-50 flex flex-col gap-8 p-4 shadow-xl"
+      className="h-screen w-[260px] sticky top-0 z-50 flex flex-col gap-4 py-4 shadow-2xl"
       style={{
         borderRight: defaultBorder,
         backgroundImage:
@@ -47,54 +47,35 @@ export default function Sidebar() {
           <h1 className="text-xl font-bold tracking-tighter">Office</h1>
         </header>
       </Link>
-      <nav className="h-full flex flex-col place-content-between gap-2">
-        <div className="flex flex-col gap-2">
+      <nav className="h-full flex flex-col place-content-between">
+        <div className="flex flex-col">
           <Search />
-          {nav.map((entry, index) => (
-            <NavItem
-              key={index}
-              icon={entry.icon}
-              name={entry.name}
-              href={entry.href}
-            />
-          ))}
+          {nav.map((entry, index) => {
+            const active =
+              (path.includes(entry.href) && entry.href !== "/") ||
+              (path === "/" && entry.href === "/");
+
+            return (
+              <NavLink
+                key={index}
+                label={entry.name}
+                active={active}
+                color={active ? "dark" : "red"}
+                variant={active ? "filled" : "subtle"}
+                leftSection={entry.icon}
+                component={Link}
+                href={entry.href}
+              />
+            );
+          })}
         </div>
-        <Button
+        <NavLink
+          label="Ausloggen"
+          active
           color="dark"
-          variant="light"
-          justify="left"
           leftSection={<IconLogout size={16} />}
-        >
-          Ausloggen
-        </Button>
+        />
       </nav>
     </aside>
-  );
-}
-
-function NavItem({
-  icon,
-  name,
-  href,
-}: {
-  icon: JSX.Element;
-  name: string;
-  href: string;
-}) {
-  const path = usePathname();
-  const active =
-    (path.includes(href) && href !== "/") || (path === "/" && href === "/");
-
-  return (
-    <Button
-      color="dark"
-      variant={active ? "filled" : "transparent"}
-      justify="left"
-      leftSection={icon}
-      component={Link}
-      href={href}
-    >
-      {name}
-    </Button>
   );
 }

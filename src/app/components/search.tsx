@@ -1,4 +1,4 @@
-import { Button, Kbd, rem } from "@mantine/core";
+import { Kbd, NavLink, rem } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
 import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -32,9 +32,10 @@ export default function Search() {
 
   return (
     <>
-      <Button
+      <NavLink
+        label="Suche"
         variant="light"
-        justify="left"
+        active
         leftSection={<IconSearch size={16} />}
         rightSection={
           <div className="text-black font-light">
@@ -44,9 +45,8 @@ export default function Search() {
         onClick={() => {
           spotlight.open();
         }}
-      >
-        Suchen
-      </Button>
+      />
+
       <Spotlight
         actions={data}
         query={query}
