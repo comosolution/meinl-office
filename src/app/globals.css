@@ -23,3 +23,13 @@ body {
   background: var(--mantine-color-gray-light);
   transition: 300ms background ease-in-out;
 }
+
+a.link {
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--mantine-color-dimmed);
+  transition: var(--transition);
+}
+
+a.link:hover {
+  border-bottom: 1px solid var(--main);
+}
