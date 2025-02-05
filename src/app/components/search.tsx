@@ -1,11 +1,12 @@
-import { Kbd, NavLink, rem } from "@mantine/core";
+import { Kbd, NavLink } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
-import { IconSearch } from "@tabler/icons-react";
+import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOffice } from "../context/officeContext";
+import { navLink } from "../lib/styles";
 
-export default function Search() {
+export default function Search({ collapsed }: { collapsed: boolean }) {
   const { companies } = useOffice();
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -27,6 +28,7 @@ export default function Search() {
         onClick: () => {
           router.push(`/company/${s.kdnr}`);
         },
+        leftSection: <IconBuildingWarehouse size={24} stroke={1.5} />,
       };
     });
 
@@ -36,33 +38,31 @@ export default function Search() {
         label="Suche"
         variant="light"
         active
-        leftSection={<IconSearch size={16} />}
+        leftSection={<IconSearch size={20} />}
         rightSection={
-          <div className="text-black font-light">
-            <Kbd size="xs">Ctrl</Kbd> + <Kbd size="xs">K</Kbd>
-          </div>
+          !collapsed && (
+            <div className="text-black font-light">
+              <Kbd size="xs">Ctrl</Kbd> + <Kbd size="xs">K</Kbd>
+            </div>
+          )
         }
+        className={navLink(collapsed)}
         onClick={() => {
           spotlight.open();
         }}
       />
-
       <Spotlight
         actions={data}
         query={query}
         onQueryChange={setQuery}
+        maxHeight="80vh"
         nothingFound="Keine Treffer."
         filter={(_, actions) => actions}
         scrollable
         radius="md"
         shortcut={["mod + K", "mod + P", "/"]}
         searchProps={{
-          leftSection: (
-            <IconSearch
-              style={{ width: rem(20), height: rem(20) }}
-              stroke={1.5}
-            />
-          ),
+          leftSection: <IconSearch size={20} stroke={1.5} />,
           placeholder: "Firma suchen ...",
         }}
       />
