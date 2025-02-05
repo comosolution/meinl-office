@@ -36,11 +36,12 @@ export default function Sidebar() {
       className="h-screen w-[260px] sticky top-0 z-50 flex flex-col gap-8 p-4 shadow-xl"
       style={{
         borderRight: defaultBorder,
-        backgroundImage: "linear-gradient(to top, #f3e7e9 66%, #f5f5f5 100%)",
+        backgroundImage:
+          "linear-gradient(23deg, var(--main) -33%, #f3e7e9 33%, #f5f5f5 100%)",
       }}
     >
       <Link href="/">
-        <header className="flex items-center px-4">
+        <header className="flex justify-center items-center">
           <Image src="/logo.svg" alt="Meinl Logo" width={24} height={24} />
           <h1 className="text-xl font-bold tracking-tighter">Office</h1>
         </header>

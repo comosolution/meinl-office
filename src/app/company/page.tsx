@@ -1,5 +1,6 @@
 "use client";
-import { Pagination, Table } from "@mantine/core";
+import { Pagination, Table, TextInput } from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -8,20 +9,36 @@ export default function Page() {
   const { companies } = useOffice();
   const router = useRouter();
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+  const filteredData = companies.filter((c) => {
+    const keywords = search.trim().toLowerCase().split(" ");
+    return keywords.every((keyword) =>
+      [c.kdnr.toString(), c.name1, c.name2, c.plz, c.ort, c.matchcode].some(
+        (value) => value.toLowerCase().includes(keyword)
+      )
+    );
+  });
 
   const pageLimit = 25;
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentPageData = companies.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(companies.length / pageSize);
+  const currentPageData = filteredData.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredData.length / pageSize);
 
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-baseline gap-2 p-4">
         <h1 className="text-4xl font-bold">Alle Kunden</h1>
-        <p className="dimmed">{companies.length} Ergebnisse</p>
+        <p className="dimmed">{filteredData.length} Ergebnisse</p>
       </header>
+      <TextInput
+        placeholder="Firmen durchsuchen ..."
+        leftSection={<IconSearch size={16} />}
+        value={search}
+        onChange={(e) => setSearch(e.currentTarget.value)}
+      />
       <Table highlightOnHover>
         <Table.Thead>
           <Table.Tr>

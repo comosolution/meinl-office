@@ -31,7 +31,7 @@ export default function Page() {
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-baseline gap-2 p-4">
         <h1 className="text-4xl font-bold">Alle Personen</h1>
-        <p className="dimmed">{employees.length} Ergebnisse</p>
+        <p className="dimmed">{filteredData.length} Ergebnisse</p>
       </header>
       <TextInput
         placeholder="Personen durchsuchen ..."
