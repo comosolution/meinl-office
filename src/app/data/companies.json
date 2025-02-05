@@ -1,0 +1,4982 @@
+[
+  {
+    "kdnr": 10900,
+    "name1": "Musik - Hans-Günter Aschka",
+    "name2": "",
+    "name3": "",
+    "plz": "85296",
+    "ort": "Rohrbach",
+    "land": "D",
+    "matchcode": "ASCHKA"
+  },
+  {
+    "kdnr": 11010,
+    "name1": "Audio Electric",
+    "name2": "Musikinstrumente GmbH",
+    "name3": "",
+    "plz": "88677",
+    "ort": "Markdorf",
+    "land": "D",
+    "matchcode": "AUDIO"
+  },
+  {
+    "kdnr": 11300,
+    "name1": "Musikstudio Bachschmid",
+    "name2": "Theo Bachschmid",
+    "name3": "",
+    "plz": "86845",
+    "ort": "Großaitingen",
+    "land": "D",
+    "matchcode": "BACHSCHMID"
+  },
+  {
+    "kdnr": 16140,
+    "name1": "Joachim Büchte",
+    "name2": "",
+    "name3": "",
+    "plz": "45665",
+    "ort": "Recklinghausen",
+    "land": "D",
+    "matchcode": "BÜCHTE"
+  },
+  {
+    "kdnr": 19300,
+    "name1": "Musikhaus Fackler",
+    "name2": "GmbH & Co. KG",
+    "name3": "",
+    "plz": "83278",
+    "ort": "Traunstein",
+    "land": "D",
+    "matchcode": "FACKLER"
+  },
+  {
+    "kdnr": 21700,
+    "name1": "Musikhaus Schenk",
+    "name2": "Inh. Siegfried Schenk",
+    "name3": "",
+    "plz": "97488",
+    "ort": "Stadtlauringen",
+    "land": "D",
+    "matchcode": "GEILING"
+  },
+  {
+    "kdnr": 24250,
+    "name1": "Hahn Helmut",
+    "name2": "Musikwaren Grosshandel",
+    "name3": "",
+    "plz": "91710",
+    "ort": "Gunzenhausen",
+    "land": "D",
+    "matchcode": "HAHN"
+  },
+  {
+    "kdnr": 26100,
+    "name1": "Musicland",
+    "name2": "H.W. Herter",
+    "name3": "",
+    "plz": "72461",
+    "ort": "Albstadt",
+    "land": "D",
+    "matchcode": "HERTER"
+  },
+  {
+    "kdnr": 27700,
+    "name1": "Musik Humbach",
+    "name2": "",
+    "name3": "",
+    "plz": "83022",
+    "ort": "Rosenheim",
+    "land": "D",
+    "matchcode": "HUMBACH"
+  },
+  {
+    "kdnr": 29350,
+    "name1": "Kanitz",
+    "name2": "Musikhaus",
+    "name3": "",
+    "plz": "78166",
+    "ort": "Donaueschingen",
+    "land": "D",
+    "matchcode": "KANITZ"
+  },
+  {
+    "kdnr": 30850,
+    "name1": "Musikhaus Klein oHG",
+    "name2": "",
+    "name3": "",
+    "plz": "89518",
+    "ort": "Heidenheim",
+    "land": "D",
+    "matchcode": "KLEIN"
+  },
+  {
+    "kdnr": 31100,
+    "name1": "Musikhaus Kliemann",
+    "name2": "",
+    "name3": "",
+    "plz": "96052",
+    "ort": "Bamberg",
+    "land": "D",
+    "matchcode": "KLIEMANN"
+  },
+  {
+    "kdnr": 34200,
+    "name1": "Musikhaus Lange",
+    "name2": "Instrumentenbau GmbH & Co.KG",
+    "name3": "",
+    "plz": "88212",
+    "ort": "Ravensburg",
+    "land": "D",
+    "matchcode": "LANGE"
+  },
+  {
+    "kdnr": 39025,
+    "name1": "Der Musikant",
+    "name2": "Pascal Lischka",
+    "name3": "",
+    "plz": "83714",
+    "ort": "Miesbach",
+    "land": "D",
+    "matchcode": "MUSIKANT"
+  },
+  {
+    "kdnr": 39685,
+    "name1": "Musikmarkt",
+    "name2": "Inh. A. Müller",
+    "name3": "",
+    "plz": "88348",
+    "ort": "Bad Saulgau",
+    "land": "D",
+    "matchcode": "MUSIKMARKT"
+  },
+  {
+    "kdnr": 39855,
+    "name1": "Music Service Geiger",
+    "name2": "Inh. Bernhard Geiger",
+    "name3": "",
+    "plz": "96317",
+    "ort": "Kronach",
+    "land": "D",
+    "matchcode": "GEIGER"
+  },
+  {
+    "kdnr": 40750,
+    "name1": "Musikfachgeschäft Nothnagel",
+    "name2": "",
+    "name3": "",
+    "plz": "95444",
+    "ort": "Bayreuth",
+    "land": "D",
+    "matchcode": "NOTHNAGEL"
+  },
+  {
+    "kdnr": 43900,
+    "name1": "Musikhaus Rauscher",
+    "name2": "",
+    "name3": "",
+    "plz": "73730",
+    "ort": "Esslingen",
+    "land": "D",
+    "matchcode": "RAUSCHER"
+  },
+  {
+    "kdnr": 45050,
+    "name1": "Musikhaus Rimmel GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "87435",
+    "ort": "Kempten",
+    "land": "D",
+    "matchcode": "RIMMEL"
+  },
+  {
+    "kdnr": 45150,
+    "name1": "Musik-Eck TV Service",
+    "name2": "",
+    "name3": "",
+    "plz": "80469",
+    "ort": "München",
+    "land": "D",
+    "matchcode": "RIZOS"
+  },
+  {
+    "kdnr": 45320,
+    "name1": "JOJO Music",
+    "name2": "Professional Equipment",
+    "name3": "",
+    "plz": "90429",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "JOJO"
+  },
+  {
+    "kdnr": 46600,
+    "name1": "Musik-Produktiv",
+    "name2": "Inh. F.Ströher",
+    "name3": "",
+    "plz": "82467",
+    "ort": "Garmisch-Partenkirchen",
+    "land": "D",
+    "matchcode": "MUSIKPRODUKTIV"
+  },
+  {
+    "kdnr": 48250,
+    "name1": "Musik Schacherl",
+    "name2": "Inh. Daniel Foltin e.K.",
+    "name3": "",
+    "plz": "94036",
+    "ort": "Passau",
+    "land": "D",
+    "matchcode": "SCHACHERL"
+  },
+  {
+    "kdnr": 49600,
+    "name1": "Schmidtco",
+    "name2": "Musikinstrumente",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "SCHMIDTCO"
+  },
+  {
+    "kdnr": 51075,
+    "name1": "Sound of Music",
+    "name2": "",
+    "name3": "",
+    "plz": "70182",
+    "ort": "Stuttgart-Mitte",
+    "land": "D",
+    "matchcode": "SCHWEIZER"
+  },
+  {
+    "kdnr": 51820,
+    "name1": "Musikhaus Stingl",
+    "name2": "",
+    "name3": "",
+    "plz": "96465",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "STINGL"
+  },
+  {
+    "kdnr": 52150,
+    "name1": "Musikhaus Striever",
+    "name2": "Inh. Sonja Steinkirchner",
+    "name3": "",
+    "plz": "93413",
+    "ort": "Cham",
+    "land": "D",
+    "matchcode": "STRIEVER"
+  },
+  {
+    "kdnr": 52700,
+    "name1": "Thomann GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "96138",
+    "ort": "Burgebrach",
+    "land": "D",
+    "matchcode": "THOMANN"
+  },
+  {
+    "kdnr": 55350,
+    "name1": "music-station piano werner",
+    "name2": "GmbH",
+    "name3": "",
+    "plz": "94330",
+    "ort": "Aiterhofen",
+    "land": "D",
+    "matchcode": "WERNER"
+  },
+  {
+    "kdnr": 57000,
+    "name1": "Frundsberg Musik & Musik-Zettl",
+    "name2": "Inh. Martin Zettl",
+    "name3": "",
+    "plz": "87719",
+    "ort": "Mindelheim",
+    "land": "D",
+    "matchcode": "ZETTL"
+  },
+  {
+    "kdnr": 60490,
+    "name1": "J. D'Addario & Company Inc.",
+    "name2": "",
+    "name3": "",
+    "plz": "",
+    "ort": "E. Farmingdale N.Y. 11735",
+    "land": "US",
+    "matchcode": "DADDARIO"
+  },
+  {
+    "kdnr": 60800,
+    "name1": "Musik Import Herbert",
+    "name2": "H. Tschernig GmbH & Co. KG",
+    "name3": "",
+    "plz": "6830",
+    "ort": "Rankweil",
+    "land": "A",
+    "matchcode": "HERBERT"
+  },
+  {
+    "kdnr": 61200,
+    "name1": "HOSHINO GAKKI CO.,LTD.",
+    "name2": "AKATSUKI TAMA FACTORY",
+    "name3": "",
+    "plz": "",
+    "ort": "SETO, 489-0071",
+    "land": "JP",
+    "matchcode": "HOSHINO TAMA"
+  },
+  {
+    "kdnr": 61320,
+    "name1": "Levytukku O.Y.",
+    "name2": "",
+    "name3": "Piirainen",
+    "plz": "00560",
+    "ort": "Helsinki",
+    "land": "FI",
+    "matchcode": "LEVYTUKKU"
+  },
+  {
+    "kdnr": 61900,
+    "name1": "SAICO S.A.",
+    "name2": "",
+    "name3": "",
+    "plz": "68920",
+    "ort": "WETTOLSHEIM / LES ERLEN",
+    "land": "FR",
+    "matchcode": "MUSICO SAICO"
+  },
+  {
+    "kdnr": 62060,
+    "name1": "Musik Olar AG / Music Olar",
+    "name2": "Ltd.",
+    "name3": "337",
+    "plz": "4800",
+    "ort": "Zofingen",
+    "land": "CH",
+    "matchcode": "OLAR"
+  },
+  {
+    "kdnr": 62225,
+    "name1": "Reliance Int. Corp.",
+    "name2": "",
+    "name3": "3rd floor. No.175",
+    "plz": "",
+    "ort": "Taipei 106, Taiwan R.O.C",
+    "land": "TW",
+    "matchcode": "RELIANCE"
+  },
+  {
+    "kdnr": 62866,
+    "name1": "Gerhard Knauer",
+    "name2": "Großhandel",
+    "name3": "",
+    "plz": "70736",
+    "ort": "Fellbach",
+    "land": "D",
+    "matchcode": "KNAUER"
+  },
+  {
+    "kdnr": 62970,
+    "name1": "Musikinstrumente",
+    "name2": "Gusti Foser AG",
+    "name3": "",
+    "plz": "9494",
+    "ort": "Schaan",
+    "land": "LI",
+    "matchcode": "FOSER"
+  },
+  {
+    "kdnr": 63034,
+    "name1": "Soundland GmbH",
+    "name2": "Professional Music",
+    "name3": "",
+    "plz": "70736",
+    "ort": "Fellbach",
+    "land": "D",
+    "matchcode": "SOUNDLAND"
+  },
+  {
+    "kdnr": 63044,
+    "name1": "Musikhaus Höllerer",
+    "name2": "Inh. Sonja Rosenkranz-Schagerl",
+    "name3": "",
+    "plz": "3580",
+    "ort": "Horn",
+    "land": "A",
+    "matchcode": "HÖLLERER"
+  },
+  {
+    "kdnr": 63080,
+    "name1": "Soundchip",
+    "name2": "Norbert Meier",
+    "name3": "",
+    "plz": "74354",
+    "ort": "Besigheim",
+    "land": "D",
+    "matchcode": "SOUNDCHIP"
+  },
+  {
+    "kdnr": 63106,
+    "name1": "Geiger und Geiger GmbH",
+    "name2": "Musikhaus",
+    "name3": "",
+    "plz": "77694",
+    "ort": "Kehl",
+    "land": "D",
+    "matchcode": "GEIGER"
+  },
+  {
+    "kdnr": 63177,
+    "name1": "Musikhaus H. Schoder",
+    "name2": "",
+    "name3": "",
+    "plz": "3300",
+    "ort": "Amstetten",
+    "land": "A",
+    "matchcode": "SCHODER"
+  },
+  {
+    "kdnr": 63196,
+    "name1": "Schagerl Music GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "3240",
+    "ort": "Mank",
+    "land": "A",
+    "matchcode": "SCHAGERL"
+  },
+  {
+    "kdnr": 63244,
+    "name1": "Musik Wein GmbH",
+    "name2": "Musikwaren-Großhandlung",
+    "name3": "",
+    "plz": "30916",
+    "ort": "Isernhagen NB",
+    "land": "D",
+    "matchcode": "WEIN"
+  },
+  {
+    "kdnr": 63286,
+    "name1": "Firma",
+    "name2": "Peter Gabor GmbH & Co.KG",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "GABOR"
+  },
+  {
+    "kdnr": 63318,
+    "name1": "Musik Paul",
+    "name2": "Inh. Jürgen Längle",
+    "name3": "",
+    "plz": "6840",
+    "ort": "Götzis",
+    "land": "A",
+    "matchcode": "PAUL"
+  },
+  {
+    "kdnr": 63323,
+    "name1": "Piano- und Musikhaus Förg GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "88317",
+    "ort": "Aichstetten",
+    "land": "D",
+    "matchcode": "FÖRG"
+  },
+  {
+    "kdnr": 63368,
+    "name1": "\"Backline & More GmbH\"",
+    "name2": "",
+    "name3": "",
+    "plz": "27383",
+    "ort": "Scheeßel",
+    "land": "D",
+    "matchcode": "OSSY OSTENDORF"
+  },
+  {
+    "kdnr": 63394,
+    "name1": "DPD Deutschland GmbH",
+    "name2": "Depot 190",
+    "name3": "",
+    "plz": "90451",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "DPD"
+  },
+  {
+    "kdnr": 63399,
+    "name1": "Musik Studio David Thoma",
+    "name2": "",
+    "name3": "",
+    "plz": "91438",
+    "ort": "Bad Windsheim",
+    "land": "D",
+    "matchcode": "THOMA"
+  },
+  {
+    "kdnr": 63429,
+    "name1": "musiKS Kellermann & Spohr OHG",
+    "name2": "",
+    "name3": "",
+    "plz": "74722",
+    "ort": "Buchen",
+    "land": "D",
+    "matchcode": "KELLERMANN"
+  },
+  {
+    "kdnr": 63430,
+    "name1": "Sonor GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "57319",
+    "ort": "Bad Berleburg",
+    "land": "D",
+    "matchcode": "SONOR"
+  },
+  {
+    "kdnr": 63456,
+    "name1": "Johannes Oelfke",
+    "name2": "",
+    "name3": "",
+    "plz": "91481",
+    "ort": "Münchsteinach",
+    "land": "D",
+    "matchcode": "HANNES"
+  },
+  {
+    "kdnr": 63502,
+    "name1": "Markus Naß eK",
+    "name2": "Musicbox",
+    "name3": "",
+    "plz": "27330",
+    "ort": "Asendorf",
+    "land": "D",
+    "matchcode": "MUSICBOX"
+  },
+  {
+    "kdnr": 63621,
+    "name1": "DHL Express Vertriebs GmbH",
+    "name2": "& Co OHG  Kundenservice",
+    "name3": "",
+    "plz": "22083",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "POST"
+  },
+  {
+    "kdnr": 63632,
+    "name1": "Musikhaus Hofer",
+    "name2": "Johann Hofer",
+    "name3": "",
+    "plz": "5760",
+    "ort": "Saalfelden",
+    "land": "A",
+    "matchcode": "HOFER"
+  },
+  {
+    "kdnr": 63730,
+    "name1": "Musik Schmid",
+    "name2": "",
+    "name3": "",
+    "plz": "97277",
+    "ort": "Neubrunn",
+    "land": "D",
+    "matchcode": "SCHMID"
+  },
+  {
+    "kdnr": 63753,
+    "name1": "Musik-Atelier Gabel GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "99091",
+    "ort": "Erfurt",
+    "land": "D",
+    "matchcode": "GABEL"
+  },
+  {
+    "kdnr": 63785,
+    "name1": "ROLAND MEINL Musikinstrumente",
+    "name2": "GmbH & Co.",
+    "name3": "",
+    "plz": "91468",
+    "ort": "Gutenstetten",
+    "land": "D",
+    "matchcode": "MEINL"
+  },
+  {
+    "kdnr": 63821,
+    "name1": "Tilmann Hoppstock",
+    "name2": "",
+    "name3": "",
+    "plz": "64285",
+    "ort": "Darmstadt",
+    "land": "D",
+    "matchcode": "HOPPSTOCK"
+  },
+  {
+    "kdnr": 63823,
+    "name1": "HABA Sales GmbH & Co. KG",
+    "name2": "",
+    "name3": "",
+    "plz": "96476",
+    "ort": "Bad Rodach",
+    "land": "D",
+    "matchcode": "WEHRFRITZ"
+  },
+  {
+    "kdnr": 63845,
+    "name1": "Rudi Buttas",
+    "name2": "",
+    "name3": "",
+    "plz": "74321",
+    "ort": "Bietigheim-Bissingen",
+    "land": "D",
+    "matchcode": "BUTTAS"
+  },
+  {
+    "kdnr": 63861,
+    "name1": "Prof. José J. Cortijo",
+    "name2": "",
+    "name3": "",
+    "plz": "56337",
+    "ort": "Arzbach",
+    "land": "D",
+    "matchcode": "CORTIJO"
+  },
+  {
+    "kdnr": 63878,
+    "name1": "MIXTOWN Veranstaltungstechnik",
+    "name2": "D.Arnold & C.Kittel GbR",
+    "name3": "",
+    "plz": "73529",
+    "ort": "Schwäbisch Gmünd",
+    "land": "D",
+    "matchcode": "MIXTOWN"
+  },
+  {
+    "kdnr": 63896,
+    "name1": "Ebner Media Group GmbH & Co.KG",
+    "name2": "Guitar Summit",
+    "name3": "",
+    "plz": "89020",
+    "ort": "Ulm",
+    "land": "D",
+    "matchcode": "GITARRE & BASS"
+  },
+  {
+    "kdnr": 63903,
+    "name1": "Sticks MM-Musik-Media",
+    "name2": "Verlag GmbH & Co.KG",
+    "name3": "",
+    "plz": "50996",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "STICKS"
+  },
+  {
+    "kdnr": 63928,
+    "name1": "Soundhouse",
+    "name2": "Veranstaltungstechnik GmbH",
+    "name3": "",
+    "plz": "97437",
+    "ort": "Haßfurt",
+    "land": "D",
+    "matchcode": "SOUNDHOUSE"
+  },
+  {
+    "kdnr": 63964,
+    "name1": "Metallblasinstrumente",
+    "name2": "Dietmar Kuberg",
+    "name3": "",
+    "plz": "39590",
+    "ort": "Tangermünde",
+    "land": "D",
+    "matchcode": "KUBERG"
+  },
+  {
+    "kdnr": 63983,
+    "name1": "Musikhaus Schneider",
+    "name2": "",
+    "name3": "",
+    "plz": "83043",
+    "ort": "Bad Aibling",
+    "land": "D",
+    "matchcode": "SCHNEIDER"
+  },
+  {
+    "kdnr": 64008,
+    "name1": "Twisted Talent Entertainment",
+    "name2": "GmbH - Joerg Michael Musielak",
+    "name3": "",
+    "plz": "44357",
+    "ort": "Dortmund",
+    "land": "D",
+    "matchcode": "TWISTED TALENT"
+  },
+  {
+    "kdnr": 64011,
+    "name1": "Stephan Hänisch",
+    "name2": "",
+    "name3": "",
+    "plz": "96052",
+    "ort": "Bamberg",
+    "land": "D",
+    "matchcode": "HÄNISCH"
+  },
+  {
+    "kdnr": 64029,
+    "name1": "DRUMMERS Institut",
+    "name2": "Jan Rohlfing",
+    "name3": "",
+    "plz": "40589",
+    "ort": "Düsseldorf",
+    "land": "D",
+    "matchcode": "DRUMMERS"
+  },
+  {
+    "kdnr": 64044,
+    "name1": "Musicline",
+    "name2": "Herbert Bucher",
+    "name3": "",
+    "plz": "89231",
+    "ort": "Neu-Ulm",
+    "land": "D",
+    "matchcode": "MUSICLINE"
+  },
+  {
+    "kdnr": 64093,
+    "name1": "EVS Backline",
+    "name2": "Julian Jansen",
+    "name3": "",
+    "plz": "51503",
+    "ort": "Rösrath",
+    "land": "D",
+    "matchcode": "JANSEN"
+  },
+  {
+    "kdnr": 64105,
+    "name1": "Chris Marr",
+    "name2": "",
+    "name3": "",
+    "plz": "58553",
+    "ort": "Halver",
+    "land": "D",
+    "matchcode": "MARR"
+  },
+  {
+    "kdnr": 64156,
+    "name1": "Stefan Kaufmann",
+    "name2": "",
+    "name3": "",
+    "plz": "42657",
+    "ort": "Solingen",
+    "land": "D",
+    "matchcode": "KAUFMANN"
+  },
+  {
+    "kdnr": 64185,
+    "name1": "Kipp Helmut",
+    "name2": "",
+    "name3": "",
+    "plz": "73230",
+    "ort": "Kirchheim",
+    "land": "D",
+    "matchcode": "KIPP"
+  },
+  {
+    "kdnr": 64196,
+    "name1": "AMA - Verlag",
+    "name2": "",
+    "name3": "",
+    "plz": "50321",
+    "ort": "Brühl",
+    "land": "D",
+    "matchcode": "AMA"
+  },
+  {
+    "kdnr": 64202,
+    "name1": "Marcel Zürcher",
+    "name2": "",
+    "name3": "",
+    "plz": "22765",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "ZÜRCHER"
+  },
+  {
+    "kdnr": 64250,
+    "name1": "MUSIC-SHOP NEA",
+    "name2": "Inh. Stefan Franz",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "MUSICSHOP"
+  },
+  {
+    "kdnr": 64306,
+    "name1": "music world e.K.",
+    "name2": "",
+    "name3": "",
+    "plz": "86159",
+    "ort": "Augsburg",
+    "land": "D",
+    "matchcode": "MUSICWORLD"
+  },
+  {
+    "kdnr": 64332,
+    "name1": "Josef Klier GmbH + Co.KG",
+    "name2": "Musikinstrumente",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "KLIER"
+  },
+  {
+    "kdnr": 64339,
+    "name1": "Frank Fiebach",
+    "name2": "",
+    "name3": "",
+    "plz": "99090",
+    "ort": "Erfurt-Alach",
+    "land": "D",
+    "matchcode": "FIEBACH"
+  },
+  {
+    "kdnr": 64358,
+    "name1": "Schäfer Tom",
+    "name2": "",
+    "name3": "",
+    "plz": "51377",
+    "ort": "Leverkusen",
+    "land": "D",
+    "matchcode": "SCHÄFER"
+  },
+  {
+    "kdnr": 64389,
+    "name1": "JBO GbR",
+    "name2": "c/o Wolfram Kellner",
+    "name3": "",
+    "plz": "90489",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "KELLNER"
+  },
+  {
+    "kdnr": 64396,
+    "name1": "DUSYMA Kindergartenbedarf",
+    "name2": "",
+    "name3": "Stadtteil Niedelsbach",
+    "plz": "73614",
+    "ort": "Schorndorf",
+    "land": "D",
+    "matchcode": "DUSYMA"
+  },
+  {
+    "kdnr": 64399,
+    "name1": "Secondhand Musicland",
+    "name2": "Dirk Gerlach",
+    "name3": "",
+    "plz": "44649",
+    "ort": "Herne",
+    "land": "D",
+    "matchcode": "SECONDHAND"
+  },
+  {
+    "kdnr": 64431,
+    "name1": "MOGAR MUSIC S.p.A.",
+    "name2": "",
+    "name3": "",
+    "plz": "20020",
+    "ort": "Lainate (Milano)",
+    "land": "IT",
+    "matchcode": "MOGAR"
+  },
+  {
+    "kdnr": 64434,
+    "name1": "Fabiani Guitars & Drums",
+    "name2": "",
+    "name3": "",
+    "plz": "75365",
+    "ort": "Calw",
+    "land": "D",
+    "matchcode": "FABIANI"
+  },
+  {
+    "kdnr": 64455,
+    "name1": "Stefan Gross",
+    "name2": "Grafiker",
+    "name3": "Gleichen",
+    "plz": "74629",
+    "ort": "Pfedelbach",
+    "land": "D",
+    "matchcode": "GROSS"
+  },
+  {
+    "kdnr": 64459,
+    "name1": "Musikhaus Benson",
+    "name2": "",
+    "name3": "",
+    "plz": "96328",
+    "ort": "Küps",
+    "land": "D",
+    "matchcode": "BENSON"
+  },
+  {
+    "kdnr": 64472,
+    "name1": "Musikhaus Friedrich",
+    "name2": "Inh. Jens-Uwe Friedrich",
+    "name3": "",
+    "plz": "17268",
+    "ort": "Templin",
+    "land": "D",
+    "matchcode": "FRIEDRICH"
+  },
+  {
+    "kdnr": 64483,
+    "name1": "Headstock Distribution",
+    "name2": "Attn.: Mr. James Laney",
+    "name3": "Steelpark Road",
+    "plz": "",
+    "ort": "Halesowen",
+    "land": "GB",
+    "matchcode": "HEADSTOCK"
+  },
+  {
+    "kdnr": 64497,
+    "name1": "PRO MARK CORPORATION",
+    "name2": "",
+    "name3": "",
+    "plz": "",
+    "ort": "Houston, Texas 77025-5899",
+    "land": "US",
+    "matchcode": "PRO MARK"
+  },
+  {
+    "kdnr": 64543,
+    "name1": "Angela Frontera",
+    "name2": "",
+    "name3": "",
+    "plz": "67149",
+    "ort": "Meckenheim",
+    "land": "D",
+    "matchcode": "FRONTERA"
+  },
+  {
+    "kdnr": 64545,
+    "name1": "Drum Station Maintal",
+    "name2": "Joachim Schmidt GmbH",
+    "name3": "",
+    "plz": "63477",
+    "ort": "Maintal",
+    "land": "D",
+    "matchcode": "DRUMSTATION"
+  },
+  {
+    "kdnr": 64649,
+    "name1": "Musik Markt",
+    "name2": "Inh. Wahan Cherbettchain",
+    "name3": "",
+    "plz": "55252",
+    "ort": "Mainz-Kastel",
+    "land": "D",
+    "matchcode": "WILLY"
+  },
+  {
+    "kdnr": 64668,
+    "name1": "Gerhard Reiter",
+    "name2": "",
+    "name3": "",
+    "plz": "4656",
+    "ort": "Kirchham",
+    "land": "A",
+    "matchcode": "REITER"
+  },
+  {
+    "kdnr": 64672,
+    "name1": "AKUSTIK Gitarre",
+    "name2": "Andreas Schulz",
+    "name3": "",
+    "plz": "61273",
+    "ort": "Wehrheim",
+    "land": "D",
+    "matchcode": "AKUSTIK"
+  },
+  {
+    "kdnr": 64674,
+    "name1": "Pete Wrba",
+    "name2": "",
+    "name3": "",
+    "plz": "82284",
+    "ort": "Grafrath",
+    "land": "D",
+    "matchcode": "WRBA"
+  },
+  {
+    "kdnr": 64767,
+    "name1": "PPVMEDIEN GmbH / Soundcheck",
+    "name2": "Magazin: Soundcheck",
+    "name3": "",
+    "plz": "85232",
+    "ort": "Bergkirchen",
+    "land": "D",
+    "matchcode": "SOUND CHECK"
+  },
+  {
+    "kdnr": 64768,
+    "name1": "Axel Springer Mediahouse",
+    "name2": "Berlin GmbH",
+    "name3": "",
+    "plz": "10961",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "METAL HAMMER"
+  },
+  {
+    "kdnr": 64774,
+    "name1": "Alexander Zieme",
+    "name2": "",
+    "name3": "",
+    "plz": "17489",
+    "ort": "Greifswald",
+    "land": "D",
+    "matchcode": "ZIEME"
+  },
+  {
+    "kdnr": 64781,
+    "name1": "Martin Trümper",
+    "name2": "Bödemann",
+    "name3": "",
+    "plz": "12059",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "TRÜMPER"
+  },
+  {
+    "kdnr": 64823,
+    "name1": "Hochschule für Musik",
+    "name2": "'Franz Liszt'",
+    "name3": "",
+    "plz": "99423",
+    "ort": "Weimar",
+    "land": "D",
+    "matchcode": "HOCHSCHULE"
+  },
+  {
+    "kdnr": 64841,
+    "name1": "Stephan Wildfeuer",
+    "name2": "",
+    "name3": "",
+    "plz": "81377",
+    "ort": "München",
+    "land": "D",
+    "matchcode": "WILDFEUER"
+  },
+  {
+    "kdnr": 64844,
+    "name1": "APM-MUSIC GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "6890",
+    "ort": "Lustenau",
+    "land": "A",
+    "matchcode": "AFRICAN"
+  },
+  {
+    "kdnr": 64920,
+    "name1": "Michael Dommers",
+    "name2": "Redakteur GITARRE & BASS",
+    "name3": "",
+    "plz": "45476",
+    "ort": "Mühlheim",
+    "land": "D",
+    "matchcode": "DOMMERS"
+  },
+  {
+    "kdnr": 64966,
+    "name1": "CAB Artis",
+    "name2": "",
+    "name3": "",
+    "plz": "96129",
+    "ort": "Mistendorf",
+    "land": "D",
+    "matchcode": "CAB"
+  },
+  {
+    "kdnr": 64974,
+    "name1": "BASS PROFESSOR",
+    "name2": "c/o Roland Kaschube",
+    "name3": "",
+    "plz": "50827",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "BASS PROFESSOR"
+  },
+  {
+    "kdnr": 64986,
+    "name1": "Michael Heindel",
+    "name2": "",
+    "name3": "",
+    "plz": "91472",
+    "ort": "Ipsheim",
+    "land": "D",
+    "matchcode": "HEINDEL"
+  },
+  {
+    "kdnr": 65007,
+    "name1": "Martin Hesselbach",
+    "name2": "",
+    "name3": "",
+    "plz": "40667",
+    "ort": "Meerbusch",
+    "land": "D",
+    "matchcode": "HESSELBACH"
+  },
+  {
+    "kdnr": 65030,
+    "name1": "Mike Gommeringer",
+    "name2": "",
+    "name3": "",
+    "plz": "21244",
+    "ort": "Buchholz in der Nordheide",
+    "land": "D",
+    "matchcode": "GOMMERINGER"
+  },
+  {
+    "kdnr": 65031,
+    "name1": "Georg Kreß",
+    "name2": "Revo-Live GbR",
+    "name3": "",
+    "plz": "89520",
+    "ort": "Heidenheim",
+    "land": "D",
+    "matchcode": "KREß"
+  },
+  {
+    "kdnr": 65044,
+    "name1": "Reinhold Meinl",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "MEINL"
+  },
+  {
+    "kdnr": 65053,
+    "name1": "PNP Verlag",
+    "name2": "Media 4 Music",
+    "name3": "",
+    "plz": "92318",
+    "ort": "Neumarkt",
+    "land": "D",
+    "matchcode": "PNP"
+  },
+  {
+    "kdnr": 65057,
+    "name1": "Bansbach Instrumentos Musicals",
+    "name2": "",
+    "name3": "",
+    "plz": "10101",
+    "ort": "San Jose",
+    "land": "CR",
+    "matchcode": "BANSBACH"
+  },
+  {
+    "kdnr": 65059,
+    "name1": "ROCK HARD GmbH",
+    "name2": "Redaktion",
+    "name3": "",
+    "plz": "44139",
+    "ort": "Dortmund",
+    "land": "D",
+    "matchcode": "ROCKHARD"
+  },
+  {
+    "kdnr": 65069,
+    "name1": "König u. Meyer GmbH u.Co.KG",
+    "name2": "z.Hd. Frau G.König",
+    "name3": "",
+    "plz": "97877",
+    "ort": "Wertheim",
+    "land": "D",
+    "matchcode": "KÖNIG"
+  },
+  {
+    "kdnr": 65071,
+    "name1": "Oliver Steidle",
+    "name2": "",
+    "name3": "",
+    "plz": "12351",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "STEIDLE"
+  },
+  {
+    "kdnr": 65102,
+    "name1": "Bläserstudio Koblenz",
+    "name2": "Klein & Jacobs OHG",
+    "name3": "",
+    "plz": "56070",
+    "ort": "Koblenz",
+    "land": "D",
+    "matchcode": "BLÄSERSTUDIO"
+  },
+  {
+    "kdnr": 65107,
+    "name1": "Tilo Heider",
+    "name2": "",
+    "name3": "",
+    "plz": "91052",
+    "ort": "Erlangen",
+    "land": "D",
+    "matchcode": "HEIDER"
+  },
+  {
+    "kdnr": 65133,
+    "name1": "Alexander Hötzinger",
+    "name2": "",
+    "name3": "",
+    "plz": "12169",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "HÖTZINGER"
+  },
+  {
+    "kdnr": 65136,
+    "name1": "Oli Rubow",
+    "name2": "",
+    "name3": "",
+    "plz": "60487",
+    "ort": "Frankfurt",
+    "land": "D",
+    "matchcode": "RUBOW"
+  },
+  {
+    "kdnr": 65164,
+    "name1": "Wolf Simon",
+    "name2": "",
+    "name3": "",
+    "plz": "45130",
+    "ort": "Essen",
+    "land": "D",
+    "matchcode": "SIMON"
+  },
+  {
+    "kdnr": 65170,
+    "name1": "Bernd Löw",
+    "name2": "",
+    "name3": "",
+    "plz": "91438",
+    "ort": "Bad Windsheim",
+    "land": "D",
+    "matchcode": "LÖW"
+  },
+  {
+    "kdnr": 65172,
+    "name1": "Jugendmusikschule Schorndorf",
+    "name2": "",
+    "name3": "",
+    "plz": "73614",
+    "ort": "Schorndorf",
+    "land": "D",
+    "matchcode": "JUGENDMUSIK"
+  },
+  {
+    "kdnr": 65175,
+    "name1": "Rammstein GbR",
+    "name2": "",
+    "name3": "",
+    "plz": "13158",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "RAMMSTEIN"
+  },
+  {
+    "kdnr": 65184,
+    "name1": "DL MALLETS",
+    "name2": "",
+    "name3": "",
+    "plz": "47228",
+    "ort": "Duisburg",
+    "land": "D",
+    "matchcode": "DLMALLETS"
+  },
+  {
+    "kdnr": 65211,
+    "name1": "Way of Music e.V.",
+    "name2": "",
+    "name3": "",
+    "plz": "56651",
+    "ort": "Niederzissen",
+    "land": "D",
+    "matchcode": "KEIPER"
+  },
+  {
+    "kdnr": 65218,
+    "name1": "Richard Schuster",
+    "name2": "",
+    "name3": "",
+    "plz": "85570",
+    "ort": "Markt Schwaben",
+    "land": "D",
+    "matchcode": "SCHUSTER"
+  },
+  {
+    "kdnr": 65250,
+    "name1": "ARNULF BETZOLD GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "73479",
+    "ort": "Ellwangen",
+    "land": "D",
+    "matchcode": "BETZOLD"
+  },
+  {
+    "kdnr": 65254,
+    "name1": "Musikschule im Landkreis",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "KREISMUSIKSCHUL"
+  },
+  {
+    "kdnr": 65294,
+    "name1": "Acoustic Music GmbH & Co.KG",
+    "name2": "",
+    "name3": "",
+    "plz": "49080",
+    "ort": "Osnabrück",
+    "land": "D",
+    "matchcode": "FINGER"
+  },
+  {
+    "kdnr": 65329,
+    "name1": "Holger Hälbig",
+    "name2": "Percussion & Drum School",
+    "name3": "",
+    "plz": "40764",
+    "ort": "Langenfeld",
+    "land": "D",
+    "matchcode": "HÄLBIG"
+  },
+  {
+    "kdnr": 65348,
+    "name1": "ALLTON OHG",
+    "name2": "Harbeke & Hausser OHG",
+    "name3": "",
+    "plz": "34596",
+    "ort": "Bad Zwesten Niederurff",
+    "land": "D",
+    "matchcode": "ALLTON"
+  },
+  {
+    "kdnr": 65354,
+    "name1": "Hoshino Europe B.V.",
+    "name2": "",
+    "name3": "",
+    "plz": "3641",
+    "ort": "SB, Mijdrecht",
+    "land": "NL",
+    "matchcode": "HOSHINO BENELUX"
+  },
+  {
+    "kdnr": 65369,
+    "name1": "Daniel Löble",
+    "name2": "",
+    "name3": "",
+    "plz": "78256",
+    "ort": "Steisslingen",
+    "land": "D",
+    "matchcode": "LÖBLE"
+  },
+  {
+    "kdnr": 65378,
+    "name1": "Action Music",
+    "name2": "Thomas Mayer",
+    "name3": "",
+    "plz": "88447",
+    "ort": "Warthausen",
+    "land": "D",
+    "matchcode": "MAYER"
+  },
+  {
+    "kdnr": 65388,
+    "name1": "Musikhaus Plickert",
+    "name2": "",
+    "name3": "",
+    "plz": "99423",
+    "ort": "Weimar",
+    "land": "D",
+    "matchcode": "PLICKERT"
+  },
+  {
+    "kdnr": 65399,
+    "name1": "Städt. Musik- und Singschule",
+    "name2": "Ansbach",
+    "name3": "",
+    "plz": "91522",
+    "ort": "Ansbach",
+    "land": "D",
+    "matchcode": "MUSIKSCHULE"
+  },
+  {
+    "kdnr": 65412,
+    "name1": "Soundshop Glück",
+    "name2": "",
+    "name3": "",
+    "plz": "78582",
+    "ort": "Balgheim",
+    "land": "D",
+    "matchcode": "SOUNDSHOP"
+  },
+  {
+    "kdnr": 65422,
+    "name1": "Captured Live",
+    "name2": "B.E.R.N.D. Touring GmbH",
+    "name3": "",
+    "plz": "45307",
+    "ort": "Essen",
+    "land": "D",
+    "matchcode": "CAPTUREDLIVE"
+  },
+  {
+    "kdnr": 65469,
+    "name1": "Station Music GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "89343",
+    "ort": "Jettingen-Scheppach",
+    "land": "D",
+    "matchcode": "STATIONMUSIC"
+  },
+  {
+    "kdnr": 65476,
+    "name1": "Andreas Schulz",
+    "name2": "",
+    "name3": "",
+    "plz": "61273",
+    "ort": "Wehrheim",
+    "land": "D",
+    "matchcode": "SCHULZ"
+  },
+  {
+    "kdnr": 65485,
+    "name1": "Titus Vadon",
+    "name2": "",
+    "name3": "",
+    "plz": "1020",
+    "ort": "Wien",
+    "land": "A",
+    "matchcode": "VADON"
+  },
+  {
+    "kdnr": 65494,
+    "name1": "Georg Huber",
+    "name2": "",
+    "name3": "",
+    "plz": "90489",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "HUBER"
+  },
+  {
+    "kdnr": 65514,
+    "name1": "Florian Rein",
+    "name2": "",
+    "name3": "",
+    "plz": "83646",
+    "ort": "Bad Tölz",
+    "land": "D",
+    "matchcode": "REIN"
+  },
+  {
+    "kdnr": 65518,
+    "name1": "Knuth Jerxsen",
+    "name2": "",
+    "name3": "",
+    "plz": "50676",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "JERXSEN"
+  },
+  {
+    "kdnr": 65540,
+    "name1": "Planet Music & Media GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "1110",
+    "ort": "Wien",
+    "land": "A",
+    "matchcode": "PLANET"
+  },
+  {
+    "kdnr": 65543,
+    "name1": "Musik Meyer GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "35041",
+    "ort": "Marburg",
+    "land": "D",
+    "matchcode": "MEYER"
+  },
+  {
+    "kdnr": 65577,
+    "name1": "Berufsfachschule f. Musik",
+    "name2": "",
+    "name3": "",
+    "plz": "91550",
+    "ort": "Dinkelsbühl",
+    "land": "D",
+    "matchcode": "BERFUFSFACHSCHU"
+  },
+  {
+    "kdnr": 65582,
+    "name1": "PPVMEDIEN GmbH/Musikinstrument",
+    "name2": "Alexander Weiß",
+    "name3": "",
+    "plz": "85232",
+    "ort": "Bergkirchen",
+    "land": "D",
+    "matchcode": "MUSIKINSTRUMENT"
+  },
+  {
+    "kdnr": 65588,
+    "name1": "PPVMEDIEN GmbH / Guitar",
+    "name2": "Redaktion guitar",
+    "name3": "",
+    "plz": "85232",
+    "ort": "Bergkirchen",
+    "land": "D",
+    "matchcode": "GUITAR"
+  },
+  {
+    "kdnr": 65604,
+    "name1": "Hamburg School of Music GmbH",
+    "name2": "im Medienbunker",
+    "name3": "",
+    "plz": "20359",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "SCHOOL"
+  },
+  {
+    "kdnr": 65605,
+    "name1": "Matthias Lauschus",
+    "name2": "",
+    "name3": "",
+    "plz": "15831",
+    "ort": "Mahlow",
+    "land": "D",
+    "matchcode": "LAUSCHUS"
+  },
+  {
+    "kdnr": 65626,
+    "name1": "Flo Dauner",
+    "name2": "",
+    "name3": "",
+    "plz": "70599",
+    "ort": "Stuttgart",
+    "land": "D",
+    "matchcode": "DAUNER"
+  },
+  {
+    "kdnr": 65660,
+    "name1": "Roesberg Dieter",
+    "name2": "",
+    "name3": "",
+    "plz": "53177",
+    "ort": "Bonn",
+    "land": "D",
+    "matchcode": "ROESBERG"
+  },
+  {
+    "kdnr": 65685,
+    "name1": "S.C. Kuschnerus",
+    "name2": "",
+    "name3": "",
+    "plz": "52076",
+    "ort": "Aachen",
+    "land": "D",
+    "matchcode": "KUSCHI"
+  },
+  {
+    "kdnr": 65686,
+    "name1": "Sebastien Angrand",
+    "name2": "",
+    "name3": "",
+    "plz": "91330",
+    "ort": "Eggolsheim",
+    "land": "D",
+    "matchcode": "ANGRAND"
+  },
+  {
+    "kdnr": 65690,
+    "name1": "Sound & Vision",
+    "name2": "c/o Klaus Linke",
+    "name3": "",
+    "plz": "51465",
+    "ort": "Bergisch-Gladbach",
+    "land": "D",
+    "matchcode": "SOUND"
+  },
+  {
+    "kdnr": 65699,
+    "name1": "Louise-Scheppler-Kindergarten",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "KINDERGARTEN"
+  },
+  {
+    "kdnr": 65707,
+    "name1": "Thomas Zettl",
+    "name2": "Bläserstudio Landsberg",
+    "name3": "",
+    "plz": "86899",
+    "ort": "Landsberg am Lech",
+    "land": "D",
+    "matchcode": "ZETTL"
+  },
+  {
+    "kdnr": 65717,
+    "name1": "CREMATORY GBR",
+    "name2": "Markus Jüllich",
+    "name3": "",
+    "plz": "67550",
+    "ort": "Worms-Rheindürkheim",
+    "land": "D",
+    "matchcode": "JÜLLICH"
+  },
+  {
+    "kdnr": 65719,
+    "name1": "Live-Sound GmbH & Co.KG",
+    "name2": "",
+    "name3": "",
+    "plz": "26789",
+    "ort": "Leer",
+    "land": "D",
+    "matchcode": "LIVESOUND"
+  },
+  {
+    "kdnr": 65720,
+    "name1": "Klaus Müller",
+    "name2": "- intern -",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt/Aisch",
+    "land": "D",
+    "matchcode": "MÜLLER"
+  },
+  {
+    "kdnr": 65729,
+    "name1": "Alfonso Garrido",
+    "name2": "",
+    "name3": "",
+    "plz": "50672",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "GARRIDO"
+  },
+  {
+    "kdnr": 65732,
+    "name1": "Gerwin Eisenhauer",
+    "name2": "",
+    "name3": "",
+    "plz": "93047",
+    "ort": "Regensburg",
+    "land": "D",
+    "matchcode": "EISENHAUER"
+  },
+  {
+    "kdnr": 65742,
+    "name1": "J & M Musikland e.K.",
+    "name2": "",
+    "name3": "",
+    "plz": "99084",
+    "ort": "Erfurt",
+    "land": "D",
+    "matchcode": "J&M"
+  },
+  {
+    "kdnr": 65743,
+    "name1": "Roland Gebhardt",
+    "name2": "",
+    "name3": "",
+    "plz": "66450",
+    "ort": "Bexbach",
+    "land": "D",
+    "matchcode": "GEBHARDT"
+  },
+  {
+    "kdnr": 65744,
+    "name1": "Musication Schule für Musik",
+    "name2": "Herr Steinhauser",
+    "name3": "",
+    "plz": "90443",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "MUSICATION"
+  },
+  {
+    "kdnr": 65745,
+    "name1": "PRS Guitars",
+    "name2": "",
+    "name3": "",
+    "plz": "",
+    "ort": "Stevensville, MD 21666",
+    "land": "US",
+    "matchcode": "PRS"
+  },
+  {
+    "kdnr": 65767,
+    "name1": "Frank Jooß",
+    "name2": "",
+    "name3": "",
+    "plz": "81543",
+    "ort": "München",
+    "land": "D",
+    "matchcode": "JOOß"
+  },
+  {
+    "kdnr": 65769,
+    "name1": "percussion+m",
+    "name2": "Inh. Mathias Reuter",
+    "name3": "",
+    "plz": "34117",
+    "ort": "Kassel",
+    "land": "D",
+    "matchcode": "PERCUSSION"
+  },
+  {
+    "kdnr": 65772,
+    "name1": "Guitars and Stuff",
+    "name2": "",
+    "name3": "",
+    "plz": "79761",
+    "ort": "Waldshut-Tiengen",
+    "land": "D",
+    "matchcode": "KILINC"
+  },
+  {
+    "kdnr": 65775,
+    "name1": "Dirk Erchinger",
+    "name2": "",
+    "name3": "",
+    "plz": "10965",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "ERCHINGER"
+  },
+  {
+    "kdnr": 65813,
+    "name1": "Jens Fischer-Rodrian",
+    "name2": "",
+    "name3": "",
+    "plz": "12159",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "FISCHER"
+  },
+  {
+    "kdnr": 65820,
+    "name1": "TonArt traditional music",
+    "name2": "Theo Weidner",
+    "name3": "",
+    "plz": "79183",
+    "ort": "Waldkirch",
+    "land": "D",
+    "matchcode": "TONART"
+  },
+  {
+    "kdnr": 65822,
+    "name1": "Hartmann Music Cooperation",
+    "name2": "Anna Sperling",
+    "name3": "",
+    "plz": "58089",
+    "ort": "Hagen",
+    "land": "D",
+    "matchcode": "HARTMANN"
+  },
+  {
+    "kdnr": 65827,
+    "name1": "In Extremo GbR",
+    "name2": "c/o Kay Lutter",
+    "name3": "",
+    "plz": "13127",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "INEXTREMO KAY"
+  },
+  {
+    "kdnr": 65848,
+    "name1": "Tobi Wörner",
+    "name2": "",
+    "name3": "",
+    "plz": "70439",
+    "ort": "Stuttgart",
+    "land": "D",
+    "matchcode": "WÖRNER"
+  },
+  {
+    "kdnr": 65851,
+    "name1": "Preissler Music",
+    "name2": "Thomas Preissler",
+    "name3": "",
+    "plz": "12347",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "PREISSLER"
+  },
+  {
+    "kdnr": 65858,
+    "name1": "Zum Blechlädle",
+    "name2": "",
+    "name3": "",
+    "plz": "86747",
+    "ort": "Maihingen",
+    "land": "D",
+    "matchcode": "BLECHLÄDLE"
+  },
+  {
+    "kdnr": 65861,
+    "name1": "Uli Friedel",
+    "name2": "",
+    "name3": "",
+    "plz": "91346",
+    "ort": "Wiesenttal",
+    "land": "D",
+    "matchcode": "FRIEDEL"
+  },
+  {
+    "kdnr": 65866,
+    "name1": "Matteo Scrimali",
+    "name2": "",
+    "name3": "",
+    "plz": "70190",
+    "ort": "Stuttgart",
+    "land": "D",
+    "matchcode": "SCRIMALI"
+  },
+  {
+    "kdnr": 65867,
+    "name1": "tools 4 music",
+    "name2": "",
+    "name3": "",
+    "plz": "92318",
+    "ort": "Neumarkt",
+    "land": "D",
+    "matchcode": "TOOLS"
+  },
+  {
+    "kdnr": 65872,
+    "name1": "ROLAND Germany GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "64569",
+    "ort": "Nauheim",
+    "land": "D",
+    "matchcode": "ROLAND"
+  },
+  {
+    "kdnr": 65878,
+    "name1": "Holger Uebler",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "UEBLER"
+  },
+  {
+    "kdnr": 65884,
+    "name1": "Willy Astor",
+    "name2": "",
+    "name3": "",
+    "plz": "82067",
+    "ort": "Schäftlarn",
+    "land": "D",
+    "matchcode": "ASTOR"
+  },
+  {
+    "kdnr": 65898,
+    "name1": "Renis Mendoza",
+    "name2": "",
+    "name3": "",
+    "plz": "50739",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "MENDOZA"
+  },
+  {
+    "kdnr": 65900,
+    "name1": "Mark Kofi Essien",
+    "name2": "",
+    "name3": "",
+    "plz": "68766",
+    "ort": "Hockenheim",
+    "land": "D",
+    "matchcode": "ESSIEN"
+  },
+  {
+    "kdnr": 65908,
+    "name1": "All Areas",
+    "name2": "Veranstaltungstechnik",
+    "name3": "",
+    "plz": "96126",
+    "ort": "Maroldsweisach",
+    "land": "D",
+    "matchcode": "ALLAREAS"
+  },
+  {
+    "kdnr": 65915,
+    "name1": "Liviu Jean Manciu",
+    "name2": "",
+    "name3": "",
+    "plz": "87439",
+    "ort": "Kempten",
+    "land": "D",
+    "matchcode": "MANCIU"
+  },
+  {
+    "kdnr": 65937,
+    "name1": "Heinz Derus",
+    "name2": "",
+    "name3": "",
+    "plz": "91448",
+    "ort": "Emskirchen",
+    "land": "D",
+    "matchcode": "DERUS"
+  },
+  {
+    "kdnr": 65954,
+    "name1": "BRS",
+    "name2": "Rene Thomsen",
+    "name3": "",
+    "plz": "30916",
+    "ort": "Isernhagen",
+    "land": "D",
+    "matchcode": "BRS"
+  },
+  {
+    "kdnr": 65963,
+    "name1": "Rüdiger Eisenhauer",
+    "name2": "",
+    "name3": "",
+    "plz": "93049",
+    "ort": "Regensburg",
+    "land": "D",
+    "matchcode": "EISENHAUER"
+  },
+  {
+    "kdnr": 65977,
+    "name1": "Gero Fei",
+    "name2": "",
+    "name3": "",
+    "plz": "68309",
+    "ort": "Mannheim",
+    "land": "D",
+    "matchcode": "FEI"
+  },
+  {
+    "kdnr": 65980,
+    "name1": "KORG & MORE",
+    "name2": "Division of Musik Meyer GmbH",
+    "name3": "",
+    "plz": "35041",
+    "ort": "Marburg",
+    "land": "D",
+    "matchcode": "M&T"
+  },
+  {
+    "kdnr": 65981,
+    "name1": "Mario Argandona",
+    "name2": "",
+    "name3": "",
+    "plz": "50823",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "ARGANDONA"
+  },
+  {
+    "kdnr": 65983,
+    "name1": "Wolfgang Haffner",
+    "name2": "",
+    "name3": "",
+    "plz": "90518",
+    "ort": "Altdorf",
+    "land": "D",
+    "matchcode": "HAFFNER"
+  },
+  {
+    "kdnr": 65987,
+    "name1": "Simon Michael Schmitt",
+    "name2": "",
+    "name3": "",
+    "plz": "91301",
+    "ort": "Forchheim",
+    "land": "D",
+    "matchcode": "SCHMITT"
+  },
+  {
+    "kdnr": 66004,
+    "name1": "Musik Schmidt",
+    "name2": "",
+    "name3": "",
+    "plz": "95445",
+    "ort": "Bayreuth",
+    "land": "D",
+    "matchcode": "SCHMIDT"
+  },
+  {
+    "kdnr": 66009,
+    "name1": "Christoph Rosenplänter",
+    "name2": "Drums",
+    "name3": "",
+    "plz": "22049",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "ROSENPLÄNTER"
+  },
+  {
+    "kdnr": 66018,
+    "name1": "Michael Schmidt",
+    "name2": "",
+    "name3": "",
+    "plz": "90763",
+    "ort": "Fürth",
+    "land": "D",
+    "matchcode": "SCHMIDT"
+  },
+  {
+    "kdnr": 66025,
+    "name1": "Let's make Music e.V.",
+    "name2": "z.Hd. Marion Fromm",
+    "name3": "",
+    "plz": "76829",
+    "ort": "Landau in der Pfalz",
+    "land": "D",
+    "matchcode": "LETS"
+  },
+  {
+    "kdnr": 66030,
+    "name1": "Stefan Franz",
+    "name2": "Musikschule",
+    "name3": "",
+    "plz": "90616",
+    "ort": "Neuhof a.d.Zenn",
+    "land": "D",
+    "matchcode": "FRANZ"
+  },
+  {
+    "kdnr": 66032,
+    "name1": "Grand Montagne Music",
+    "name2": "Künstler & Konzertagentur",
+    "name3": "",
+    "plz": "01156",
+    "ort": "Dresden",
+    "land": "D",
+    "matchcode": "GRANDMONTAGNE"
+  },
+  {
+    "kdnr": 66035,
+    "name1": "Friedrich-Alexander-Gymnasium",
+    "name2": "Herr Tischer",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "GYMNASIUM"
+  },
+  {
+    "kdnr": 66056,
+    "name1": "Sabine Vieten",
+    "name2": "",
+    "name3": "",
+    "plz": "80538",
+    "ort": "München",
+    "land": "D",
+    "matchcode": "VIETEN"
+  },
+  {
+    "kdnr": 66090,
+    "name1": "Tam Tam Music",
+    "name2": "Drums & Percussion",
+    "name3": "",
+    "plz": "35041",
+    "ort": "Marburg",
+    "land": "D",
+    "matchcode": "TAMTAM"
+  },
+  {
+    "kdnr": 66093,
+    "name1": "Pillenstein Autohaus",
+    "name2": "GmbH Neustadt",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt/Aisch",
+    "land": "D",
+    "matchcode": "PILLENSTEIN"
+  },
+  {
+    "kdnr": 66094,
+    "name1": "Helmut Schweikl",
+    "name2": "",
+    "name3": "",
+    "plz": "91486",
+    "ort": "Uehlfeld",
+    "land": "D",
+    "matchcode": "SCHWEIKL"
+  },
+  {
+    "kdnr": 66111,
+    "name1": "Musik Studio K.D.Stenz",
+    "name2": "der saiten-versand",
+    "name3": "",
+    "plz": "50389",
+    "ort": "Wesseling",
+    "land": "D",
+    "matchcode": "MUSIKSTUDIO"
+  },
+  {
+    "kdnr": 66116,
+    "name1": "Steffen Wilhelmi",
+    "name2": "Musikproduktion u. Instrumente",
+    "name3": "",
+    "plz": "38364",
+    "ort": "Schöningen",
+    "land": "D",
+    "matchcode": "STERN"
+  },
+  {
+    "kdnr": 66201,
+    "name1": "Musikhaus Hammerschmidt GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "6112",
+    "ort": "Wattens",
+    "land": "A",
+    "matchcode": "HAMMERSCHMIDT"
+  },
+  {
+    "kdnr": 66202,
+    "name1": "Musikhaus Lechner KG",
+    "name2": "",
+    "name3": "",
+    "plz": "5500",
+    "ort": "Bischofshofen",
+    "land": "A",
+    "matchcode": "LECHNER"
+  },
+  {
+    "kdnr": 66211,
+    "name1": "Musikhaus Fleck",
+    "name2": "",
+    "name3": "",
+    "plz": "8230",
+    "ort": "Hartberg",
+    "land": "A",
+    "matchcode": "FLECK"
+  },
+  {
+    "kdnr": 66220,
+    "name1": "Musikshop Fiedler",
+    "name2": "",
+    "name3": "",
+    "plz": "8272",
+    "ort": "Sebersdorf",
+    "land": "A",
+    "matchcode": "FIEDLER"
+  },
+  {
+    "kdnr": 66237,
+    "name1": "Karl Danner GmbH",
+    "name2": "Musikhaus",
+    "name3": "",
+    "plz": "4020",
+    "ort": "Linz",
+    "land": "A",
+    "matchcode": "DANNER"
+  },
+  {
+    "kdnr": 66258,
+    "name1": "MUSIK AKTIV - Spittal",
+    "name2": "GmbH & Co.KG",
+    "name3": "",
+    "plz": "9800",
+    "ort": "Spittal/Drau",
+    "land": "A",
+    "matchcode": "MUSIKAKTIV"
+  },
+  {
+    "kdnr": 66280,
+    "name1": "drumo",
+    "name2": "Wolfgang Ludescher",
+    "name3": "",
+    "plz": "6800",
+    "ort": "Feldkirch-Altenstadt",
+    "land": "A",
+    "matchcode": "LUDESCHER"
+  },
+  {
+    "kdnr": 66295,
+    "name1": "Stephan Maass",
+    "name2": "",
+    "name3": "",
+    "plz": "82211",
+    "ort": "Herrsching",
+    "land": "D",
+    "matchcode": "MAASS"
+  },
+  {
+    "kdnr": 66315,
+    "name1": "Eferdinger Musikhaus GESMBH",
+    "name2": "SAM MUSIC",
+    "name3": "",
+    "plz": "4020",
+    "ort": "Linz a.D.",
+    "land": "A",
+    "matchcode": "SAM"
+  },
+  {
+    "kdnr": 66323,
+    "name1": "Beat Factory",
+    "name2": "",
+    "name3": "",
+    "plz": "3123",
+    "ort": "Neustift",
+    "land": "A",
+    "matchcode": "BEATFACTORY"
+  },
+  {
+    "kdnr": 66345,
+    "name1": "Musik Pertak",
+    "name2": "",
+    "name3": "",
+    "plz": "7000",
+    "ort": "Eisenstadt",
+    "land": "A",
+    "matchcode": "PERTAK"
+  },
+  {
+    "kdnr": 66347,
+    "name1": "Univ. Prof. Mario Lackner",
+    "name2": "",
+    "name3": "",
+    "plz": "4702",
+    "ort": "Wallern",
+    "land": "A",
+    "matchcode": "LACKNER"
+  },
+  {
+    "kdnr": 66354,
+    "name1": "Kufsteiner Musikhaus",
+    "name2": "",
+    "name3": "",
+    "plz": "6330",
+    "ort": "Kufstein",
+    "land": "A",
+    "matchcode": "KUFSTEINER"
+  },
+  {
+    "kdnr": 66356,
+    "name1": "Musik Tirol",
+    "name2": "",
+    "name3": "",
+    "plz": "6300",
+    "ort": "Wörgl",
+    "land": "A",
+    "matchcode": "MUSIKTIROL"
+  },
+  {
+    "kdnr": 66368,
+    "name1": "City Music",
+    "name2": "Anton Schwanzer",
+    "name3": "",
+    "plz": "3500",
+    "ort": "Krems",
+    "land": "A",
+    "matchcode": "CITYMUSIC"
+  },
+  {
+    "kdnr": 66377,
+    "name1": "Haus der Musik - Stefan Maier",
+    "name2": "",
+    "name3": "",
+    "plz": "8582",
+    "ort": "Rosental",
+    "land": "A",
+    "matchcode": "HAUSDERMUSIK"
+  },
+  {
+    "kdnr": 66384,
+    "name1": "LEHRMITTEL - SERVICE",
+    "name2": "H.Späth GmbH",
+    "name3": "",
+    "plz": "73342",
+    "ort": "Bad Ditzenbach",
+    "land": "D",
+    "matchcode": "LEHRMITTELSERVI"
+  },
+  {
+    "kdnr": 66386,
+    "name1": "SUBWAY TO SALLY GbR",
+    "name2": "Silvio Runge",
+    "name3": "",
+    "plz": "14473",
+    "ort": "Potsdam",
+    "land": "D",
+    "matchcode": "SUBWAYTOSALLY"
+  },
+  {
+    "kdnr": 66390,
+    "name1": "LAKEWOOD GUITARS GmbH&Co.KG",
+    "name2": "Martin Seeliger",
+    "name3": "",
+    "plz": "35394",
+    "ort": "Gießen",
+    "land": "D",
+    "matchcode": "LAKEWOOD"
+  },
+  {
+    "kdnr": 66419,
+    "name1": "Georg Decker",
+    "name2": "",
+    "name3": "",
+    "plz": "66606",
+    "ort": "St. Wendel",
+    "land": "D",
+    "matchcode": "DECKER"
+  },
+  {
+    "kdnr": 66513,
+    "name1": "Amadeus Guitar Duo",
+    "name2": "D. Kavanagh & Thomas Kirchhoff",
+    "name3": "",
+    "plz": "58638",
+    "ort": "Iserlohn",
+    "land": "D",
+    "matchcode": "AMADEUS"
+  },
+  {
+    "kdnr": 66546,
+    "name1": "Metall Hammer",
+    "name2": "",
+    "name3": "",
+    "plz": "81541",
+    "ort": "München",
+    "land": "D",
+    "matchcode": "METHAMMER"
+  },
+  {
+    "kdnr": 66569,
+    "name1": "Heptagon Trade UG",
+    "name2": "",
+    "name3": "",
+    "plz": "12161",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "DOREMI"
+  },
+  {
+    "kdnr": 66600,
+    "name1": "Schott Music GmbH & Co. KG",
+    "name2": "",
+    "name3": "",
+    "plz": "55116",
+    "ort": "Mainz",
+    "land": "D",
+    "matchcode": "SCHOTT"
+  },
+  {
+    "kdnr": 66618,
+    "name1": "Christian Tournay",
+    "name2": "",
+    "name3": "",
+    "plz": "90451",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "TOURNAY"
+  },
+  {
+    "kdnr": 66640,
+    "name1": "AUREDNIK GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "63856",
+    "ort": "Bessenbach",
+    "land": "D",
+    "matchcode": "AUREDNIK"
+  },
+  {
+    "kdnr": 66651,
+    "name1": "Wiemann Lehrmittel GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "06774",
+    "ort": "Schlaitz",
+    "land": "D",
+    "matchcode": "WIEMANN"
+  },
+  {
+    "kdnr": 66656,
+    "name1": "Jürgen Heyer GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "92245",
+    "ort": "Kümmersbruck",
+    "land": "D",
+    "matchcode": "HEYER"
+  },
+  {
+    "kdnr": 66660,
+    "name1": "Reinhold Schulausstattung e.K.",
+    "name2": "",
+    "name3": "",
+    "plz": "09356",
+    "ort": "St. Egidien",
+    "land": "D",
+    "matchcode": "REINHOLD"
+  },
+  {
+    "kdnr": 66669,
+    "name1": "Lefima GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "93413",
+    "ort": "Cham",
+    "land": "D",
+    "matchcode": "LEFIMA"
+  },
+  {
+    "kdnr": 66699,
+    "name1": "Roland Bergdolt",
+    "name2": "",
+    "name3": "",
+    "plz": "91614",
+    "ort": "Mönchsroth",
+    "land": "D",
+    "matchcode": "BERGDOLT"
+  },
+  {
+    "kdnr": 66702,
+    "name1": "Musicpoint",
+    "name2": "Harald Köhler",
+    "name3": "",
+    "plz": "91541",
+    "ort": "Rothenburg",
+    "land": "D",
+    "matchcode": "MUSICPOINT"
+  },
+  {
+    "kdnr": 66705,
+    "name1": "Benjamin Greb",
+    "name2": "",
+    "name3": "",
+    "plz": "22547",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "GREB"
+  },
+  {
+    "kdnr": 66709,
+    "name1": "Steff Porzel",
+    "name2": "",
+    "name3": "",
+    "plz": "96120",
+    "ort": "Bischberg",
+    "land": "D",
+    "matchcode": "PORZEL"
+  },
+  {
+    "kdnr": 66713,
+    "name1": "- Angebot -",
+    "name2": "erfasst von REM",
+    "name3": "",
+    "plz": "91468",
+    "ort": "Gutenstetten",
+    "land": "D",
+    "matchcode": "REM"
+  },
+  {
+    "kdnr": 66723,
+    "name1": "Wieland-Werke AG",
+    "name2": "z. Hd. Herrn Erhardt",
+    "name3": "",
+    "plz": "89079",
+    "ort": "Ulm",
+    "land": "D",
+    "matchcode": "WIELAND"
+  },
+  {
+    "kdnr": 66728,
+    "name1": "PPVMEDIEN GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "85232",
+    "ort": "Bergkirchen",
+    "land": "D",
+    "matchcode": "PPV"
+  },
+  {
+    "kdnr": 66729,
+    "name1": "Yamaha Music Central Europe",
+    "name2": "z. Hd. Gert Drögemüller",
+    "name3": "",
+    "plz": "25462",
+    "ort": "Rellingen",
+    "land": "D",
+    "matchcode": "YAMAHA"
+  },
+  {
+    "kdnr": 66732,
+    "name1": "Hertz6 Gmbh",
+    "name2": "",
+    "name3": "",
+    "plz": "85757",
+    "ort": "Karlsfeld",
+    "land": "D",
+    "matchcode": "AMAZONA"
+  },
+  {
+    "kdnr": 66749,
+    "name1": "Christian Bass",
+    "name2": "",
+    "name3": "",
+    "plz": "10625",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "BASS"
+  },
+  {
+    "kdnr": 66751,
+    "name1": "Fender Musical Instr. GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "40549",
+    "ort": "Düsseldorf",
+    "land": "D",
+    "matchcode": "FENDER"
+  },
+  {
+    "kdnr": 66757,
+    "name1": "Beyerdynamic GmbH & Co. KG",
+    "name2": "",
+    "name3": "",
+    "plz": "74072",
+    "ort": "Heilbronn",
+    "land": "D",
+    "matchcode": "BEYERDYNAMIC"
+  },
+  {
+    "kdnr": 66766,
+    "name1": "Stephan Jockusch (aka Yogi)",
+    "name2": "",
+    "name3": "",
+    "plz": "21079",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "YOGI"
+  },
+  {
+    "kdnr": 66785,
+    "name1": "Helloween GbR",
+    "name2": "Deris,Weikath,Grosskopf",
+    "name3": "",
+    "plz": "76185",
+    "ort": "Karlsruhe",
+    "land": "D",
+    "matchcode": "HELLOWEEN"
+  },
+  {
+    "kdnr": 66793,
+    "name1": "CoMo Solution GmbH",
+    "name2": "Marcus Prell",
+    "name3": "",
+    "plz": "91207",
+    "ort": "Lauf",
+    "land": "D",
+    "matchcode": "COMOSOLUTION"
+  },
+  {
+    "kdnr": 66797,
+    "name1": "Korn e.K.",
+    "name2": "Inh. Denis Korn",
+    "name3": "",
+    "plz": "04758",
+    "ort": "Oschatz",
+    "land": "D",
+    "matchcode": "KORN"
+  },
+  {
+    "kdnr": 66803,
+    "name1": "Nevio Passaro",
+    "name2": "",
+    "name3": "",
+    "plz": "91448",
+    "ort": "Emskirchen",
+    "land": "D",
+    "matchcode": "PASSARO"
+  },
+  {
+    "kdnr": 66806,
+    "name1": "Christian Fehre",
+    "name2": "",
+    "name3": "",
+    "plz": "50733",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "FEHRE"
+  },
+  {
+    "kdnr": 66813,
+    "name1": "Kolibri GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "KOLIBRI"
+  },
+  {
+    "kdnr": 66814,
+    "name1": "Michael Bruchmann-Reiszig",
+    "name2": "",
+    "name3": "",
+    "plz": "53474",
+    "ort": "Bad Neuenahr-Ahrweiler",
+    "land": "D",
+    "matchcode": "BRUCHMANN"
+  },
+  {
+    "kdnr": 66816,
+    "name1": "Florian Speckardt",
+    "name2": "",
+    "name3": "",
+    "plz": "10997",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "SPECKI"
+  },
+  {
+    "kdnr": 66817,
+    "name1": "ABENTEUER: SINNE!",
+    "name2": "",
+    "name3": "",
+    "plz": "65812",
+    "ort": "Bad Soden",
+    "land": "D",
+    "matchcode": "ABENTEUER"
+  },
+  {
+    "kdnr": 66818,
+    "name1": "Luis Ribeiro",
+    "name2": "",
+    "name3": "",
+    "plz": "1020",
+    "ort": "Wien",
+    "land": "A",
+    "matchcode": "RIBEIRO"
+  },
+  {
+    "kdnr": 66819,
+    "name1": "Musikdiscount 24.de",
+    "name2": "",
+    "name3": "",
+    "plz": "94244",
+    "ort": "Linden",
+    "land": "D",
+    "matchcode": "MUSIKDISCOUNT"
+  },
+  {
+    "kdnr": 66823,
+    "name1": "Bayerische Musikakademie",
+    "name2": "Hammelburg",
+    "name3": "",
+    "plz": "97762",
+    "ort": "Hammelburg",
+    "land": "D",
+    "matchcode": "BAYERISCHE"
+  },
+  {
+    "kdnr": 66830,
+    "name1": "MR Datentechnik",
+    "name2": "Vertriebs- und Service GmbH",
+    "name3": "",
+    "plz": "90411",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "MR-DATEN"
+  },
+  {
+    "kdnr": 66832,
+    "name1": "Dirk Brand",
+    "name2": "",
+    "name3": "",
+    "plz": "59302",
+    "ort": "Oelde",
+    "land": "D",
+    "matchcode": "BRAND"
+  },
+  {
+    "kdnr": 66840,
+    "name1": "Norbert Saemann",
+    "name2": "",
+    "name3": "",
+    "plz": "90556",
+    "ort": "Cadolzburg",
+    "land": "D",
+    "matchcode": "SAEMANN"
+  },
+  {
+    "kdnr": 66842,
+    "name1": "Mario Schmitt Photography",
+    "name2": "",
+    "name3": "",
+    "plz": "97082",
+    "ort": "Würzburg",
+    "land": "D",
+    "matchcode": "SCHMITT"
+  },
+  {
+    "kdnr": 66846,
+    "name1": "Oliver Käßler",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "KÄßLER"
+  },
+  {
+    "kdnr": 66849,
+    "name1": "Rüdiger Maul",
+    "name2": "",
+    "name3": "",
+    "plz": "86974",
+    "ort": "Apfeldorf",
+    "land": "D",
+    "matchcode": "MAUL"
+  },
+  {
+    "kdnr": 66851,
+    "name1": "Waldemar Kippes",
+    "name2": "",
+    "name3": "",
+    "plz": "91463",
+    "ort": "Dietersheim",
+    "land": "D",
+    "matchcode": "KIPPES"
+  },
+  {
+    "kdnr": 66853,
+    "name1": "Anthony Shaffer",
+    "name2": "",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "SHAFFER"
+  },
+  {
+    "kdnr": 66854,
+    "name1": "Stefan Müller",
+    "name2": "",
+    "name3": "",
+    "plz": "90530",
+    "ort": "Wendelstein",
+    "land": "D",
+    "matchcode": "MÜLLER"
+  },
+  {
+    "kdnr": 66858,
+    "name1": "J. Suárez",
+    "name2": "",
+    "name3": "",
+    "plz": "96172",
+    "ort": "Mühlhausen",
+    "land": "D",
+    "matchcode": "SUAREZ"
+  },
+  {
+    "kdnr": 66859,
+    "name1": "Fabian Füss",
+    "name2": "",
+    "name3": "",
+    "plz": "85625",
+    "ort": "Glonn",
+    "land": "D",
+    "matchcode": "FÜSS"
+  },
+  {
+    "kdnr": 66862,
+    "name1": "Bernadette Kerscher",
+    "name2": "Glissando",
+    "name3": "",
+    "plz": "91187",
+    "ort": "Röttenbach",
+    "land": "D",
+    "matchcode": "KERSCHER"
+  },
+  {
+    "kdnr": 66863,
+    "name1": "Pia Seifert",
+    "name2": "",
+    "name3": "",
+    "plz": "91074",
+    "ort": "Herzogenaurach",
+    "land": "D",
+    "matchcode": "SEIFERT"
+  },
+  {
+    "kdnr": 66867,
+    "name1": "Reinhold Stieglitz",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "STIEGLITZ"
+  },
+  {
+    "kdnr": 66870,
+    "name1": "Wolfgang Payerl",
+    "name2": "",
+    "name3": "",
+    "plz": "91481",
+    "ort": "Münchsteinach",
+    "land": "D",
+    "matchcode": "PAYERL"
+  },
+  {
+    "kdnr": 66879,
+    "name1": "Udo Heubeck",
+    "name2": "",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "HEUBECK"
+  },
+  {
+    "kdnr": 66889,
+    "name1": "Matthias Korn",
+    "name2": "",
+    "name3": "",
+    "plz": "97348",
+    "ort": "Rödelsee",
+    "land": "D",
+    "matchcode": "KORN"
+  },
+  {
+    "kdnr": 66894,
+    "name1": "Bastian Krämer",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "KRÄMER"
+  },
+  {
+    "kdnr": 66974,
+    "name1": "SERVICE UNLIMITED",
+    "name2": "Backlineservice",
+    "name3": "",
+    "plz": "99869",
+    "ort": "Drei Gleichen",
+    "land": "D",
+    "matchcode": "SERVICE"
+  },
+  {
+    "kdnr": 66977,
+    "name1": "Michael Klein",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "KLEIN"
+  },
+  {
+    "kdnr": 66980,
+    "name1": "Four Artists Booking Agentur",
+    "name2": "GmbH",
+    "name3": "",
+    "plz": "10961",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "FOUR ARTISTS"
+  },
+  {
+    "kdnr": 66983,
+    "name1": "Thomas Albert",
+    "name2": "",
+    "name3": "",
+    "plz": "91474",
+    "ort": "Langenfeld",
+    "land": "D",
+    "matchcode": "ALBERT"
+  },
+  {
+    "kdnr": 66985,
+    "name1": "Blind Guardian GbR",
+    "name2": "H. Kürsch",
+    "name3": "",
+    "plz": "47803",
+    "ort": "Krefeld",
+    "land": "D",
+    "matchcode": "EHMKE"
+  },
+  {
+    "kdnr": 66990,
+    "name1": "Ellen Mayer",
+    "name2": "",
+    "name3": "",
+    "plz": "86157",
+    "ort": "Augsburg",
+    "land": "D",
+    "matchcode": "MAYER"
+  },
+  {
+    "kdnr": 66998,
+    "name1": "Österreichische",
+    "name2": "Schulsporthilfe e.U.",
+    "name3": "",
+    "plz": "1120",
+    "ort": "Wien",
+    "land": "A",
+    "matchcode": "SCHULSPORTHILFE"
+  },
+  {
+    "kdnr": 67003,
+    "name1": "Ingenieurbüro",
+    "name2": "Andreas Schlipf",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "SCHLIPF"
+  },
+  {
+    "kdnr": 67004,
+    "name1": "Frank Hieronymus",
+    "name2": "",
+    "name3": "",
+    "plz": "91462",
+    "ort": "Dachsbach",
+    "land": "D",
+    "matchcode": "HIERONYMUS"
+  },
+  {
+    "kdnr": 67011,
+    "name1": "Bill Saragosa",
+    "name2": "",
+    "name3": "",
+    "plz": "82362",
+    "ort": "Weilheim-Marnbach",
+    "land": "D",
+    "matchcode": "SARAGOSA"
+  },
+  {
+    "kdnr": 67071,
+    "name1": "Artur Dechant",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "DECHANT"
+  },
+  {
+    "kdnr": 67072,
+    "name1": "Huegel Erhard",
+    "name2": "C.C.Band",
+    "name3": "",
+    "plz": "91239",
+    "ort": "Henfenfeld",
+    "land": "D",
+    "matchcode": "CRIPLE"
+  },
+  {
+    "kdnr": 67112,
+    "name1": "Dr. Daniel Gäthke",
+    "name2": "",
+    "name3": "",
+    "plz": "90584",
+    "ort": "Allersberg",
+    "land": "D",
+    "matchcode": "GÄTHKE"
+  },
+  {
+    "kdnr": 67114,
+    "name1": "Realschule Höchstadt",
+    "name2": "z. Hd. Herrn Bum",
+    "name3": "",
+    "plz": "91315",
+    "ort": "Höchstadt",
+    "land": "D",
+    "matchcode": "REALSCHULE"
+  },
+  {
+    "kdnr": 67117,
+    "name1": "Benjamin Glass",
+    "name2": "",
+    "name3": "",
+    "plz": "10115",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "GLASS"
+  },
+  {
+    "kdnr": 67126,
+    "name1": "Crystal Sound GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "76149",
+    "ort": "Karlsruhe",
+    "land": "D",
+    "matchcode": "CRYSTALSOUND"
+  },
+  {
+    "kdnr": 67129,
+    "name1": "Arnold F. Riedhammer",
+    "name2": "",
+    "name3": "",
+    "plz": "85540",
+    "ort": "Haar",
+    "land": "D",
+    "matchcode": "RIEDHAMMER"
+  },
+  {
+    "kdnr": 67140,
+    "name1": "Thomas Tiesler",
+    "name2": "Backline Drums",
+    "name3": "",
+    "plz": "67574",
+    "ort": "Osthofen",
+    "land": "D",
+    "matchcode": "TIESLER"
+  },
+  {
+    "kdnr": 67143,
+    "name1": "Julian Külpmann",
+    "name2": "",
+    "name3": "",
+    "plz": "10245",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "KÜLPMANN"
+  },
+  {
+    "kdnr": 67150,
+    "name1": "Thomas Panthel",
+    "name2": "M+T Mitarbeiter",
+    "name3": "",
+    "plz": "35457",
+    "ort": "Lollar",
+    "land": "D",
+    "matchcode": "PANTHEL"
+  },
+  {
+    "kdnr": 67153,
+    "name1": "David Mette",
+    "name2": "",
+    "name3": "",
+    "plz": "67354",
+    "ort": "Römerberg",
+    "land": "D",
+    "matchcode": "METTE"
+  },
+  {
+    "kdnr": 67160,
+    "name1": "Manuel Beyer",
+    "name2": "",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "BEYER"
+  },
+  {
+    "kdnr": 67162,
+    "name1": "Emil Bulls GBR",
+    "name2": "c/o HELLFEST AGENCY",
+    "name3": "",
+    "plz": "81543",
+    "ort": "München",
+    "land": "D",
+    "matchcode": "FÜSS FABIAN"
+  },
+  {
+    "kdnr": 67164,
+    "name1": "Georg Lenhardt",
+    "name2": "",
+    "name3": "",
+    "plz": "99423",
+    "ort": "Weimar",
+    "land": "D",
+    "matchcode": "LENHARDT"
+  },
+  {
+    "kdnr": 67169,
+    "name1": "Harmony Bay sprl.",
+    "name2": "Herr Yamulki",
+    "name3": "",
+    "plz": "1400",
+    "ort": "Nivelles",
+    "land": "BE",
+    "matchcode": "HARMONY"
+  },
+  {
+    "kdnr": 67172,
+    "name1": "Jost Nickel",
+    "name2": "",
+    "name3": "",
+    "plz": "22765",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "NICKEL"
+  },
+  {
+    "kdnr": 67174,
+    "name1": "Berufsfachschule für Musik",
+    "name2": "(Musication)",
+    "name3": "",
+    "plz": "90489",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "BERUFSFACHSCHUL"
+  },
+  {
+    "kdnr": 67181,
+    "name1": "TBH Rights GmbH",
+    "name2": "Kostenstelle: 227",
+    "name3": "",
+    "plz": "10407",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "FREYBERG"
+  },
+  {
+    "kdnr": 67184,
+    "name1": "Michel Beineke",
+    "name2": "Backbeatschool",
+    "name3": "",
+    "plz": "37671",
+    "ort": "Höxter/Lüchtringen",
+    "land": "D",
+    "matchcode": "BEINEKE"
+  },
+  {
+    "kdnr": 67189,
+    "name1": "Musik Schneidhofer",
+    "name2": "",
+    "name3": "",
+    "plz": "8605",
+    "ort": "Kapfenberg",
+    "land": "A",
+    "matchcode": "SCHNEIDHOFER"
+  },
+  {
+    "kdnr": 67200,
+    "name1": "Gero Schlender",
+    "name2": "",
+    "name3": "",
+    "plz": "30161",
+    "ort": "Hannover",
+    "land": "D",
+    "matchcode": "SCHLENDER"
+  },
+  {
+    "kdnr": 67201,
+    "name1": "CRAFTON MUSIC A.B.",
+    "name2": "",
+    "name3": "",
+    "plz": "44240",
+    "ort": "KUNGÄLV",
+    "land": "SE",
+    "matchcode": "CRAFTON"
+  },
+  {
+    "kdnr": 67203,
+    "name1": "Carl-Michael Grabinger",
+    "name2": "",
+    "name3": "",
+    "plz": "23562",
+    "ort": "Lübeck",
+    "land": "D",
+    "matchcode": "GRABINGER"
+  },
+  {
+    "kdnr": 67204,
+    "name1": "Mittelschule am Turm",
+    "name2": "Fachbereich Musik",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "HAUPTSCHULE NEA"
+  },
+  {
+    "kdnr": 67218,
+    "name1": "Patrick Fa",
+    "name2": "",
+    "name3": "",
+    "plz": "50825",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "FA"
+  },
+  {
+    "kdnr": 67230,
+    "name1": "Jast GbR",
+    "name2": "",
+    "name3": "",
+    "plz": "12489",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "NOWAK"
+  },
+  {
+    "kdnr": 67232,
+    "name1": "Earl Harvin",
+    "name2": "",
+    "name3": "",
+    "plz": "13088",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "EARL HARVIN"
+  },
+  {
+    "kdnr": 67237,
+    "name1": "Guido Blümlein",
+    "name2": "-IT TEST-",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "BLUEMLEIN"
+  },
+  {
+    "kdnr": 67240,
+    "name1": "Stephan Schuchardt",
+    "name2": "",
+    "name3": "",
+    "plz": "72631",
+    "ort": "Aichtal Grötzingen",
+    "land": "D",
+    "matchcode": "SCHUCHARDT"
+  },
+  {
+    "kdnr": 67245,
+    "name1": "Hey Mann Band OG",
+    "name2": "",
+    "name3": "",
+    "plz": "6292",
+    "ort": "Finkenberg",
+    "land": "A",
+    "matchcode": "EBERHARDER"
+  },
+  {
+    "kdnr": 67248,
+    "name1": "Pro-Mark Corporation",
+    "name2": "",
+    "name3": "",
+    "plz": "77025",
+    "ort": "Houston, TX",
+    "land": "US",
+    "matchcode": "PROMARK"
+  },
+  {
+    "kdnr": 67254,
+    "name1": "Ricky Klemm",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "KLEMM"
+  },
+  {
+    "kdnr": 67259,
+    "name1": "Jacek Zyla",
+    "name2": "",
+    "name3": "",
+    "plz": "95469",
+    "ort": "Speichersdorf",
+    "land": "D",
+    "matchcode": "ZYLA"
+  },
+  {
+    "kdnr": 67263,
+    "name1": "HS-Computer GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "HS-COMPUTER"
+  },
+  {
+    "kdnr": 67273,
+    "name1": "Anja Schöpf",
+    "name2": "",
+    "name3": "",
+    "plz": "91472",
+    "ort": "Ipsheim",
+    "land": "D",
+    "matchcode": "SCHÖPF"
+  },
+  {
+    "kdnr": 67275,
+    "name1": "Stadtmarketing Mannheim GmbH",
+    "name2": "Michaela Haselhorst",
+    "name3": "",
+    "plz": "68159",
+    "ort": "Mannheim",
+    "land": "D",
+    "matchcode": "STADTMARKETING"
+  },
+  {
+    "kdnr": 67280,
+    "name1": "EMC Electronic Music Component",
+    "name2": "Moogmusic Deutschl./Österreich",
+    "name3": "",
+    "plz": "89129",
+    "ort": "Langenau",
+    "land": "D",
+    "matchcode": "EMC"
+  },
+  {
+    "kdnr": 67286,
+    "name1": "Nebojsa Zivkovic",
+    "name2": "",
+    "name3": "",
+    "plz": "1100",
+    "ort": "Wien",
+    "land": "A",
+    "matchcode": "ZIVKOVIC"
+  },
+  {
+    "kdnr": 67289,
+    "name1": "Helmut Kaiser",
+    "name2": "Music-Store Köln",
+    "name3": "",
+    "plz": "50321",
+    "ort": "Brühl",
+    "land": "D",
+    "matchcode": "KAISER"
+  },
+  {
+    "kdnr": 67304,
+    "name1": "Christian Neuner",
+    "name2": "",
+    "name3": "",
+    "plz": "91480",
+    "ort": "Markt Taschendorf",
+    "land": "D",
+    "matchcode": "NEUNER"
+  },
+  {
+    "kdnr": 67305,
+    "name1": "Klaus Paulus",
+    "name2": "",
+    "name3": "",
+    "plz": "91448",
+    "ort": "Emskirchen",
+    "land": "D",
+    "matchcode": "PAULUS"
+  },
+  {
+    "kdnr": 67313,
+    "name1": "Direct Promotion",
+    "name2": "",
+    "name3": "",
+    "plz": "59872",
+    "ort": "Meschede",
+    "land": "D",
+    "matchcode": "DIRECTPROMOTION"
+  },
+  {
+    "kdnr": 67314,
+    "name1": "Herr Helge Rosenbaum",
+    "name2": "",
+    "name3": "",
+    "plz": "72116",
+    "ort": "Mössingen",
+    "land": "D",
+    "matchcode": "ROSENBAUM"
+  },
+  {
+    "kdnr": 67322,
+    "name1": "PRS Guitars",
+    "name2": "",
+    "name3": "",
+    "plz": "",
+    "ort": "Stevensville,MD 21666 USA",
+    "land": "US",
+    "matchcode": "PRS"
+  },
+  {
+    "kdnr": 67325,
+    "name1": "Warwick GmbH&Co.",
+    "name2": "Music Equipment KG",
+    "name3": "",
+    "plz": "08258",
+    "ort": "Markneukirchen",
+    "land": "D",
+    "matchcode": "WARWICK"
+  },
+  {
+    "kdnr": 67332,
+    "name1": "Michael Kimmel",
+    "name2": "PPC Drumverkäufer",
+    "name3": "",
+    "plz": "30449",
+    "ort": "Hannover",
+    "land": "D",
+    "matchcode": "KIMMEL"
+  },
+  {
+    "kdnr": 67333,
+    "name1": "Matthias 'Maze' Meusel",
+    "name2": "Drummer, Producer",
+    "name3": "",
+    "plz": "51429",
+    "ort": "Bergisch Gladbach",
+    "land": "D",
+    "matchcode": "MEUSEL"
+  },
+  {
+    "kdnr": 67334,
+    "name1": "Groove Institute",
+    "name2": "Moderne Musikschule",
+    "name3": "",
+    "plz": "41066",
+    "ort": "Mönchengladbach",
+    "land": "D",
+    "matchcode": "GROOVE"
+  },
+  {
+    "kdnr": 67337,
+    "name1": "Ramesh Shotham",
+    "name2": "",
+    "name3": "",
+    "plz": "50677",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "SHOTHAM"
+  },
+  {
+    "kdnr": 67338,
+    "name1": "Musikinstitut SoundCity",
+    "name2": "Jürgen Lucas",
+    "name3": "",
+    "plz": "63820",
+    "ort": "Elsenfeld",
+    "land": "D",
+    "matchcode": "LUCAS"
+  },
+  {
+    "kdnr": 67339,
+    "name1": "Submarien GBR",
+    "name2": "Heiko Peter",
+    "name3": "",
+    "plz": "71522",
+    "ort": "Backnang",
+    "land": "D",
+    "matchcode": "PETER"
+  },
+  {
+    "kdnr": 67388,
+    "name1": "Black Box Music",
+    "name2": "Veranstaltungstechnik GmbH",
+    "name3": "",
+    "plz": "13158",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "BLACK BOX"
+  },
+  {
+    "kdnr": 67406,
+    "name1": "Meli-Club Rostock e.V.",
+    "name2": "Michael Schreiber",
+    "name3": "",
+    "plz": "18059",
+    "ort": "Rostock",
+    "land": "D",
+    "matchcode": "MELI-CLUB"
+  },
+  {
+    "kdnr": 67420,
+    "name1": "Musikhaus Joast Norbert",
+    "name2": "",
+    "name3": "",
+    "plz": "9900",
+    "ort": "Lienz",
+    "land": "A",
+    "matchcode": "JOAST"
+  },
+  {
+    "kdnr": 67502,
+    "name1": "SPRL ROCKAMUSIC",
+    "name2": "",
+    "name3": "",
+    "plz": "5101",
+    "ort": "Erpent",
+    "land": "BE",
+    "matchcode": "ROCKAMUSIC  ORT"
+  },
+  {
+    "kdnr": 67518,
+    "name1": "Bernd Stelter",
+    "name2": "",
+    "name3": "",
+    "plz": "53332",
+    "ort": "Bornheim",
+    "land": "D",
+    "matchcode": "STELTER"
+  },
+  {
+    "kdnr": 67556,
+    "name1": "Mick Woll",
+    "name2": "",
+    "name3": "",
+    "plz": "65193",
+    "ort": "Wiesbaden",
+    "land": "D",
+    "matchcode": "WOLL"
+  },
+  {
+    "kdnr": 67571,
+    "name1": "The Tube Amp Doctor",
+    "name2": "Musikhandels GmbH",
+    "name3": "",
+    "plz": "67551",
+    "ort": "Worms",
+    "land": "D",
+    "matchcode": "TUBEAMPDOCTOR"
+  },
+  {
+    "kdnr": 67591,
+    "name1": "Joe Crawford",
+    "name2": "",
+    "name3": "",
+    "plz": "13158",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "CRAWFORD"
+  },
+  {
+    "kdnr": 67627,
+    "name1": "Akademie Trossingen",
+    "name2": "",
+    "name3": "",
+    "plz": "78647",
+    "ort": "Trossingen",
+    "land": "D",
+    "matchcode": "AKADEMIE"
+  },
+  {
+    "kdnr": 67647,
+    "name1": "Markus Hauck",
+    "name2": "",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "HAUCK"
+  },
+  {
+    "kdnr": 67648,
+    "name1": "Thomas Supper",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt a.d. Aisch",
+    "land": "D",
+    "matchcode": "SUPPER"
+  },
+  {
+    "kdnr": 67686,
+    "name1": "Thorsten Kern",
+    "name2": "",
+    "name3": "",
+    "plz": "91474",
+    "ort": "Langenfeld",
+    "land": "D",
+    "matchcode": "KERN"
+  },
+  {
+    "kdnr": 67689,
+    "name1": "Florian Ott",
+    "name2": "",
+    "name3": "",
+    "plz": "94060",
+    "ort": "Pocking",
+    "land": "D",
+    "matchcode": "OTT"
+  },
+  {
+    "kdnr": 67694,
+    "name1": "Stephan Killermann",
+    "name2": "",
+    "name3": "",
+    "plz": "90469",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "KILLERMANN"
+  },
+  {
+    "kdnr": 67702,
+    "name1": "Frank Boestfleisch",
+    "name2": "",
+    "name3": "",
+    "plz": "48455",
+    "ort": "Bad Bentheim",
+    "land": "D",
+    "matchcode": "BOESTFLEISCH"
+  },
+  {
+    "kdnr": 67707,
+    "name1": "Yasmin Hofer",
+    "name2": "YasiMusic",
+    "name3": "",
+    "plz": "87758",
+    "ort": "Kronburg",
+    "land": "D",
+    "matchcode": "HOFER"
+  },
+  {
+    "kdnr": 67712,
+    "name1": "Marco Erhardt",
+    "name2": "",
+    "name3": "",
+    "plz": "89160",
+    "ort": "Dornstadt",
+    "land": "D",
+    "matchcode": "ERHARDT"
+  },
+  {
+    "kdnr": 67718,
+    "name1": "Oliver Varga",
+    "name2": "",
+    "name3": "",
+    "plz": "2113",
+    "ort": "Karnabrunn",
+    "land": "A",
+    "matchcode": "VARGA"
+  },
+  {
+    "kdnr": 67719,
+    "name1": "Landesmusikakademie Sondersh.",
+    "name2": "C/O LJO Thüringen",
+    "name3": "",
+    "plz": "99706",
+    "ort": "Sondershausen",
+    "land": "D",
+    "matchcode": "LANDESAKADEMIE"
+  },
+  {
+    "kdnr": 67720,
+    "name1": "Thomas Scheibel",
+    "name2": "",
+    "name3": "",
+    "plz": "91463",
+    "ort": "Dietersheim",
+    "land": "D",
+    "matchcode": "SCHEIBEL"
+  },
+  {
+    "kdnr": 67724,
+    "name1": "THOMAS JUGL",
+    "name2": "",
+    "name3": "",
+    "plz": "90768",
+    "ort": "FÜRTH - GOLFPARK",
+    "land": "D",
+    "matchcode": "JUGL"
+  },
+  {
+    "kdnr": 67725,
+    "name1": "Stefan Günther",
+    "name2": "",
+    "name3": "",
+    "plz": "76275",
+    "ort": "Ettlingen",
+    "land": "D",
+    "matchcode": "GÜNTHER"
+  },
+  {
+    "kdnr": 67731,
+    "name1": "Matthias Kirchgessner",
+    "name2": "",
+    "name3": "",
+    "plz": "96152",
+    "ort": "Burghaslach",
+    "land": "D",
+    "matchcode": "KIRCHGESSNER"
+  },
+  {
+    "kdnr": 67733,
+    "name1": "Jörg Patiz",
+    "name2": "",
+    "name3": "",
+    "plz": "08301",
+    "ort": "Aue-Bad Schlema",
+    "land": "D",
+    "matchcode": "PATIZ"
+  },
+  {
+    "kdnr": 67743,
+    "name1": "AUDIO-SERVICE",
+    "name2": "Ulrich Schierbecker GmbH",
+    "name3": "",
+    "plz": "22525",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "AUDIOSERVICE"
+  },
+  {
+    "kdnr": 67750,
+    "name1": "Music and Groove",
+    "name2": "",
+    "name3": "",
+    "plz": "90587",
+    "ort": "Veitsbronn",
+    "land": "D",
+    "matchcode": "MUSICANDGROOVE"
+  },
+  {
+    "kdnr": 67760,
+    "name1": "Kölbl Accessories GmbH",
+    "name2": "Herr Norbert Kölbl",
+    "name3": "",
+    "plz": "90518",
+    "ort": "Altdorf",
+    "land": "D",
+    "matchcode": "KÖLBL"
+  },
+  {
+    "kdnr": 67761,
+    "name1": "Hendrik Priegnitz",
+    "name2": "",
+    "name3": "",
+    "plz": "07318",
+    "ort": "Saalfeld",
+    "land": "D",
+    "matchcode": "PRIEGNITZ"
+  },
+  {
+    "kdnr": 67762,
+    "name1": "Musikhaus Hergeth",
+    "name2": "Jonke & Petritz OG",
+    "name3": "",
+    "plz": "9020",
+    "ort": "Klagenfurt",
+    "land": "A",
+    "matchcode": "HERGETH"
+  },
+  {
+    "kdnr": 67767,
+    "name1": "Musikverein Ipsheim",
+    "name2": "",
+    "name3": "",
+    "plz": "91472",
+    "ort": "Ipsheim",
+    "land": "D",
+    "matchcode": "MUSIKVEREIN"
+  },
+  {
+    "kdnr": 67775,
+    "name1": "Walter Beck",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "BECK"
+  },
+  {
+    "kdnr": 67781,
+    "name1": "Jan-David Wienstroer",
+    "name2": "",
+    "name3": "",
+    "plz": "41468",
+    "ort": "Neuss",
+    "land": "D",
+    "matchcode": "WIENSTROER"
+  },
+  {
+    "kdnr": 67791,
+    "name1": "Volker Träuptmann",
+    "name2": "",
+    "name3": "",
+    "plz": "65375",
+    "ort": "Oestrich-Winkel",
+    "land": "D",
+    "matchcode": "TRÄUPTMANN"
+  },
+  {
+    "kdnr": 67802,
+    "name1": "Jürgen Abenthum",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "ABENTHUM"
+  },
+  {
+    "kdnr": 67804,
+    "name1": "Matthias Eckart",
+    "name2": "Musiklehrer",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt / Aisch",
+    "land": "D",
+    "matchcode": "ECKART"
+  },
+  {
+    "kdnr": 67805,
+    "name1": "Musikverein Diespeck",
+    "name2": "z.Hd. Peter Lang",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "MUSIKVEREIN"
+  },
+  {
+    "kdnr": 67808,
+    "name1": "Ulrich Eisenmann",
+    "name2": "",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "EISENMANN"
+  },
+  {
+    "kdnr": 67811,
+    "name1": "Hartman d.o.o.",
+    "name2": "Ervin Hartman",
+    "name3": "",
+    "plz": "2000",
+    "ort": "Maribor",
+    "land": "SI",
+    "matchcode": "HARTMAN"
+  },
+  {
+    "kdnr": 67814,
+    "name1": "Devilish GbR",
+    "name2": "c/o G.Listing",
+    "name3": "",
+    "plz": "10117",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "DEVILISH"
+  },
+  {
+    "kdnr": 67821,
+    "name1": "Just Services GmbH",
+    "name2": "",
+    "name3": "",
+    "plz": "10128",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "JUST"
+  },
+  {
+    "kdnr": 67822,
+    "name1": "Frederik Ehmke",
+    "name2": "",
+    "name3": "",
+    "plz": "65232",
+    "ort": "Taunusstein",
+    "land": "D",
+    "matchcode": "EHMKE"
+  },
+  {
+    "kdnr": 67832,
+    "name1": "Mickey Meinert",
+    "name2": "",
+    "name3": "",
+    "plz": "32758",
+    "ort": "Detmold",
+    "land": "D",
+    "matchcode": "MEINERT"
+  },
+  {
+    "kdnr": 67833,
+    "name1": "Bastian Schlicke",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "SCHLICKE"
+  },
+  {
+    "kdnr": 67834,
+    "name1": "Familie K.und F. Lunz",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "LUNZ"
+  },
+  {
+    "kdnr": 67835,
+    "name1": "Richard Lucke",
+    "name2": "",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "LUCKE"
+  },
+  {
+    "kdnr": 67838,
+    "name1": "Willy Günther",
+    "name2": "",
+    "name3": "",
+    "plz": "79761",
+    "ort": "Waldshut-Tiengen",
+    "land": "D",
+    "matchcode": "GÜNTHER"
+  },
+  {
+    "kdnr": 67846,
+    "name1": "GITARREEINSTELLER",
+    "name2": "\"Einstellaufträge\"",
+    "name3": "",
+    "plz": "91468",
+    "ort": "Gutenstetten",
+    "land": "D",
+    "matchcode": "EINSTELLER"
+  },
+  {
+    "kdnr": 67847,
+    "name1": "Testkunde BELGIEN",
+    "name2": "",
+    "name3": "",
+    "plz": "1234",
+    "ort": "Belgien-Stadt",
+    "land": "BE",
+    "matchcode": "TESTKUNDE BE"
+  },
+  {
+    "kdnr": 67848,
+    "name1": "Harald Billner",
+    "name2": "",
+    "name3": "",
+    "plz": "92334",
+    "ort": "Berching",
+    "land": "D",
+    "matchcode": "BILLNER"
+  },
+  {
+    "kdnr": 67850,
+    "name1": "Werbeagentur Schulze, Walther",
+    "name2": "und Zahel GmbH / GWA Agentur",
+    "name3": "",
+    "plz": "90489",
+    "ort": "Nürnberg",
+    "land": "D",
+    "matchcode": "WERBEAGENTUR"
+  },
+  {
+    "kdnr": 67851,
+    "name1": "Meinl Cymbals & Percussion",
+    "name2": "",
+    "name3": "",
+    "plz": "91468",
+    "ort": "Gutenstetten",
+    "land": "D",
+    "matchcode": "MEINL"
+  },
+  {
+    "kdnr": 67853,
+    "name1": "Tobias Thees",
+    "name2": "",
+    "name3": "",
+    "plz": "54472",
+    "ort": "Longkamp",
+    "land": "D",
+    "matchcode": "THEES"
+  },
+  {
+    "kdnr": 67854,
+    "name1": "Michael Fürnstahl",
+    "name2": "Hochschule Offenburg",
+    "name3": "",
+    "plz": "77652",
+    "ort": "Offenburg",
+    "land": "D",
+    "matchcode": "FÜRNSTAHL"
+  },
+  {
+    "kdnr": 67859,
+    "name1": "Maydrums",
+    "name2": "Martin May",
+    "name3": "",
+    "plz": "29465",
+    "ort": "Schnega",
+    "land": "D",
+    "matchcode": "MAYDRUMS"
+  },
+  {
+    "kdnr": 67860,
+    "name1": "Brugman Muziek",
+    "name2": "",
+    "name3": "",
+    "plz": "7011",
+    "ort": "DV, Gaanderen",
+    "land": "NL",
+    "matchcode": "BRUGMAN"
+  },
+  {
+    "kdnr": 67865,
+    "name1": "Hajo von Hadeln",
+    "name2": "",
+    "name3": "",
+    "plz": "82343",
+    "ort": "Pöcking",
+    "land": "D",
+    "matchcode": "HADELN"
+  },
+  {
+    "kdnr": 67872,
+    "name1": "Jeff Aug",
+    "name2": "MAXIMUM Booking",
+    "name3": "",
+    "plz": "87541",
+    "ort": "Bad Hindelang",
+    "land": "D",
+    "matchcode": "AUG"
+  },
+  {
+    "kdnr": 67876,
+    "name1": "Viktor Völker",
+    "name2": "",
+    "name3": "",
+    "plz": "91456",
+    "ort": "Diespeck",
+    "land": "D",
+    "matchcode": "VÖLKER"
+  },
+  {
+    "kdnr": 67877,
+    "name1": "Mesa/Boogie Ltd.",
+    "name2": "",
+    "name3": "",
+    "plz": "",
+    "ort": "Petaluma, CA94954",
+    "land": "US",
+    "matchcode": "MESABOOGIE"
+  },
+  {
+    "kdnr": 67880,
+    "name1": "Pro-Mark Corporation MWST",
+    "name2": "",
+    "name3": "",
+    "plz": "77025",
+    "ort": "Houston, TX",
+    "land": "US",
+    "matchcode": "PROMARK"
+  },
+  {
+    "kdnr": 67881,
+    "name1": "Drums & Co bvba",
+    "name2": "",
+    "name3": "",
+    "plz": "8830",
+    "ort": "Hooglede",
+    "land": "BE",
+    "matchcode": "DRUMS"
+  },
+  {
+    "kdnr": 67883,
+    "name1": "Jens Towet",
+    "name2": "Gitarren & Geigenbau",
+    "name3": "",
+    "plz": "47624",
+    "ort": "Kevelaer/ Twisteden",
+    "land": "D",
+    "matchcode": "TOWET"
+  },
+  {
+    "kdnr": 67894,
+    "name1": "Muziekcentrum van Gorp",
+    "name2": "",
+    "name3": "",
+    "plz": "4703",
+    "ort": "GD, Roosendaal",
+    "land": "NL",
+    "matchcode": "GORP"
+  },
+  {
+    "kdnr": 67899,
+    "name1": "Stefan Klinger",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "KLINGER"
+  },
+  {
+    "kdnr": 67904,
+    "name1": "Axel Schüler",
+    "name2": "",
+    "name3": "",
+    "plz": "01662",
+    "ort": "Meißen",
+    "land": "D",
+    "matchcode": "SCHÜLER"
+  },
+  {
+    "kdnr": 67917,
+    "name1": "Guitars-Shop.de",
+    "name2": "Inh. Matthias Glass",
+    "name3": "",
+    "plz": "76879",
+    "ort": "Hochstadt",
+    "land": "D",
+    "matchcode": "DREAMGUITARS"
+  },
+  {
+    "kdnr": 67921,
+    "name1": "Dorfrocker Gbr",
+    "name2": "Philipp Thomann",
+    "name3": "",
+    "plz": "97514",
+    "ort": "Oberaurach",
+    "land": "D",
+    "matchcode": "THOMANN"
+  },
+  {
+    "kdnr": 67927,
+    "name1": "Valerie Laubgan",
+    "name2": "",
+    "name3": "",
+    "plz": "91463",
+    "ort": "Dietersheim",
+    "land": "D",
+    "matchcode": "LAUBGAN"
+  },
+  {
+    "kdnr": 67929,
+    "name1": "Studio Waldeck",
+    "name2": "Christian Habermeier",
+    "name3": "",
+    "plz": "91443",
+    "ort": "Scheinfeld",
+    "land": "D",
+    "matchcode": "STUDIOWALDECK"
+  },
+  {
+    "kdnr": 67932,
+    "name1": "Philip Borgmann",
+    "name2": "c/o Der Salon",
+    "name3": "",
+    "plz": "49086",
+    "ort": "Osnabrück",
+    "land": "D",
+    "matchcode": "BORGMANN"
+  },
+  {
+    "kdnr": 67935,
+    "name1": "Bluemax Theater",
+    "name2": "Produktions GmbH",
+    "name3": "",
+    "plz": "10785",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "BLUEMAX"
+  },
+  {
+    "kdnr": 67946,
+    "name1": "Drum Design",
+    "name2": "",
+    "name3": "",
+    "plz": "6850",
+    "ort": "Dornbirn",
+    "land": "A",
+    "matchcode": "DRUMDESIGN"
+  },
+  {
+    "kdnr": 67949,
+    "name1": "RAW ARTISTIC RECORDS",
+    "name2": "Phil Kullmann",
+    "name3": "",
+    "plz": "50969",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "KULLMANN"
+  },
+  {
+    "kdnr": 67984,
+    "name1": "Keepdrum",
+    "name2": "Olga Fischer-Gabert",
+    "name3": "",
+    "plz": "74211",
+    "ort": "Leingarten-Großgartach",
+    "land": "D",
+    "matchcode": "KEEPDRUM"
+  },
+  {
+    "kdnr": 67985,
+    "name1": "Stefan Hänßgen",
+    "name2": "",
+    "name3": "",
+    "plz": "69181",
+    "ort": "Leimen",
+    "land": "D",
+    "matchcode": "HÄNßGEN"
+  },
+  {
+    "kdnr": 67986,
+    "name1": "Tobias Michael",
+    "name2": "",
+    "name3": "",
+    "plz": "17429",
+    "ort": "Seebad Bansin",
+    "land": "D",
+    "matchcode": "MICHAEL"
+  },
+  {
+    "kdnr": 67990,
+    "name1": "Patrick Cox",
+    "name2": "",
+    "name3": "",
+    "plz": "96194",
+    "ort": "Walsdorf",
+    "land": "D",
+    "matchcode": "COX"
+  },
+  {
+    "kdnr": 67991,
+    "name1": "Paul-Stephan Tetzlaff",
+    "name2": "",
+    "name3": "",
+    "plz": "10827",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "TETZLAFF"
+  },
+  {
+    "kdnr": 67992,
+    "name1": "Angel-Uwe Brunken Chub",
+    "name2": "",
+    "name3": "",
+    "plz": "45136",
+    "ort": "Essen",
+    "land": "D",
+    "matchcode": "CHUB"
+  },
+  {
+    "kdnr": 67993,
+    "name1": "Alexander Meinl",
+    "name2": "",
+    "name3": "",
+    "plz": "91413",
+    "ort": "Neustadt",
+    "land": "D",
+    "matchcode": "MEINL"
+  },
+  {
+    "kdnr": 67994,
+    "name1": "Thomas Lang",
+    "name2": "",
+    "name3": "",
+    "plz": "91560",
+    "ort": "Heilsbronn",
+    "land": "D",
+    "matchcode": "LANG"
+  },
+  {
+    "kdnr": 67995,
+    "name1": "Florian Blumör",
+    "name2": "",
+    "name3": "",
+    "plz": "63512",
+    "ort": "Hainburg",
+    "land": "D",
+    "matchcode": "BLUMÖR"
+  },
+  {
+    "kdnr": 67996,
+    "name1": "Daniel Böhm",
+    "name2": "",
+    "name3": "",
+    "plz": "87776",
+    "ort": "Sontheim",
+    "land": "D",
+    "matchcode": "BÖHM"
+  },
+  {
+    "kdnr": 67998,
+    "name1": "Hilmar Willms",
+    "name2": "",
+    "name3": "",
+    "plz": "52224",
+    "ort": "Stolberg",
+    "land": "D",
+    "matchcode": "WILLMS"
+  },
+  {
+    "kdnr": 67999,
+    "name1": "Michael Wiangke",
+    "name2": "",
+    "name3": "",
+    "plz": "14822",
+    "ort": "Brück",
+    "land": "D",
+    "matchcode": "WIANGKE"
+  },
+  {
+    "kdnr": 68500,
+    "name1": "Peter Zarnovican",
+    "name2": "",
+    "name3": "",
+    "plz": "30627",
+    "ort": "Hannover",
+    "land": "D",
+    "matchcode": "ZARNOVICAN"
+  },
+  {
+    "kdnr": 68501,
+    "name1": "Dr. Rüdiger Hopfe",
+    "name2": "",
+    "name3": "",
+    "plz": "07318",
+    "ort": "Saalfeld",
+    "land": "D",
+    "matchcode": "HOPFE"
+  },
+  {
+    "kdnr": 68503,
+    "name1": "Christopher Keller",
+    "name2": "",
+    "name3": "",
+    "plz": "96110",
+    "ort": "Scheßlitz",
+    "land": "D",
+    "matchcode": "KELLER"
+  },
+  {
+    "kdnr": 68504,
+    "name1": "Volker Schuemmer",
+    "name2": "",
+    "name3": "",
+    "plz": "85540",
+    "ort": "Haar",
+    "land": "D",
+    "matchcode": "SCHUEMMER"
+  },
+  {
+    "kdnr": 68506,
+    "name1": "Steffen Platz",
+    "name2": "",
+    "name3": "",
+    "plz": "72184",
+    "ort": "Eutingen im Gäu",
+    "land": "D",
+    "matchcode": "PLATZ"
+  },
+  {
+    "kdnr": 68507,
+    "name1": "Gerald Suckel",
+    "name2": "",
+    "name3": "",
+    "plz": "83233",
+    "ort": "Bernau",
+    "land": "D",
+    "matchcode": "SUCKEL"
+  },
+  {
+    "kdnr": 68509,
+    "name1": "Christian Mücher",
+    "name2": "",
+    "name3": "",
+    "plz": "42275",
+    "ort": "Wuppertal",
+    "land": "D",
+    "matchcode": "MÜCHER"
+  },
+  {
+    "kdnr": 68512,
+    "name1": "Daniel Kleinjung",
+    "name2": "",
+    "name3": "",
+    "plz": "65201",
+    "ort": "Wiesbaden",
+    "land": "D",
+    "matchcode": "KLEINJUNG"
+  },
+  {
+    "kdnr": 68513,
+    "name1": "Eigenhuijsen Muziek",
+    "name2": "",
+    "name3": "",
+    "plz": "6542",
+    "ort": "JB, Nijmegen",
+    "land": "NL",
+    "matchcode": "EIGENHUIJSEN"
+  },
+  {
+    "kdnr": 68514,
+    "name1": "Karl Bergauer",
+    "name2": "",
+    "name3": "",
+    "plz": "2124",
+    "ort": "Kreuzstetten",
+    "land": "A",
+    "matchcode": "BERGAUER"
+  },
+  {
+    "kdnr": 68515,
+    "name1": "Michael Bauer",
+    "name2": "",
+    "name3": "",
+    "plz": "91282",
+    "ort": "Betzenstein",
+    "land": "D",
+    "matchcode": "BAUER"
+  },
+  {
+    "kdnr": 68516,
+    "name1": "Markus Hoppmann",
+    "name2": "",
+    "name3": "",
+    "plz": "42799",
+    "ort": "Leichlingen",
+    "land": "D",
+    "matchcode": "HOPPMANN"
+  },
+  {
+    "kdnr": 68517,
+    "name1": "Soeren Mohr",
+    "name2": "",
+    "name3": "",
+    "plz": "80639",
+    "ort": "München",
+    "land": "D",
+    "matchcode": "MOHR"
+  },
+  {
+    "kdnr": 68518,
+    "name1": "Sebastian Gröning",
+    "name2": "",
+    "name3": "",
+    "plz": "24114",
+    "ort": "Kiel",
+    "land": "D",
+    "matchcode": "GRÖNING"
+  },
+  {
+    "kdnr": 68520,
+    "name1": "Florian Mühlhoff",
+    "name2": "",
+    "name3": "",
+    "plz": "66871",
+    "ort": "Haschbach",
+    "land": "D",
+    "matchcode": "MÜHLHOFF"
+  },
+  {
+    "kdnr": 68523,
+    "name1": "Christian Glassner",
+    "name2": "",
+    "name3": "",
+    "plz": "85137",
+    "ort": "Walting",
+    "land": "D",
+    "matchcode": "GLASSNER"
+  },
+  {
+    "kdnr": 68532,
+    "name1": "Erich Kaden",
+    "name2": "",
+    "name3": "",
+    "plz": "2560",
+    "ort": "Berndorf",
+    "land": "A",
+    "matchcode": "KADEN"
+  },
+  {
+    "kdnr": 68534,
+    "name1": "Adrian Klebert",
+    "name2": "",
+    "name3": "",
+    "plz": "08606",
+    "ort": "Oelsnitz",
+    "land": "D",
+    "matchcode": "KLEBERT"
+  },
+  {
+    "kdnr": 68535,
+    "name1": "Andrea Wegner",
+    "name2": "",
+    "name3": "",
+    "plz": "26954",
+    "ort": "Nordenham",
+    "land": "D",
+    "matchcode": "WEGNER"
+  },
+  {
+    "kdnr": 68537,
+    "name1": "Matthias Hetzer",
+    "name2": "",
+    "name3": "",
+    "plz": "31275",
+    "ort": "Lehrte",
+    "land": "D",
+    "matchcode": "HETZER"
+  },
+  {
+    "kdnr": 68538,
+    "name1": "Marcel Drobek",
+    "name2": "",
+    "name3": "",
+    "plz": "45357",
+    "ort": "Essen",
+    "land": "D",
+    "matchcode": "DROBEK"
+  },
+  {
+    "kdnr": 68539,
+    "name1": "Mick Juergens",
+    "name2": "",
+    "name3": "",
+    "plz": "79540",
+    "ort": "Lörrach",
+    "land": "D",
+    "matchcode": "JUERGENS"
+  },
+  {
+    "kdnr": 68543,
+    "name1": "Michael Bein",
+    "name2": "",
+    "name3": "",
+    "plz": "63840",
+    "ort": "Hausen",
+    "land": "D",
+    "matchcode": "BEIN"
+  },
+  {
+    "kdnr": 68544,
+    "name1": "Philip Feitsma",
+    "name2": "",
+    "name3": "",
+    "plz": "48529",
+    "ort": "Nordhorn",
+    "land": "D",
+    "matchcode": "FEITSMA"
+  },
+  {
+    "kdnr": 68548,
+    "name1": "Markus Katz",
+    "name2": "",
+    "name3": "",
+    "plz": "63456",
+    "ort": "Hanau",
+    "land": "D",
+    "matchcode": "KATZ"
+  },
+  {
+    "kdnr": 68549,
+    "name1": "Davide Buscemi",
+    "name2": "",
+    "name3": "",
+    "plz": "88097",
+    "ort": "Eriskirch",
+    "land": "D",
+    "matchcode": "BUSCEMI"
+  },
+  {
+    "kdnr": 68550,
+    "name1": "Thomas Veicht",
+    "name2": "",
+    "name3": "",
+    "plz": "83043",
+    "ort": "Bad Aibling",
+    "land": "D",
+    "matchcode": "VEICHT"
+  },
+  {
+    "kdnr": 68551,
+    "name1": "René Köpke",
+    "name2": "",
+    "name3": "",
+    "plz": "10405",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "KÖPKE"
+  },
+  {
+    "kdnr": 68552,
+    "name1": "Michael Hutschenreiter",
+    "name2": "",
+    "name3": "",
+    "plz": "04746",
+    "ort": "Hartha",
+    "land": "D",
+    "matchcode": "HUTSCHENREITER"
+  },
+  {
+    "kdnr": 68553,
+    "name1": "Rainer Paetz",
+    "name2": "",
+    "name3": "",
+    "plz": "38723",
+    "ort": "Seesen",
+    "land": "D",
+    "matchcode": "PAETZ"
+  },
+  {
+    "kdnr": 68554,
+    "name1": "Markus Kreuzer",
+    "name2": "",
+    "name3": "",
+    "plz": "50735",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "KREUZER"
+  },
+  {
+    "kdnr": 68555,
+    "name1": "Werner Schrock",
+    "name2": "",
+    "name3": "",
+    "plz": "76189",
+    "ort": "Karlsruhe",
+    "land": "D",
+    "matchcode": "SCHROCK"
+  },
+  {
+    "kdnr": 68556,
+    "name1": "Oliver Hinze",
+    "name2": "Berlin",
+    "name3": "",
+    "plz": "10437",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "HINZE"
+  },
+  {
+    "kdnr": 68557,
+    "name1": "Bernd Riedel",
+    "name2": "",
+    "name3": "",
+    "plz": "12489",
+    "ort": "Berlin",
+    "land": "D",
+    "matchcode": "RIEDEL"
+  },
+  {
+    "kdnr": 68558,
+    "name1": "Heinrich Jankowiak",
+    "name2": "",
+    "name3": "",
+    "plz": "90513",
+    "ort": "Zirndorf",
+    "land": "D",
+    "matchcode": "JANKOWIAK"
+  },
+  {
+    "kdnr": 68559,
+    "name1": "Steffen Lang",
+    "name2": "",
+    "name3": "",
+    "plz": "74523",
+    "ort": "Schwäbisch Hall",
+    "land": "D",
+    "matchcode": "LANG"
+  },
+  {
+    "kdnr": 68560,
+    "name1": "Christoph Janz",
+    "name2": "",
+    "name3": "",
+    "plz": "21385",
+    "ort": "Amelinghausen",
+    "land": "D",
+    "matchcode": "JANZ"
+  },
+  {
+    "kdnr": 68561,
+    "name1": "Frederik Muth",
+    "name2": "",
+    "name3": "",
+    "plz": "54316",
+    "ort": "Lampaden",
+    "land": "D",
+    "matchcode": "MUTH"
+  },
+  {
+    "kdnr": 68562,
+    "name1": "Marco Hottenbacher",
+    "name2": "",
+    "name3": "",
+    "plz": "54332",
+    "ort": "Wasserliesch",
+    "land": "D",
+    "matchcode": "HOTTENBACHER"
+  },
+  {
+    "kdnr": 68564,
+    "name1": "Delf Lüddecke",
+    "name2": "",
+    "name3": "",
+    "plz": "26954",
+    "ort": "Nordenham",
+    "land": "D",
+    "matchcode": "LÜDDECKE"
+  },
+  {
+    "kdnr": 68569,
+    "name1": "Sebastian Sonntag",
+    "name2": "",
+    "name3": "",
+    "plz": "91486",
+    "ort": "Uehlfeld",
+    "land": "D",
+    "matchcode": "SONNTAG"
+  },
+  {
+    "kdnr": 68572,
+    "name1": "Thorsten Riedel",
+    "name2": "",
+    "name3": "",
+    "plz": "86919",
+    "ort": "Utting",
+    "land": "D",
+    "matchcode": "RIEDEL"
+  },
+  {
+    "kdnr": 68573,
+    "name1": "Maik Kroner",
+    "name2": "",
+    "name3": "",
+    "plz": "37077",
+    "ort": "Göttingen",
+    "land": "D",
+    "matchcode": "KRONER"
+  },
+  {
+    "kdnr": 68578,
+    "name1": "Axel Mikolajczak",
+    "name2": "",
+    "name3": "",
+    "plz": "50968",
+    "ort": "Köln",
+    "land": "D",
+    "matchcode": "MIKOLAJCZAK"
+  },
+  {
+    "kdnr": 68579,
+    "name1": "Omega S.A.",
+    "name2": "",
+    "name3": "",
+    "plz": "7000",
+    "ort": "Mons",
+    "land": "BE",
+    "matchcode": "OMEGA ORT"
+  },
+  {
+    "kdnr": 68580,
+    "name1": "René Vergé",
+    "name2": "",
+    "name3": "",
+    "plz": "55246",
+    "ort": "Mainz-Kostheim",
+    "land": "D",
+    "matchcode": "VERGE"
+  },
+  {
+    "kdnr": 68582,
+    "name1": "Marcus Darius Ghoreischian",
+    "name2": "",
+    "name3": "",
+    "plz": "60316",
+    "ort": "Frankfurt am Main",
+    "land": "D",
+    "matchcode": "GHOREISCHIAN"
+  },
+  {
+    "kdnr": 68583,
+    "name1": "Benjamin Bergemann",
+    "name2": "",
+    "name3": "",
+    "plz": "14959",
+    "ort": "Trebbin",
+    "land": "D",
+    "matchcode": "BERGEMANN"
+  },
+  {
+    "kdnr": 68584,
+    "name1": "Joerg Schneider",
+    "name2": "",
+    "name3": "",
+    "plz": "01307",
+    "ort": "Dresden",
+    "land": "D",
+    "matchcode": "SCHNEIDER"
+  },
+  {
+    "kdnr": 68585,
+    "name1": "Anika Nilles",
+    "name2": "",
+    "name3": "",
+    "plz": "68167",
+    "ort": "Mannheim",
+    "land": "D",
+    "matchcode": "NILLES"
+  },
+  {
+    "kdnr": 68588,
+    "name1": "PHI Technik für Fenster & Türe",
+    "name2": "Norbert Scheiderer",
+    "name3": "",
+    "plz": "91459",
+    "ort": "Markt Erlbach",
+    "land": "D",
+    "matchcode": "SCHEIDERER"
+  },
+  {
+    "kdnr": 68590,
+    "name1": "Staatliche Hochschule für",
+    "name2": "Musik und darstellende Kunst",
+    "name3": "",
+    "plz": "68161",
+    "ort": "Mannheim",
+    "land": "D",
+    "matchcode": "MUSIKHOCHSCHULE"
+  },
+  {
+    "kdnr": 68593,
+    "name1": "Dr. Martin Krebs",
+    "name2": "(Fa. Viastore)",
+    "name3": "",
+    "plz": "70437",
+    "ort": "Stuttgart",
+    "land": "D",
+    "matchcode": "KREBS"
+  },
+  {
+    "kdnr": 68598,
+    "name1": "Christoph Baur",
+    "name2": "",
+    "name3": "",
+    "plz": "88416",
+    "ort": "Ochsenhausen",
+    "land": "D",
+    "matchcode": "BAUR"
+  },
+  {
+    "kdnr": 68599,
+    "name1": "Christoph Brauer",
+    "name2": "",
+    "name3": "",
+    "plz": "21717",
+    "ort": "Fredenbeck",
+    "land": "D",
+    "matchcode": "BRAUER"
+  },
+  {
+    "kdnr": 68600,
+    "name1": "Helmut Meyer",
+    "name2": "",
+    "name3": "",
+    "plz": "97711",
+    "ort": "Maßbach",
+    "land": "D",
+    "matchcode": "MEYER"
+  },
+  {
+    "kdnr": 68601,
+    "name1": "Peter Weiler",
+    "name2": "",
+    "name3": "",
+    "plz": "50389",
+    "ort": "Wesseling",
+    "land": "D",
+    "matchcode": "WEILER"
+  },
+  {
+    "kdnr": 68603,
+    "name1": "Dipl.-Kfm Jörg Mallon",
+    "name2": "",
+    "name3": "",
+    "plz": "37130",
+    "ort": "Gleichen",
+    "land": "D",
+    "matchcode": "MALLON"
+  },
+  {
+    "kdnr": 68608,
+    "name1": "Tobias Nessel",
+    "name2": "",
+    "name3": "",
+    "plz": "68782",
+    "ort": "Brühl",
+    "land": "D",
+    "matchcode": "NESSEL"
+  },
+  {
+    "kdnr": 68609,
+    "name1": "Florian Roloff",
+    "name2": "",
+    "name3": "",
+    "plz": "15537",
+    "ort": "Grünheide",
+    "land": "D",
+    "matchcode": "ROLOFF"
+  },
+  {
+    "kdnr": 68611,
+    "name1": "Georg Käppner e.Kfm.",
+    "name2": "",
+    "name3": "",
+    "plz": "90587",
+    "ort": "Veitsbronn",
+    "land": "D",
+    "matchcode": "KÄPPNER"
+  },
+  {
+    "kdnr": 68612,
+    "name1": "Andreas Kopfschlägl",
+    "name2": "",
+    "name3": "",
+    "plz": "72644",
+    "ort": "Oberboihingen",
+    "land": "D",
+    "matchcode": "KOPFSCHLÄGL"
+  },
+  {
+    "kdnr": 68615,
+    "name1": "Joannie Labelle",
+    "name2": "",
+    "name3": "",
+    "plz": "22547",
+    "ort": "Hamburg",
+    "land": "D",
+    "matchcode": "LABELLE"
+  }
+]
