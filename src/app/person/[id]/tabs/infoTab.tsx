@@ -87,6 +87,44 @@ export default function InfoTab({ person }: { person: Person }) {
             readOnly={!edit}
           />
         </Fieldset>
+        <Fieldset legend="Privat">
+          <TextInput
+            label="Geburtsdatum"
+            key={form.key("geburtsdatum")}
+            {...form.getInputProps("geburtsdatum")}
+            readOnly={!edit}
+          />
+          <TextInput
+            label="Familienstand"
+            key={form.key("familienstand")}
+            {...form.getInputProps("familienstand")}
+            readOnly={!edit}
+          />
+          <TextInput
+            label="Hobbies"
+            key={form.key("hobbies")}
+            {...form.getInputProps("hobbies")}
+            readOnly={!edit}
+          />
+          <TextInput
+            label="Musikrichtung"
+            key={form.key("musikrichtung")}
+            {...form.getInputProps("musikrichtung")}
+            readOnly={!edit}
+          />
+          <TextInput
+            label="Instrument"
+            key={form.key("instrument")}
+            {...form.getInputProps("instrument")}
+            readOnly={!edit}
+          />
+          <TextInput
+            label="T-Shirt"
+            key={form.key("tshirt")}
+            {...form.getInputProps("tshirt")}
+            readOnly={!edit}
+          />
+        </Fieldset>
         <Fieldset legend="Kommunikation">
           <TextInput
             label="Telefon"
