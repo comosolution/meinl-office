@@ -11,11 +11,10 @@ export default function Search() {
   const [query, setQuery] = useState("");
 
   const data: SpotlightActionData[] = companies
-    .filter((r) => {
+    .filter((c) => {
       const keywords = query.trim().toLowerCase().split(" ");
-
       return keywords.every((keyword) =>
-        [r.kdnr.toString(), r.name1, r.name2, r.plz, r.ort, r.matchcode].some(
+        [c.kdnr.toString(), c.name1, c.name2, c.plz, c.ort, c.matchcode].some(
           (value) => value.toLowerCase().includes(keyword)
         )
       );
@@ -34,17 +33,17 @@ export default function Search() {
   return (
     <>
       <Button
-        color="gray"
-        variant="outline"
-        onClick={() => {
-          spotlight.open();
-        }}
+        variant="light"
+        justify="left"
         leftSection={<IconSearch size={16} />}
         rightSection={
-          <div>
+          <div className="text-black font-light">
             <Kbd size="xs">Ctrl</Kbd> + <Kbd size="xs">K</Kbd>
           </div>
         }
+        onClick={() => {
+          spotlight.open();
+        }}
       >
         Suchen
       </Button>

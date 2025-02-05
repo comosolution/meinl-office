@@ -2,7 +2,6 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/spotlight/styles.css";
 import type { Metadata } from "next";
-import Header from "./components/header";
 import Sidebar from "./components/sidebar";
 import { OfficeProvider } from "./context/officeContext";
 import "./globals.css";
@@ -42,10 +41,7 @@ export default function RootLayout({
           <OfficeProvider>
             <div className="flex">
               <Sidebar />
-              <div className="w-full flex flex-col">
-                <Header />
-                {children}
-              </div>
+              <main className="w-full flex flex-col">{children}</main>
             </div>
           </OfficeProvider>
         </MantineProvider>

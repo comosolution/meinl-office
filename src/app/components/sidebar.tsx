@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@mantine/core";
 import {
   IconBuildingWarehouse,
   IconLayoutDashboard,
@@ -9,29 +10,30 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { JSX } from "react";
 import { defaultBorder } from "../lib/styles";
+import Search from "./search";
 
 export default function Sidebar() {
   const nav = [
     {
       name: "Startseite",
       href: "/",
-      icon: <IconLayoutDashboard size={20} />,
+      icon: <IconLayoutDashboard size={16} />,
     },
     {
       name: "Kunden",
       href: "/company",
-      icon: <IconBuildingWarehouse size={20} />,
+      icon: <IconBuildingWarehouse size={16} />,
     },
     {
       name: "Personen",
       href: "/person",
-      icon: <IconUserCircle size={20} />,
+      icon: <IconUserCircle size={16} />,
     },
   ];
 
   return (
     <aside
-      className="h-screen w-[240px] sticky top-0 z-50 flex flex-col gap-8 p-4 shadow-xl"
+      className="h-screen w-[260px] sticky top-0 z-50 flex flex-col gap-8 p-4 shadow-xl"
       style={{
         borderRight: defaultBorder,
         backgroundImage: "linear-gradient(to top, #f3e7e9 66%, #f5f5f5 100%)",
@@ -43,7 +45,9 @@ export default function Sidebar() {
           <h1 className="text-xl font-bold tracking-tighter">Office</h1>
         </header>
       </Link>
+
       <nav className="flex flex-col gap-2">
+        <Search />
         {nav.map((entry, index) => (
           <NavItem
             key={index}
@@ -71,16 +75,15 @@ function NavItem({
     (path.includes(href) && href !== "/") || (path === "/" && href === "/");
 
   return (
-    <Link
+    <Button
+      color="dark"
+      variant={active ? "filled" : "transparent"}
+      justify="left"
+      leftSection={icon}
+      component={Link}
       href={href}
-      className="flex gap-2 px-4 py-2 rounded-md hover:bg-white/50 transition-all duration-300"
-      style={{
-        color: active ? "var(--foreground)" : "var(--mantine-color-dimmed)",
-        background: active ? "rgba(255, 255, 255, 0.5)" : "",
-      }}
     >
-      {icon}
-      <p className="font-medium">{name}</p>
-    </Link>
+      {name}
+    </Button>
   );
 }

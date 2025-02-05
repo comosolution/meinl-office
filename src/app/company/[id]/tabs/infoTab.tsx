@@ -114,7 +114,7 @@ export default function InfoTab({ company }: { company: Company }) {
           ) : (
             <Button
               color="gray"
-              variant="outline"
+              variant="light"
               leftSection={<IconEdit size={16} />}
               onClick={() => setEdit(true)}
             >
