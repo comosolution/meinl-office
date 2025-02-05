@@ -3,6 +3,7 @@ import { Button } from "@mantine/core";
 import {
   IconBuildingWarehouse,
   IconLayoutDashboard,
+  IconLogout,
   IconUserCircle,
 } from "@tabler/icons-react";
 import Image from "next/image";
@@ -46,17 +47,26 @@ export default function Sidebar() {
           <h1 className="text-xl font-bold tracking-tighter">Office</h1>
         </header>
       </Link>
-
-      <nav className="flex flex-col gap-2">
-        <Search />
-        {nav.map((entry, index) => (
-          <NavItem
-            key={index}
-            icon={entry.icon}
-            name={entry.name}
-            href={entry.href}
-          />
-        ))}
+      <nav className="h-full flex flex-col place-content-between gap-2">
+        <div className="flex flex-col gap-2">
+          <Search />
+          {nav.map((entry, index) => (
+            <NavItem
+              key={index}
+              icon={entry.icon}
+              name={entry.name}
+              href={entry.href}
+            />
+          ))}
+        </div>
+        <Button
+          color="dark"
+          variant="light"
+          justify="left"
+          leftSection={<IconLogout size={16} />}
+        >
+          Ausloggen
+        </Button>
       </nav>
     </aside>
   );
