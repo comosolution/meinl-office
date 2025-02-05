@@ -1,5 +1,5 @@
 import { Person } from "../../lib/interfaces";
-import { notEmptyValidation } from "../../lib/utils";
+import { notEmptyValidation, parseDateString } from "../../lib/utils";
 
 export const getInitialValues = (person: Person) => {
   return {
@@ -15,7 +15,7 @@ export const getInitialValues = (person: Person) => {
     position: person.position,
     abteilung: person.abteilung,
     betreutvon: person.betreutvon,
-    geburtsdatum: person.geburtsdatum,
+    geburtsdatum: parseDateString(person.geburtsdatum) || "",
     familienstand: person.familienstand,
     tshirt: person.tshirt,
     hobbies: person.hobbies,
@@ -25,7 +25,11 @@ export const getInitialValues = (person: Person) => {
   };
 };
 
-export function validateForm(values: Person) {
+export type FormValues = Omit<Person, "geburtsdatum"> & {
+  geburtsdatum: Date | string;
+};
+
+export function validateForm(values: FormValues) {
   return {
     name1: notEmptyValidation(values.vorname, "Bitte Vornamen angeben."),
   };

@@ -1,4 +1,5 @@
 import { Person } from "@/app/lib/interfaces";
+import { formatDateToString } from "@/app/lib/utils";
 import {
   Autocomplete,
   Button,
@@ -8,18 +9,26 @@ import {
   Tabs,
   TextInput,
 } from "@mantine/core";
+import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
+import {
+  IconCalendar,
+  IconDeviceFloppy,
+  IconEdit,
+  IconMusic,
+  IconPiano,
+  IconShirt,
+} from "@tabler/icons-react";
 import { useState } from "react";
-import { getInitialValues, validateForm } from "../form";
+import { FormValues, getInitialValues, validateForm } from "../form";
 
 export default function InfoTab({ person }: { person: Person }) {
   const [edit, setEdit] = useState(false);
 
-  const form = useForm<Person>({
+  const form = useForm<FormValues>({
     validateInputOnChange: true,
     initialValues: getInitialValues(person),
-    validate: (values: Person) => validateForm(values),
+    validate: (values: FormValues) => validateForm(values),
   });
 
   const advisors = person.betreutvon.split(",");
@@ -46,7 +55,10 @@ export default function InfoTab({ person }: { person: Person }) {
       <form
         className="grid grid-cols-2 gap-4"
         onSubmit={form.onSubmit((values) => {
-          console.log(JSON.stringify(values, null, 2));
+          const formattedDob = formatDateToString(values.geburtsdatum as Date);
+          console.log(
+            JSON.stringify({ ...values, geburtsdatum: formattedDob }, null, 2)
+          );
         })}
       >
         <Fieldset legend="Person">
@@ -97,11 +109,12 @@ export default function InfoTab({ person }: { person: Person }) {
           />
         </Fieldset>
         <Fieldset legend="Privat">
-          <TextInput
+          <DateInput
             label="Geburtsdatum"
             key={form.key("geburtsdatum")}
             {...form.getInputProps("geburtsdatum")}
             readOnly={!edit}
+            rightSection={<IconCalendar size={16} />}
           />
           <TextInput
             label="Familienstand"
@@ -120,12 +133,14 @@ export default function InfoTab({ person }: { person: Person }) {
             key={form.key("musikrichtung")}
             {...form.getInputProps("musikrichtung")}
             readOnly={!edit}
+            rightSection={<IconMusic size={16} />}
           />
           <TextInput
             label="Instrument"
             key={form.key("instrument")}
             {...form.getInputProps("instrument")}
             readOnly={!edit}
+            rightSection={<IconPiano size={16} />}
           />
           <Autocomplete
             label="T-Shirt"
@@ -133,6 +148,7 @@ export default function InfoTab({ person }: { person: Person }) {
             key={form.key("tshirt")}
             {...form.getInputProps("tshirt")}
             readOnly={!edit}
+            rightSection={<IconShirt size={16} />}
           />
         </Fieldset>
         <Fieldset legend="Kommunikation">
