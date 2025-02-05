@@ -192,7 +192,6 @@ export default function InfoTab({ person }: { person: Person }) {
             key={form.key("zustaendig")}
             {...form.getInputProps("zustaendig")}
           >
-            {" "}
             <div className="grid grid-cols-2 gap-2">
               {allCompetences.map((c, i) => (
                 <Checkbox key={i} label={c} value={c} readOnly={!edit} />

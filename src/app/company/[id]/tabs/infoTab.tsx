@@ -40,12 +40,6 @@ export default function InfoTab({ company }: { company: Company }) {
             readOnly={!edit}
           />
           <TextInput
-            label="Zusatz"
-            key={form.key("name3")}
-            {...form.getInputProps("name3")}
-            readOnly={!edit}
-          />
-          <TextInput
             label="Matchcode"
             key={form.key("matchcode")}
             {...form.getInputProps("matchcode")}
