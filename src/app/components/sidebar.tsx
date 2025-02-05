@@ -4,7 +4,6 @@ import {
   IconBuildingWarehouse,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
-  IconLayoutSidebarLeftExpand,
   IconLogout,
   IconUsersGroup,
 } from "@tabler/icons-react";
@@ -56,7 +55,7 @@ export default function Sidebar() {
       id="sidebar"
       className={`h-screen ${
         isCollapsed ? "w-[64px]" : "w-[260px]"
-      } sticky top-0 z-50 flex flex-col gap-4 py-4 shadow-2xl transition-all duration-300 overflow-x-hidden`}
+      } sticky top-0 z-50 flex flex-col gap-4 pt-4 shadow-2xl transition-all duration-300 overflow-x-hidden`}
       style={{
         borderRight: defaultBorder,
       }}
@@ -65,24 +64,20 @@ export default function Sidebar() {
         className={`flex ${
           isCollapsed ? "flex-col items-center" : "flex-row justify-between"
         } gap-2 px-2`}
+        onClick={toggleSidebar}
       >
-        <Link href="/">
-          <header className="flex justify-center items-center">
-            <Image src="/logo.svg" alt="Meinl Logo" width={24} height={24} />
-            {!isCollapsed && (
-              <h1 className="text-xl font-bold tracking-tighter">Office</h1>
-            )}
-          </header>
-        </Link>
-        <ActionIcon color="dark" variant="light" onClick={toggleSidebar}>
-          {isCollapsed ? (
-            <IconLayoutSidebarLeftExpand size={20} />
-          ) : (
-            <IconLayoutSidebarLeftCollapse size={20} />
+        <header className="flex justify-center items-center cursor-pointer hover:opacity-80">
+          <Image src="/logo.svg" alt="Meinl Logo" width={24} height={24} />
+          {!isCollapsed && (
+            <h1 className="text-xl font-bold tracking-tighter">Office</h1>
           )}
-        </ActionIcon>
+        </header>
+        {!isCollapsed && (
+          <ActionIcon color="dark" variant="light">
+            <IconLayoutSidebarLeftCollapse size={20} />
+          </ActionIcon>
+        )}
       </div>
-
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">
           <Search collapsed={isCollapsed} />

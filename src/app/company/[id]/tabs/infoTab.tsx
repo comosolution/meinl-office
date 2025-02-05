@@ -40,10 +40,16 @@ export default function InfoTab({ company }: { company: Company }) {
             readOnly={!edit}
           />
           <TextInput
+            label="Zusatz"
+            key={form.key("name3")}
+            {...form.getInputProps("name3")}
+            readOnly={!edit}
+          />
+          <TextInput
             label="Matchcode"
             key={form.key("matchcode")}
             {...form.getInputProps("matchcode")}
-            readOnly={!edit}
+            readOnly
           />
           <NumberInput
             label="Kundennummer"
@@ -83,13 +89,13 @@ export default function InfoTab({ company }: { company: Company }) {
             label="Telefon"
             key={form.key("telefon")}
             {...form.getInputProps("telefon")}
-            readOnly={!edit}
+            readOnly
           />
           <TextInput
             label="E-Mail"
             key={form.key("email")}
             {...form.getInputProps("email")}
-            readOnly={!edit}
+            readOnly
           />
         </Fieldset>
         <div className="col-span-2 flex justify-end gap-2">

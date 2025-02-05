@@ -31,7 +31,6 @@ export default function InfoTab({ person }: { person: Person }) {
     validate: (values: FormValues) => validateForm(values),
   });
 
-  const advisors = person.betreutvon.split(",");
   const allCompetences = [
     "Administration",
     "Hardcase",
@@ -48,7 +47,6 @@ export default function InfoTab({ person }: { person: Person }) {
     "Tama",
     "VIP",
   ];
-  const competences = person.zustaendig.toLowerCase().split(",");
 
   return (
     <Tabs.Panel value="info" className="py-4">
@@ -56,8 +54,20 @@ export default function InfoTab({ person }: { person: Person }) {
         className="grid grid-cols-2 gap-4"
         onSubmit={form.onSubmit((values) => {
           const formattedDob = formatDateToString(values.geburtsdatum as Date);
+          const formattedCompetences = values.zustaendig.join(",");
+          const formattedAdvisors = values.betreutvon.join(",");
+
           console.log(
-            JSON.stringify({ ...values, geburtsdatum: formattedDob }, null, 2)
+            JSON.stringify(
+              {
+                ...values,
+                geburtsdatum: formattedDob,
+                zustaendig: formattedCompetences,
+                betreutvon: formattedAdvisors,
+              },
+              null,
+              2
+            )
           );
         })}
       >
@@ -171,25 +181,22 @@ export default function InfoTab({ person }: { person: Person }) {
             readOnly={!edit}
           />
           <MultiSelect
-            // TODO: union checked values back into string
             label="Betreut von"
-            data={advisors}
-            defaultValue={advisors}
+            key={form.key("betreutvon")}
+            {...form.getInputProps("betreutvon")}
             readOnly={!edit}
           />
         </Fieldset>
         <Fieldset legend="Zuständigkeiten">
-          <div className="grid grid-cols-2 gap-2">
-            {allCompetences.map((z, i) => (
-              // TODO: union checked values back into string
-              <Checkbox
-                key={i}
-                label={z}
-                defaultChecked={competences.includes(z.toLowerCase())}
-                readOnly={!edit}
-              />
+          <Checkbox.Group
+            key={form.key("zustaendig")}
+            {...form.getInputProps("zustaendig")}
+            className="grid grid-cols-2 gap-2"
+          >
+            {allCompetences.map((c, i) => (
+              <Checkbox key={i} label={c} readOnly={!edit} />
             ))}
-          </div>
+          </Checkbox.Group>
         </Fieldset>
         <div className="col-span-2 flex justify-end gap-2">
           {edit ? (
