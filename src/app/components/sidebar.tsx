@@ -110,7 +110,7 @@ export default function Sidebar() {
         <NavLink
           label="Ausloggen"
           active
-          color="dark"
+          color="white"
           leftSection={<IconLogout size={20} />}
           className={navLink(isCollapsed)}
         />
