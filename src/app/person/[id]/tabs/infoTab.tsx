@@ -1,5 +1,12 @@
 import { Person } from "@/app/lib/interfaces";
-import { Button, Checkbox, Fieldset, Tabs, TextInput } from "@mantine/core";
+import {
+  Button,
+  Checkbox,
+  Fieldset,
+  MultiSelect,
+  Tabs,
+  TextInput,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
 import { useState } from "react";
@@ -14,7 +21,9 @@ export default function InfoTab({ person }: { person: Person }) {
     validate: (values: Person) => validateForm(values),
   });
 
-  const allZustaendigkeiten = [
+  const advisors = person.betreutvon.split(",");
+
+  const allCompetences = [
     "Administration",
     "Hardcase",
     "Ibanez Akustik-Gitarre",
@@ -30,7 +39,7 @@ export default function InfoTab({ person }: { person: Person }) {
     "Tama",
     "VIP",
   ];
-  const zustaendigkeiten = person.zustaendig.toLowerCase().split(",");
+  const competences = person.zustaendig.toLowerCase().split(",");
 
   return (
     <Tabs.Panel value="info" className="py-4">
@@ -97,20 +106,22 @@ export default function InfoTab({ person }: { person: Person }) {
             {...form.getInputProps("email")}
             readOnly={!edit}
           />
-          <TextInput
+          <MultiSelect
+            // TODO: union checked values back into string
             label="Betreut von"
-            key={form.key("betreutvon")}
-            {...form.getInputProps("betreutvon")}
+            data={advisors}
+            defaultValue={advisors}
             readOnly={!edit}
           />
         </Fieldset>
         <Fieldset legend="Zuständigkeiten">
           <div className="grid grid-cols-2 gap-2">
-            {allZustaendigkeiten.map((z, i) => (
+            {allCompetences.map((z, i) => (
+              // TODO: union checked values back into string
               <Checkbox
                 key={i}
                 label={z}
-                defaultChecked={zustaendigkeiten.includes(z.toLowerCase())}
+                defaultChecked={competences.includes(z.toLowerCase())}
                 readOnly={!edit}
               />
             ))}
@@ -137,6 +148,8 @@ export default function InfoTab({ person }: { person: Person }) {
             </>
           ) : (
             <Button
+              color="gray"
+              variant="outline"
               leftSection={<IconEdit size={16} />}
               onClick={() => setEdit(true)}
             >
