@@ -39,7 +39,7 @@ export default function Page() {
         value={search}
         onChange={(e) => setSearch(e.currentTarget.value)}
       />
-      <Table highlightOnHover>
+      <Table stickyHeader highlightOnHover>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Kdnr</Table.Th>

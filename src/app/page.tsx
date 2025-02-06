@@ -1,9 +1,40 @@
+"use client";
+import { IconBuildingWarehouse } from "@tabler/icons-react";
+import HistoryList from "./components/history";
+import {
+  MEINL_OFFICE_COMPANY_HISTORY_KEY,
+  MEINL_OFFICE_PERSON_HISTORY_KEY,
+} from "./lib/constants";
+import { CompanyInStorage, PersonInStorage } from "./lib/interfaces";
+
 export default function Page() {
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
-      <header className="flex justify-center items-baseline gap-2 p-4">
-        <h1 className="text-4xl font-bold"></h1>
+      <header className="flex justify-between items-baseline gap-2 p-4">
+        <h1 className="text-4xl font-bold">Willkommen</h1>
       </header>
+      <div className="grid grid-cols-2 gap-4">
+        <HistoryList
+          title="Firmen"
+          storageKey={MEINL_OFFICE_COMPANY_HISTORY_KEY}
+          linkPrefix="/company"
+          getAvatar={() => <IconBuildingWarehouse size={24} />}
+          getTitle={(company: CompanyInStorage) => company.name}
+          getSubtitle={(company: CompanyInStorage) => company.kdnr}
+        />
+        <HistoryList
+          title="Personen"
+          storageKey={MEINL_OFFICE_PERSON_HISTORY_KEY}
+          linkPrefix="/person"
+          getAvatar={(person: PersonInStorage) =>
+            `${person.nachname.substring(0, 1).toUpperCase()}${person.vorname
+              .substring(0, 1)
+              .toUpperCase()}`
+          }
+          getTitle={(person) => `${person.nachname}, ${person.vorname}`}
+          getSubtitle={(person) => person.position}
+        />
+      </div>
     </main>
   );
 }

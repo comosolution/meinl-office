@@ -1,7 +1,8 @@
 "use client";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
-import { Company, Person } from "@/app/lib/interfaces";
+import { MEINL_OFFICE_PERSON_HISTORY_KEY } from "@/app/lib/constants";
+import { Company, Person, PersonInStorage } from "@/app/lib/interfaces";
 import { Button, Tabs } from "@mantine/core";
 import {
   IconChevronLeft,
@@ -30,12 +31,41 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
   }, [company]);
 
+  useEffect(() => {
+    updateHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [person]);
+
   const getCustomer = async () => {
     const response = await fetch(`/api/customer/${id}`, {
       method: "GET",
     });
     const companies = await response.json();
     setCompany(companies[0]);
+  };
+
+  const updateHistory = () => {
+    if (!person) return;
+
+    const newEntry: PersonInStorage = {
+      kdnr: person.b2bnr,
+      vorname: person.vorname,
+      nachname: person.nachname,
+      position: person.position,
+    };
+    const history = JSON.parse(
+      localStorage.getItem(MEINL_OFFICE_PERSON_HISTORY_KEY) || "[]"
+    );
+
+    const filteredHistory = history.filter(
+      (item: PersonInStorage) => item.kdnr !== newEntry.kdnr
+    );
+
+    const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
+    localStorage.setItem(
+      MEINL_OFFICE_PERSON_HISTORY_KEY,
+      JSON.stringify(updatedHistory)
+    );
   };
 
   return person && company ? (

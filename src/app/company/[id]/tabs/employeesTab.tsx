@@ -7,7 +7,7 @@ export default function EmployeesTab({ company }: { company: Company }) {
   return (
     <Tabs.Panel value="employees" className="py-4">
       {company.personen.length > 0 ? (
-        <Table highlightOnHover>
+        <Table stickyHeader highlightOnHover>
           <EmployeeHead />
           <Table.Tbody>
             {company.personen.map((employee, i) => (

@@ -90,6 +90,7 @@ export default function Sidebar() {
               <NavLink
                 key={index}
                 label={entry.name}
+                title={entry.name}
                 active={active}
                 color="red"
                 variant={active ? "filled" : "subtle"}
@@ -103,6 +104,7 @@ export default function Sidebar() {
         </div>
         <NavLink
           label="Ausloggen"
+          title="Ausloggen"
           active
           color="dark"
           leftSection={<IconLogout size={20} />}

@@ -194,7 +194,7 @@ export default function InfoTab({ person }: { person: Person }) {
           >
             <div className="grid grid-cols-2 gap-2">
               {allCompetences.map((c, i) => (
-                <Checkbox key={i} label={c} value={c} readOnly={!edit} />
+                <Checkbox key={i} label={c} value={c} disabled={!edit} />
               ))}
             </div>
           </Checkbox.Group>

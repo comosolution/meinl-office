@@ -1,7 +1,8 @@
 "use client";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
-import { Company } from "@/app/lib/interfaces";
+import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
+import { Company, CompanyInStorage } from "@/app/lib/interfaces";
 import { Button, Tabs } from "@mantine/core";
 import {
   IconBuildingEstate,
@@ -25,12 +26,39 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  useEffect(() => {
+    updateHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [company]);
+
   const getCustomer = async () => {
     const response = await fetch(`/api/customer/${id}`, {
       method: "GET",
     });
     const companies = await response.json();
     setCompany(companies[0]);
+  };
+
+  const updateHistory = () => {
+    if (!company) return;
+
+    const newEntry: CompanyInStorage = {
+      kdnr: company.kdnr.toString(),
+      name: company.name1,
+    };
+    const history = JSON.parse(
+      localStorage.getItem(MEINL_OFFICE_COMPANY_HISTORY_KEY) || "[]"
+    );
+
+    const filteredHistory = history.filter(
+      (item: CompanyInStorage) => item.kdnr !== newEntry.kdnr
+    );
+
+    const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
+    localStorage.setItem(
+      MEINL_OFFICE_COMPANY_HISTORY_KEY,
+      JSON.stringify(updatedHistory)
+    );
   };
 
   return company ? (

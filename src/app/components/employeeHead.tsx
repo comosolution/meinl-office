@@ -4,6 +4,7 @@ export default function EmployeeHead() {
   return (
     <Table.Thead>
       <Table.Tr>
+        <Table.Th />
         <Table.Th>Name</Table.Th>
         <Table.Th>Position</Table.Th>
         <Table.Th>E-Mail</Table.Th>

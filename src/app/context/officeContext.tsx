@@ -5,10 +5,9 @@ import {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
-import companyData from "../data/companies.json";
-import employeeData from "../data/employees.json";
 import { Company, Person } from "../lib/interfaces";
 
 interface OfficeContextType {
@@ -21,26 +20,31 @@ interface OfficeContextType {
 const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 
 export const OfficeProvider = ({ children }: { children: ReactNode }) => {
-  const [companies, setCompanies] = useState<Company[]>(
-    (companyData as Company[]).sort((a, b) => a.name1.localeCompare(b.name1))
-  );
-  const [employees, setEmployees] = useState<Person[]>(
-    (employeeData as Person[]).sort((a, b) =>
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [employees, setEmployees] = useState<Person[]>([]);
+
+  useEffect(() => {
+    getCompanies();
+  }, []);
+
+  const getCompanies = async () => {
+    const response = await fetch("/api/customer", {
+      method: "GET",
+    });
+    const allCompanies = await response.json();
+    const sortedCompanies = (allCompanies as Company[]).sort((a, b) =>
+      a.name1.localeCompare(b.name1)
+    );
+    setCompanies(sortedCompanies);
+  };
+
+  useEffect(() => {
+    const allEmployees = companies.flatMap((c) => c.personen);
+    const sortedEmployees = (allEmployees as Person[]).sort((a, b) =>
       a.nachname.localeCompare(b.nachname)
-    )
-  );
-
-  // useEffect(() => {
-  //   getCompanies();
-  // }, []);
-
-  // const getCompanies = async () => {
-  //   const response = await fetch("/api/companies", {
-  //     method: "GET",
-  //   });
-  //   const companies = await response.json();
-  //   setData(companies);
-  // };
+    );
+    setEmployees(sortedEmployees);
+  }, [companies]);
 
   return (
     <OfficeContext.Provider

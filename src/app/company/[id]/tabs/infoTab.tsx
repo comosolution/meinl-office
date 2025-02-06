@@ -18,12 +18,21 @@ export default function InfoTab({ company }: { company: Company }) {
     validate: (values: FormValues) => validateForm(values),
   });
 
+  const updateCustomer = async (values: FormValues) => {
+    const response = await fetch(`/api/customer/${company.kdnr}`, {
+      method: "POST",
+      body: JSON.stringify(values, null, 2),
+    });
+    const companies = await response.json();
+    console.log(companies);
+  };
+
   return (
     <Tabs.Panel value="info" className="py-4">
       <form
         className="grid grid-cols-2 gap-4"
         onSubmit={form.onSubmit((values) => {
-          console.log(JSON.stringify(values, null, 2));
+          updateCustomer(values);
         })}
       >
         <Fieldset legend="Unternehmen">

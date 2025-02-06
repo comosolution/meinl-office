@@ -1,5 +1,5 @@
 "use client";
-import { Table } from "@mantine/core";
+import { Avatar, Table } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { Person } from "../lib/interfaces";
 
@@ -12,6 +12,12 @@ export default function EmployeeRow({ employee }: { employee: Person }) {
       className={`${hasProfile && "cursor-pointer"}`}
       onClick={() => hasProfile && router.push(`/person/${employee.b2bnr}`)}
     >
+      <Table.Td>
+        <Avatar size={24} radius="xs">
+          {employee.nachname.substring(0, 1).toUpperCase()}
+          {employee.vorname.substring(0, 1).toUpperCase()}
+        </Avatar>
+      </Table.Td>
       <Table.Td>
         <b>
           {employee.nachname}, {employee.vorname}

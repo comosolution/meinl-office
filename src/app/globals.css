@@ -11,8 +11,29 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -8%;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+a.link {
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--mantine-color-dimmed);
+  transition: var(--transition);
+}
+
+a.link:hover {
+  border-bottom: 1px solid var(--main);
 }
 
 #sidebar {
@@ -22,7 +43,6 @@ body {
       rgba(255, 255, 255, 0.5) 47%,
       rgba(0, 0, 0, 0.5) 100%
     );
-  background-blend-mode: screen;
 }
 
 .dimmed {
@@ -34,12 +54,16 @@ body {
   transition: 300ms background ease-in-out;
 }
 
-a.link {
-  padding-bottom: 2px;
-  border-bottom: 1px solid var(--mantine-color-dimmed);
+.mantine-Checkbox-input:disabled {
+  background: var(--mantine-color-gray-light);
   transition: var(--transition);
 }
 
-a.link:hover {
-  border-bottom: 1px solid var(--main);
+.mantine-Checkbox-input:disabled + .mantine-Checkbox-icon {
+  color: var(--mantine-color-gray-7) !important;
+}
+
+.mantine-Table-thead {
+  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(8px);
 }

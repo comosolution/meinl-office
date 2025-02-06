@@ -1,4 +1,4 @@
-import { Kbd, NavLink } from "@mantine/core";
+import { Avatar, Kbd, NavLink } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
 import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -28,7 +28,11 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         onClick: () => {
           router.push(`/company/${s.kdnr}`);
         },
-        leftSection: <IconBuildingWarehouse size={24} stroke={1.5} />,
+        leftSection: (
+          <Avatar size={48} radius="md">
+            <IconBuildingWarehouse size={24} />
+          </Avatar>
+        ),
       };
     });
 
@@ -36,13 +40,15 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     <>
       <NavLink
         label="Suche"
+        title="Suche"
         variant="light"
         active
         leftSection={<IconSearch size={20} />}
         rightSection={
           !collapsed && (
-            <div className="text-black font-light">
-              <Kbd size="xs">Ctrl</Kbd> + <Kbd size="xs">K</Kbd>
+            <div>
+              <Kbd size="xs">Ctrl</Kbd>
+              <Kbd size="xs">K</Kbd>
             </div>
           )
         }
@@ -52,6 +58,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         }}
       />
       <Spotlight
+        limit={16}
         actions={data}
         query={query}
         onQueryChange={setQuery}
@@ -63,6 +70,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         shortcut={["mod + K", "mod + P", "/"]}
         searchProps={{
           leftSection: <IconSearch size={20} stroke={1.5} />,
+          rightSection: data.length,
           placeholder: "Firma suchen ...",
         }}
       />

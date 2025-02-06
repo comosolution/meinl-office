@@ -16,6 +16,11 @@ export interface Company {
   personen: Person[];
 }
 
+export interface CompanyInStorage {
+  kdnr: string;
+  name: string;
+}
+
 export interface Person {
   kdnr: number;
   vorname: string;
@@ -36,4 +41,11 @@ export interface Person {
   musikrichtung: string;
   instrument: string;
   zustaendig: string;
+}
+
+export interface PersonInStorage {
+  kdnr: string;
+  vorname: string;
+  nachname: string;
+  position: string;
 }
