@@ -1,5 +1,5 @@
 import { Avatar, Button, Paper } from "@mantine/core";
-import { IconEyeOff, IconSearch, IconTrash } from "@tabler/icons-react";
+import { IconEyeOff, IconHistoryOff, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 import { JSX, useEffect, useState } from "react";
 import { CompanyInStorage, PersonInStorage } from "../lib/interfaces";
@@ -59,7 +59,7 @@ export default function HistoryList<T>({
             </div>
             <Button
               variant="transparent"
-              leftSection={<IconTrash size={16} />}
+              leftSection={<IconHistoryOff size={16} />}
               onClick={clearHistory}
             >
               Verlauf löschen

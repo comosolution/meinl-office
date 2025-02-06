@@ -1,6 +1,7 @@
 "use client";
 import { IconBuildingWarehouse } from "@tabler/icons-react";
 import HistoryList from "./components/history";
+import { useOffice } from "./context/officeContext";
 import {
   MEINL_OFFICE_COMPANY_HISTORY_KEY,
   MEINL_OFFICE_PERSON_HISTORY_KEY,
@@ -8,6 +9,8 @@ import {
 import { CompanyInStorage, PersonInStorage } from "./lib/interfaces";
 
 export default function Page() {
+  const { companies } = useOffice();
+
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-baseline gap-2 p-4">
@@ -32,7 +35,13 @@ export default function Page() {
               .toUpperCase()}`
           }
           getTitle={(person) => `${person.nachname}, ${person.vorname}`}
-          getSubtitle={(person) => person.position}
+          getSubtitle={(person) => {
+            return `${person.position && `${person.position} bei `}${
+              companies.find(
+                (c) => c.kdnr.toString() === person.kdnr.split("-")[0]
+              )?.name1
+            }`;
+          }}
         />
       </div>
     </main>

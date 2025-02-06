@@ -1,11 +1,23 @@
 "use client";
 import { Avatar, Table } from "@mantine/core";
 import { useRouter } from "next/navigation";
+import { useOffice } from "../context/officeContext";
 import { Person } from "../lib/interfaces";
 
-export default function EmployeeRow({ employee }: { employee: Person }) {
+export default function EmployeeRow({
+  employee,
+  withCompany,
+}: {
+  employee: Person;
+  withCompany?: boolean;
+}) {
+  const { companies } = useOffice();
   const router = useRouter();
   const hasProfile = employee.b2bnr !== "";
+  const company =
+    withCompany &&
+    companies.find((c) => c.kdnr.toString() === employee.b2bnr.split("-")[0])
+      ?.name1;
 
   return (
     <Table.Tr
@@ -23,6 +35,7 @@ export default function EmployeeRow({ employee }: { employee: Person }) {
           {employee.nachname}, {employee.vorname}
         </b>
       </Table.Td>
+      {withCompany && <Table.Td>{company}</Table.Td>}
       <Table.Td>{employee.position}</Table.Td>
       <Table.Td>{employee.email}</Table.Td>
       <Table.Td>{employee.telefon}</Table.Td>

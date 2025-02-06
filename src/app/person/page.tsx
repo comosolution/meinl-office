@@ -40,11 +40,11 @@ export default function Page() {
         onChange={(e) => setSearch(e.currentTarget.value)}
       />
       <Table stickyHeader highlightOnHover>
-        <EmployeeHead />
+        <EmployeeHead withCompany />
         <Table.Tbody>
           {employees &&
             currentPageData.map((employee, i) => (
-              <EmployeeRow key={i} employee={employee} />
+              <EmployeeRow key={i} employee={employee} withCompany />
             ))}
         </Table.Tbody>
       </Table>
