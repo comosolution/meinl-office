@@ -1,5 +1,5 @@
 import { Avatar, Button, Paper } from "@mantine/core";
-import { IconEyeDotted, IconSearch, IconTrash } from "@tabler/icons-react";
+import { IconEyeOff, IconSearch, IconTrash } from "@tabler/icons-react";
 import Link from "next/link";
 import { JSX, useEffect, useState } from "react";
 import { CompanyInStorage, PersonInStorage } from "../lib/interfaces";
@@ -37,7 +37,7 @@ export default function HistoryList<T>({
         <h2>Kürzlich besuchte {title}</h2>
         {history.length > 0 ? (
           <>
-            <div className="flex flex-col gap-2">
+            <div className="h-full flex flex-col">
               {history.map((item, index) => (
                 <Link
                   key={index}
@@ -45,7 +45,7 @@ export default function HistoryList<T>({
                     (item as CompanyInStorage | PersonInStorage).kdnr
                   }`}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
                     <Avatar size={48} radius="md">
                       {getAvatar(item)}
                     </Avatar>
@@ -68,7 +68,7 @@ export default function HistoryList<T>({
         ) : (
           <>
             <div className="flex flex-col items-center gap-2">
-              <IconEyeDotted size={48} color="gray" />
+              <IconEyeOff size={48} color="gray" />
               <p className="dimmed text-center">Keine {title} besucht.</p>
             </div>
             <Button
