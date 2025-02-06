@@ -9,7 +9,13 @@ import { useForm } from "@mantine/form";
 import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
 import { useState } from "react";
 
-export default function InfoTab({ company }: { company: Company }) {
+export default function InfoTab({
+  company,
+  getCompany,
+}: {
+  company: Company;
+  getCompany: () => Promise<void>;
+}) {
   const [edit, setEdit] = useState(false);
 
   const form = useForm<FormValues>({
@@ -19,12 +25,14 @@ export default function InfoTab({ company }: { company: Company }) {
   });
 
   const updateCustomer = async (values: FormValues) => {
-    const response = await fetch(`/api/customer/${company.kdnr}`, {
+    const response = await fetch("/api/customer", {
       method: "POST",
       body: JSON.stringify(values, null, 2),
     });
-    const companies = await response.json();
-    console.log(companies);
+    if (response.ok) {
+      setEdit(false);
+      getCompany();
+    }
   };
 
   return (

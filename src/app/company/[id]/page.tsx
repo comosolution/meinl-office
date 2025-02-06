@@ -22,7 +22,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [activeTab, setActiveTab] = useState<string | null>("info");
 
   useEffect(() => {
-    getCustomer();
+    getCompany();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -31,7 +31,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
 
-  const getCustomer = async () => {
+  const getCompany = async () => {
     const response = await fetch(`/api/customer/${id}`, {
       method: "GET",
     });
@@ -101,7 +101,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Tabs.Tab>
         </Tabs.List>
 
-        <InfoTab company={company} />
+        <InfoTab company={company} getCompany={getCompany} />
         <EmployeesTab company={company} />
       </Tabs>
     </main>
