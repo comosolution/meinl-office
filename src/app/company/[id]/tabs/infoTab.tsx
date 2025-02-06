@@ -115,8 +115,11 @@ export default function InfoTab({
               <Button
                 color="gray"
                 variant="light"
-                // TODO: reset form
-                onClick={() => setEdit(false)}
+                onClick={async () => {
+                  await getCompany();
+                  form.setValues(getInitialValues(company));
+                  setEdit(false);
+                }}
               >
                 Verwerfen
               </Button>
