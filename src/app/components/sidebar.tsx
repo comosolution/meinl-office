@@ -25,7 +25,7 @@ export default function Sidebar() {
       icon: <IconLayoutDashboard size={20} />,
     },
     {
-      name: "Kunden",
+      name: "Firmen",
       href: "/company",
       icon: <IconBuildingWarehouse size={20} />,
     },

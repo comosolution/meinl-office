@@ -72,7 +72,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           component={Link}
           href="/company"
         >
-          Alle Kunden
+          Alle Firmen
         </Button>
         <Contact email={company.email} phone={company.telefon} />
       </div>
