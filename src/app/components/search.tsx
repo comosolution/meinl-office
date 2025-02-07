@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { navLink } from "../lib/styles";
+import { getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
   const { companies } = useOffice();
@@ -29,7 +30,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
           router.push(`/company/${s.kdnr}`);
         },
         leftSection: (
-          <Avatar size={48} radius="md">
+          <Avatar size={48} radius="md" color={getAvatarColor(s.kdnr)}>
             <IconBuildingWarehouse size={24} />
           </Avatar>
         ),

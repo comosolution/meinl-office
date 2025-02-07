@@ -3,6 +3,7 @@ import { IconEyeOff, IconHistoryOff, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 import { JSX, useEffect, useState } from "react";
 import { CompanyInStorage, PersonInStorage } from "../lib/interfaces";
+import { getAvatarColor } from "../lib/utils";
 
 export default function HistoryList<T>({
   title,
@@ -46,7 +47,15 @@ export default function HistoryList<T>({
                   }`}
                 >
                   <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
-                    <Avatar size={48} radius="md">
+                    <Avatar
+                      size={48}
+                      radius="md"
+                      color={getAvatarColor(
+                        (
+                          item as CompanyInStorage | PersonInStorage
+                        ).kdnr.substring(0, 5)
+                      )}
+                    >
                       {getAvatar(item)}
                     </Avatar>
                     <div className="flex flex-col">

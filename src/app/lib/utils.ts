@@ -19,3 +19,19 @@ export const formatDateToString = (date: Date | null): string => {
 
   return `${year}${month}${day}`;
 };
+
+export const getAvatarColor = (input: string | number) => {
+  const colors = [
+    "red",
+    "violet",
+    "indigo",
+    "cyan",
+    "teal",
+    "lime",
+    "yellow",
+    "orange",
+    "gray",
+    "dark",
+  ];
+  return colors[+input % colors.length];
+};
