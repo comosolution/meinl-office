@@ -5,7 +5,7 @@ import "@mantine/dates/styles.css";
 import "@mantine/spotlight/styles.css";
 import "dayjs/locale/de";
 import type { Metadata } from "next";
-import Sidebar from "./components/sidebar";
+import App from "./components/app";
 import { OfficeProvider } from "./context/officeContext";
 import "./globals.css";
 
@@ -43,10 +43,7 @@ export default function RootLayout({
         <MantineProvider theme={theme}>
           <DatesProvider settings={{ locale: "de" }}>
             <OfficeProvider>
-              <div className="flex">
-                <Sidebar />
-                <main className="w-full flex flex-col">{children}</main>
-              </div>
+              <App>{children}</App>
             </OfficeProvider>
           </DatesProvider>
         </MantineProvider>

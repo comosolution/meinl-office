@@ -15,6 +15,7 @@ interface OfficeContextType {
   setCompanies: Dispatch<SetStateAction<Company[]>>;
   employees: Person[];
   setEmployees: Dispatch<SetStateAction<Person[]>>;
+  loading: boolean;
 }
 
 const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
@@ -22,12 +23,14 @@ const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [employees, setEmployees] = useState<Person[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getCompanies();
   }, []);
 
   const getCompanies = async () => {
+    setLoading(true);
     const response = await fetch("/api/customer", {
       method: "GET",
     });
@@ -36,6 +39,7 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
       a.name1.localeCompare(b.name1)
     );
     setCompanies(sortedCompanies);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -53,6 +57,7 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
         setCompanies,
         employees,
         setEmployees,
+        loading,
       }}
     >
       {children}
