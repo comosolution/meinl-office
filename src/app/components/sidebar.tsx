@@ -55,7 +55,7 @@ export default function Sidebar() {
       id="sidebar"
       className={`h-screen ${
         isCollapsed ? "w-[64px]" : "w-[260px]"
-      } sticky top-0 z-50 flex flex-col gap-4 pt-4 shadow-2xl transition-all duration-300 overflow-x-hidden`}
+      } sticky top-0 z-50 flex flex-col gap-4 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
       style={{
         borderRight: defaultBorder,
       }}
@@ -69,7 +69,7 @@ export default function Sidebar() {
         <header className="flex justify-center items-center cursor-pointer hover:opacity-80">
           <Image src="/logo.svg" alt="Meinl Logo" width={24} height={24} />
           {!isCollapsed && (
-            <h1 className="text-xl font-bold tracking-tighter">Office</h1>
+            <p className="text-xl font-bold tracking-tighter">Office</p>
           )}
         </header>
         {!isCollapsed && (

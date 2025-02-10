@@ -77,8 +77,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Contact email={company.email} phone={company.telefon} />
       </div>
       <header className="flex justify-between items-baseline gap-2 p-4">
-        <h1 className="text-4xl">
-          <b>{company.name1}</b> {company.name2} {company.name3}
+        <h1>
+          {company.name1}{" "}
+          <span className="font-normal">
+            {company.name2} {company.name3}
+          </span>
         </h1>
         <p className="dimmed">{company.kdnr}</p>
       </header>

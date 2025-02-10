@@ -90,10 +90,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         />
       </div>
       <header className="flex flex-col gap-1 p-4">
-        <h1 className="text-4xl">
-          <b>
-            {person.nachname}, {person.vorname}
-          </b>
+        <h1>
+          {person.nachname}, {person.vorname}
         </h1>
         <div className="flex justify-between items-baseline gap-2">
           <p>
