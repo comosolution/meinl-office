@@ -1,6 +1,6 @@
 "use client";
-import { Pagination, Table, TextInput } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { Button, Pagination, Table, TextInput } from "@mantine/core";
+import { IconCirclePlus, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 import EmployeeHead from "../components/employeeHead";
 import EmployeeRow from "../components/employeeRow";
@@ -29,13 +29,20 @@ export default function Page() {
 
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
-      <header className="flex justify-between items-baseline gap-2 p-4">
+      <header className="flex justify-between items-center gap-2 p-4">
         <h1>Alle Personen</h1>
-        <p className="dimmed">{filteredData.length} Ergebnisse</p>
+        <Button
+          color="dark"
+          size="xs"
+          leftSection={<IconCirclePlus size={16} />}
+        >
+          Person anlegen
+        </Button>
       </header>
       <TextInput
         placeholder="Personen durchsuchen ..."
         leftSection={<IconSearch size={16} />}
+        rightSection={<p className="text-xs">{filteredData.length}</p>}
         value={search}
         onChange={(e) => setSearch(e.currentTarget.value)}
       />

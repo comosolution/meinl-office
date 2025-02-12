@@ -1,6 +1,6 @@
 import { Avatar, Kbd, NavLink } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
-import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -31,7 +31,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         },
         leftSection: (
           <Avatar size={48} radius="md" color={getAvatarColor(s.kdnr)}>
-            <IconBuildingWarehouse size={24} />
+            {s.name1[0].toUpperCase()}
           </Avatar>
         ),
       };
@@ -59,6 +59,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         }}
       />
       <Spotlight
+        color="black"
         limit={16}
         actions={data}
         query={query}

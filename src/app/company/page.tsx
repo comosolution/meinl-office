@@ -1,6 +1,6 @@
 "use client";
-import { Pagination, Table, TextInput } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { Button, Pagination, Table, TextInput } from "@mantine/core";
+import { IconCirclePlus, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -29,22 +29,29 @@ export default function Page() {
 
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
-      <header className="flex justify-between items-baseline gap-2 p-4">
+      <header className="flex justify-between items-center gap-2 p-4">
         <h1>Alle Firmen</h1>
-        <p className="dimmed">{filteredData.length} Ergebnisse</p>
+        <Button
+          color="dark"
+          size="xs"
+          leftSection={<IconCirclePlus size={16} />}
+        >
+          Firma anlegen
+        </Button>
       </header>
       <TextInput
         placeholder="Firmen durchsuchen ..."
         leftSection={<IconSearch size={16} />}
+        rightSection={<p className="text-xs">{filteredData.length}</p>}
         value={search}
         onChange={(e) => setSearch(e.currentTarget.value)}
       />
       <Table stickyHeader highlightOnHover>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>Kdnr</Table.Th>
             <Table.Th>Name</Table.Th>
-            <Table.Th />
+            <Table.Th>Zusatz</Table.Th>
+            <Table.Th>Kdnr</Table.Th>
             <Table.Th>Anschrift</Table.Th>
           </Table.Tr>
         </Table.Thead>
@@ -55,13 +62,13 @@ export default function Page() {
               className="cursor-pointer"
               onClick={() => router.push(`/company/${company.kdnr}`)}
             >
-              <Table.Td>{company.kdnr}</Table.Td>
               <Table.Td>
                 <b>{company.name1}</b>
               </Table.Td>
               <Table.Td>
                 {company.name2} {company.name3}
               </Table.Td>
+              <Table.Td>{company.kdnr}</Table.Td>
               <Table.Td>
                 {company.land}–{company.plz} {company.ort}
               </Table.Td>

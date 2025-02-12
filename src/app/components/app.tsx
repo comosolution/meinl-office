@@ -3,11 +3,7 @@ import { useOffice } from "../context/officeContext";
 import Loader from "./loader";
 import Sidebar from "./sidebar";
 
-export default function App({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function App({ children }: { children: React.ReactNode }) {
   const { loading } = useOffice();
 
   return loading ? (

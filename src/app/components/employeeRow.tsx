@@ -27,8 +27,8 @@ export default function EmployeeRow({
     >
       <Table.Td>
         <Avatar size={24} radius="xs" color={getAvatarColor(employee.kdnr)}>
-          {employee.nachname.substring(0, 1).toUpperCase()}
-          {employee.vorname.substring(0, 1).toUpperCase()}
+          {employee.nachname[0].toUpperCase()}
+          {employee.vorname[0].toUpperCase()}
         </Avatar>
       </Table.Td>
       <Table.Td>
