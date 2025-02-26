@@ -7,6 +7,7 @@ import {
   IconLogout,
   IconUsersGroup,
 } from "@tabler/icons-react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -109,6 +110,7 @@ export default function Sidebar() {
           color="dark"
           leftSection={<IconLogout size={20} />}
           className={navLink(isCollapsed)}
+          onClick={() => signOut()}
         />
       </nav>
     </aside>

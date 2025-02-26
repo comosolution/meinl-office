@@ -1,7 +1,8 @@
 "use client";
+import { SessionProvider } from "next-auth/react";
 import { useOffice } from "../context/officeContext";
 import Loader from "./loader";
-import Sidebar from "./sidebar";
+import PageWrapper from "./pageWrapper";
 
 export default function App({ children }: { children: React.ReactNode }) {
   const { loading } = useOffice();
@@ -11,9 +12,8 @@ export default function App({ children }: { children: React.ReactNode }) {
       <Loader />
     </main>
   ) : (
-    <div className="flex">
-      <Sidebar />
-      <main className="w-full flex flex-col">{children}</main>
-    </div>
+    <SessionProvider>
+      <PageWrapper>{children}</PageWrapper>
+    </SessionProvider>
   );
 }
