@@ -72,7 +72,7 @@ a.link:hover {
   color: var(--mantine-color-dimmed);
 }
 
-.mantine-Input-input:read-only {
+.mantine-Input-input:read-only:not(.mantine-PasswordInput-input) {
   background: var(--mantine-color-white);
   border: 1px solid transparent;
   transition: 300ms background ease-in-out;
