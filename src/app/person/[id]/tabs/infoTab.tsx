@@ -11,14 +11,7 @@ import {
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import {
-  IconCalendar,
-  IconDeviceFloppy,
-  IconEdit,
-  IconMusic,
-  IconPiano,
-  IconShirt,
-} from "@tabler/icons-react";
+import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
 import { useState } from "react";
 import { FormValues, getInitialValues, validateForm } from "../form";
 
@@ -71,97 +64,100 @@ export default function InfoTab({ person }: { person: Person }) {
           );
         })}
       >
-        <Fieldset legend="Person">
-          <Autocomplete
-            label="Anrede"
-            data={["Frau", "Herr"]}
-            key={form.key("anrede")}
-            {...form.getInputProps("anrede")}
-            readOnly={!edit}
-          />
-          <Autocomplete
-            label="Titel"
-            data={[
-              "Dr.",
-              "Dr. med.",
-              "Dr.-Ing.",
-              "Dipl.-Ing.",
-              "Prof.",
-              "Prof. Dr.",
-            ]}
-            key={form.key("titel")}
-            {...form.getInputProps("titel")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Nachname"
-            key={form.key("nachname")}
-            {...form.getInputProps("nachname")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Vorname"
-            key={form.key("vorname")}
-            {...form.getInputProps("vorname")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Position"
-            key={form.key("position")}
-            {...form.getInputProps("position")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Abteilung"
-            key={form.key("abteilung")}
-            {...form.getInputProps("abteilung")}
-            readOnly={!edit}
-          />
+        <Fieldset>
+          <h2>Person</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <Autocomplete
+              label="Anrede"
+              data={["Frau", "Herr"]}
+              key={form.key("anrede")}
+              {...form.getInputProps("anrede")}
+              readOnly={!edit}
+            />
+            <Autocomplete
+              label="Titel"
+              data={[
+                "Dr.",
+                "Dr. med.",
+                "Dr.-Ing.",
+                "Dipl.-Ing.",
+                "Prof.",
+                "Prof. Dr.",
+              ]}
+              key={form.key("titel")}
+              {...form.getInputProps("titel")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Nachname"
+              key={form.key("nachname")}
+              {...form.getInputProps("nachname")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Vorname"
+              key={form.key("vorname")}
+              {...form.getInputProps("vorname")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Position"
+              key={form.key("position")}
+              {...form.getInputProps("position")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Abteilung"
+              key={form.key("abteilung")}
+              {...form.getInputProps("abteilung")}
+              readOnly={!edit}
+            />
+          </div>
         </Fieldset>
-        <Fieldset legend="Privat">
-          <DateInput
-            label="Geburtsdatum"
-            key={form.key("geburtsdatum")}
-            {...form.getInputProps("geburtsdatum")}
-            readOnly={!edit}
-            rightSection={<IconCalendar size={16} />}
-          />
-          <TextInput
-            label="Familienstand"
-            key={form.key("familienstand")}
-            {...form.getInputProps("familienstand")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Hobbies"
-            key={form.key("hobbies")}
-            {...form.getInputProps("hobbies")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Musikrichtung"
-            key={form.key("musikrichtung")}
-            {...form.getInputProps("musikrichtung")}
-            readOnly={!edit}
-            rightSection={<IconMusic size={16} />}
-          />
-          <TextInput
-            label="Instrument"
-            key={form.key("instrument")}
-            {...form.getInputProps("instrument")}
-            readOnly={!edit}
-            rightSection={<IconPiano size={16} />}
-          />
-          <Autocomplete
-            label="T-Shirt"
-            data={["XS", "S", "M", "L", "XL", "XXL"]}
-            key={form.key("tshirt")}
-            {...form.getInputProps("tshirt")}
-            readOnly={!edit}
-            rightSection={<IconShirt size={16} />}
-          />
+        <Fieldset>
+          <h2>Privat</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <DateInput
+              label="Geburtsdatum"
+              key={form.key("geburtsdatum")}
+              {...form.getInputProps("geburtsdatum")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Familienstand"
+              key={form.key("familienstand")}
+              {...form.getInputProps("familienstand")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Hobbies"
+              key={form.key("hobbies")}
+              {...form.getInputProps("hobbies")}
+              readOnly={!edit}
+            />
+            <Autocomplete
+              label="T-Shirt"
+              data={["XS", "S", "M", "L", "XL", "XXL"]}
+              key={form.key("tshirt")}
+              {...form.getInputProps("tshirt")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Musikrichtung"
+              key={form.key("musikrichtung")}
+              {...form.getInputProps("musikrichtung")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Instrument"
+              key={form.key("instrument")}
+              {...form.getInputProps("instrument")}
+              readOnly={!edit}
+            />
+          </div>
         </Fieldset>
-        <Fieldset legend="Kommunikation">
+        <Fieldset>
+          <h2>Kommunikation</h2>
           <TextInput
             label="Telefon"
             key={form.key("telefon")}
@@ -187,7 +183,8 @@ export default function InfoTab({ person }: { person: Person }) {
             readOnly={!edit}
           />
         </Fieldset>
-        <Fieldset legend="Zuständigkeiten">
+        <Fieldset>
+          <h2>Zuständigkeiten</h2>
           <Checkbox.Group
             key={form.key("zustaendig")}
             {...form.getInputProps("zustaendig")}

@@ -43,59 +43,66 @@ export default function InfoTab({
           updateCustomer(values);
         })}
       >
-        <Fieldset legend="Unternehmen">
-          <TextInput
-            label="Name"
-            key={form.key("name1")}
-            {...form.getInputProps("name1")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Zusatz"
-            key={form.key("name2")}
-            {...form.getInputProps("name2")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Matchcode"
-            key={form.key("matchcode")}
-            {...form.getInputProps("matchcode")}
-            readOnly
-          />
-          <NumberInput
-            label="Kundennummer"
-            key={form.key("kdnr")}
-            {...form.getInputProps("kdnr")}
-            readOnly
-          />
+        <Fieldset>
+          <h2>Unternehmen</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <TextInput
+              label="Name"
+              key={form.key("name1")}
+              {...form.getInputProps("name1")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Zusatz"
+              key={form.key("name2")}
+              {...form.getInputProps("name2")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Matchcode"
+              key={form.key("matchcode")}
+              {...form.getInputProps("matchcode")}
+              readOnly
+            />
+            <NumberInput
+              label="Kundennummer"
+              key={form.key("kdnr")}
+              {...form.getInputProps("kdnr")}
+              readOnly
+            />
+          </div>
         </Fieldset>
-        <Fieldset legend="Anschrift">
-          <TextInput
-            label="Straße / Postfach"
-            key={form.key("strasse")}
-            {...form.getInputProps("strasse")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="PLZ"
-            key={form.key("plz")}
-            {...form.getInputProps("plz")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Ort"
-            key={form.key("ort")}
-            {...form.getInputProps("ort")}
-            readOnly={!edit}
-          />
-          <TextInput
-            label="Land"
-            key={form.key("land")}
-            {...form.getInputProps("land")}
-            readOnly={!edit}
-          />
+        <Fieldset>
+          <h2>Anschrift</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <TextInput
+              label="Land"
+              key={form.key("land")}
+              {...form.getInputProps("land")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Straße / Postfach"
+              key={form.key("strasse")}
+              {...form.getInputProps("strasse")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="PLZ"
+              key={form.key("plz")}
+              {...form.getInputProps("plz")}
+              readOnly={!edit}
+            />
+            <TextInput
+              label="Ort"
+              key={form.key("ort")}
+              {...form.getInputProps("ort")}
+              readOnly={!edit}
+            />
+          </div>
         </Fieldset>
-        <Fieldset legend="Kommunikation">
+        <Fieldset>
+          <h2>Kommunikation</h2>
           <TextInput
             label="Telefon"
             key={form.key("telefon")}

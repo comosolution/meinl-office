@@ -7,6 +7,7 @@
   --foreground: var(--mantine-color-black);
   --main: #ef233c;
   --transition: 300ms all ease-in-out;
+  --defaultPadding: 12px;
 }
 
 body {
@@ -24,7 +25,7 @@ h1 {
 h2 {
   font-size: 20px;
   font-weight: bold;
-  letter-spacing: -8%;
+  letter-spacing: -4%;
 }
 
 h3 {
@@ -55,8 +56,25 @@ a.link:hover {
   color: var(--mantine-color-dimmed);
 }
 
+.mantine-Fieldset-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--defaultPadding);
+}
+
+.mantine-Fieldset-root h2 {
+  padding-left: calc(var(--defaultPadding) + 1px);
+}
+
+.mantine-InputWrapper-label {
+  padding-left: calc(var(--defaultPadding) + 1px);
+  font-size: var(--defaultPadding);
+  color: var(--mantine-color-dimmed);
+}
+
 .mantine-Input-input:read-only {
-  background: var(--mantine-color-gray-light);
+  background: var(--mantine-color-white);
+  border: 1px solid transparent;
   transition: 300ms background ease-in-out;
 }
 
@@ -67,6 +85,10 @@ a.link:hover {
 
 .mantine-Checkbox-input:disabled + .mantine-Checkbox-icon {
   color: var(--mantine-color-gray-7) !important;
+}
+
+.mantine-Checkbox-root {
+  padding-left: var(--defaultPadding);
 }
 
 .mantine-Checkbox-root:has(input:checked:disabled) .mantine-Checkbox-label {
