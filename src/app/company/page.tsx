@@ -1,9 +1,10 @@
 "use client";
-import { Button, Pagination, Table, TextInput } from "@mantine/core";
+import { Avatar, Button, Pagination, Table, TextInput } from "@mantine/core";
 import { IconCirclePlus, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOffice } from "../context/officeContext";
+import { getAvatarColor } from "../lib/utils";
 
 export default function Page() {
   const { companies } = useOffice();
@@ -49,6 +50,7 @@ export default function Page() {
       <Table stickyHeader highlightOnHover>
         <Table.Thead>
           <Table.Tr>
+            <Table.Th />
             <Table.Th>Name</Table.Th>
             <Table.Th>Zusatz</Table.Th>
             <Table.Th>Kdnr</Table.Th>
@@ -62,6 +64,15 @@ export default function Page() {
               className="cursor-pointer"
               onClick={() => router.push(`/company/${company.kdnr}`)}
             >
+              <Table.Td>
+                <Avatar
+                  size={24}
+                  radius="xs"
+                  color={getAvatarColor(company.kdnr)}
+                >
+                  {company.name1[0].toUpperCase()}
+                </Avatar>
+              </Table.Td>
               <Table.Td>
                 <b>{company.name1}</b>
               </Table.Td>
