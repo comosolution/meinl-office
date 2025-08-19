@@ -30,7 +30,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
           router.push(`/company/${s.kdnr}`);
         },
         leftSection: (
-          <Avatar size={48} radius="md" color={getAvatarColor(s.kdnr)}>
+          <Avatar size={48} color={getAvatarColor(s.kdnr)}>
             {s.name1[0].toUpperCase()}
           </Avatar>
         ),
@@ -68,7 +68,6 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         nothingFound="Keine Treffer."
         filter={(_, actions) => actions}
         scrollable
-        radius="md"
         shortcut={["mod + K", "mod + P", "/"]}
         searchProps={{
           leftSection: <IconSearch size={20} stroke={1.5} />,

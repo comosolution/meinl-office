@@ -20,9 +20,7 @@ export default function Page() {
             <h3>Max Mustermann</h3>
             <p className="dimmed">max.mustermann@meinl.de</p>
           </div>
-          <Avatar size={48} radius="md">
-            MM
-          </Avatar>
+          <Avatar size={48}>MM</Avatar>
         </div>
       </header>
       <div className="grid lg:grid-cols-2 gap-4">

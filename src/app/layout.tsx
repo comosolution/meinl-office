@@ -30,6 +30,7 @@ const theme = createTheme({
       "#a7001a",
     ],
   },
+  defaultRadius: "0",
 });
 
 export default function RootLayout({
@@ -40,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body>
-        <MantineProvider theme={theme}>
+        <MantineProvider theme={theme} defaultColorScheme="dark">
           <DatesProvider settings={{ locale: "de" }}>
             <OfficeProvider>
               <App>{children}</App>

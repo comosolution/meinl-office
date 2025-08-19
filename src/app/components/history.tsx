@@ -33,7 +33,7 @@ export default function HistoryList<T>({
   };
 
   return (
-    <Paper p="lg" shadow="lg" radius="lg" className="flex flex-col gap-4">
+    <Paper p="lg" shadow="lg" className="flex flex-col gap-4">
       <div className="h-full flex flex-col gap-4 place-content-between">
         <h2>Kürzlich besuchte {title}</h2>
         {history.length > 0 ? (
@@ -46,10 +46,9 @@ export default function HistoryList<T>({
                     (item as CompanyInStorage | PersonInStorage).kdnr
                   }`}
                 >
-                  <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
+                  <div className="flex items-center gap-4 p-2 hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
                     <Avatar
                       size={48}
-                      radius="md"
                       color={getAvatarColor(
                         (
                           item as CompanyInStorage | PersonInStorage
@@ -81,7 +80,7 @@ export default function HistoryList<T>({
               <p className="dimmed text-center">Keine {title} besucht.</p>
             </div>
             <Button
-              color="dark"
+              color="white"
               variant="light"
               leftSection={<IconSearch size={16} />}
               component={Link}

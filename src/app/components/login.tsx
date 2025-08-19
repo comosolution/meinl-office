@@ -37,7 +37,6 @@ export default function Login() {
   return (
     <div className="min-w-screen min-h-screen flex justify-center items-center">
       <Paper
-        radius="md"
         shadow="xl"
         className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8 backdrop-blur-md shadow-2xl shadow-black/20"
       >

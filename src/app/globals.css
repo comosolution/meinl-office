@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --background: var(--mantine-color-white);
-  --foreground: var(--mantine-color-black);
+  --background: var(--mantine-color-black);
+  --foreground: var(--mantine-color-white);
+  --background-subtle: rgba(0, 0, 0, 0.5);
+  --subtle: rgba(255, 255, 255, 0.1);
+  --hover: rgba(255, 255, 255, 0.05);
   --main: #ef233c;
   --transition: 300ms all ease-in-out;
   --defaultPadding: 12px;
@@ -12,7 +15,7 @@
 
 body {
   color: var(--foreground);
-  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -44,12 +47,7 @@ a.link:hover {
 }
 
 #sidebar {
-  background-image: radial-gradient(73% 147%, #eadfdf 59%, #ece2df 100%),
-    radial-gradient(
-      91% 146%,
-      rgba(255, 255, 255, 0.5) 47%,
-      rgba(0, 0, 0, 0.5) 100%
-    );
+  background: var(--background);
 }
 
 .dimmed {
@@ -73,7 +71,6 @@ a.link:hover {
 }
 
 .mantine-Input-input:read-only:not(.mantine-PasswordInput-input) {
-  background: var(--mantine-color-white);
   border: 1px solid transparent;
   transition: 300ms background ease-in-out;
 }
@@ -107,4 +104,24 @@ a.link:hover {
 
 .mantine-Spotlight-action[data-selected] .mantine-Spotlight-actionDescription {
   color: var(--foreground) !important;
+}
+
+.mantine-Input-input,
+.mantine-Checkbox-input,
+.mantine-SegmentedControl-root,
+.mantine-Pagination-control:not([data-active]),
+.mantine-Paper-root,
+.mantine-Fieldset-root {
+  background-color: var(--background-subtle);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.mantine-Table-th {
+  background-color: transparent;
+  font-weight: bold;
+  letter-spacing: -0.4px;
+}
+
+.mantine-Table-tr:hover:where([data-hover]) {
+  background-color: var(--hover);
 }
