@@ -37,8 +37,6 @@ export const getAvatarColor = (input: string | number) => {
     "lime",
     "yellow",
     "orange",
-    "gray",
-    "dark",
   ];
   return colors[+input % colors.length];
 };
