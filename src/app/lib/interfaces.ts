@@ -8,11 +8,13 @@ export interface Company {
   strasse: string;
   land: string;
   telefon: string;
-  email: string;
-  wkz: string;
-  netto: number;
-  kundenart: number;
+  allgemail: string;
+  www: string;
   matchcode: string;
+  dealerloc: boolean;
+  brands: string | string[];
+  latitude: number;
+  longitude: number;
   personen: Person[];
 }
 

@@ -11,7 +11,7 @@ export default function Contact({
   mobile?: string;
 }) {
   return (
-    <div className="flex gap-2">
+    <Button.Group>
       {phone && (
         <Tooltip label={phone} withArrow>
           <Button
@@ -41,6 +41,6 @@ export default function Contact({
           </Button>
         </Tooltip>
       )}
-    </div>
+    </Button.Group>
   );
 }
