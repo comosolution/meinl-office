@@ -26,10 +26,11 @@ export default function EmployeeRow({
       onClick={() => hasProfile && router.push(`/person/${employee.b2bnr}`)}
     >
       <Table.Td>
-        <Avatar size={24} color={getAvatarColor(employee.kdnr)}>
-          {employee.nachname[0].toUpperCase()}
-          {employee.vorname[0].toUpperCase()}
-        </Avatar>
+        <Avatar
+          size={24}
+          color={getAvatarColor(employee.kdnr)}
+          name={`${employee.nachname[0]} ${employee.vorname[0]}`}
+        />
       </Table.Td>
       <Table.Td>
         <b>

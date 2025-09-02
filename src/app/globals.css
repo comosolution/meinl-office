@@ -65,6 +65,7 @@ a.link:hover {
 
 .mantine-Fieldset-root h2 {
   padding-left: calc(var(--defaultPadding) + 1px);
+  padding-top: var(--defaultPadding);
 }
 
 .mantine-InputWrapper-label {

@@ -61,9 +61,11 @@ export default function Page() {
               onClick={() => router.push(`/company/${company.kdnr}`)}
             >
               <Table.Td>
-                <Avatar size={24} color={getAvatarColor(company.kdnr)}>
-                  {company.name1[0].toUpperCase()}
-                </Avatar>
+                <Avatar
+                  size={24}
+                  color={getAvatarColor(company.kdnr)}
+                  name={company.name1[0]}
+                />
               </Table.Td>
               <Table.Td>
                 <b>{company.name1}</b>

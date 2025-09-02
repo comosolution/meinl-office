@@ -30,9 +30,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
           router.push(`/company/${s.kdnr}`);
         },
         leftSection: (
-          <Avatar size={48} color={getAvatarColor(s.kdnr)}>
-            {s.name1[0].toUpperCase()}
-          </Avatar>
+          <Avatar size={48} color={getAvatarColor(s.kdnr)} name={s.name1[0]} />
         ),
       };
     });

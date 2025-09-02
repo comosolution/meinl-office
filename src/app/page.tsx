@@ -28,9 +28,7 @@ export default function Page() {
           title="Firmen"
           storageKey={MEINL_OFFICE_COMPANY_HISTORY_KEY}
           linkPrefix="/company"
-          getAvatar={(company: CompanyInStorage) =>
-            company.name[0].toUpperCase()
-          }
+          getAvatar={(company: CompanyInStorage) => company.name[0]}
           getTitle={(company: CompanyInStorage) => company.name}
           getSubtitle={(company: CompanyInStorage) => company.kdnr}
         />
@@ -39,7 +37,7 @@ export default function Page() {
           storageKey={MEINL_OFFICE_PERSON_HISTORY_KEY}
           linkPrefix="/person"
           getAvatar={(person: PersonInStorage) =>
-            `${person.nachname[0].toUpperCase()}${person.vorname[0].toUpperCase()}`
+            `${person.nachname[0]} ${person.vorname[0]}`
           }
           getTitle={(person) => `${person.nachname}, ${person.vorname}`}
           getSubtitle={(person) => {
