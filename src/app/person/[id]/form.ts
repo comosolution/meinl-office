@@ -12,7 +12,7 @@ export const getInitialValues = (person: Person) => {
     anrede: person.anrede,
     titel: person.titel,
     mobil: person.mobil,
-    position: person.position,
+    jobpos: person.jobpos,
     abteilung: person.abteilung,
     betreutvon: person.betreutvon.split(","),
     geburtsdatum: parseDateString(person.geburtsdatum) || "",

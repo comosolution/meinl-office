@@ -9,12 +9,14 @@ import {
   IconChevronLeft,
   IconHistory,
   IconSettings,
+  IconShoppingCartPin,
   IconUsersGroup,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import EmployeesTab from "./tabs/employeesTab";
 import InfoTab from "./tabs/infoTab";
+import StorelocatorTab from "./tabs/storelocatorTab";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -91,6 +93,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             Firmendaten
           </Tabs.Tab>
           <Tabs.Tab
+            value="storelocator"
+            leftSection={<IconShoppingCartPin size={16} />}
+          >
+            Dealer Locator
+          </Tabs.Tab>
+          <Tabs.Tab
             value="employees"
             leftSection={<IconUsersGroup size={16} />}
           >
@@ -105,6 +113,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </Tabs.List>
 
         <InfoTab company={company} getCompany={getCompany} />
+        <StorelocatorTab company={company} />
         <EmployeesTab company={company} />
       </Tabs>
     </main>

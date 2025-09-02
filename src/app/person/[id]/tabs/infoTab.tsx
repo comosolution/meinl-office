@@ -102,8 +102,8 @@ export default function InfoTab({ person }: { person: Person }) {
             />
             <TextInput
               label="Position"
-              key={form.key("position")}
-              {...form.getInputProps("position")}
+              key={form.key("jobpos")}
+              {...form.getInputProps("jobpos")}
               readOnly={!edit}
             />
             <TextInput

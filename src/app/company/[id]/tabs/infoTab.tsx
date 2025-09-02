@@ -43,6 +43,39 @@ export default function InfoTab({
           updateCustomer(values);
         })}
       >
+        <div className="col-span-2 flex justify-end gap-2">
+          {edit ? (
+            <>
+              <Button
+                color="gray"
+                variant="light"
+                onClick={async () => {
+                  await getCompany();
+                  form.setValues(getInitialValues(company));
+                  setEdit(false);
+                }}
+              >
+                Verwerfen
+              </Button>
+              <Button
+                type="submit"
+                leftSection={<IconDeviceFloppy size={16} />}
+                disabled={!form.isValid()}
+              >
+                Änderungen speichern
+              </Button>
+            </>
+          ) : (
+            <Button
+              color="gray"
+              variant="light"
+              leftSection={<IconEdit size={16} />}
+              onClick={() => setEdit(true)}
+            >
+              Firmendaten bearbeiten
+            </Button>
+          )}
+        </div>
         <Fieldset>
           <h2>Unternehmen</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -116,39 +149,6 @@ export default function InfoTab({
             readOnly
           />
         </Fieldset>
-        <div className="col-span-2 flex justify-end gap-2">
-          {edit ? (
-            <>
-              <Button
-                color="gray"
-                variant="light"
-                onClick={async () => {
-                  await getCompany();
-                  form.setValues(getInitialValues(company));
-                  setEdit(false);
-                }}
-              >
-                Verwerfen
-              </Button>
-              <Button
-                type="submit"
-                leftSection={<IconDeviceFloppy size={16} />}
-                disabled={!form.isValid()}
-              >
-                Änderungen speichern
-              </Button>
-            </>
-          ) : (
-            <Button
-              color="gray"
-              variant="light"
-              leftSection={<IconEdit size={16} />}
-              onClick={() => setEdit(true)}
-            >
-              Firmendaten bearbeiten
-            </Button>
-          )}
-        </div>
       </form>
     </Tabs.Panel>
   );

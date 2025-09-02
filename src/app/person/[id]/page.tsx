@@ -51,7 +51,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       kdnr: person.b2bnr,
       vorname: person.vorname,
       nachname: person.nachname,
-      position: person.position,
+      position: person.jobpos,
     };
     const history = JSON.parse(
       localStorage.getItem(MEINL_OFFICE_PERSON_HISTORY_KEY) || "[]"
@@ -95,7 +95,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </h1>
         <div className="flex justify-between items-baseline gap-2">
           <p>
-            {person.position.trim().length > 0 && `${person.position} bei `}
+            {person.jobpos.trim().length > 0 && `${person.jobpos} bei `}
             <Link href={`/company/${company?.kdnr}`} className="link">
               <b>{company?.name1}</b> ({company?.kdnr})
             </Link>

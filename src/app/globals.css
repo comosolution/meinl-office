@@ -97,6 +97,10 @@ a.link:hover {
   backdrop-filter: blur(24px);
 }
 
+.mantine-Spotlight-content {
+  background: var(--background) !important;
+}
+
 .mantine-Spotlight-action[data-selected] {
   background: var(--mantine-color-gray-light);
   color: var(--foreground) !important;

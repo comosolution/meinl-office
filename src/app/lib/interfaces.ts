@@ -31,7 +31,7 @@ export interface Person {
   anrede: string;
   titel: string;
   mobil: string;
-  position: string;
+  jobpos: string;
   abteilung: string;
   betreutvon: string;
   geburtsdatum: string;
