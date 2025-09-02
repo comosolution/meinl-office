@@ -5,6 +5,7 @@ import "@mantine/dates/styles.css";
 import "@mantine/spotlight/styles.css";
 import "dayjs/locale/de";
 import type { Metadata } from "next";
+import { Titillium_Web } from "next/font/google";
 import App from "./components/app";
 import { OfficeProvider } from "./context/officeContext";
 import "./globals.css";
@@ -14,7 +15,13 @@ export const metadata: Metadata = {
   description: "",
 };
 
+const titillium = Titillium_Web({
+  weight: ["200", "400", "600", "700"],
+  subsets: ["latin"],
+});
+
 const theme = createTheme({
+  fontFamily: "Titillium Web",
   primaryColor: "red",
   colors: {
     red: [
@@ -43,7 +50,7 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#ef233c" />
       </head>
-      <body>
+      <body className={`${titillium.className}`}>
         <MantineProvider theme={theme}>
           <DatesProvider settings={{ locale: "de" }}>
             <OfficeProvider>
