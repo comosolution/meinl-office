@@ -136,7 +136,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Button
           variant="light"
           color="gray"
-          size="xs"
           leftSection={<IconChevronLeft size={16} />}
           component={Link}
           href="/company"

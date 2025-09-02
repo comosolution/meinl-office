@@ -40,8 +40,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
+      <head>
+        <meta name="theme-color" content="#ef233c" />
+      </head>
       <body>
-        <MantineProvider theme={theme} defaultColorScheme="dark">
+        <MantineProvider theme={theme}>
           <DatesProvider settings={{ locale: "de" }}>
             <OfficeProvider>
               <App>{children}</App>

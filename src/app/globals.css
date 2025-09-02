@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --background: var(--mantine-color-black);
-  --foreground: var(--mantine-color-white);
-  --background-subtle: rgba(0, 0, 0, 0.5);
+  --background: var(--mantine-color-white);
+  --foreground: var(--mantine-color-black);
+  --background-subtle: var(--mantine-color-gray-1);
   --subtle: rgba(255, 255, 255, 0.1);
   --hover: rgba(255, 255, 255, 0.05);
   --main: #ef233c;
@@ -46,12 +46,16 @@ a.link:hover {
   border-bottom: 1px solid var(--main);
 }
 
-#sidebar {
-  background: var(--background);
-}
-
 .dimmed {
   color: var(--mantine-color-dimmed);
+}
+
+.gradient {
+  background-image: linear-gradient(
+    to top,
+    var(--main) 0%,
+    var(--background-subtle) 100%
+  );
 }
 
 .mantine-Fieldset-root {
@@ -93,7 +97,7 @@ a.link:hover {
 }
 
 .mantine-Table-thead {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0);
   backdrop-filter: blur(24px);
 }
 
@@ -117,7 +121,7 @@ a.link:hover {
 .mantine-Paper-root,
 .mantine-Fieldset-root {
   background-color: var(--background-subtle);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(0, 0, 0, 0.2);
 }
 
 .mantine-Table-th {

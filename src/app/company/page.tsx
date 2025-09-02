@@ -32,11 +32,7 @@ export default function Page() {
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-center gap-2 p-4">
         <h1>Alle Firmen</h1>
-        <Button
-          color="dark"
-          size="xs"
-          leftSection={<IconCirclePlus size={16} />}
-        >
+        <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
           Firma anlegen
         </Button>
       </header>

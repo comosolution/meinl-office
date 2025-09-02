@@ -13,7 +13,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MEINL_OFFICE_SIDEBAR_KEY } from "../lib/constants";
-import { defaultBorder, navLink } from "../lib/styles";
+import { navLink } from "../lib/styles";
 import Search from "./search";
 
 export default function Sidebar() {
@@ -53,13 +53,9 @@ export default function Sidebar() {
 
   return (
     <aside
-      id="sidebar"
-      className={`h-screen ${
+      className={`gradient h-screen ${
         isCollapsed ? "w-[64px]" : "w-[260px]"
       } sticky top-0 z-50 flex flex-col gap-4 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
-      style={{
-        borderRight: defaultBorder,
-      }}
     >
       <div
         className={`flex ${
@@ -107,7 +103,7 @@ export default function Sidebar() {
           label="Ausloggen"
           title="Ausloggen"
           active
-          color="dark"
+          color="white"
           leftSection={<IconLogout size={20} />}
           className={navLink(isCollapsed)}
           onClick={() => signOut()}
