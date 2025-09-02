@@ -1,8 +1,10 @@
 "use client";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
+import Map from "@/app/components/map";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
+import { defaultBorder } from "@/app/lib/styles";
 import {
   Button,
   Checkbox,
@@ -299,6 +301,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </div>
                 </Checkbox.Group>
               </Fieldset>
+
+              <div className="col-span-2" style={{ border: defaultBorder }}>
+                <Map company={company} />
+              </div>
             </div>
           </Tabs.Panel>
         </form>
