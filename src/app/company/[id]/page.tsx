@@ -152,7 +152,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Avatar
           size={72}
           color={getAvatarColor(company.kdnr)}
-          name={company.name1}
+          name={company.name1[0]}
         />
         <div className="flex flex-col gap-1 w-full">
           <h1>

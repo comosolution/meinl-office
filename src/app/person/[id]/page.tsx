@@ -69,7 +69,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     );
   };
 
-  return person && company ? (
+  if (!person || !company) {
+    return <Loader />;
+  }
+
+  return (
     <main className="flex flex-col gap-4 p-4">
       <div className="flex justify-between items-baseline gap-2 px-4">
         <Button.Group>
@@ -135,7 +139,5 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <InfoTab person={person} />
       </Tabs>
     </main>
-  ) : (
-    <Loader />
   );
 }

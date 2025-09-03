@@ -7,11 +7,11 @@ import PageWrapper from "./pageWrapper";
 export default function App({ children }: { children: React.ReactNode }) {
   const { loading } = useOffice();
 
-  return loading ? (
-    <main className="w-screen h-screen flex justify-center items-center">
-      <Loader />
-    </main>
-  ) : (
+  if (loading) {
+    return <Loader />;
+  }
+
+  return (
     <SessionProvider>
       <PageWrapper>{children}</PageWrapper>
     </SessionProvider>
