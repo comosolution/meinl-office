@@ -4,7 +4,6 @@ import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
-import { defaultBorder } from "@/app/lib/styles";
 import {
   Button,
   Checkbox,
@@ -284,6 +283,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   {...form.getInputProps("www")}
                   readOnly={!edit}
                 />
+                <div className="grid grid-cols-2 gap-4">
+                  <TextInput
+                    label="Breitengrad"
+                    {...form.getInputProps("latitude")}
+                    readOnly
+                  />
+                  <TextInput
+                    label="Längengrad"
+                    {...form.getInputProps("longitude")}
+                    readOnly
+                  />
+                </div>
               </Fieldset>
 
               <Fieldset>
@@ -302,7 +313,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Checkbox.Group>
               </Fieldset>
 
-              <div className="col-span-2" style={{ border: defaultBorder }}>
+              <div className="col-span-2">
                 <Map company={company} />
               </div>
             </div>
