@@ -72,7 +72,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return person && company ? (
     <main className="flex flex-col gap-4 p-4">
       <div className="flex justify-between items-baseline gap-2 px-4">
-        <div className="flex gap-2">
+        <Button.Group>
           <Button
             color="gray"
             variant="light"
@@ -82,7 +82,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           >
             Alle Personen
           </Button>
-        </div>
+          <Button
+            color="gray"
+            variant="transparent"
+            leftSection={<IconChevronLeft size={16} />}
+            component={Link}
+            href={`/company/${company?.kdnr}`}
+          >
+            {company?.name1}
+          </Button>
+        </Button.Group>
         <Contact
           email={person.email}
           phone={person.telefon}
