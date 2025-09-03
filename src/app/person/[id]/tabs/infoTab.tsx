@@ -64,6 +64,37 @@ export default function InfoTab({ person }: { person: Person }) {
           );
         })}
       >
+        <div className="col-span-2 flex justify-end gap-2">
+          {edit ? (
+            <Button.Group>
+              <Button
+                color="gray"
+                variant="light"
+                // TODO: reset form
+                onClick={() => setEdit(false)}
+              >
+                Verwerfen
+              </Button>
+              <Button
+                type="submit"
+                leftSection={<IconDeviceFloppy size={16} />}
+                disabled={!form.isValid()}
+              >
+                Änderungen speichern
+              </Button>
+            </Button.Group>
+          ) : (
+            <Button
+              color="gray"
+              variant="light"
+              leftSection={<IconEdit size={16} />}
+              onClick={() => setEdit(true)}
+            >
+              Persönliche Daten bearbeiten
+            </Button>
+          )}
+        </div>
+
         <Fieldset>
           <h2>Person</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -196,36 +227,6 @@ export default function InfoTab({ person }: { person: Person }) {
             </div>
           </Checkbox.Group>
         </Fieldset>
-        <div className="col-span-2 flex justify-end gap-2">
-          {edit ? (
-            <>
-              <Button
-                color="gray"
-                variant="light"
-                // TODO: reset form
-                onClick={() => setEdit(false)}
-              >
-                Verwerfen
-              </Button>
-              <Button
-                type="submit"
-                leftSection={<IconDeviceFloppy size={16} />}
-                disabled={!form.isValid()}
-              >
-                Änderungen speichern
-              </Button>
-            </>
-          ) : (
-            <Button
-              color="gray"
-              variant="light"
-              leftSection={<IconEdit size={16} />}
-              onClick={() => setEdit(true)}
-            >
-              Persönliche Daten bearbeiten
-            </Button>
-          )}
-        </div>
       </form>
     </Tabs.Panel>
   );
