@@ -100,7 +100,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       </div>
       <header className="flex items-center gap-4 p-4">
         <Avatar
-          size={64}
+          size={72}
           color={getAvatarColor(person.kdnr)}
           name={`${person.nachname[0]} ${person.vorname[0]}`}
         />

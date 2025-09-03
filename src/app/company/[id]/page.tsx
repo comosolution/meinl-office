@@ -150,7 +150,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
       <header className="flex items-center gap-4 p-4">
         <Avatar
-          size={64}
+          size={72}
           color={getAvatarColor(company.kdnr)}
           name={company.name1}
         />
