@@ -4,7 +4,9 @@ import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
+import { getAvatarColor } from "@/app/lib/utils";
 import {
+  Avatar,
   Button,
   Checkbox,
   Fieldset,
@@ -146,14 +148,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Contact email={company.allgemail} phone={company.telefon} />
       </div>
 
-      <header className="flex justify-between items-baseline gap-2 p-4">
-        <h1>
-          {company.name1}{" "}
-          <span className="font-normal">
-            {company.name2} {company.name3}
-          </span>
-        </h1>
-        <p className="dimmed">{company.kdnr}</p>
+      <header className="flex items-center gap-4 p-4">
+        <Avatar
+          size={64}
+          color={getAvatarColor(company.kdnr)}
+          name={company.name1}
+        />
+        <div className="flex flex-col gap-1 w-full">
+          <h1>
+            {company.name1}{" "}
+            <span className="font-normal">
+              {company.name2} {company.name3}
+            </span>
+          </h1>
+          <p className="dimmed">{company.kdnr}</p>
+        </div>
       </header>
 
       <Tabs value={activeTab} onChange={setActiveTab}>
@@ -313,9 +322,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Checkbox.Group>
               </Fieldset>
 
-              <div className="col-span-2">
-                <Map company={company} />
-              </div>
+              {company.latitude !== null && company.longitude !== null && (
+                <div className="col-span-2">
+                  <Map company={company} />
+                </div>
+              )}
             </div>
           </Tabs.Panel>
         </form>

@@ -3,7 +3,8 @@ import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import { MEINL_OFFICE_PERSON_HISTORY_KEY } from "@/app/lib/constants";
 import { Company, Person, PersonInStorage } from "@/app/lib/interfaces";
-import { Button, Tabs } from "@mantine/core";
+import { getAvatarColor } from "@/app/lib/utils";
+import { Avatar, Button, Tabs } from "@mantine/core";
 import {
   IconChevronLeft,
   IconHistory,
@@ -88,18 +89,25 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           mobile={person.mobil}
         />
       </div>
-      <header className="flex flex-col gap-1 p-4">
-        <h1>
-          {person.nachname}, {person.vorname}
-        </h1>
-        <div className="flex justify-between items-baseline gap-2">
-          <p>
-            {person.jobpos.trim().length > 0 && `${person.jobpos} bei `}
-            <Link href={`/company/${company?.kdnr}`} className="link">
-              <b>{company?.name1}</b> ({company?.kdnr})
-            </Link>
-          </p>
-          <p className="dimmed">{person.b2bnr}</p>
+      <header className="flex items-center gap-4 p-4">
+        <Avatar
+          size={64}
+          color={getAvatarColor(person.kdnr)}
+          name={`${person.nachname[0]} ${person.vorname[0]}`}
+        />
+        <div className="flex flex-col gap-1 w-full">
+          <h1>
+            {person.nachname}, {person.vorname}
+          </h1>
+          <div className="flex justify-between items-baseline gap-2">
+            <p>
+              {person.jobpos.trim().length > 0 && `${person.jobpos} bei `}
+              <Link href={`/company/${company?.kdnr}`} className="link">
+                <b>{company?.name1}</b> ({company?.kdnr})
+              </Link>
+            </p>
+            <p className="dimmed">{person.b2bnr}</p>
+          </div>
         </div>
       </header>
       <Tabs value={activeTab} onChange={setActiveTab}>
