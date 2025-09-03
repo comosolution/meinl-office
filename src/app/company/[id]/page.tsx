@@ -7,6 +7,7 @@ import { Company, CompanyInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import {
   Avatar,
+  Badge,
   Button,
   Checkbox,
   Fieldset,
@@ -18,6 +19,8 @@ import { useForm } from "@mantine/form";
 import {
   IconBuildingEstate,
   IconChevronLeft,
+  IconCircleCheck,
+  IconCircleX,
   IconDeviceFloppy,
   IconEdit,
   IconHistory,
@@ -173,12 +176,24 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Tabs.Tab
             value="storelocator"
             leftSection={<IconShoppingCartPin size={16} />}
+            rightSection={
+              company.dealerloc ? (
+                <IconCircleCheck size={16} color="gray" />
+              ) : (
+                <IconCircleX size={16} color="gray" />
+              )
+            }
           >
             DealerLocator
           </Tabs.Tab>
           <Tabs.Tab
             value="employees"
             leftSection={<IconUsersGroup size={16} />}
+            rightSection={
+              <Badge size="xs" color="gray">
+                {company.personen.length}
+              </Badge>
+            }
           >
             Mitarbeiter
           </Tabs.Tab>
