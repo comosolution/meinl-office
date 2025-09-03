@@ -70,7 +70,7 @@ export default function Sidebar() {
           )}
         </header>
         {!isCollapsed && (
-          <ActionIcon color="dark" variant="light">
+          <ActionIcon color="gray" variant="light">
             <IconLayoutSidebarLeftCollapse size={20} />
           </ActionIcon>
         )}
@@ -103,7 +103,7 @@ export default function Sidebar() {
           label="Ausloggen"
           title="Ausloggen"
           active
-          color="black"
+          color="gray"
           leftSection={<IconLogout size={20} />}
           className={navLink(isCollapsed)}
           onClick={() => signOut()}
