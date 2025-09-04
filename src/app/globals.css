@@ -74,7 +74,7 @@ a.link:hover {
 .mantine-InputWrapper-label {
   padding-left: calc(var(--defaultPadding) + 1px);
   font-size: var(--defaultPadding);
-  color: var(--mantine-color-dimmed);
+  color: var(--mantine-color-gray-7);
 }
 
 .mantine-Input-input:read-only:not(.mantine-PasswordInput-input) {

@@ -68,7 +68,7 @@ export default function InfoTab({ person }: { person: Person }) {
           {edit ? (
             <Button.Group>
               <Button
-                color="gray"
+                color="dark"
                 variant="light"
                 // TODO: reset form
                 onClick={() => setEdit(false)}
@@ -77,6 +77,7 @@ export default function InfoTab({ person }: { person: Person }) {
               </Button>
               <Button
                 type="submit"
+                color="dark"
                 leftSection={<IconDeviceFloppy size={16} />}
                 disabled={!form.isValid()}
               >
@@ -85,8 +86,7 @@ export default function InfoTab({ person }: { person: Person }) {
             </Button.Group>
           ) : (
             <Button
-              color="gray"
-              variant="light"
+              color="dark"
               leftSection={<IconEdit size={16} />}
               onClick={() => setEdit(true)}
             >

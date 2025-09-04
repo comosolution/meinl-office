@@ -106,7 +106,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       {edit ? (
         <Button.Group>
           <Button
-            color="gray"
+            color="dark"
             variant="light"
             onClick={async () => {
               await getCompany();
@@ -117,6 +117,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Button>
           <Button
             type="submit"
+            color="dark"
             leftSection={<IconDeviceFloppy size={16} />}
             disabled={!form.isValid()}
           >
@@ -125,8 +126,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </Button.Group>
       ) : (
         <Button
-          color="gray"
-          variant="light"
+          color="dark"
           leftSection={<IconEdit size={16} />}
           onClick={() => setEdit(true)}
         >
