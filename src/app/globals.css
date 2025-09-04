@@ -52,7 +52,7 @@ a.link:hover {
 .gradient {
   background-image: linear-gradient(
     to top,
-    var(--background) 0%,
+    var(--main) 0%,
     var(--background-subtle) 100%
   );
 }
