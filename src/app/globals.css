@@ -11,6 +11,7 @@
   --main: #ef233c;
   --transition: 300ms all ease-in-out;
   --defaultPadding: 12px;
+  --filter-inverted: invert(1) brightness(0.9) contrast(1.2);
 }
 
 body {
@@ -47,6 +48,10 @@ a.link:hover {
 
 .dimmed {
   color: var(--mantine-color-dimmed);
+}
+
+img.inverted {
+  filter: var(--filter-inverted);
 }
 
 .gradient {

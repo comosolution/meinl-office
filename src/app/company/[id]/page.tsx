@@ -28,6 +28,7 @@ import {
   IconShoppingCartPin,
   IconUsersGroup,
 } from "@tabler/icons-react";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { getInitialValues, validateForm } from "./form";
@@ -328,7 +329,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     {brands.map((brand) => (
                       <Checkbox
                         key={brand}
-                        label={brand}
+                        label={
+                          <div className="flex items-center gap-2">
+                            <Image
+                              src={`/brands/${brand.replaceAll(" ", "-")}.png`}
+                              width={20}
+                              height={20}
+                              alt={`${brand} Logo`}
+                              className="inverted"
+                            />
+                            <p>{brand}</p>
+                          </div>
+                        }
                         value={brand}
                         disabled={!edit}
                       />
