@@ -22,7 +22,7 @@ export const getInitialValues = (company: Company) => {
     strasse: company.strasse || "",
     land: company.land || "",
     telefon: company.telefon || "",
-    allgemail: company.allgemail || "",
+    mailadr: company.mailadr || "",
     www: company.www || "",
     matchcode: company.matchcode || "",
     dealerloc: company.dealerloc || false,

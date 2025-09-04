@@ -8,7 +8,7 @@ export interface Company {
   strasse: string;
   land: string;
   telefon: string;
-  allgemail: string;
+  mailadr: string;
   www: string;
   matchcode: string;
   dealerloc: boolean;

@@ -103,7 +103,7 @@ export default function Sidebar() {
           label="Ausloggen"
           title="Ausloggen"
           active
-          color="gray"
+          color="white"
           leftSection={<IconLogout size={20} />}
           className={navLink(isCollapsed)}
           onClick={() => signOut()}

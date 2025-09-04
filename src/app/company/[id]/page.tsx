@@ -148,7 +148,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         >
           Alle Firmen
         </Button>
-        <Contact email={company.allgemail} phone={company.telefon} />
+        <Contact email={company.mailadr} phone={company.telefon} />
       </div>
 
       <header className="flex items-center gap-4 p-4">
@@ -281,7 +281,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 />
                 <TextInput
                   label="E-Mail"
-                  {...form.getInputProps("allgemail")}
+                  {...form.getInputProps("mailadr")}
                   readOnly
                 />
               </Fieldset>
