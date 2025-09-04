@@ -75,7 +75,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <main className="flex flex-col gap-4 p-4">
-      <div className="flex justify-between items-baseline gap-2 px-4">
+      <div className="flex justify-between items-baseline gap-2">
         <Button.Group>
           <Button
             color="gray"

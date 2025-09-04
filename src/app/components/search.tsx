@@ -3,7 +3,7 @@ import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
 import {
   IconBuildingWarehouse,
   IconSearch,
-  IconUser,
+  IconUserCircle,
 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -68,7 +68,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
           name={`${p.vorname[0]} ${p.nachname[0]}`}
         />
       ),
-      rightSection: <IconUser size={24} color="black" />,
+      rightSection: <IconUserCircle size={24} color="black" />,
     }));
 
   const actions: SpotlightActionData[] = [
