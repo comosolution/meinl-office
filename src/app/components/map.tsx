@@ -12,6 +12,7 @@ const mapOptions = {
   disableDefaultUI: true,
   zoomControl: true,
   styles: mapStyles,
+  draggable: false,
 };
 
 export default function Map({ company }: { company: Company }) {
