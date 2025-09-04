@@ -56,6 +56,7 @@ export default function Page() {
             <Table.Th />
             <Table.Th>Name</Table.Th>
             <Table.Th>Zusatz</Table.Th>
+            <Table.Th>Matchcode</Table.Th>
             <Table.Th>Kdnr</Table.Th>
             <Table.Th>Anschrift</Table.Th>
           </Table.Tr>
@@ -80,6 +81,7 @@ export default function Page() {
               <Table.Td>
                 {company.name2} {company.name3}
               </Table.Td>
+              <Table.Td>{company.matchcode}</Table.Td>
               <Table.Td>{company.kdnr}</Table.Td>
               <Table.Td>
                 {company.land}–{company.plz} {company.ort}
