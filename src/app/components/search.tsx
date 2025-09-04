@@ -1,6 +1,10 @@
 import { Avatar, Kbd, NavLink } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
-import { IconSearch } from "@tabler/icons-react";
+import {
+  IconBuildingWarehouse,
+  IconSearch,
+  IconUser,
+} from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -8,32 +12,71 @@ import { navLink } from "../lib/styles";
 import { getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
-  const { companies } = useOffice();
+  const { companies, employees } = useOffice();
   const router = useRouter();
   const [query, setQuery] = useState("");
 
-  const data: SpotlightActionData[] = companies
+  const companyActions: SpotlightActionData[] = companies
     .filter((c) => {
       const keywords = query.trim().toLowerCase().split(" ");
       return keywords.every((keyword) =>
-        [c.kdnr.toString(), c.name1, c.name2, c.plz, c.ort, c.matchcode].some(
-          (value) => value.toLowerCase().includes(keyword)
-        )
+        [c.kdnr.toString(), c.name1, c.name2, c.plz, c.ort, c.matchcode]
+          .filter(Boolean)
+          .some((value) => value.toLowerCase().includes(keyword))
       );
     })
-    .map((s, index) => {
-      return {
-        id: `${index}-${s.kdnr}-${s.matchcode}`,
-        label: s.name1,
-        description: `${s.kdnr} • ${s.matchcode} • ${s.land}–${s.plz} ${s.ort}`,
-        onClick: () => {
-          router.push(`/company/${s.kdnr}`);
-        },
-        leftSection: (
-          <Avatar size={48} color={getAvatarColor(s.kdnr)} name={s.name1[0]} />
-        ),
-      };
-    });
+    .map((c, index) => ({
+      id: `company-${index}-${c.kdnr}-${c.matchcode}`,
+      label: c.name1,
+      description: `${c.kdnr} • ${c.land}–${c.plz} ${c.ort}`,
+      onClick: () => router.push(`/company/${c.kdnr}`),
+      leftSection: (
+        <Avatar size={48} color={getAvatarColor(c.kdnr)} name={c.name1[0]} />
+      ),
+      rightSection: <IconBuildingWarehouse size={24} color="black" />,
+    }));
+
+  const employeeActions: SpotlightActionData[] = employees
+    .filter((p) => {
+      const keywords = query.trim().toLowerCase().split(" ");
+      return keywords.every((keyword) =>
+        [
+          p.vorname,
+          p.nachname,
+          p.email,
+          p.telefon,
+          p.mobil,
+          p.jobpos,
+          p.abteilung,
+          p.b2bnr,
+        ]
+          .filter(Boolean)
+          .some((value) => value.toLowerCase().includes(keyword))
+      );
+    })
+    .map((p, index) => ({
+      id: `person-${index}-${p.kdnr}-${p.b2bnr}`,
+      label: `${p.vorname} ${p.nachname}`,
+      description: `${p.b2bnr} • ${p.jobpos || "Mitarbeiter"} bei ${
+        companies.find((c) => c.kdnr === p.kdnr)?.name1
+      } • ${p.email}`,
+      onClick: () => router.push(`/person/${p.b2bnr}`),
+      leftSection: (
+        <Avatar
+          size={48}
+          color={getAvatarColor(p.kdnr)}
+          name={`${p.vorname[0]} ${p.nachname[0]}`}
+        />
+      ),
+      rightSection: <IconUser size={24} color="black" />,
+    }));
+
+  const actions: SpotlightActionData[] = [
+    ...companyActions,
+    ...employeeActions,
+  ].sort((a, b) =>
+    a.label!.localeCompare(b.label!, "de", { sensitivity: "base" })
+  );
 
   return (
     <>
@@ -52,25 +95,24 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
           )
         }
         className={navLink(collapsed)}
-        onClick={() => {
-          spotlight.open();
-        }}
+        onClick={() => spotlight.open()}
       />
+
       <Spotlight
         color="black"
         limit={16}
-        actions={data}
+        actions={actions}
         query={query}
         onQueryChange={setQuery}
         maxHeight="80vh"
         nothingFound="Keine Treffer."
-        filter={(_, actions) => actions}
+        filter={(_, a) => a}
         scrollable
         shortcut={["mod + K", "mod + P", "/"]}
         searchProps={{
           leftSection: <IconSearch size={20} stroke={1.5} />,
-          rightSection: data.length,
-          placeholder: "Firma suchen ...",
+          rightSection: <p className="text-xs">{actions.length}</p>,
+          placeholder: "Firma oder Mitarbeiter suchen ...",
         }}
       />
     </>

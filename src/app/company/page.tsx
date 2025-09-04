@@ -2,7 +2,7 @@
 import { Avatar, Button, Pagination, Table, TextInput } from "@mantine/core";
 import { IconCirclePlus, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { getAvatarColor } from "../lib/utils";
 
@@ -21,6 +21,10 @@ export default function Page() {
     );
   });
 
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
+
   const pageLimit = 25;
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
@@ -32,17 +36,20 @@ export default function Page() {
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-center gap-2 p-4">
         <h1>Alle Firmen</h1>
-        <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
-          Firma anlegen
-        </Button>
+        <div className="flex gap-1">
+          <TextInput
+            placeholder="Firmen durchsuchen ..."
+            leftSection={<IconSearch size={16} />}
+            rightSection={<p className="text-xs">{filteredData.length}</p>}
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+          />
+          <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
+            Firma anlegen
+          </Button>
+        </div>
       </header>
-      <TextInput
-        placeholder="Firmen durchsuchen ..."
-        leftSection={<IconSearch size={16} />}
-        rightSection={<p className="text-xs">{filteredData.length}</p>}
-        value={search}
-        onChange={(e) => setSearch(e.currentTarget.value)}
-      />
+
       <Table stickyHeader highlightOnHover>
         <Table.Thead>
           <Table.Tr>
