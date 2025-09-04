@@ -41,7 +41,7 @@ export default function Page() {
           }
           getTitle={(person) => `${person.nachname}, ${person.vorname}`}
           getSubtitle={(person) => {
-            return `${person.position && `${person.position} bei `}${
+            return `${person.position || "Mitarbeiter"} bei ${
               companies.find(
                 (c) => c.kdnr.toString() === person.kdnr.split("-")[0]
               )?.name1

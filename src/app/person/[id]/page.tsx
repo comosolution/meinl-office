@@ -114,7 +114,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </h1>
           <div className="flex justify-between items-baseline gap-2">
             <p>
-              {person.jobpos.trim().length > 0 && `${person.jobpos} bei `}
+              {person.jobpos || "Mitarbeiter"} bei{" "}
               <Link href={`/company/${company?.kdnr}`} className="link">
                 <b>{company?.name1}</b> ({company?.kdnr})
               </Link>

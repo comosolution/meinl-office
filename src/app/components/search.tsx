@@ -57,7 +57,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     .map((p, index) => ({
       id: `person-${index}-${p.kdnr}-${p.b2bnr}`,
       label: `${p.vorname} ${p.nachname}`,
-      description: `${p.b2bnr} • ${p.jobpos || "Mitarbeiter"} bei ${
+      description: `${p.b2bnr || p.kdnr} • ${p.jobpos || "Mitarbeiter"} bei ${
         companies.find((c) => c.kdnr === p.kdnr)?.name1
       } • ${p.email}`,
       onClick: () => router.push(`/person/${p.b2bnr}`),
