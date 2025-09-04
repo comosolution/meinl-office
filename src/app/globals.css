@@ -57,7 +57,7 @@ img.inverted {
 .gradient {
   background-image: linear-gradient(
     to top,
-    var(--main) 0%,
+    var(--background) 0%,
     var(--background-subtle) 100%
   );
 }

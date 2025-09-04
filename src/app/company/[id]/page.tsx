@@ -303,12 +303,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
               <Fieldset>
                 <h2>Daten</h2>
-                <TextInput
-                  label="Website URL"
-                  {...form.getInputProps("www")}
-                  readOnly={!edit}
-                />
                 <div className="grid grid-cols-2 gap-4">
+                  <TextInput
+                    label="Website URL"
+                    {...form.getInputProps("www")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Webshop URL"
+                    {...form.getInputProps("www")}
+                    readOnly={!edit}
+                  />
                   <TextInput
                     label="Breitengrad"
                     {...form.getInputProps("latitude")}
