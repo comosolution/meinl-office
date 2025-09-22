@@ -337,7 +337,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         label={
                           <div className="flex items-center gap-2">
                             <Image
-                              src={`/brands/${brand.replaceAll(" ", "-")}.png`}
+                              src={`/brands/${brand
+                                .replaceAll(" ", "-")
+                                .toUpperCase()}.png`}
                               width={20}
                               height={20}
                               alt={`${brand} Logo`}
