@@ -38,7 +38,7 @@ export default function Page() {
           storageKey={MEINL_OFFICE_PERSON_HISTORY_KEY}
           linkPrefix="/person"
           getAvatar={(person: PersonInStorage) =>
-            `${person.nachname[0]}${person.vorname[0]}`
+            `${person.nachname[0] || ""}${person.vorname[0] || ""}`
           }
           getTitle={(person) => `${person.nachname}, ${person.vorname}`}
           getSubtitle={(person) => {
