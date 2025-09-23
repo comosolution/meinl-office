@@ -103,7 +103,9 @@ export default function Sidebar() {
                 leftSection={entry.icon}
                 component={Link}
                 href={entry.href}
-                className={navLink(isCollapsed)}
+                styles={{
+                  root: navLink(isCollapsed),
+                }}
               />
             );
           })}
@@ -114,7 +116,9 @@ export default function Sidebar() {
           active
           color="dark"
           leftSection={<IconLogout size={20} />}
-          className={navLink(isCollapsed)}
+          styles={{
+            root: navLink(isCollapsed),
+          }}
           onClick={() => signOut()}
         />
       </nav>

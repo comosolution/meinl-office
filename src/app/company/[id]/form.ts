@@ -30,7 +30,7 @@ export const getInitialValues = (company: Company) => {
     latitude: company.latitude || 0,
     longitude: company.longitude || 0,
     personen: company.personen || [],
-    campagne: company.campagne || [],
+    campagnen: company.campagnen || [],
   };
 };
 

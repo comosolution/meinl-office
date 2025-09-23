@@ -94,14 +94,16 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         active
         leftSection={<IconSearch size={20} />}
         rightSection={
-          !collapsed && (
+          collapsed ? undefined : (
             <div>
               <Kbd size="xs">Ctrl</Kbd>
               <Kbd size="xs">K</Kbd>
             </div>
           )
         }
-        className={navLink(collapsed)}
+        styles={{
+          root: navLink(collapsed),
+        }}
         onClick={() => spotlight.open()}
       />
 
