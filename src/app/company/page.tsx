@@ -1,10 +1,6 @@
 "use client";
-import { Avatar, Button, Pagination, Table, TextInput } from "@mantine/core";
-import {
-  IconBuildingWarehouse,
-  IconCirclePlus,
-  IconSearch,
-} from "@tabler/icons-react";
+import { Avatar, Pagination, Table, TextInput } from "@mantine/core";
+import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -48,9 +44,9 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
-          <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
+          {/* <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
             Firma anlegen
-          </Button>
+          </Button> */}
         </div>
       </header>
 

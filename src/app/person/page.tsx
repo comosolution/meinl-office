@@ -1,6 +1,6 @@
 "use client";
-import { Button, Pagination, Table, TextInput } from "@mantine/core";
-import { IconCirclePlus, IconSearch } from "@tabler/icons-react";
+import { Pagination, Table, TextInput } from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import EmployeeHead from "../components/employeeHead";
 import EmployeeRow from "../components/employeeRow";
@@ -43,9 +43,9 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
-          <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
+          {/* <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
             Person hinzufügen
-          </Button>
+          </Button> */}
         </div>
       </header>
 
