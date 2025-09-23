@@ -7,7 +7,7 @@ import EmployeeRow from "../components/employeeRow";
 import { useOffice } from "../context/officeContext";
 
 export default function Page() {
-  const { employees } = useOffice();
+  const { persons: employees } = useOffice();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 

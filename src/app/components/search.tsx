@@ -3,24 +3,27 @@ import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
 import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useOffice } from "../context/officeContext";
 import { useDebounce } from "../lib/hooks";
 import { Company, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
 import { getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
+  const { companies: c, persons: p } = useOffice();
+
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [persons, setPersons] = useState<Person[]>([]);
+  const [companies, setCompanies] = useState<Company[]>(c);
+  const [persons, setPersons] = useState<Person[]>(p);
 
   const debouncedQuery = useDebounce(query, 500);
 
   useEffect(() => {
     const getData = async () => {
       if (debouncedQuery.trim() === "") {
-        setCompanies([]);
-        setPersons([]);
+        setCompanies(c);
+        setPersons(p);
         return;
       }
 
@@ -44,6 +47,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     };
 
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery]);
 
   const companyActions: SpotlightActionData[] = companies
