@@ -5,12 +5,7 @@ import { MEINL_OFFICE_PERSON_HISTORY_KEY } from "@/app/lib/constants";
 import { Company, Person, PersonInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import { Avatar, Button, Tabs } from "@mantine/core";
-import {
-  IconChevronLeft,
-  IconHistory,
-  IconId,
-  IconSettings,
-} from "@tabler/icons-react";
+import { IconChevronLeft, IconId } from "@tabler/icons-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import InfoTab from "./tabs/infoTab";
@@ -128,12 +123,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Tabs.Tab value="info" leftSection={<IconId size={16} />}>
             Persönliche Daten
           </Tabs.Tab>
-          <Tabs.Tab value="history" leftSection={<IconHistory size={16} />}>
+          {/* <Tabs.Tab value="history" leftSection={<IconHistory size={16} />}>
             Historie
           </Tabs.Tab>
           <Tabs.Tab value="settings" leftSection={<IconSettings size={16} />}>
             Einstellungen
-          </Tabs.Tab>
+          </Tabs.Tab> */}
         </Tabs.List>
 
         <InfoTab person={person} />

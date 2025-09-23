@@ -4,6 +4,7 @@ import {
   IconBuildingWarehouse,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
+  IconLayoutSidebarLeftExpand,
   IconLogout,
   IconUsersGroup,
 } from "@tabler/icons-react";
@@ -55,25 +56,33 @@ export default function Sidebar() {
     <aside
       className={`gradient h-screen ${
         isCollapsed ? "w-[64px]" : "w-[260px]"
-      } sticky top-0 z-50 flex flex-col gap-4 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
+      } sticky top-0 z-50 flex flex-col gap-2 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
     >
       <div
         className={`flex ${
           isCollapsed ? "flex-col items-center" : "flex-row justify-between"
-        } gap-2 px-2`}
-        onClick={toggleSidebar}
+        } gap-4 px-2`}
       >
-        <header className="flex justify-center items-center cursor-pointer hover:opacity-80">
+        <Link
+          href="/"
+          className="flex justify-center items-center cursor-pointer hover:opacity-80"
+        >
           <Image src="/logo.svg" alt="Meinl Logo" width={24} height={24} />
           {!isCollapsed && (
             <p className="text-xl font-bold tracking-tighter">Office</p>
           )}
-        </header>
-        {!isCollapsed && (
-          <ActionIcon color="gray" variant="light">
+        </Link>
+        <ActionIcon
+          color={isCollapsed ? "black" : "gray"}
+          variant="transparent"
+          onClick={toggleSidebar}
+        >
+          {isCollapsed ? (
+            <IconLayoutSidebarLeftExpand size={20} />
+          ) : (
             <IconLayoutSidebarLeftCollapse size={20} />
-          </ActionIcon>
-        )}
+          )}
+        </ActionIcon>
       </div>
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">

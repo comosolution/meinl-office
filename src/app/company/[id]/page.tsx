@@ -23,8 +23,6 @@ import {
   IconCircleX,
   IconDeviceFloppy,
   IconEdit,
-  IconHistory,
-  IconSettings,
   IconShoppingCartPin,
   IconUsersGroup,
 } from "@tabler/icons-react";
@@ -198,12 +196,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           >
             Mitarbeiter
           </Tabs.Tab>
-          <Tabs.Tab value="history" leftSection={<IconHistory size={16} />}>
+          {/* <Tabs.Tab value="history" leftSection={<IconHistory size={16} />}>
             Historie
           </Tabs.Tab>
           <Tabs.Tab value="settings" leftSection={<IconSettings size={16} />}>
             Einstellungen
-          </Tabs.Tab>
+          </Tabs.Tab> */}
         </Tabs.List>
 
         <form

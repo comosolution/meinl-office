@@ -16,6 +16,7 @@ export interface Company {
   latitude: number;
   longitude: number;
   personen: Person[];
+  campagne: Campagne[];
 }
 
 export interface CompanyInStorage {
@@ -27,6 +28,9 @@ export interface Person {
   kdnr: number;
   vorname: string;
   nachname: string;
+  name1: string;
+  name2: string;
+  name3: string;
   email: string;
   telefon: string;
   b2bnr: string;
@@ -50,4 +54,9 @@ export interface PersonInStorage {
   vorname: string;
   nachname: string;
   position: string;
+}
+
+interface Campagne {
+  id: string;
+  title: string;
 }

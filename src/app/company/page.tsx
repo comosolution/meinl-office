@@ -1,6 +1,10 @@
 "use client";
 import { Avatar, Button, Pagination, Table, TextInput } from "@mantine/core";
-import { IconCirclePlus, IconSearch } from "@tabler/icons-react";
+import {
+  IconBuildingWarehouse,
+  IconCirclePlus,
+  IconSearch,
+} from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -58,7 +62,8 @@ export default function Page() {
             <Table.Th>Zusatz</Table.Th>
             <Table.Th>Matchcode</Table.Th>
             <Table.Th>Kdnr</Table.Th>
-            <Table.Th>Anschrift</Table.Th>
+            <Table.Th>Stadt</Table.Th>
+            <Table.Th>Land</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -69,11 +74,9 @@ export default function Page() {
               onClick={() => router.push(`/company/${company.kdnr}`)}
             >
               <Table.Td>
-                <Avatar
-                  size={24}
-                  color={getAvatarColor(company.kdnr)}
-                  name={company.name1[0]}
-                />
+                <Avatar size={24} color={getAvatarColor(company.kdnr)}>
+                  <IconBuildingWarehouse size={14} />
+                </Avatar>
               </Table.Td>
               <Table.Td>
                 <b>{company.name1}</b>
@@ -83,9 +86,8 @@ export default function Page() {
               </Table.Td>
               <Table.Td>{company.matchcode}</Table.Td>
               <Table.Td>{company.kdnr}</Table.Td>
-              <Table.Td>
-                {company.land}–{company.plz} {company.ort}
-              </Table.Td>
+              <Table.Td>{company.ort}</Table.Td>
+              <Table.Td>{company.land}</Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>

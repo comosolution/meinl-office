@@ -1,65 +1,69 @@
 import { Avatar, Kbd, NavLink } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
-import {
-  IconBuildingWarehouse,
-  IconSearch,
-  IconUserCircle,
-} from "@tabler/icons-react";
+import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useOffice } from "../context/officeContext";
+import { useEffect, useState } from "react";
+import { Company, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
 import { getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
-  const { companies, employees } = useOffice();
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [persons, setPersons] = useState<Person[]>([]);
+
+  const getData = async () => {
+    if (query.trim() !== "") {
+      const companiesRes = await fetch("/api/search", {
+        method: "POST",
+        body: JSON.stringify({ type: "companies", search: query }),
+      });
+      const allCompanies = await companiesRes.json();
+      setCompanies(allCompanies);
+
+      const personsRes = await fetch("/api/search", {
+        method: "POST",
+        body: JSON.stringify({ type: "persons", search: query }),
+      });
+      const allPersons = await personsRes.json();
+      setPersons(allPersons);
+    }
+  };
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      getData();
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   const companyActions: SpotlightActionData[] = companies
-    .filter((c) => {
-      const keywords = query.trim().toLowerCase().split(" ");
-      return keywords.every((keyword) =>
-        [c.kdnr.toString(), c.name1, c.name2, c.plz, c.ort, c.matchcode]
-          .filter(Boolean)
-          .some((value) => value.toLowerCase().includes(keyword))
-      );
-    })
+    .filter((c) => c.name1 !== null)
     .map((c, index) => ({
-      id: `company-${index}-${c.kdnr}-${c.matchcode}`,
+      id: `company-${index}-${c.kdnr}`,
       label: c.name1,
       description: `${c.kdnr} • ${c.land}–${c.plz} ${c.ort}`,
       onClick: () => router.push(`/company/${c.kdnr}`),
       leftSection: (
-        <Avatar size={48} color={getAvatarColor(c.kdnr)} name={c.name1[0]} />
+        <Avatar size={48} color={getAvatarColor(c.kdnr)} name={c.name1[0]}>
+          <IconBuildingWarehouse />
+        </Avatar>
       ),
-      rightSection: <IconBuildingWarehouse size={24} color="black" />,
-    }));
+    }))
+    .sort((a, b) =>
+      a.label!.localeCompare(b.label!, "de", { sensitivity: "base" })
+    );
 
-  const employeeActions: SpotlightActionData[] = employees
-    .filter((p) => {
-      const keywords = query.trim().toLowerCase().split(" ");
-      return keywords.every((keyword) =>
-        [
-          p.vorname,
-          p.nachname,
-          p.email,
-          p.telefon,
-          p.mobil,
-          p.jobpos,
-          p.abteilung,
-          p.b2bnr,
-        ]
-          .filter(Boolean)
-          .some((value) => value.toLowerCase().includes(keyword))
-      );
-    })
+  const personActions: SpotlightActionData[] = persons
     .map((p, index) => ({
-      id: `person-${index}-${p.kdnr}-${p.b2bnr}`,
+      id: `person-${index}-${p.b2bnr}`,
       label: `${p.vorname} ${p.nachname}`,
       description: `${p.b2bnr || p.kdnr} • ${p.jobpos || "Mitarbeiter"} bei ${
-        companies.find((c) => c.kdnr === p.kdnr)?.name1
-      } • ${p.email}`,
+        p.name1
+      }`,
       onClick: () => router.push(`/person/${p.b2bnr}`),
       leftSection: (
         <Avatar
@@ -68,15 +72,12 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
           name={`${p.vorname[0]} ${p.nachname[0]}`}
         />
       ),
-      rightSection: <IconUserCircle size={24} color="black" />,
-    }));
+    }))
+    .sort((a, b) =>
+      a.label!.localeCompare(b.label!, "de", { sensitivity: "base" })
+    );
 
-  const actions: SpotlightActionData[] = [
-    ...companyActions,
-    ...employeeActions,
-  ].sort((a, b) =>
-    a.label!.localeCompare(b.label!, "de", { sensitivity: "base" })
-  );
+  const actions: SpotlightActionData[] = [...companyActions, ...personActions];
 
   return (
     <>
@@ -100,7 +101,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
 
       <Spotlight
         color="black"
-        limit={16}
+        limit={20}
         actions={actions}
         query={query}
         onQueryChange={setQuery}

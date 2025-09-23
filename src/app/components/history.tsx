@@ -16,7 +16,7 @@ export default function HistoryList<T>({
   title: string;
   storageKey: string;
   linkPrefix: string;
-  getAvatar: (item: T) => string;
+  getAvatar: (item: T) => string | React.ReactNode;
   getTitle: (item: T) => string;
   getSubtitle: (item: T) => string;
 }) {
@@ -54,8 +54,9 @@ export default function HistoryList<T>({
                           item as CompanyInStorage | PersonInStorage
                         ).kdnr.substring(0, 5)
                       )}
-                      name={getAvatar(item)}
-                    />
+                    >
+                      {getAvatar(item)}
+                    </Avatar>
                     <div className="flex flex-col">
                       <h3>{getTitle(item)}</h3>
                       <p className="dimmed">{getSubtitle(item)}</p>
