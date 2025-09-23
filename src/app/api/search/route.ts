@@ -19,6 +19,10 @@ export async function POST(request: Request) {
     return new Response("Failed to search", { status: res.status });
   }
 
+  if (res.status === 204) {
+    return Response.json([]);
+  }
+
   const data = await res.json();
   return Response.json(data, { status: 200 });
 }

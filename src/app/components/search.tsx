@@ -3,6 +3,7 @@ import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
 import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDebounce } from "../lib/hooks";
 import { Company, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
 import { getAvatarColor } from "../lib/utils";
@@ -13,32 +14,37 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
 
-  const getData = async () => {
-    if (query.trim() !== "") {
-      const companiesRes = await fetch("/api/search", {
-        method: "POST",
-        body: JSON.stringify({ type: "companies", search: query }),
-      });
-      const allCompanies = await companiesRes.json();
-      setCompanies(allCompanies);
-
-      const personsRes = await fetch("/api/search", {
-        method: "POST",
-        body: JSON.stringify({ type: "persons", search: query }),
-      });
-      const allPersons = await personsRes.json();
-      setPersons(allPersons);
-    }
-  };
+  const debouncedQuery = useDebounce(query, 500);
 
   useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      getData();
-    }, 500);
+    const getData = async () => {
+      if (debouncedQuery.trim() === "") {
+        setCompanies([]);
+        setPersons([]);
+        return;
+      }
 
-    return () => clearTimeout(delayDebounce);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+      const fetchResults = async <T,>(
+        type: "companies" | "persons"
+      ): Promise<T[]> => {
+        const res = await fetch("/api/search", {
+          method: "POST",
+          body: JSON.stringify({ type, search: debouncedQuery }),
+        });
+        return res.json();
+      };
+
+      const [allCompanies, allPersons] = await Promise.all([
+        fetchResults<Company>("companies"),
+        fetchResults<Person>("persons"),
+      ]);
+
+      setCompanies(allCompanies);
+      setPersons(allPersons);
+    };
+
+    getData();
+  }, [debouncedQuery]);
 
   const companyActions: SpotlightActionData[] = companies
     .filter((c) => c.name1 !== null)

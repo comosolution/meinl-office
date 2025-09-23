@@ -73,7 +73,7 @@ export default function Sidebar() {
           )}
         </Link>
         <ActionIcon
-          color={isCollapsed ? "black" : "gray"}
+          color={isCollapsed ? "black" : "dark"}
           variant="transparent"
           onClick={toggleSidebar}
         >
