@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { Company, Person } from "../lib/interfaces";
+import { fetchResults } from "../lib/utils";
 
 interface OfficeContextType {
   companies: Company[];
@@ -27,16 +28,6 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const fetchResults = async <T,>(
-        type: "companies" | "persons"
-      ): Promise<T[]> => {
-        const res = await fetch("/api/search", {
-          method: "POST",
-          body: JSON.stringify({ type, search: " " }),
-        });
-        return res.json();
-      };
-
       const [allCompanies, allPersons] = await Promise.all([
         fetchResults<Company>("companies"),
         fetchResults<Person>("persons"),

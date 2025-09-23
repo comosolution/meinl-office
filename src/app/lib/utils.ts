@@ -40,3 +40,14 @@ export const getAvatarColor = (input: string | number) => {
   ];
   return colors[+input % colors.length];
 };
+
+export const fetchResults = async <T>(
+  type: "companies" | "persons",
+  query?: string
+): Promise<T[]> => {
+  const res = await fetch("/api/search", {
+    method: "POST",
+    body: JSON.stringify({ type, search: query || " " }),
+  });
+  return res.json();
+};

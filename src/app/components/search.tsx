@@ -3,43 +3,30 @@ import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
 import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useOffice } from "../context/officeContext";
 import { useDebounce } from "../lib/hooks";
 import { Company, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
-import { getAvatarColor } from "../lib/utils";
+import { fetchResults, getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
-  const { companies: c, persons: p } = useOffice();
-
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [companies, setCompanies] = useState<Company[]>(c);
-  const [persons, setPersons] = useState<Person[]>(p);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [persons, setPersons] = useState<Person[]>([]);
 
   const debouncedQuery = useDebounce(query, 500);
 
   useEffect(() => {
     const getData = async () => {
       if (debouncedQuery.trim() === "") {
-        setCompanies(c);
-        setPersons(p);
+        setCompanies([]);
+        setPersons([]);
         return;
       }
 
-      const fetchResults = async <T,>(
-        type: "companies" | "persons"
-      ): Promise<T[]> => {
-        const res = await fetch("/api/search", {
-          method: "POST",
-          body: JSON.stringify({ type, search: debouncedQuery }),
-        });
-        return res.json();
-      };
-
       const [allCompanies, allPersons] = await Promise.all([
-        fetchResults<Company>("companies"),
-        fetchResults<Person>("persons"),
+        fetchResults<Company>("companies", debouncedQuery),
+        fetchResults<Person>("persons", debouncedQuery),
       ]);
 
       setCompanies(allCompanies);
