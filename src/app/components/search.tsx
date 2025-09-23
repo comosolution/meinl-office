@@ -34,7 +34,6 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     };
 
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery]);
 
   const companyActions: SpotlightActionData[] = companies
