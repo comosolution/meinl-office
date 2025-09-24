@@ -5,7 +5,7 @@
   --foreground: var(--mantine-color-black);
   --background-subtle: var(--mantine-color-gray-1);
   --subtle: rgba(255, 255, 255, 0.1);
-  --hover: rgba(255, 255, 255, 0.05);
+  --hover: var(--mantine-color-gray-light);
   --main: #ef233c;
   --transition: 300ms all ease-in-out;
   --defaultPadding: 12px;
@@ -138,6 +138,6 @@ img.inverted {
   letter-spacing: -0.4px;
 }
 
-.mantine-Table-tr:hover:where([data-hover]) {
+.mantine-Table-tbody .mantine-Table-tr:hover:where([data-hover]) {
   background-color: var(--hover);
 }

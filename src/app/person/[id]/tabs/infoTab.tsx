@@ -101,7 +101,6 @@ export default function InfoTab({ person }: { person: Person }) {
             <Autocomplete
               label="Anrede"
               data={["Frau", "Herr"]}
-              key={form.key("anrede")}
               {...form.getInputProps("anrede")}
               readOnly={!edit}
             />
@@ -115,31 +114,26 @@ export default function InfoTab({ person }: { person: Person }) {
                 "Prof.",
                 "Prof. Dr.",
               ]}
-              key={form.key("titel")}
               {...form.getInputProps("titel")}
               readOnly={!edit}
             />
             <TextInput
               label="Nachname"
-              key={form.key("nachname")}
               {...form.getInputProps("nachname")}
               readOnly={!edit}
             />
             <TextInput
               label="Vorname"
-              key={form.key("vorname")}
               {...form.getInputProps("vorname")}
               readOnly={!edit}
             />
             <TextInput
               label="Position"
-              key={form.key("jobpos")}
               {...form.getInputProps("jobpos")}
               readOnly={!edit}
             />
             <TextInput
               label="Abteilung"
-              key={form.key("abteilung")}
               {...form.getInputProps("abteilung")}
               readOnly={!edit}
             />
@@ -150,38 +144,32 @@ export default function InfoTab({ person }: { person: Person }) {
           <div className="grid grid-cols-2 gap-4">
             <DateInput
               label="Geburtsdatum"
-              key={form.key("geburtsdatum")}
               {...form.getInputProps("geburtsdatum")}
               readOnly={!edit}
             />
             <TextInput
               label="Familienstand"
-              key={form.key("familienstand")}
               {...form.getInputProps("familienstand")}
               readOnly={!edit}
             />
             <TextInput
               label="Hobbies"
-              key={form.key("hobbies")}
               {...form.getInputProps("hobbies")}
               readOnly={!edit}
             />
             <Autocomplete
               label="T-Shirt"
               data={["XS", "S", "M", "L", "XL", "XXL"]}
-              key={form.key("tshirt")}
               {...form.getInputProps("tshirt")}
               readOnly={!edit}
             />
             <TextInput
               label="Musikrichtung"
-              key={form.key("musikrichtung")}
               {...form.getInputProps("musikrichtung")}
               readOnly={!edit}
             />
             <TextInput
               label="Instrument"
-              key={form.key("instrument")}
               {...form.getInputProps("instrument")}
               readOnly={!edit}
             />
@@ -191,35 +179,28 @@ export default function InfoTab({ person }: { person: Person }) {
           <h2>Kommunikation</h2>
           <TextInput
             label="Telefon"
-            key={form.key("telefon")}
             {...form.getInputProps("telefon")}
             readOnly={!edit}
           />
           <TextInput
             label="Mobil"
-            key={form.key("mobil")}
             {...form.getInputProps("mobil")}
             readOnly={!edit}
           />
           <TextInput
             label="E-Mail"
-            key={form.key("email")}
             {...form.getInputProps("email")}
             readOnly={!edit}
           />
           <MultiSelect
             label="Betreut von"
-            key={form.key("betreutvon")}
             {...form.getInputProps("betreutvon")}
             readOnly={!edit}
           />
         </Fieldset>
         <Fieldset>
           <h2>Zuständigkeiten</h2>
-          <Checkbox.Group
-            key={form.key("zustaendig")}
-            {...form.getInputProps("zustaendig")}
-          >
+          <Checkbox.Group {...form.getInputProps("zustaendig")}>
             <div className="grid grid-cols-2 gap-2">
               {allCompetences.map((c, i) => (
                 <Checkbox key={i} label={c} value={c} disabled={!edit} />

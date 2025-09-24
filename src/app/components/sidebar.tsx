@@ -44,7 +44,7 @@ export default function Sidebar() {
     },
     {
       name: "Kampagnen",
-      href: "/campaigns",
+      href: "/campaign",
       icon: <IconNews size={20} />,
     },
   ];

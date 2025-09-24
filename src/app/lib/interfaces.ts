@@ -16,7 +16,7 @@ export interface Company {
   latitude: number;
   longitude: number;
   personen: Person[];
-  campagnen: Campagne[];
+  campagnen: Campaign[];
 }
 
 export interface CompanyInStorage {
@@ -56,7 +56,12 @@ export interface PersonInStorage {
   position: string;
 }
 
-interface Campagne {
-  id: string;
+export interface Campaign {
+  id: number;
+  brand: string;
   title: string;
+  description: string;
+  start: Date | string | null;
+  end: Date | string | null;
+  dealers: string[];
 }
