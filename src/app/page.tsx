@@ -50,7 +50,7 @@ export default function Page() {
             <Avatar
               size={48}
               color={getAvatarColor(person.kdnr.substring(0, 5))}
-              name={`${person.nachname}, ${person.vorname}`}
+              name={`${person.nachname} ${person.vorname}`}
             />
           )}
           getTitle={(person) => `${person.nachname}, ${person.vorname}`}

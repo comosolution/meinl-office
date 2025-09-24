@@ -45,12 +45,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       onClick: () => router.push(`/company/${c.kdnr}`),
       rightSection: <p className="text-xs text-black">{c.kdnr}</p>,
       leftSection: (
-        <Avatar
-          size={48}
-          variant="filled"
-          color={getAvatarColor(c.kdnr)}
-          name={c.name1[0]}
-        >
+        <Avatar size={48} variant="filled" color={getAvatarColor(c.kdnr)}>
           <IconBuildingWarehouse />
         </Avatar>
       ),
@@ -62,7 +57,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
   const personActions: SpotlightActionData[] = persons
     .map((p, index) => ({
       id: `person-${index}-${p.b2bnr}`,
-      label: `${p.vorname} ${p.nachname}`,
+      label: `${p.nachname}, ${p.vorname}`,
       description: `${p.jobpos || "Mitarbeiter"} bei ${p.name1}`,
       onClick: () => router.push(`/person/${p.b2bnr}`),
       rightSection: <p className="text-xs text-black">{p.b2bnr}</p>,
@@ -71,7 +66,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         <Avatar
           size={48}
           color={getAvatarColor(p.kdnr)}
-          name={`${p.vorname[0]} ${p.nachname[0]}`}
+          name={`${p.nachname[0]} ${p.vorname[0]}`}
         />
       ),
     }))
