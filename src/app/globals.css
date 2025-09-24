@@ -64,7 +64,6 @@ img.inverted {
   display: flex;
   flex-direction: column;
   gap: var(--defaultPadding);
-  box-shadow: var(--mantine-shadow-lg);
   background: var(--background-subtle);
   border: none !important;
 }

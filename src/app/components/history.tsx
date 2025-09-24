@@ -32,7 +32,7 @@ export default function HistoryList<T>({
   };
 
   return (
-    <Paper p="lg" shadow="lg" className="flex flex-col gap-4">
+    <Paper p="lg" className="flex flex-col gap-4">
       <div className="h-full flex flex-col gap-4 justify-between">
         <h2>Kürzlich besuchte {title}</h2>
         {history.length > 0 ? (
