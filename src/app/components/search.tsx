@@ -41,8 +41,9 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     .map((c, index) => ({
       id: `company-${index}-${c.kdnr}`,
       label: c.name1,
-      description: `${c.kdnr} • ${c.land}–${c.plz} ${c.ort}`,
+      description: `${c.land}–${c.plz} ${c.ort}`,
       onClick: () => router.push(`/company/${c.kdnr}`),
+      rightSection: <p className="text-xs text-black">{c.kdnr}</p>,
       leftSection: (
         <Avatar
           size={48}
@@ -62,10 +63,10 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     .map((p, index) => ({
       id: `person-${index}-${p.b2bnr}`,
       label: `${p.vorname} ${p.nachname}`,
-      description: `${p.b2bnr || p.kdnr} • ${p.jobpos || "Mitarbeiter"} bei ${
-        p.name1
-      }`,
+      description: `${p.jobpos || "Mitarbeiter"} bei ${p.name1}`,
       onClick: () => router.push(`/person/${p.b2bnr}`),
+      rightSection: <p className="text-xs text-black">{p.b2bnr}</p>,
+
       leftSection: (
         <Avatar
           size={48}
