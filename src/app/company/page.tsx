@@ -15,9 +15,14 @@ export default function Page() {
   const filteredData = companies.filter((c) => {
     const keywords = search.trim().toLowerCase().split(" ");
     return keywords.every((keyword) =>
-      [c.kdnr.toString(), c.name1, c.name2, c.plz, c.ort, c.matchcode].some(
-        (value) => value.toLowerCase().includes(keyword)
-      )
+      [
+        c.kdnr.toString() || "",
+        c.name1 || "",
+        c.name2 || "",
+        c.plz || "",
+        c.ort || "",
+        c.matchcode || "",
+      ].some((value) => value.toLowerCase().includes(keyword))
     );
   });
 

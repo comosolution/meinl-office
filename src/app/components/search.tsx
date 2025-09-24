@@ -100,12 +100,12 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
 
       <Spotlight
         color="black"
-        limit={20}
+        limit={100}
         actions={actions}
         query={query}
         onQueryChange={setQuery}
         maxHeight="80vh"
-        nothingFound="Keine Treffer."
+        nothingFound={query ? "Keine Treffer." : ""}
         filter={(_, a) => a}
         scrollable
         shortcut={["mod + K", "mod + P", "/"]}

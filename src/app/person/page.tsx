@@ -14,8 +14,8 @@ export default function Page() {
   const filteredData = employees.filter((e) => {
     const keywords = search.trim().toLowerCase().split(" ");
     return keywords.every((keyword) =>
-      [e.kdnr.toString(), e.vorname, e.nachname].some((value) =>
-        value.toLowerCase().includes(keyword)
+      [e.kdnr.toString() || "", e.vorname || "", e.nachname || ""].some(
+        (value) => value.toLowerCase().includes(keyword)
       )
     );
   });
