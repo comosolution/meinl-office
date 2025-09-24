@@ -3,6 +3,7 @@ import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
+import { brands } from "@/app/lib/data";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import {
@@ -32,19 +33,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { getInitialValues, validateForm } from "./form";
 import EmployeesTab from "./tabs/employeesTab";
-
-const brands = [
-  "Meinl Cymbals",
-  "Meinl Percussion",
-  "Meinl Sonic Energy",
-  "Meinl Stick & Brush",
-  "Nino Percussion",
-  "Ortega",
-  "Ibanez",
-  "Tama",
-  "Hardcase",
-  "Backun",
-];
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
