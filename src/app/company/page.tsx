@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, Pagination, Table, TextInput } from "@mantine/core";
-import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
+import { IconBuildings, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -80,7 +80,7 @@ export default function Page() {
                   variant="filled"
                   color={getAvatarColor(company.kdnr)}
                 >
-                  <IconBuildingWarehouse size={14} />
+                  <IconBuildings size={14} />
                 </Avatar>
               </Table.Td>
               <Table.Td>

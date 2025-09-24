@@ -1,11 +1,12 @@
 "use client";
 import { ActionIcon, NavLink } from "@mantine/core";
 import {
-  IconBuildingWarehouse,
+  IconBuildings,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
   IconLogout,
+  IconNews,
   IconUsersGroup,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
@@ -29,12 +30,22 @@ export default function Sidebar() {
     {
       name: "Firmen",
       href: "/company",
-      icon: <IconBuildingWarehouse size={20} />,
+      icon: <IconBuildings size={20} />,
     },
+    // {
+    //   name: "Distributoren",
+    //   href: "/distributors",
+    //   icon: <IconBuildingWarehouse size={20} />,
+    // },
     {
       name: "Personen",
       href: "/person",
       icon: <IconUsersGroup size={20} />,
+    },
+    {
+      name: "Kampagnen",
+      href: "/campaigns",
+      icon: <IconNews size={20} />,
     },
   ];
 
@@ -113,8 +124,6 @@ export default function Sidebar() {
         <NavLink
           label="Ausloggen"
           title="Ausloggen"
-          active
-          color="dark"
           leftSection={<IconLogout size={20} />}
           styles={{
             root: navLink(isCollapsed),

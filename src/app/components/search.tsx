@@ -1,6 +1,6 @@
 import { Avatar, Kbd, NavLink } from "@mantine/core";
 import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
-import { IconBuildingWarehouse, IconSearch } from "@tabler/icons-react";
+import { IconBuildings, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../lib/hooks";
@@ -46,7 +46,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       rightSection: <p className="text-xs text-black">{c.kdnr}</p>,
       leftSection: (
         <Avatar size={48} variant="filled" color={getAvatarColor(c.kdnr)}>
-          <IconBuildingWarehouse />
+          <IconBuildings />
         </Avatar>
       ),
     }))
@@ -81,8 +81,8 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       <NavLink
         label="Suche"
         title="Suche"
-        variant="light"
         active
+        color="dark"
         leftSection={<IconSearch size={20} />}
         rightSection={
           collapsed ? undefined : (

@@ -18,7 +18,7 @@ import {
 import { useForm } from "@mantine/form";
 import {
   IconBuildingEstate,
-  IconBuildingWarehouse,
+  IconBuildings,
   IconChevronLeft,
   IconCircleCheck,
   IconCircleX,
@@ -153,7 +153,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
       <header className="flex items-center gap-4 p-4">
         <Avatar size={72} variant="filled" color={getAvatarColor(company.kdnr)}>
-          <IconBuildingWarehouse size={40} stroke={2} />
+          <IconBuildings size={40} stroke={2} />
         </Avatar>
         <div className="flex flex-col gap-1 w-full">
           <h1>

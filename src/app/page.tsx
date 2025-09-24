@@ -1,6 +1,6 @@
 "use client";
 import { Avatar } from "@mantine/core";
-import { IconBuildingWarehouse } from "@tabler/icons-react";
+import { IconBuildings } from "@tabler/icons-react";
 import HistoryList from "./components/history";
 import { useOffice } from "./context/officeContext";
 import {
@@ -36,7 +36,7 @@ export default function Page() {
               variant="filled"
               color={getAvatarColor(company.kdnr.substring(0, 5))}
             >
-              <IconBuildingWarehouse />
+              <IconBuildings />
             </Avatar>
           )}
           getTitle={(company: CompanyInStorage) => company.name}
