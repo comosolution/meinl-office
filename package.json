@@ -16,6 +16,7 @@
     "@mantine/spotlight": "^8.2.7",
     "@react-google-maps/api": "^2.20.7",
     "@tabler/icons-react": "^3.34.1",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "next": "15.5.0",
     "next-auth": "^4.24.11",

@@ -6,6 +6,7 @@ import {
   Table,
   Textarea,
   TextInput,
+  Tooltip,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -16,6 +17,8 @@ import {
   IconCirclePlus,
   IconDeviceFloppy,
 } from "@tabler/icons-react";
+import { format, formatDistance } from "date-fns";
+import { de } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { brands } from "../lib/data";
 import { Campaign } from "../lib/interfaces";
@@ -40,6 +43,29 @@ export default function Page() {
       title: (value) => notEmptyValidation(value, "Bitte Titel angeben."),
     },
   });
+
+  const formatDate = (date: string) => {
+    if (!date) return;
+
+    try {
+      const distance = formatDistance(date, new Date(), {
+        addSuffix: true,
+        locale: de,
+      });
+
+      return (
+        <Tooltip
+          label={format(date, "dd.MM.yyyy hh:mm:ss")}
+          position="left"
+          withArrow
+        >
+          <span>{distance}</span>
+        </Tooltip>
+      );
+    } catch {
+      return date;
+    }
+  };
 
   return (
     <>
@@ -88,8 +114,8 @@ export default function Page() {
                 <Table.Td>{campaign.id}</Table.Td>
                 <Table.Td>{campaign.brand}</Table.Td>
                 <Table.Td>{campaign.title}</Table.Td>
-                <Table.Td>{campaign.start}</Table.Td>
-                <Table.Td>{campaign.end}</Table.Td>
+                <Table.Td>{formatDate(campaign.start)}</Table.Td>
+                <Table.Td>{formatDate(campaign.end)}</Table.Td>
                 <Table.Td>{campaign.dealers.length}</Table.Td>
               </Table.Tr>
             ))}
