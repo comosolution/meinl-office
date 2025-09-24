@@ -152,7 +152,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       </div>
 
       <header className="flex items-center gap-4 p-4">
-        <Avatar size={72} color={getAvatarColor(company.kdnr)}>
+        <Avatar size={72} variant="filled" color={getAvatarColor(company.kdnr)}>
           <IconBuildingWarehouse size={40} stroke={2} />
         </Avatar>
         <div className="flex flex-col gap-1 w-full">

@@ -8,6 +8,7 @@ import {
   MEINL_OFFICE_PERSON_HISTORY_KEY,
 } from "./lib/constants";
 import { CompanyInStorage, PersonInStorage } from "./lib/interfaces";
+import { getAvatarColor } from "./lib/utils";
 
 export default function Page() {
   const { companies } = useOffice();
@@ -29,7 +30,15 @@ export default function Page() {
           title="Firmen"
           storageKey={MEINL_OFFICE_COMPANY_HISTORY_KEY}
           linkPrefix="/company"
-          getAvatar={() => <IconBuildingWarehouse />}
+          getAvatar={(company: CompanyInStorage) => (
+            <Avatar
+              size={48}
+              variant="filled"
+              color={getAvatarColor(company.kdnr.substring(0, 5))}
+            >
+              <IconBuildingWarehouse />
+            </Avatar>
+          )}
           getTitle={(company: CompanyInStorage) => company.name}
           getSubtitle={(company: CompanyInStorage) => company.kdnr}
         />
@@ -37,9 +46,13 @@ export default function Page() {
           title="Personen"
           storageKey={MEINL_OFFICE_PERSON_HISTORY_KEY}
           linkPrefix="/person"
-          getAvatar={(person: PersonInStorage) =>
-            `${person.nachname[0] || ""}${person.vorname[0] || ""}`
-          }
+          getAvatar={(person: PersonInStorage) => (
+            <Avatar
+              size={48}
+              color={getAvatarColor(person.kdnr.substring(0, 5))}
+              name={`${person.nachname}, ${person.vorname}`}
+            />
+          )}
           getTitle={(person) => `${person.nachname}, ${person.vorname}`}
           getSubtitle={(person) => {
             return `${person.position || "Mitarbeiter"} bei ${

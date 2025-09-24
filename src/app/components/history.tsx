@@ -1,9 +1,8 @@
-import { Avatar, Button, Paper } from "@mantine/core";
+import { Button, Paper } from "@mantine/core";
 import { IconEyeOff, IconHistoryOff, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CompanyInStorage, PersonInStorage } from "../lib/interfaces";
-import { getAvatarColor } from "../lib/utils";
 
 export default function HistoryList<T>({
   title,
@@ -16,7 +15,7 @@ export default function HistoryList<T>({
   title: string;
   storageKey: string;
   linkPrefix: string;
-  getAvatar: (item: T) => string | React.ReactNode;
+  getAvatar: (item: T) => React.ReactNode;
   getTitle: (item: T) => string;
   getSubtitle: (item: T) => string;
 }) {
@@ -47,16 +46,7 @@ export default function HistoryList<T>({
                   }`}
                 >
                   <div className="flex items-center gap-4 p-2 hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
-                    <Avatar
-                      size={48}
-                      color={getAvatarColor(
-                        (
-                          item as CompanyInStorage | PersonInStorage
-                        ).kdnr.substring(0, 5)
-                      )}
-                    >
-                      {getAvatar(item)}
-                    </Avatar>
+                    {getAvatar(item)}
                     <div className="flex flex-col">
                       <h3>{getTitle(item)}</h3>
                       <p className="dimmed">{getSubtitle(item)}</p>

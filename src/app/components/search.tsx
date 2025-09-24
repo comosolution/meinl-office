@@ -44,7 +44,12 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       description: `${c.kdnr} • ${c.land}–${c.plz} ${c.ort}`,
       onClick: () => router.push(`/company/${c.kdnr}`),
       leftSection: (
-        <Avatar size={48} color={getAvatarColor(c.kdnr)} name={c.name1[0]}>
+        <Avatar
+          size={48}
+          variant="filled"
+          color={getAvatarColor(c.kdnr)}
+          name={c.name1[0]}
+        >
           <IconBuildingWarehouse />
         </Avatar>
       ),

@@ -70,7 +70,11 @@ export default function Page() {
               onClick={() => router.push(`/company/${company.kdnr}`)}
             >
               <Table.Td>
-                <Avatar size={24} color={getAvatarColor(company.kdnr)}>
+                <Avatar
+                  size={24}
+                  variant="filled"
+                  color={getAvatarColor(company.kdnr)}
+                >
                   <IconBuildingWarehouse size={14} />
                 </Avatar>
               </Table.Td>
