@@ -18,6 +18,7 @@ import {
 } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { getInitialValues } from "./form";
 
@@ -25,6 +26,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
+  const [del, setDel] = useState(false);
+
+  const router = useRouter();
 
   const form = useForm<Campaign>({
     initialValues: getInitialValues({} as Campaign),
@@ -53,6 +57,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const response = await fetch(`/api/campaign/${id}`);
     const data = await response.json();
     setCampaign(data[0]);
+  };
+
+  const handleDelete = async () => {
+    const response = await fetch(`/api/campaign/${id}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      router.push("/campaign");
+    }
   };
 
   if (!campaign) return <Loader />;
@@ -197,9 +210,34 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               Kampagne bearbeiten
             </Button>
           )}
-          <Button variant="light" leftSection={<IconTrash size={16} />}>
-            Löschen
-          </Button>
+          {del ? (
+            <Button.Group>
+              <Button
+                onClick={handleDelete}
+                leftSection={<IconTrash size={16} />}
+              >
+                Kampagne endgültig löschen
+              </Button>
+              <Button
+                variant="light"
+                onClick={() => {
+                  setDel(false);
+                }}
+              >
+                Abbrechen
+              </Button>
+            </Button.Group>
+          ) : (
+            <Button
+              variant="light"
+              leftSection={<IconTrash size={16} />}
+              onClick={() => {
+                setDel(true);
+              }}
+            >
+              Löschen
+            </Button>
+          )}
         </div>
       </form>
     </main>
