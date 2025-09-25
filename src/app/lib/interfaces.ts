@@ -63,5 +63,5 @@ export interface Campaign {
   description: string;
   start: string | null;
   end: string | null;
-  dealers: string[];
+  dealers: number[];
 }

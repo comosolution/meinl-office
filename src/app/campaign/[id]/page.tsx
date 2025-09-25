@@ -1,9 +1,18 @@
 "use client";
 import Loader from "@/app/components/loader";
+import { useOffice } from "@/app/context/officeContext";
 import { brands } from "@/app/lib/data";
-import { Campaign } from "@/app/lib/interfaces";
+import { Campaign, Company } from "@/app/lib/interfaces";
 import { notEmptyValidation } from "@/app/lib/utils";
-import { Button, Fieldset, Select, Textarea, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Card,
+  Fieldset,
+  Select,
+  Textarea,
+  TextInput,
+} from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import {
@@ -15,18 +24,23 @@ import {
   IconEdit,
   IconExternalLink,
   IconTrash,
+  IconX,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { getInitialValues } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
+  const { companies } = useOffice();
+
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
   const [del, setDel] = useState(false);
+  const [search, setSearch] = useState("");
+  const [selectedKdnrs, setSelectedKdnrs] = useState<number[]>([]);
 
   const router = useRouter();
 
@@ -49,7 +63,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     if (!campaign) return;
+
+    const initialValues = getInitialValues(campaign);
     form.setValues(getInitialValues(campaign));
+
+    setSelectedKdnrs(campaign.dealers || []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign]);
 
@@ -66,6 +84,31 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (response.ok) {
       router.push("/campaign");
     }
+  };
+
+  const suggestions = useMemo(() => {
+    const lower = search.toLowerCase();
+    return companies.filter(
+      (c) =>
+        !selectedKdnrs.includes(c.kdnr) &&
+        (c.kdnr.toString().includes(lower) ||
+          c.name1.toLowerCase().includes(lower) ||
+          c.name2.toLowerCase().includes(lower) ||
+          c.name3.toLowerCase().includes(lower))
+    );
+  }, [search, companies, selectedKdnrs]);
+
+  const selectCompany = (company: Company) => {
+    const newSelected = [...selectedKdnrs, company.kdnr];
+    setSelectedKdnrs(newSelected);
+    form.setFieldValue("dealers", newSelected);
+    setSearch(""); // clear input after selection
+  };
+
+  const removeCompany = (kdnr: number) => {
+    const newSelected = selectedKdnrs.filter((id) => id !== kdnr);
+    setSelectedKdnrs(newSelected);
+    form.setFieldValue("dealers", newSelected);
   };
 
   if (!campaign) return <Loader />;
@@ -177,7 +220,58 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </Fieldset>
         <Fieldset>
-          <h2>Teilnehmende Händler</h2>
+          <h2>Händler</h2>
+          <div className="flex flex-col gap-2">
+            <div className="relative">
+              <TextInput
+                label="Teilnehmende Händler"
+                placeholder="Nach Name oder Kdnr suchen ..."
+                value={search}
+                onChange={(e) => setSearch(e.currentTarget.value)}
+                readOnly={!edit}
+              />
+              {search && suggestions.length > 0 && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 shadow-lg max-h-60 overflow-y-auto">
+                  {suggestions.map((c) => (
+                    <div
+                      key={c.kdnr}
+                      className="px-3 py-2 cursor-pointer hover:bg-blue-50"
+                      onClick={() => selectCompany(c)}
+                    >
+                      <p>
+                        <b>{c.name1}</b> {c.name2} {c.name3}
+                      </p>
+                      <p className="text-xs dimmed">{c.kdnr}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            {selectedKdnrs.length > 0 &&
+              selectedKdnrs.map((kdnr) => {
+                const company = companies.find((c) => c.kdnr === kdnr);
+                if (!company) return null;
+                return (
+                  <Card key={kdnr} shadow="sm" p="md">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3>
+                          {company.name1} {company.name2} {company.name3}
+                        </h3>
+                        <p className="text-xs dimmed">{company.kdnr}</p>
+                      </div>
+                      <ActionIcon
+                        color="red"
+                        onClick={() => removeCompany(kdnr)}
+                        disabled={!edit}
+                      >
+                        <IconX size={16} />
+                      </ActionIcon>
+                    </div>
+                  </Card>
+                );
+              })}
+          </div>
         </Fieldset>
         <div className="col-span-2 flex justify-between gap-2">
           {edit ? (

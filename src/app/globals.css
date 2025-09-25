@@ -128,6 +128,7 @@ img.inverted {
 .mantine-Pagination-control:not([data-active]),
 .mantine-Paper-root,
 .mantine-Select-input[aria-readonly="false"],
+.mantine-MultiSelect-input[aria-readonly="false"],
 .mantine-Fieldset-root {
   background-color: var(--background-subtle);
   border-color: rgba(0, 0, 0, 0.2);

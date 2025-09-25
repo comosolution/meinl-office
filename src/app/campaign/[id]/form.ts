@@ -8,6 +8,6 @@ export const getInitialValues = (campaign: Campaign) => {
     description: campaign?.description || "",
     start: campaign?.start || null,
     end: campaign?.end || null,
-    dealers: campaign.dealers || [""],
+    dealers: campaign?.dealers || [],
   };
 };

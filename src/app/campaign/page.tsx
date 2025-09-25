@@ -49,7 +49,7 @@ export default function Page() {
       description: "",
       start: null,
       end: null,
-      dealers: [""],
+      dealers: [],
     },
     validate: {
       title: (value) => notEmptyValidation(value, "Bitte Titel angeben."),
