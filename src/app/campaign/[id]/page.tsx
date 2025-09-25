@@ -252,7 +252,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 const company = companies.find((c) => c.kdnr === kdnr);
                 if (!company) return null;
                 return (
-                  <Card key={kdnr} shadow="sm" p="md">
+                  <Card key={kdnr} shadow="sm" p="md" bg="white">
                     <div className="flex justify-between items-center">
                       <div>
                         <h3>
