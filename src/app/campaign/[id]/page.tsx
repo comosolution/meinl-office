@@ -1,22 +1,53 @@
 "use client";
 import Loader from "@/app/components/loader";
+import { brands } from "@/app/lib/data";
 import { Campaign } from "@/app/lib/interfaces";
+import { notEmptyValidation } from "@/app/lib/utils";
+import { Button, Fieldset, Select, Textarea, TextInput } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
+import {
+  IconCalendarEvent,
+  IconCalendarWeek,
+  IconChevronLeft,
+  IconCopy,
+  IconDeviceFloppy,
+  IconEdit,
+  IconExternalLink,
+  IconTrash,
+} from "@tabler/icons-react";
+import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { getInitialValues } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const [campaign, setCampaign] = useState<Campaign>();
+  const [edit, setEdit] = useState(false);
 
   const form = useForm<Campaign>({
-    //   initialValues: ,
+    initialValues: getInitialValues({} as Campaign),
+    validate: {
+      title: (value) => notEmptyValidation(value, "Bitte Titel angeben."),
+    },
     validateInputOnChange: true,
   });
+
+  const dealerLocLink = `https://meinl-dealers.vercel.app?campagne=${
+    form.values.id
+  }&brand=${form.values.brand.replaceAll(" ", "-")}`;
 
   useEffect(() => {
     getCampaign();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    if (!campaign) return;
+    form.setValues(getInitialValues(campaign));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [campaign]);
 
   const getCampaign = async () => {
     const response = await fetch(`/api/campaign/${id}`);
@@ -28,25 +59,149 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <main className="flex flex-col gap-4 p-4">
-      {/* <div className="flex justify-between items-baseline gap-2">
+      <div className="flex justify-between items-baseline gap-2">
         <Button
           variant="light"
           color="gray"
           leftSection={<IconChevronLeft size={16} />}
           component={Link}
-          href="/company"
+          href="/campaign"
         >
-          Alle Firmen
+          Alle Kampagnen
         </Button>
-        <Contact email={company.mailadr} phone={company.telefon} />
-      </div> */}
+      </div>
 
       <header className="flex items-center gap-4 p-4">
         <div className="flex flex-col gap-1 w-full">
           <h1>{campaign.title}</h1>
-          <p className="dimmed"></p>
+          <p className="dimmed flex gap-2">
+            Kampagne für{" "}
+            <Image
+              src={`/brands/${campaign.brand
+                .replaceAll(" ", "-")
+                .toUpperCase()}.png`}
+              width={24}
+              height={24}
+              alt={`${campaign.brand} Logo`}
+              className="inverted object-contain"
+            />{" "}
+            {campaign.brand}
+          </p>
         </div>
       </header>
+
+      <form
+        onSubmit={form.onSubmit(async (values) => {
+          const response = await fetch("/api/campaign", {
+            method: "POST",
+            body: JSON.stringify(values),
+          });
+          if (response.ok) {
+            getCampaign();
+            setEdit(false);
+          }
+        })}
+        className="grid grid-cols-2 gap-4"
+      >
+        <div className="col-span-2 flex">
+          <TextInput className="w-full" value={dealerLocLink} readOnly />
+          <Button.Group>
+            <Button color="dark" leftSection={<IconCopy size={16} />}>
+              Link kopieren
+            </Button>
+            <Button
+              variant="light"
+              color="dark"
+              component="a"
+              href={dealerLocLink}
+              target="_blank"
+              leftSection={<IconExternalLink size={16} />}
+            >
+              Öffnen
+            </Button>
+          </Button.Group>
+        </div>
+        <Fieldset>
+          <h2>Daten</h2>
+          <Select
+            label="Brand"
+            data={brands}
+            allowDeselect={false}
+            checkIconPosition="right"
+            withAsterisk
+            {...form.getInputProps("brand")}
+            readOnly={!edit}
+            aria-readonly={!edit}
+          />
+          <TextInput
+            label="Titel"
+            withAsterisk
+            {...form.getInputProps("title")}
+            readOnly={!edit}
+          />
+          <Textarea
+            label="Beschreibung"
+            {...form.getInputProps("description")}
+            readOnly={!edit}
+          />
+          <div className="grid grid-cols-2 gap-4">
+            <DatePickerInput
+              label="Start"
+              rightSection={<IconCalendarEvent size={20} />}
+              rightSectionPointerEvents="none"
+              {...form.getInputProps("start")}
+              readOnly={!edit}
+              aria-readonly={!edit}
+            />
+            <DatePickerInput
+              label="Ende"
+              rightSection={<IconCalendarWeek size={20} />}
+              rightSectionPointerEvents="none"
+              {...form.getInputProps("end")}
+              readOnly={!edit}
+              aria-readonly={!edit}
+            />
+          </div>
+        </Fieldset>
+        <Fieldset>
+          <h2>Teilnehmende Händler</h2>
+        </Fieldset>
+        <div className="col-span-2 flex justify-between gap-2">
+          {edit ? (
+            <Button.Group>
+              <Button
+                color="dark"
+                variant="light"
+                onClick={async () => {
+                  await getCampaign();
+                  setEdit(false);
+                }}
+              >
+                Verwerfen
+              </Button>
+              <Button
+                type="submit"
+                color="dark"
+                leftSection={<IconDeviceFloppy size={16} />}
+                disabled={!form.isValid()}
+              >
+                Änderungen speichern
+              </Button>
+            </Button.Group>
+          ) : (
+            <Button
+              color="dark"
+              leftSection={<IconEdit size={16} />}
+              onClick={() => setEdit(true)}
+            >
+              Kampagne bearbeiten
+            </Button>
+          )}
+          <Button variant="light" leftSection={<IconTrash size={16} />}>
+            Löschen
+          </Button>
+        </div>
+      </form>
     </main>
   );
 }

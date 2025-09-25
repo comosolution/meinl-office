@@ -90,7 +90,7 @@ export default function Page() {
               leftSection={<IconCirclePlus size={16} />}
               onClick={open}
             >
-              Kampagne anlegen
+              Neue Kampagne anlegen
             </Button>
           </div>
         </header>
@@ -151,6 +151,7 @@ export default function Page() {
             data={brands}
             allowDeselect={false}
             withAsterisk
+            aria-readonly={false}
             {...form.getInputProps("brand")}
           />
           <TextInput
@@ -167,12 +168,14 @@ export default function Page() {
               label="Start"
               rightSection={<IconCalendarEvent size={20} />}
               rightSectionPointerEvents="none"
+              aria-readonly={false}
               {...form.getInputProps("start")}
             />
             <DatePickerInput
               label="Ende"
               rightSection={<IconCalendarWeek size={20} />}
               rightSectionPointerEvents="none"
+              aria-readonly={false}
               {...form.getInputProps("end")}
             />
           </div>

@@ -114,19 +114,20 @@ img.inverted {
   color: var(--foreground) !important;
 }
 
-.mantine-Input-input:read-only {
+.mantine-Input-input:read-only,
+.mantine-Input-input[aria-readonly="true"] {
   border: 1px solid transparent;
   transition: 300ms background ease-in-out;
 }
 
 .mantine-Input-input,
 .mantine-PasswordInput-input,
-.mantine-DatePickerInput-input:read-only,
+.mantine-DatePickerInput-input[aria-readonly="false"],
 .mantine-Checkbox-input,
 .mantine-SegmentedControl-root,
 .mantine-Pagination-control:not([data-active]),
 .mantine-Paper-root,
-.mantine-Select-input:read-only,
+.mantine-Select-input[aria-readonly="false"],
 .mantine-Fieldset-root {
   background-color: var(--background-subtle);
   border-color: rgba(0, 0, 0, 0.2);
