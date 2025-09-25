@@ -8,6 +8,7 @@ import {
   ActionIcon,
   Button,
   Card,
+  CopyButton,
   Fieldset,
   Select,
   Textarea,
@@ -18,6 +19,7 @@ import { useForm } from "@mantine/form";
 import {
   IconCalendarEvent,
   IconCalendarWeek,
+  IconCheck,
   IconChevronLeft,
   IconCopy,
   IconDeviceFloppy,
@@ -160,9 +162,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <div className="col-span-2 flex">
           <TextInput className="w-full" value={dealerLocLink} readOnly />
           <Button.Group>
-            <Button color="dark" leftSection={<IconCopy size={16} />}>
-              Link kopieren
-            </Button>
+            <CopyButton value={dealerLocLink}>
+              {({ copied, copy }) => (
+                <Button
+                  color={copied ? "red" : "dark"}
+                  onClick={copy}
+                  leftSection={
+                    copied ? <IconCheck size={16} /> : <IconCopy size={16} />
+                  }
+                >
+                  {copied ? "Link kopiert" : "Link kopieren"}
+                </Button>
+              )}
+            </CopyButton>
+
             <Button
               variant="light"
               color="dark"
