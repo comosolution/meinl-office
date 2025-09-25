@@ -42,7 +42,13 @@ export default function Login() {
       >
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
           <div className="flex justify-center items-center cursor-pointer hover:opacity-80">
-            <Image src="/logo.svg" alt="Meinl Logo" width={24} height={24} />
+            <Image
+              src="/logo_w.svg"
+              alt="Meinl Logo"
+              width={24}
+              height={24}
+              className="inverted"
+            />
             <p className="text-xl font-bold tracking-tighter">Office</p>
           </div>
           <PasswordInput

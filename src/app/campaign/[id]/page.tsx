@@ -64,9 +64,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     if (!campaign) return;
 
-    const initialValues = getInitialValues(campaign);
     form.setValues(getInitialValues(campaign));
-
     setSelectedKdnrs(campaign.dealers || []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign]);
@@ -102,7 +100,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const newSelected = [...selectedKdnrs, company.kdnr];
     setSelectedKdnrs(newSelected);
     form.setFieldValue("dealers", newSelected);
-    setSearch(""); // clear input after selection
+    setSearch("");
   };
 
   const removeCompany = (kdnr: number) => {
@@ -226,6 +224,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <TextInput
                 label="Teilnehmende Händler"
                 placeholder="Nach Name oder Kdnr suchen ..."
+                rightSection={
+                  search.length > 0 ? (
+                    <ActionIcon
+                      variant="light"
+                      color="dark"
+                      onClick={() => setSearch("")}
+                    >
+                      <IconX />
+                    </ActionIcon>
+                  ) : undefined
+                }
                 value={search}
                 onChange={(e) => setSearch(e.currentTarget.value)}
                 readOnly={!edit}
@@ -252,7 +261,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 const company = companies.find((c) => c.kdnr === kdnr);
                 if (!company) return null;
                 return (
-                  <Card key={kdnr} shadow="sm" p="md" bg="white">
+                  <Card key={kdnr} shadow="sm" p="md" bg="var(--background)">
                     <div className="flex justify-between items-center">
                       <div>
                         <h3>

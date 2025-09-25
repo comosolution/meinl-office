@@ -1,12 +1,19 @@
 "use client";
-import { ActionIcon, NavLink } from "@mantine/core";
+import {
+  ActionIcon,
+  NavLink,
+  useComputedColorScheme,
+  useMantineColorScheme,
+} from "@mantine/core";
 import {
   IconBuildings,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
   IconLogout,
+  IconMoon,
   IconNews,
+  IconSun,
   IconUsersGroup,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
@@ -20,6 +27,13 @@ import Search from "./search";
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const { setColorScheme, colorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme("light", {
+    getInitialValueInEffect: true,
+  });
+
   const path = usePathname();
   const nav = [
     {
@@ -50,6 +64,36 @@ export default function Sidebar() {
   ];
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", colorScheme === "dark");
+  }, [colorScheme]);
+
+  const ThemeSwitch = () => {
+    return mounted ? (
+      <NavLink
+        label="Theme"
+        title="Theme"
+        leftSection={
+          colorScheme === "dark" ? (
+            <IconSun size={20} />
+          ) : (
+            <IconMoon size={20} />
+          )
+        }
+        styles={{
+          root: navLink(isCollapsed),
+        }}
+        onClick={() =>
+          setColorScheme(computedColorScheme === "light" ? "dark" : "light")
+        }
+      />
+    ) : null;
+  };
+
+  useEffect(() => {
     const savedState = localStorage.getItem(MEINL_OFFICE_SIDEBAR_KEY);
     if (savedState !== null) {
       setIsCollapsed(savedState === "true");
@@ -78,16 +122,18 @@ export default function Sidebar() {
           href="/"
           className="flex justify-center items-center cursor-pointer hover:opacity-80"
         >
-          <Image src="/logo.svg" alt="Meinl Logo" width={24} height={24} />
+          <Image
+            src="/logo_w.svg"
+            alt="Meinl Logo"
+            width={24}
+            height={24}
+            className="inverted"
+          />
           {!isCollapsed && (
             <p className="text-xl font-bold tracking-tighter">Office</p>
           )}
         </Link>
-        <ActionIcon
-          color={isCollapsed ? "black" : "dark"}
-          variant="transparent"
-          onClick={toggleSidebar}
-        >
+        <ActionIcon color="dark" variant="transparent" onClick={toggleSidebar}>
           {isCollapsed ? (
             <IconLayoutSidebarLeftExpand size={20} />
           ) : (
@@ -121,15 +167,20 @@ export default function Sidebar() {
             );
           })}
         </div>
-        <NavLink
-          label="Ausloggen"
-          title="Ausloggen"
-          leftSection={<IconLogout size={20} />}
-          styles={{
-            root: navLink(isCollapsed),
-          }}
-          onClick={() => signOut()}
-        />
+        <div>
+          <ThemeSwitch />
+          <NavLink
+            label="Ausloggen"
+            title="Ausloggen"
+            active
+            color="dark"
+            leftSection={<IconLogout size={20} />}
+            styles={{
+              root: navLink(isCollapsed),
+            }}
+            onClick={() => signOut()}
+          />
+        </div>
       </nav>
     </aside>
   );

@@ -4,12 +4,20 @@
   --background: var(--mantine-color-white);
   --foreground: var(--mantine-color-black);
   --background-subtle: var(--mantine-color-gray-1);
-  --subtle: rgba(255, 255, 255, 0.1);
+  --subtle: rgba(0, 0, 0, 0.2);
   --hover: var(--mantine-color-gray-light);
   --main: #ef233c;
   --transition: 300ms all ease-in-out;
   --defaultPadding: 12px;
   --filter-inverted: invert(1) brightness(0.9) contrast(1.2);
+}
+
+.dark {
+  --background: var(--mantine-color-black);
+  --foreground: var(--mantine-color-white);
+  --background-subtle: var(--mantine-color-dark-8);
+  --subtle: rgba(255, 255, 255, 0.2);
+  --filter-inverted: none;
 }
 
 body {
@@ -131,7 +139,7 @@ img.inverted {
 .mantine-MultiSelect-input[aria-readonly="false"],
 .mantine-Fieldset-root {
   background-color: var(--background-subtle);
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: var(--subtle);
 }
 
 .mantine-Table-th {
