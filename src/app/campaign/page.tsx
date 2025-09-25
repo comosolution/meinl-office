@@ -20,6 +20,7 @@ import {
 import { format, formatDistance } from "date-fns";
 import { de } from "date-fns/locale";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { brands } from "../lib/data";
 import { Campaign } from "../lib/interfaces";
 import { notEmptyValidation } from "../lib/utils";
@@ -27,6 +28,17 @@ import { notEmptyValidation } from "../lib/utils";
 export default function Page() {
   const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+
+  const getCampaigns = async () => {
+    const res = await fetch("/api/campaign");
+    const data = await res.json();
+    setCampaigns(data);
+  };
+
+  useEffect(() => {
+    getCampaigns();
+  }, []);
 
   const form = useForm<Campaign>({
     validateInputOnChange: true,
@@ -94,18 +106,7 @@ export default function Page() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[
-              {
-                id: 1,
-                brand: "Meinl Cymbals",
-                title: "Master Cymbals Set",
-                description:
-                  "A custom-made cymbal set for professionals handmade in Germany",
-                start: "2025-09-24T11:06:06.703Z",
-                end: "2025-09-28T12:00:00.000Z",
-                dealers: ["52700", "31225"],
-              },
-            ].map((campaign, index) => (
+            {campaigns.map((campaign, index) => (
               <Table.Tr
                 key={index}
                 className="cursor-pointer"
@@ -114,8 +115,12 @@ export default function Page() {
                 <Table.Td>{campaign.id}</Table.Td>
                 <Table.Td>{campaign.brand}</Table.Td>
                 <Table.Td>{campaign.title}</Table.Td>
-                <Table.Td>{formatDate(campaign.start)}</Table.Td>
-                <Table.Td>{formatDate(campaign.end)}</Table.Td>
+                <Table.Td>
+                  {campaign.start ? formatDate(campaign.start) : ""}
+                </Table.Td>
+                <Table.Td>
+                  {campaign.end ? formatDate(campaign.end) : ""}
+                </Table.Td>
                 <Table.Td>{campaign.dealers.length}</Table.Td>
               </Table.Tr>
             ))}
@@ -131,14 +136,13 @@ export default function Page() {
         <form
           className="flex flex-col gap-4"
           onSubmit={form.onSubmit(async (values) => {
-            // const response = await fetch("/api/customer", {
-            //   method: "POST",
-            //   body: JSON.stringify(values),
-            // });
-            // if (response.ok) {
-            console.log(values);
-            close();
-            // }
+            const response = await fetch("/api/campaign", {
+              method: "POST",
+              body: JSON.stringify(values),
+            });
+            if (response.ok) {
+              close();
+            }
           })}
         >
           <h2>Kampagne anlegen</h2>

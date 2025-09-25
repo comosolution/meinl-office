@@ -61,7 +61,7 @@ export interface Campaign {
   brand: string;
   title: string;
   description: string;
-  start: Date | string | null;
-  end: Date | string | null;
+  start: string | null;
+  end: string | null;
   dealers: string[];
 }

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     return new Response("Options missing in body", { status: 400 });
   }
 
-  const res = await fetch(`${MEINL_WEB_API}/search/${type}`, {
+  const res = await fetch(`${MEINL_WEB_API}/office/search/${type}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

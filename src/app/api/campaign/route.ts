@@ -1,13 +1,13 @@
 import { MEINL_WEB_API } from "@/app/lib/constants";
 
 export async function GET() {
-  const res = await fetch(`${MEINL_WEB_API}/office/customer`);
-  const companies = await res.json();
-  return Response.json(companies);
+  const res = await fetch(`${MEINL_WEB_API}/campaign`);
+  const data = await res.json();
+  return Response.json(data);
 }
 
 export async function POST(request: Request) {
-  const res = await fetch(`${MEINL_WEB_API}/office/customer`, {
+  const res = await fetch(`${MEINL_WEB_API}/campaign/save`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

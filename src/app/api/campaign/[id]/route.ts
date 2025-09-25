@@ -6,7 +6,7 @@ export async function GET(
 ) {
   const { id } = await params;
 
-  const res = await fetch(`${MEINL_WEB_API}/office/customer/${id}`);
+  const res = await fetch(`${MEINL_WEB_API}/campaign/${id}`);
   const data = await res.json();
   return Response.json(data);
 }
