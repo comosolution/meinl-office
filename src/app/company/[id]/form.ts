@@ -26,11 +26,13 @@ export const getInitialValues = (company: Company) => {
     www: company.www || "",
     matchcode: company.matchcode || "",
     dealerloc: company.dealerloc || false,
+    distributor: company.distributor || false,
     brands,
     latitude: company.latitude || 0,
     longitude: company.longitude || 0,
     personen: company.personen || [],
     campagnen: company.campagnen || [],
+    haendler: company.haendler || [],
   };
 };
 

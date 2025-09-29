@@ -21,6 +21,7 @@ import { useForm } from "@mantine/form";
 import {
   IconBuildingEstate,
   IconBuildings,
+  IconBuildingWarehouse,
   IconChevronLeft,
   IconCircleCheck,
   IconCircleX,
@@ -176,6 +177,19 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           >
             DealerLocator
           </Tabs.Tab>
+          {company.distributor && (
+            <Tabs.Tab
+              value="distributor"
+              leftSection={<IconBuildingWarehouse size={16} />}
+              rightSection={
+                <Badge size="xs" color="gray">
+                  {company.haendler.length}
+                </Badge>
+              }
+            >
+              Händler
+            </Tabs.Tab>
+          )}
           <Tabs.Tab
             value="employees"
             leftSection={<IconUsersGroup size={16} />}
@@ -379,6 +393,57 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </div>
           </Tabs.Panel>
         </form>
+
+        <Tabs.Panel value="distributor" className="py-4">
+          <div className="flex flex-col gap-4">
+            {company.personen.length > 0 ? (
+              <Table stickyHeader>
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Th />
+                    <Table.Th>Name</Table.Th>
+                    <Table.Th>Zusatz</Table.Th>
+                    <Table.Th>Kdnr</Table.Th>
+                    <Table.Th>Stadt</Table.Th>
+                    <Table.Th>Land</Table.Th>
+                    <Table.Th>DealerLocator</Table.Th>
+                  </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                  {company.haendler.map((company, i) => (
+                    <Table.Tr key={i}>
+                      <Table.Td>
+                        <Avatar
+                          size={24}
+                          variant="filled"
+                          color={getAvatarColor(company.kdnr)}
+                        >
+                          <IconBuildingWarehouse size={14} />
+                        </Avatar>
+                      </Table.Td>
+                      <Table.Td>
+                        <b>{company.name1}</b>
+                      </Table.Td>
+                      <Table.Td>
+                        {company.name2} {company.name3}
+                      </Table.Td>
+                      <Table.Td>{company.kdnr}</Table.Td>
+                      <Table.Td>{company.ort}</Table.Td>
+                      <Table.Td>{company.land}</Table.Td>
+                      <Table.Td>
+                        <Checkbox checked={company.dealerloc} />
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
+              </Table>
+            ) : (
+              <p className="dimmed text-center p-4">
+                Keine Mitarbeiter erfasst.
+              </p>
+            )}
+          </div>
+        </Tabs.Panel>
 
         <EmployeesTab company={company} />
       </Tabs>

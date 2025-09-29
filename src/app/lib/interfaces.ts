@@ -12,11 +12,13 @@ export interface Company {
   www: string;
   matchcode: string;
   dealerloc: boolean;
+  distributor: boolean;
   brands: string | string[];
   latitude: number;
   longitude: number;
   personen: Person[];
   campagnen: Campaign[];
+  haendler: Company[];
 }
 
 export interface CompanyInStorage {
