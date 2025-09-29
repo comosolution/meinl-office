@@ -102,7 +102,7 @@ export default function Page() {
               <Table.Th>Name</Table.Th>
               <Table.Th>Start</Table.Th>
               <Table.Th>Ende</Table.Th>
-              <Table.Th>Dealer</Table.Th>
+              <Table.Th>Händler</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

@@ -13,6 +13,7 @@ import {
   Select,
   Textarea,
   TextInput,
+  Tooltip,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -24,6 +25,7 @@ import {
   IconCopy,
   IconDeviceFloppy,
   IconEdit,
+  IconExclamationCircle,
   IconExternalLink,
   IconTrash,
   IconX,
@@ -357,16 +359,29 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         </h3>
                         <p className="text-xs dimmed">{company.kdnr}</p>
                       </div>
-                      <ActionIcon
-                        color="red"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removeCompany(kdnr);
-                        }}
-                        disabled={!edit}
-                      >
-                        <IconX size={16} />
-                      </ActionIcon>
+                      <ActionIcon.Group>
+                        {!company.dealerloc && (
+                          <Tooltip
+                            label={`DealerLocator ist für ${company.name1} nicht aktiviert.`}
+                            position="left"
+                            withArrow
+                          >
+                            <ActionIcon variant="light">
+                              <IconExclamationCircle size={16} />
+                            </ActionIcon>
+                          </Tooltip>
+                        )}
+                        <ActionIcon
+                          color="red"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            removeCompany(kdnr);
+                          }}
+                          disabled={!edit}
+                        >
+                          <IconX size={16} />
+                        </ActionIcon>
+                      </ActionIcon.Group>
                     </div>
                   </Card>
                 );
