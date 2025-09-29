@@ -342,7 +342,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 const company = companies.find((c) => c.kdnr === kdnr);
                 if (!company) return null;
                 return (
-                  <Card key={kdnr} shadow="sm" p="md" bg="var(--background)">
+                  <Card
+                    key={kdnr}
+                    component={Link}
+                    href={`/company/${kdnr}`}
+                    shadow="sm"
+                    p="md"
+                    bg="var(--background)"
+                  >
                     <div className="flex justify-between items-center">
                       <div>
                         <h3>
@@ -352,7 +359,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       </div>
                       <ActionIcon
                         color="red"
-                        onClick={() => removeCompany(kdnr)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeCompany(kdnr);
+                        }}
                         disabled={!edit}
                       >
                         <IconX size={16} />
