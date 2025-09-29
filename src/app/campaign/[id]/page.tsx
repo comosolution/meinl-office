@@ -136,8 +136,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               src={`/brands/${campaign.brand
                 .replaceAll(" ", "-")
                 .toUpperCase()}.png`}
-              width={32}
-              height={32}
+              width={24}
+              height={24}
               alt={`${campaign.brand} Logo`}
               className="inverted object-contain"
             />{" "}

@@ -106,24 +106,26 @@ export default function Page() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {campaigns.map((campaign, index) => (
-              <Table.Tr
-                key={index}
-                className="cursor-pointer"
-                onClick={() => router.push(`/campaign/${campaign.id}`)}
-              >
-                <Table.Td>{campaign.id}</Table.Td>
-                <Table.Td>{campaign.brand}</Table.Td>
-                <Table.Td>{campaign.title}</Table.Td>
-                <Table.Td>
-                  {campaign.start ? formatDate(campaign.start) : ""}
-                </Table.Td>
-                <Table.Td>
-                  {campaign.end ? formatDate(campaign.end) : ""}
-                </Table.Td>
-                <Table.Td>{campaign.dealers.length}</Table.Td>
-              </Table.Tr>
-            ))}
+            {campaigns
+              .sort((a, b) => a.id - b.id)
+              .map((campaign, index) => (
+                <Table.Tr
+                  key={index}
+                  className="cursor-pointer"
+                  onClick={() => router.push(`/campaign/${campaign.id}`)}
+                >
+                  <Table.Td>{campaign.id}</Table.Td>
+                  <Table.Td>{campaign.brand}</Table.Td>
+                  <Table.Td>{campaign.title}</Table.Td>
+                  <Table.Td>
+                    {campaign.start ? formatDate(campaign.start) : ""}
+                  </Table.Td>
+                  <Table.Td>
+                    {campaign.end ? formatDate(campaign.end) : ""}
+                  </Table.Td>
+                  <Table.Td>{campaign.dealers.length}</Table.Td>
+                </Table.Tr>
+              ))}
           </Table.Tbody>
         </Table>
       </main>
