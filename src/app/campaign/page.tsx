@@ -97,7 +97,7 @@ export default function Page() {
         <Table stickyHeader highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th />
+              <Table.Th>ID</Table.Th>
               <Table.Th>Brand</Table.Th>
               <Table.Th>Name</Table.Th>
               <Table.Th>Start</Table.Th>

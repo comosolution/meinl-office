@@ -13,6 +13,7 @@ import {
   Checkbox,
   Fieldset,
   NumberInput,
+  Table,
   Tabs,
   TextInput,
 } from "@mantine/core";
@@ -30,6 +31,7 @@ import {
 } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { getInitialValues, validateForm } from "./form";
 import EmployeesTab from "./tabs/employeesTab";
@@ -39,6 +41,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [company, setCompany] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
+
+  const router = useRouter();
 
   const form = useForm<Company>({
     initialValues: getInitialValues({} as Company),
@@ -342,10 +346,36 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Fieldset>
 
               {company.latitude !== null && company.longitude !== null && (
-                <div className="col-span-2">
-                  <Map company={company} />
-                </div>
+                <Map company={company} />
               )}
+
+              <Fieldset>
+                <h2>Kampagnen</h2>
+                <Table highlightOnHover>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>ID</Table.Th>
+                      <Table.Th>Name</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {company.campagnen
+                      .sort((a, b) => a.id - b.id)
+                      .map((campaign, index) => (
+                        <Table.Tr
+                          key={index}
+                          className="cursor-pointer"
+                          onClick={() =>
+                            router.push(`/campaign/${campaign.id}`)
+                          }
+                        >
+                          <Table.Td>{campaign.id}</Table.Td>
+                          <Table.Td>{campaign.title}</Table.Td>
+                        </Table.Tr>
+                      ))}
+                  </Table.Tbody>
+                </Table>
+              </Fieldset>
             </div>
           </Tabs.Panel>
         </form>
