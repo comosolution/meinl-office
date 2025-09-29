@@ -159,6 +159,67 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         })}
         className="grid grid-cols-2 gap-4"
       >
+        <div className="col-span-2 flex justify-between gap-2">
+          {edit ? (
+            <Button.Group>
+              <Button
+                color="dark"
+                variant="light"
+                onClick={async () => {
+                  await getCampaign();
+                  setEdit(false);
+                }}
+              >
+                Verwerfen
+              </Button>
+              <Button
+                type="submit"
+                color="dark"
+                leftSection={<IconDeviceFloppy size={16} />}
+                disabled={!form.isValid()}
+              >
+                Änderungen speichern
+              </Button>
+            </Button.Group>
+          ) : (
+            <Button
+              color="dark"
+              leftSection={<IconEdit size={16} />}
+              onClick={() => setEdit(true)}
+            >
+              Kampagne bearbeiten
+            </Button>
+          )}
+          {del ? (
+            <Button.Group>
+              <Button
+                onClick={handleDelete}
+                leftSection={<IconTrash size={16} />}
+              >
+                Kampagne endgültig löschen
+              </Button>
+              <Button
+                variant="light"
+                onClick={() => {
+                  setDel(false);
+                }}
+              >
+                Abbrechen
+              </Button>
+            </Button.Group>
+          ) : (
+            <Button
+              variant="light"
+              leftSection={<IconTrash size={16} />}
+              onClick={() => {
+                setDel(true);
+              }}
+            >
+              Löschen
+            </Button>
+          )}
+        </div>
+
         <div className="col-span-2 flex">
           <TextInput className="w-full" value={dealerLocLink} readOnly />
           <Button.Group>
@@ -188,6 +249,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Button>
           </Button.Group>
         </div>
+
         <Fieldset>
           <h2>Daten</h2>
           <Select
@@ -295,66 +357,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               })}
           </div>
         </Fieldset>
-        <div className="col-span-2 flex justify-between gap-2">
-          {edit ? (
-            <Button.Group>
-              <Button
-                color="dark"
-                variant="light"
-                onClick={async () => {
-                  await getCampaign();
-                  setEdit(false);
-                }}
-              >
-                Verwerfen
-              </Button>
-              <Button
-                type="submit"
-                color="dark"
-                leftSection={<IconDeviceFloppy size={16} />}
-                disabled={!form.isValid()}
-              >
-                Änderungen speichern
-              </Button>
-            </Button.Group>
-          ) : (
-            <Button
-              color="dark"
-              leftSection={<IconEdit size={16} />}
-              onClick={() => setEdit(true)}
-            >
-              Kampagne bearbeiten
-            </Button>
-          )}
-          {del ? (
-            <Button.Group>
-              <Button
-                onClick={handleDelete}
-                leftSection={<IconTrash size={16} />}
-              >
-                Kampagne endgültig löschen
-              </Button>
-              <Button
-                variant="light"
-                onClick={() => {
-                  setDel(false);
-                }}
-              >
-                Abbrechen
-              </Button>
-            </Button.Group>
-          ) : (
-            <Button
-              variant="light"
-              leftSection={<IconTrash size={16} />}
-              onClick={() => {
-                setDel(true);
-              }}
-            >
-              Löschen
-            </Button>
-          )}
-        </div>
       </form>
     </main>
   );
