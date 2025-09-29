@@ -159,19 +159,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         })}
         className="grid grid-cols-2 gap-4"
       >
-        <div className="col-span-2 flex justify-between gap-2">
+        <div className="col-span-2 flex justify-end gap-2">
           {edit ? (
             <Button.Group>
-              <Button
-                color="dark"
-                variant="light"
-                onClick={async () => {
-                  await getCampaign();
-                  setEdit(false);
-                }}
-              >
-                Verwerfen
-              </Button>
               <Button
                 type="submit"
                 color="dark"
@@ -180,10 +170,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               >
                 Änderungen speichern
               </Button>
+              <Button
+                color="dark"
+                variant="transparent"
+                onClick={async () => {
+                  await getCampaign();
+                  setEdit(false);
+                }}
+              >
+                Verwerfen
+              </Button>
             </Button.Group>
           ) : (
             <Button
               color="dark"
+              variant="transparent"
               leftSection={<IconEdit size={16} />}
               onClick={() => setEdit(true)}
             >
@@ -199,7 +200,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 Kampagne endgültig löschen
               </Button>
               <Button
-                variant="light"
+                variant="transparent"
                 onClick={() => {
                   setDel(false);
                 }}
@@ -209,7 +210,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Button.Group>
           ) : (
             <Button
-              variant="light"
+              variant="transparent"
               leftSection={<IconTrash size={16} />}
               onClick={() => {
                 setDel(true);
@@ -221,7 +222,23 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </div>
 
         <div className="col-span-2 flex">
-          <TextInput className="w-full" value={dealerLocLink} readOnly />
+          <TextInput
+            className="w-full"
+            value={dealerLocLink}
+            readOnly
+            rightSection={
+              <ActionIcon
+                variant="transparent"
+                color="dark"
+                component="a"
+                href={dealerLocLink}
+                target="_blank"
+                aria-label="Link öffnen"
+              >
+                <IconExternalLink size={16} />
+              </ActionIcon>
+            }
+          />
           <Button.Group>
             <CopyButton value={dealerLocLink}>
               {({ copied, copy }) => (
@@ -236,17 +253,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Button>
               )}
             </CopyButton>
-
-            <Button
-              variant="light"
-              color="dark"
-              component="a"
-              href={dealerLocLink}
-              target="_blank"
-              leftSection={<IconExternalLink size={16} />}
-            >
-              Öffnen
-            </Button>
           </Button.Group>
         </div>
 
