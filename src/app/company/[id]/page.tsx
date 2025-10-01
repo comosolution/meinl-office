@@ -347,9 +347,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Webshop URL"
-                    {...form.getInputProps("www")}
-                    readOnly={!edit}
+                    label="Kundentyp"
+                    {...form.getInputProps("type")}
+                    readOnly
                   />
                   <TextInput
                     label="Breitengrad"
