@@ -10,3 +10,9 @@ export const brands = [
   "Hardcase",
   "Backun",
 ];
+
+export const customerType: { [key: string]: string } = {
+  "1": "Retail",
+  "2": "Online",
+  "3": "Retail & Online",
+};
