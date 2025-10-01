@@ -1,5 +1,5 @@
 export interface Company {
-  kdnr: number;
+  kdnr: string;
   name1: string;
   name2: string;
   name3: string;
@@ -27,7 +27,7 @@ export interface CompanyInStorage {
 }
 
 export interface Person {
-  kdnr: number;
+  kdnr: string;
   vorname: string;
   nachname: string;
   name1: string;
@@ -65,5 +65,5 @@ export interface Campaign {
   description: string;
   start: string | null;
   end: string | null;
-  dealers: number[];
+  dealers: string[];
 }

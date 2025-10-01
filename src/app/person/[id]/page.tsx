@@ -5,8 +5,10 @@ import { MEINL_OFFICE_PERSON_HISTORY_KEY } from "@/app/lib/constants";
 import { Company, Person, PersonInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import { Avatar, Button, Tabs } from "@mantine/core";
-import { IconChevronLeft, IconId } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications";
+import { IconChevronLeft, IconChevronRight, IconId } from "@tabler/icons-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import InfoTab from "./tabs/infoTab";
 
@@ -15,6 +17,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [company, setCompany] = useState<Company>();
   const [person, setPerson] = useState<Person>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
+
+  const router = useRouter();
 
   useEffect(() => {
     getCustomer();
@@ -36,6 +40,36 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const response = await fetch(`/api/customer/${id}`, {
       method: "GET",
     });
+
+    if (!response.ok) {
+      notifications.show({
+        id: `error-${id}`,
+        title: `Fehler ${response.status}`,
+        message: (
+          <>
+            <p>{await response.json()}</p>
+            <Button
+              size="xs"
+              variant="light"
+              mt={8}
+              rightSection={<IconChevronRight size={12} />}
+              onClick={() => {
+                router.push("/");
+                notifications.hide(`error-${id}`);
+              }}
+              fullWidth
+            >
+              Zurück zur Startseite
+            </Button>
+          </>
+        ),
+        position: "top-center",
+        autoClose: false,
+        withCloseButton: false,
+      });
+      return;
+    }
+
     const companies = await response.json();
     setCompany(companies[0]);
   };

@@ -18,11 +18,13 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import {
   IconBuildingEstate,
   IconBuildings,
   IconBuildingWarehouse,
   IconChevronLeft,
+  IconChevronRight,
   IconCircleCheck,
   IconCircleX,
   IconDeviceFloppy,
@@ -65,6 +67,36 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const getCompany = async () => {
     const response = await fetch(`/api/customer/${id}`);
+
+    if (!response.ok) {
+      notifications.show({
+        id: `error-${id}`,
+        title: `Fehler ${response.status}`,
+        message: (
+          <>
+            <p>{await response.json()}</p>
+            <Button
+              size="xs"
+              variant="light"
+              mt={8}
+              rightSection={<IconChevronRight size={12} />}
+              onClick={() => {
+                router.push("/");
+                notifications.hide(`error-${id}`);
+              }}
+              fullWidth
+            >
+              Zurück zur Startseite
+            </Button>
+          </>
+        ),
+        position: "top-center",
+        autoClose: false,
+        withCloseButton: false,
+      });
+      return;
+    }
+
     const companies = await response.json();
     setCompany(companies[0]);
   };

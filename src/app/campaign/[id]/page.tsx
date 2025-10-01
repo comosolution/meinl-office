@@ -44,7 +44,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [edit, setEdit] = useState(false);
   const [del, setDel] = useState(false);
   const [search, setSearch] = useState("");
-  const [selectedKdnrs, setSelectedKdnrs] = useState<number[]>([]);
+  const [selectedKdnrs, setSelectedKdnrs] = useState<string[]>([]);
 
   const router = useRouter();
 
@@ -107,7 +107,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     setSearch("");
   };
 
-  const removeCompany = (kdnr: number) => {
+  const removeCompany = (kdnr: string) => {
     const newSelected = selectedKdnrs.filter((id) => id !== kdnr);
     setSelectedKdnrs(newSelected);
     form.setFieldValue("dealers", newSelected);
