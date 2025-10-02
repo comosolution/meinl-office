@@ -9,7 +9,7 @@ import {
   sizes,
   titles,
 } from "@/app/lib/data";
-import { Company, Person, PersonInStorage } from "@/app/lib/interfaces";
+import { Person, PersonInStorage } from "@/app/lib/interfaces";
 import { formatDateToString, getAvatarColor } from "@/app/lib/utils";
 import {
   Autocomplete,
@@ -25,11 +25,12 @@ import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import {
+  IconBalloon,
   IconChevronLeft,
   IconChevronRight,
   IconDeviceFloppy,
   IconEdit,
-  IconId,
+  IconUser,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -38,7 +39,6 @@ import { FormValues, getInitialValues, validateForm } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
-  const [company, setCompany] = useState<Company>();
   const [person, setPerson] = useState<Person>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
@@ -57,23 +57,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [id]);
 
   useEffect(() => {
-    if (company) {
-      setPerson(company?.personen[0]);
-    }
-  }, [company]);
-
-  useEffect(() => {
     if (!person) return;
     updateHistory();
     form.setValues(getInitialValues(person));
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [person]);
 
   const getCustomer = async () => {
-    const response = await fetch(`/api/company/${id}`, {
-      method: "GET",
-    });
+    const response = await fetch(`/api/person/${id}`);
 
     if (!response.ok) {
       notifications.show({
@@ -105,17 +96,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
 
     const companies = await response.json();
-    setCompany(companies[0]);
+    setPerson(companies);
   };
 
   const updateHistory = () => {
     if (!person) return;
 
     const newEntry: PersonInStorage = {
-      kdnr: person.b2bnr,
+      kdnr: person.id.toString(),
       vorname: person.vorname,
       nachname: person.nachname,
       position: person.jobpos,
+      company: person.name1,
     };
     const history = JSON.parse(
       localStorage.getItem(MEINL_OFFICE_PERSON_HISTORY_KEY) || "[]"
@@ -132,9 +124,42 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     );
   };
 
-  if (!person || !company) {
-    return <Loader />;
-  }
+  const actions = (
+    <div className="col-span-2 flex justify-end gap-2">
+      {edit ? (
+        <Button.Group>
+          <Button
+            color="dark"
+            variant="transparent"
+            // TODO: reset form
+            onClick={() => setEdit(false)}
+          >
+            Verwerfen
+          </Button>
+          <Button
+            type="submit"
+            color="dark"
+            variant="light"
+            leftSection={<IconDeviceFloppy size={16} />}
+            disabled={!form.isValid()}
+          >
+            Änderungen speichern
+          </Button>
+        </Button.Group>
+      ) : (
+        <Button
+          color="dark"
+          variant="transparent"
+          leftSection={<IconEdit size={16} />}
+          onClick={() => setEdit(true)}
+        >
+          Daten bearbeiten
+        </Button>
+      )}
+    </div>
+  );
+
+  if (!person) return <Loader />;
 
   return (
     <main className="flex flex-col gap-4 p-4">
@@ -154,9 +179,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             variant="transparent"
             leftSection={<IconChevronLeft size={16} />}
             component={Link}
-            href={`/company/${company?.kdnr}`}
+            href={`/company/${person.kdnr}`}
           >
-            {company?.name1}
+            {person.name1}
           </Button>
         </Button.Group>
         <Contact
@@ -178,8 +203,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <div className="flex justify-between items-baseline gap-2">
             <p>
               {person.jobpos || "Mitarbeiter"} bei{" "}
-              <Link href={`/company/${company?.kdnr}`} className="link">
-                <b>{company?.name1}</b> ({company?.kdnr})
+              <Link href={`/company/${person.kdnr}`} className="link">
+                <b>{person.name1}</b> ({person.kdnr})
               </Link>
             </p>
             <p className="dimmed">{person.b2bnr}</p>
@@ -188,8 +213,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       </header>
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
-          <Tabs.Tab value="info" leftSection={<IconId size={16} />}>
+          <Tabs.Tab value="info" leftSection={<IconUser size={16} />}>
             Persönliche Daten
+          </Tabs.Tab>
+          <Tabs.Tab value="private" leftSection={<IconBalloon size={16} />}>
+            Privat
           </Tabs.Tab>
         </Tabs.List>
 
@@ -215,37 +243,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         >
           <Tabs.Panel value="info" className="py-4">
             <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2 flex justify-end gap-2">
-                {edit ? (
-                  <Button.Group>
-                    <Button
-                      color="dark"
-                      variant="light"
-                      // TODO: reset form
-                      onClick={() => setEdit(false)}
-                    >
-                      Verwerfen
-                    </Button>
-                    <Button
-                      type="submit"
-                      color="dark"
-                      leftSection={<IconDeviceFloppy size={16} />}
-                      disabled={!form.isValid()}
-                    >
-                      Änderungen speichern
-                    </Button>
-                  </Button.Group>
-                ) : (
-                  <Button
-                    color="dark"
-                    leftSection={<IconEdit size={16} />}
-                    onClick={() => setEdit(true)}
-                  >
-                    Persönliche Daten bearbeiten
-                  </Button>
-                )}
-              </div>
-
+              {actions}
               <Fieldset>
                 <h2>Person</h2>
                 <div className="grid grid-cols-2 gap-4">
@@ -284,7 +282,98 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Privat</h2>
+                <h2>Kommunikation</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <TextInput
+                    label="Telefon"
+                    {...form.getInputProps("phone")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Mobil"
+                    {...form.getInputProps("mobil")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="E-Mail"
+                    {...form.getInputProps("email")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Betreut von"
+                    {...form.getInputProps("betreutvon")}
+                    readOnly={!edit}
+                  />
+                </div>
+              </Fieldset>
+              <Fieldset>
+                <h2>Büroanschrift</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <TextInput
+                    label="Land"
+                    {...form.getInputProps("land")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Straße"
+                    {...form.getInputProps("strasse")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="PLZ"
+                    {...form.getInputProps("plz")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Ort"
+                    {...form.getInputProps("ort")}
+                    readOnly={!edit}
+                  />
+                </div>
+              </Fieldset>
+              <Fieldset>
+                <h2>Zuständigkeiten</h2>
+                <Checkbox.Group {...form.getInputProps("zustaendig")}>
+                  <div className="grid grid-cols-2 gap-2">
+                    {competences.map((c, i) => (
+                      <Checkbox key={i} label={c} value={c} disabled={!edit} />
+                    ))}
+                  </div>
+                </Checkbox.Group>
+              </Fieldset>
+            </div>
+          </Tabs.Panel>
+
+          <Tabs.Panel value="private" className="py-4">
+            <div className="grid grid-cols-2 gap-4">
+              {actions}
+              <Fieldset>
+                <h2>Privatanschrift</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <TextInput
+                    label="Land"
+                    {...form.getInputProps("land")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Straße"
+                    {...form.getInputProps("strasse")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="PLZ"
+                    {...form.getInputProps("plz")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Ort"
+                    {...form.getInputProps("ort")}
+                    readOnly={!edit}
+                  />
+                </div>
+              </Fieldset>
+              <Fieldset>
+                <h2>Details</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <DateInput
                     label="Geburtsdatum"
@@ -322,39 +411,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     readOnly={!edit}
                   />
                 </div>
-              </Fieldset>
-              <Fieldset>
-                <h2>Kommunikation</h2>
-                <TextInput
-                  label="Telefon"
-                  {...form.getInputProps("phone")}
-                  readOnly={!edit}
-                />
-                <TextInput
-                  label="Mobil"
-                  {...form.getInputProps("mobil")}
-                  readOnly={!edit}
-                />
-                <TextInput
-                  label="E-Mail"
-                  {...form.getInputProps("email")}
-                  readOnly={!edit}
-                />
-                <TextInput
-                  label="Betreut von"
-                  {...form.getInputProps("betreutvon")}
-                  readOnly={!edit}
-                />
-              </Fieldset>
-              <Fieldset>
-                <h2>Zuständigkeiten</h2>
-                <Checkbox.Group {...form.getInputProps("zustaendig")}>
-                  <div className="grid grid-cols-2 gap-2">
-                    {competences.map((c, i) => (
-                      <Checkbox key={i} label={c} value={c} disabled={!edit} />
-                    ))}
-                  </div>
-                </Checkbox.Group>
               </Fieldset>
             </div>
           </Tabs.Panel>

@@ -23,7 +23,7 @@ export default function EmployeeRow({
   return (
     <Table.Tr
       className={`${hasProfile && "cursor-pointer"}`}
-      onClick={() => hasProfile && router.push(`/person/${employee.b2bnr}`)}
+      onClick={() => hasProfile && router.push(`/person/${employee.id}`)}
     >
       <Table.Td>
         <Avatar

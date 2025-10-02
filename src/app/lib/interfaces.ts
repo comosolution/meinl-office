@@ -59,6 +59,7 @@ export interface PersonInStorage {
   vorname: string;
   nachname: string;
   position: string;
+  company?: string;
 }
 
 export interface Campaign {

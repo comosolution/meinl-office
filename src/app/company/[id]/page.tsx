@@ -132,7 +132,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Button.Group>
           <Button
             color="dark"
-            variant="light"
+            variant="transparent"
             onClick={async () => {
               await getCompany();
               setEdit(false);
@@ -143,6 +143,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Button
             type="submit"
             color="dark"
+            variant="light"
             leftSection={<IconDeviceFloppy size={16} />}
             disabled={!form.isValid()}
           >
@@ -152,6 +153,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       ) : (
         <Button
           color="dark"
+          variant="transparent"
           leftSection={<IconEdit size={16} />}
           onClick={() => setEdit(true)}
         >
@@ -283,7 +285,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               </Fieldset>
-
               <Fieldset>
                 <h2>Anschrift</h2>
                 <div className="grid grid-cols-2 gap-4">
@@ -309,7 +310,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               </Fieldset>
-
               <Fieldset>
                 <h2>Kommunikation</h2>
                 <TextInput
@@ -392,11 +392,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </div>
                 </Checkbox.Group>
               </Fieldset>
-
               {company.latitude !== null && company.longitude !== null && (
                 <Map company={company} />
               )}
-
               <Fieldset>
                 <h2>Kampagnen</h2>
                 <Table highlightOnHover>

@@ -59,7 +59,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       id: `person-${index}-${p.b2bnr}`,
       label: `${p.nachname}, ${p.vorname}`,
       description: `${p.jobpos || "Mitarbeiter"} bei ${p.name1}`,
-      onClick: () => router.push(`/person/${p.b2bnr}`),
+      onClick: () => router.push(`/person/${p.id}`),
       rightSection: <p className="text-xs dimmed">{p.b2bnr}</p>,
       leftSection: (
         <Avatar
