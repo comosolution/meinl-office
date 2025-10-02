@@ -386,7 +386,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                           </div>
                         }
                         value={brand}
-                        disabled={!edit}
+                        disabled
                       />
                     ))}
                   </div>

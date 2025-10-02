@@ -40,8 +40,7 @@ export default function EmployeeRow({
       {withCompany && <Table.Td>{company}</Table.Td>}
       <Table.Td>{employee.jobpos}</Table.Td>
       <Table.Td>{employee.email}</Table.Td>
-      <Table.Td>{employee.telefon}</Table.Td>
-      <Table.Td>{employee.b2bnr}</Table.Td>
+      <Table.Td>{employee.phone}</Table.Td>
     </Table.Tr>
   );
 }

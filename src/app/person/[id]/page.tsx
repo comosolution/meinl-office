@@ -127,7 +127,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </Button.Group>
         <Contact
           email={person.email}
-          phone={person.telefon}
+          phone={person.phone}
           mobile={person.mobil}
         />
       </div>

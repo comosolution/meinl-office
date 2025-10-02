@@ -14,7 +14,6 @@ export default function EmployeeHead({
         <Table.Th>Position</Table.Th>
         <Table.Th>E-Mail</Table.Th>
         <Table.Th>Telefon</Table.Th>
-        <Table.Th>B2B#</Table.Th>
       </Table.Tr>
     </Table.Thead>
   );

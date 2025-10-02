@@ -8,7 +8,6 @@ export const brands = [
   "Ibanez",
   "Tama",
   "Hardcase",
-  "Backun",
 ];
 
 export const customerType: { [key: string]: string } = {

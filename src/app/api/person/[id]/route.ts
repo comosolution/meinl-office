@@ -6,7 +6,7 @@ export async function GET(
 ) {
   const { id } = await params;
 
-  const res = await fetch(`${MEINL_WEB_API}/office/company/${id}`);
+  const res = await fetch(`${MEINL_WEB_API}/office/person/${id}`);
 
   if (!res.ok) {
     return Response.json("Es ist ein Fehler aufgetreten.", {
@@ -15,7 +15,7 @@ export async function GET(
   }
 
   if (res.status === 204) {
-    return Response.json(`Firma mit Kdnr ${id} nicht gefunden.`, {
+    return Response.json(`Person mit ID ${id} nicht gefunden.`, {
       status: 404,
     });
   }

@@ -176,7 +176,7 @@ export default function InfoTab({ person }: { person: Person }) {
           <h2>Kommunikation</h2>
           <TextInput
             label="Telefon"
-            {...form.getInputProps("telefon")}
+            {...form.getInputProps("phone")}
             readOnly={!edit}
           />
           <TextInput

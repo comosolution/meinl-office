@@ -37,7 +37,7 @@ export interface Person {
   name2: string;
   name3: string;
   email: string;
-  telefon: string;
+  phone: string;
   b2bnr: string;
   anrede: string;
   titel: string;
