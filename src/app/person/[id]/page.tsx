@@ -2,21 +2,52 @@
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import { MEINL_OFFICE_PERSON_HISTORY_KEY } from "@/app/lib/constants";
+import {
+  competences,
+  familyStatus,
+  genders,
+  sizes,
+  titles,
+} from "@/app/lib/data";
 import { Company, Person, PersonInStorage } from "@/app/lib/interfaces";
-import { getAvatarColor } from "@/app/lib/utils";
-import { Avatar, Button, Tabs } from "@mantine/core";
+import { formatDateToString, getAvatarColor } from "@/app/lib/utils";
+import {
+  Autocomplete,
+  Avatar,
+  Button,
+  Checkbox,
+  Fieldset,
+  Select,
+  Tabs,
+  TextInput,
+} from "@mantine/core";
+import { DateInput } from "@mantine/dates";
+import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { IconChevronLeft, IconChevronRight, IconId } from "@tabler/icons-react";
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconDeviceFloppy,
+  IconEdit,
+  IconId,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import InfoTab from "./tabs/infoTab";
+import { FormValues, getInitialValues, validateForm } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const [company, setCompany] = useState<Company>();
   const [person, setPerson] = useState<Person>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
+  const [edit, setEdit] = useState(false);
+
+  const form = useForm<FormValues>({
+    validateInputOnChange: true,
+    initialValues: getInitialValues({} as Person),
+    validate: (values: FormValues) => validateForm(values),
+  });
 
   const router = useRouter();
 
@@ -32,7 +63,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [company]);
 
   useEffect(() => {
+    if (!person) return;
     updateHistory();
+    form.setValues(getInitialValues(person));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [person]);
 
@@ -157,15 +191,174 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Tabs.Tab value="info" leftSection={<IconId size={16} />}>
             Persönliche Daten
           </Tabs.Tab>
-          {/* <Tabs.Tab value="history" leftSection={<IconHistory size={16} />}>
-            Historie
-          </Tabs.Tab>
-          <Tabs.Tab value="settings" leftSection={<IconSettings size={16} />}>
-            Einstellungen
-          </Tabs.Tab> */}
         </Tabs.List>
 
-        <InfoTab person={person} />
+        <form
+          onSubmit={form.onSubmit((values) => {
+            const formattedDob = formatDateToString(
+              values.geburtsdatum as Date
+            );
+            const formattedCompetences = values.zustaendig.join(",");
+
+            console.log(
+              JSON.stringify(
+                {
+                  ...values,
+                  geburtsdatum: formattedDob,
+                  zustaendig: formattedCompetences,
+                },
+                null,
+                2
+              )
+            );
+          })}
+        >
+          <Tabs.Panel value="info" className="py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-2 flex justify-end gap-2">
+                {edit ? (
+                  <Button.Group>
+                    <Button
+                      color="dark"
+                      variant="light"
+                      // TODO: reset form
+                      onClick={() => setEdit(false)}
+                    >
+                      Verwerfen
+                    </Button>
+                    <Button
+                      type="submit"
+                      color="dark"
+                      leftSection={<IconDeviceFloppy size={16} />}
+                      disabled={!form.isValid()}
+                    >
+                      Änderungen speichern
+                    </Button>
+                  </Button.Group>
+                ) : (
+                  <Button
+                    color="dark"
+                    leftSection={<IconEdit size={16} />}
+                    onClick={() => setEdit(true)}
+                  >
+                    Persönliche Daten bearbeiten
+                  </Button>
+                )}
+              </div>
+
+              <Fieldset>
+                <h2>Person</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <Autocomplete
+                    label="Anrede"
+                    data={genders}
+                    {...form.getInputProps("anrede")}
+                    readOnly={!edit}
+                  />
+                  <Autocomplete
+                    label="Titel"
+                    data={titles}
+                    {...form.getInputProps("titel")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Nachname"
+                    {...form.getInputProps("nachname")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Vorname"
+                    {...form.getInputProps("vorname")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Position"
+                    {...form.getInputProps("jobpos")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Abteilung"
+                    {...form.getInputProps("abteilung")}
+                    readOnly={!edit}
+                  />
+                </div>
+              </Fieldset>
+              <Fieldset>
+                <h2>Privat</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <DateInput
+                    label="Geburtsdatum"
+                    valueFormat="DD.MM.YYYY"
+                    {...form.getInputProps("geburtsdatum")}
+                    readOnly={!edit}
+                  />
+                  <Select
+                    label="Familienstand"
+                    data={familyStatus}
+                    {...form.getInputProps("famstand")}
+                    checkIconPosition="right"
+                    readOnly={!edit}
+                    aria-readonly={!edit}
+                  />
+                  <TextInput
+                    label="Hobbies"
+                    {...form.getInputProps("hobbies")}
+                    readOnly={!edit}
+                  />
+                  <Autocomplete
+                    label="T-Shirt"
+                    data={sizes}
+                    {...form.getInputProps("tshirt")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Musikrichtung"
+                    {...form.getInputProps("musikrichtung")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label="Instrument"
+                    {...form.getInputProps("instrument")}
+                    readOnly={!edit}
+                  />
+                </div>
+              </Fieldset>
+              <Fieldset>
+                <h2>Kommunikation</h2>
+                <TextInput
+                  label="Telefon"
+                  {...form.getInputProps("phone")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label="Mobil"
+                  {...form.getInputProps("mobil")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label="E-Mail"
+                  {...form.getInputProps("email")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label="Betreut von"
+                  {...form.getInputProps("betreutvon")}
+                  readOnly={!edit}
+                />
+              </Fieldset>
+              <Fieldset>
+                <h2>Zuständigkeiten</h2>
+                <Checkbox.Group {...form.getInputProps("zustaendig")}>
+                  <div className="grid grid-cols-2 gap-2">
+                    {competences.map((c, i) => (
+                      <Checkbox key={i} label={c} value={c} disabled={!edit} />
+                    ))}
+                  </div>
+                </Checkbox.Group>
+              </Fieldset>
+            </div>
+          </Tabs.Panel>
+        </form>
       </Tabs>
     </main>
   );
