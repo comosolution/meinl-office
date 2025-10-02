@@ -157,7 +157,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           leftSection={<IconEdit size={16} />}
           onClick={() => setEdit(true)}
         >
-          Firmendaten bearbeiten
+          Daten bearbeiten
         </Button>
       )}
     </div>
