@@ -59,7 +59,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const dealerLocLink = `https://meinl-dealers.vercel.app?campagne=${
     form.values.id
-  }&brand=${form.values.brand.replaceAll(" ", "-")}`;
+  }&brand=${encodeURIComponent(form.values.brand.replaceAll(" ", "-"))}`;
 
   useEffect(() => {
     getCampaign();

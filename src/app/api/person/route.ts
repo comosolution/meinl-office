@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   });
 
   if (!res.ok) {
-    return new Response("Failed to update customer", { status: res.status });
+    return new Response("Failed to update person", { status: res.status });
   }
 
   return new Response("Customer updated successfully.", { status: 200 });
