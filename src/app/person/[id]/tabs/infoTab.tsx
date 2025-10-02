@@ -1,3 +1,4 @@
+import { familyStatus } from "@/app/lib/data";
 import { Person } from "@/app/lib/interfaces";
 import { formatDateToString } from "@/app/lib/utils";
 import {
@@ -5,6 +6,7 @@ import {
   Button,
   Checkbox,
   Fieldset,
+  Select,
   Tabs,
   TextInput,
 } from "@mantine/core";
@@ -141,13 +143,17 @@ export default function InfoTab({ person }: { person: Person }) {
           <div className="grid grid-cols-2 gap-4">
             <DateInput
               label="Geburtsdatum"
+              valueFormat="DD.MM.YYYY"
               {...form.getInputProps("geburtsdatum")}
               readOnly={!edit}
             />
-            <TextInput
+            <Select
               label="Familienstand"
+              data={familyStatus}
               {...form.getInputProps("famstand")}
+              checkIconPosition="right"
               readOnly={!edit}
+              aria-readonly={!edit}
             />
             <TextInput
               label="Hobbies"

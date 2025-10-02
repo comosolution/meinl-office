@@ -175,6 +175,7 @@ export default function Page() {
           <div className="grid grid-cols-2 gap-4">
             <DatePickerInput
               label="Start"
+              valueFormat="DD.MM.YYYY"
               rightSection={<IconCalendarEvent size={20} />}
               rightSectionPointerEvents="none"
               aria-readonly={false}
@@ -182,6 +183,7 @@ export default function Page() {
             />
             <DatePickerInput
               label="Ende"
+              valueFormat="DD.MM.YYYY"
               rightSection={<IconCalendarWeek size={20} />}
               rightSectionPointerEvents="none"
               aria-readonly={false}

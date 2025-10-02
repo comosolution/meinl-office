@@ -10,8 +10,10 @@ export const brands = [
   "Hardcase",
 ];
 
-export const customerType: { [key: string]: string } = {
+export const customerTypes: { [key: string]: string } = {
   "1": "Retail",
   "2": "Online",
   "3": "Retail & Online",
 };
+
+export const familyStatus = ["ledig", "verheiratet", "verwitwet", "geschieden"];

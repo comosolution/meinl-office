@@ -3,7 +3,7 @@ import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
-import { brands, customerType } from "@/app/lib/data";
+import { brands, customerTypes } from "@/app/lib/data";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import {
@@ -188,7 +188,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </span>
           </h1>
           <p className="dimmed">
-            {company.kdnr} – {customerType[company.type]}
+            {company.kdnr} – {customerTypes[company.type]}
           </p>
         </div>
       </header>
