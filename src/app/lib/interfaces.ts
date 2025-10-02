@@ -46,6 +46,7 @@ export interface Person {
   landpr: string;
   email: string;
   phone: string;
+  fax: string;
   b2bnr: string;
   anrede: string;
   titel: string;

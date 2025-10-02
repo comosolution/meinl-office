@@ -294,6 +294,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     readOnly={!edit}
                   />
                   <TextInput
+                    label="Fax"
+                    {...form.getInputProps("fax")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
                     label="E-Mail"
                     {...form.getInputProps("email")}
                     readOnly={!edit}

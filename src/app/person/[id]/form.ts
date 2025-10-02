@@ -20,6 +20,7 @@ export const getInitialValues = (person: Person) => {
     landpr: person.landpr,
     email: person.email,
     phone: person.phone,
+    fax: person.fax,
     b2bnr: person.b2bnr,
     anrede: person.anrede,
     titel: person.titel,
