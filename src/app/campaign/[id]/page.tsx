@@ -367,7 +367,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             position="left"
                             withArrow
                           >
-                            <ActionIcon variant="light">
+                            <ActionIcon variant="transparent">
                               <IconExclamationCircle size={16} />
                             </ActionIcon>
                           </Tooltip>
