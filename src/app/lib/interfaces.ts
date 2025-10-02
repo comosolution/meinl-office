@@ -1,4 +1,5 @@
 export interface Company {
+  id: number;
   kdnr: string;
   type: string;
   name1: string;
@@ -28,6 +29,7 @@ export interface CompanyInStorage {
 }
 
 export interface Person {
+  id: number;
   kdnr: string;
   vorname: string;
   nachname: string;

@@ -43,7 +43,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       label: c.name1,
       description: `${c.land}–${c.plz} ${c.ort}`,
       onClick: () => router.push(`/company/${c.kdnr}`),
-      rightSection: <p className="text-xs text-black">{c.kdnr}</p>,
+      rightSection: <p className="text-xs dimmed">{c.kdnr}</p>,
       leftSection: (
         <Avatar size={48} variant="filled" color={getAvatarColor(c.kdnr)}>
           <IconBuildings />
@@ -60,8 +60,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       label: `${p.nachname}, ${p.vorname}`,
       description: `${p.jobpos || "Mitarbeiter"} bei ${p.name1}`,
       onClick: () => router.push(`/person/${p.b2bnr}`),
-      rightSection: <p className="text-xs text-black">{p.b2bnr}</p>,
-
+      rightSection: <p className="text-xs dimmed">{p.b2bnr}</p>,
       leftSection: (
         <Avatar
           size={48}

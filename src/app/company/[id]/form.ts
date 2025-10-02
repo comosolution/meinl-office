@@ -13,6 +13,7 @@ export const getInitialValues = (company: Company) => {
   }
 
   return {
+    id: company.id,
     kdnr: company.kdnr || "",
     type: company.type || "",
     name1: company.name1 || "",

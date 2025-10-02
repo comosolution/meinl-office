@@ -3,6 +3,7 @@ import { notEmptyValidation, parseDateString } from "../../lib/utils";
 
 export const getInitialValues = (person: Person) => {
   return {
+    id: person.id,
     kdnr: person.kdnr,
     vorname: person.vorname,
     nachname: person.nachname,
