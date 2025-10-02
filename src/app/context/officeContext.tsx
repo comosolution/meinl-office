@@ -54,7 +54,7 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
       value={{
         companies,
         setCompanies,
-        persons: persons,
+        persons,
         setPersons,
         loading,
       }}

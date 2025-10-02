@@ -21,6 +21,7 @@ import { format, formatDistance } from "date-fns";
 import { de } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Loader from "../components/loader";
 import { brands } from "../lib/data";
 import { Campaign } from "../lib/interfaces";
 import { notEmptyValidation } from "../lib/utils";
@@ -29,11 +30,14 @@ export default function Page() {
   const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const getCampaigns = async () => {
+    setLoading(true);
     const res = await fetch("/api/campaign");
     const data = await res.json();
     setCampaigns(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -78,6 +82,8 @@ export default function Page() {
       return date;
     }
   };
+
+  if (loading) return <Loader />;
 
   return (
     <>

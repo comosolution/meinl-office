@@ -6,6 +6,7 @@ import { Campaign, Company } from "@/app/lib/interfaces";
 import { notEmptyValidation } from "@/app/lib/utils";
 import {
   ActionIcon,
+  Avatar,
   Button,
   Card,
   CopyButton,
@@ -130,21 +131,19 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       </div>
 
       <header className="flex items-center gap-4 p-4">
+        <Avatar size={72}>
+          <Image
+            src={`/brands/${campaign.brand
+              .replaceAll(" ", "-")
+              .toUpperCase()}.png`}
+            width={48}
+            height={48}
+            alt={`${campaign.brand} Logo`}
+            className="inverted object-contain"
+          />
+        </Avatar>
         <div className="flex flex-col gap-1 w-full">
           <h1>{campaign.title}</h1>
-          <p className="dimmed flex gap-2">
-            Kampagne für{" "}
-            <Image
-              src={`/brands/${campaign.brand
-                .replaceAll(" ", "-")
-                .toUpperCase()}.png`}
-              width={24}
-              height={24}
-              alt={`${campaign.brand} Logo`}
-              className="inverted object-contain"
-            />{" "}
-            {campaign.brand}
-          </p>
         </div>
       </header>
 
