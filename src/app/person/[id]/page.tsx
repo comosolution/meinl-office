@@ -224,9 +224,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
         <form
           onSubmit={form.onSubmit((values) => {
-            const formattedDob = formatDateToString(
-              values.geburtsdatum as Date
-            );
+            const formattedDob = formatDateToString(values.gebdat as Date);
             const formattedCompetences = values.zustaendig.join(",");
 
             console.log(
@@ -353,22 +351,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
                     label="Land"
-                    {...form.getInputProps("land")}
+                    {...form.getInputProps("landpr")}
                     readOnly={!edit}
                   />
                   <TextInput
                     label="Straße"
-                    {...form.getInputProps("strasse")}
+                    {...form.getInputProps("strassepr")}
                     readOnly={!edit}
                   />
                   <TextInput
                     label="PLZ"
-                    {...form.getInputProps("plz")}
+                    {...form.getInputProps("plzpr")}
                     readOnly={!edit}
                   />
                   <TextInput
                     label="Ort"
-                    {...form.getInputProps("ort")}
+                    {...form.getInputProps("ortpr")}
                     readOnly={!edit}
                   />
                 </div>
@@ -379,7 +377,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <DateInput
                     label="Geburtsdatum"
                     valueFormat="DD.MM.YYYY"
-                    {...form.getInputProps("geburtsdatum")}
+                    {...form.getInputProps("gebdat")}
                     readOnly={!edit}
                   />
                   <Select

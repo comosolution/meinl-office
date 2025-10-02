@@ -7,9 +7,17 @@ export const getInitialValues = (person: Person) => {
     kdnr: person.kdnr,
     vorname: person.vorname,
     nachname: person.nachname,
-    name1: "",
-    name2: "",
-    name3: "",
+    name1: person.name1,
+    name2: person.name2,
+    name3: person.name3,
+    plz: person.plz,
+    ort: person.ort,
+    strasse: person.strasse,
+    land: person.land,
+    plzpr: person.plzpr,
+    ortpr: person.ortpr,
+    strassepr: person.strassepr,
+    landpr: person.landpr,
     email: person.email,
     phone: person.phone,
     b2bnr: person.b2bnr,
@@ -19,7 +27,7 @@ export const getInitialValues = (person: Person) => {
     jobpos: person.jobpos,
     abteilung: person.abteilung,
     betreutvon: person.betreutvon,
-    geburtsdatum: parseDateString(person.geburtsdatum) || "",
+    gebdat: parseDateString(person.gebdat) || "",
     famstand: person.famstand,
     tshirt: person.tshirt,
     hobbies: person.hobbies,
@@ -31,8 +39,8 @@ export const getInitialValues = (person: Person) => {
   };
 };
 
-export type FormValues = Omit<Person, "geburtsdatum" | "zustaendig"> & {
-  geburtsdatum: Date | string;
+export type FormValues = Omit<Person, "gebdat" | "zustaendig"> & {
+  gebdat: Date | string;
   zustaendig: string[];
 };
 

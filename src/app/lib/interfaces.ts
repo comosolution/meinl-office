@@ -36,6 +36,14 @@ export interface Person {
   name1: string;
   name2: string;
   name3: string;
+  plz: string;
+  ort: string;
+  strasse: string;
+  land: string;
+  plzpr: string;
+  ortpr: string;
+  strassepr: string;
+  landpr: string;
   email: string;
   phone: string;
   b2bnr: string;
@@ -45,7 +53,7 @@ export interface Person {
   jobpos: string;
   abteilung: string;
   betreutvon: string;
-  geburtsdatum: string;
+  gebdat: string;
   famstand: string;
   tshirt: string;
   hobbies: string;
