@@ -66,7 +66,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [company]);
 
   const getCompany = async () => {
-    const response = await fetch(`/api/customer/${id}`);
+    const response = await fetch(`/api/company/${id}`);
 
     if (!response.ok) {
       notifications.show({
@@ -245,7 +245,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
         <form
           onSubmit={form.onSubmit(async (values) => {
-            const response = await fetch("/api/customer", {
+            const response = await fetch("/api/company", {
               method: "POST",
               body: JSON.stringify(values),
             });

@@ -5,7 +5,6 @@ import {
   Button,
   Checkbox,
   Fieldset,
-  MultiSelect,
   Tabs,
   TextInput,
 } from "@mantine/core";
@@ -48,7 +47,6 @@ export default function InfoTab({ person }: { person: Person }) {
         onSubmit={form.onSubmit((values) => {
           const formattedDob = formatDateToString(values.geburtsdatum as Date);
           const formattedCompetences = values.zustaendig.join(",");
-          const formattedAdvisors = values.betreutvon.join(",");
 
           console.log(
             JSON.stringify(
@@ -56,7 +54,6 @@ export default function InfoTab({ person }: { person: Person }) {
                 ...values,
                 geburtsdatum: formattedDob,
                 zustaendig: formattedCompetences,
-                betreutvon: formattedAdvisors,
               },
               null,
               2
@@ -149,7 +146,7 @@ export default function InfoTab({ person }: { person: Person }) {
             />
             <TextInput
               label="Familienstand"
-              {...form.getInputProps("familienstand")}
+              {...form.getInputProps("famstand")}
               readOnly={!edit}
             />
             <TextInput
@@ -192,7 +189,7 @@ export default function InfoTab({ person }: { person: Person }) {
             {...form.getInputProps("email")}
             readOnly={!edit}
           />
-          <MultiSelect
+          <TextInput
             label="Betreut von"
             {...form.getInputProps("betreutvon")}
             readOnly={!edit}

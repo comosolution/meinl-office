@@ -6,7 +6,7 @@ export async function GET(
 ) {
   const { id } = await params;
 
-  const res = await fetch(`${MEINL_WEB_API}/office/customer/${id}`);
+  const res = await fetch(`${MEINL_WEB_API}/office/company/${id}`);
 
   if (!res.ok) {
     return Response.json("Es ist ein Fehler aufgetreten.", {

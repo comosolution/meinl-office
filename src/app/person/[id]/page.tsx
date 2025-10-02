@@ -37,7 +37,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [person]);
 
   const getCustomer = async () => {
-    const response = await fetch(`/api/customer/${id}`, {
+    const response = await fetch(`/api/company/${id}`, {
       method: "GET",
     });
 

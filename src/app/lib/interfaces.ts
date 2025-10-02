@@ -46,7 +46,7 @@ export interface Person {
   abteilung: string;
   betreutvon: string;
   geburtsdatum: string;
-  familienstand: string;
+  famstand: string;
   tshirt: string;
   hobbies: string;
   musikrichtung: string;

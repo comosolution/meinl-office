@@ -158,6 +158,7 @@ export default function Page() {
             label="Brand"
             data={brands}
             allowDeselect={false}
+            checkIconPosition="right"
             withAsterisk
             aria-readonly={false}
             {...form.getInputProps("brand")}
@@ -196,7 +197,7 @@ export default function Page() {
               disabled={!form.isValid()}
               leftSection={<IconDeviceFloppy size={16} />}
             >
-              Anlegen
+              Speichern
             </Button>
           </div>
         </form>

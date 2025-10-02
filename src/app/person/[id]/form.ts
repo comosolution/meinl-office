@@ -18,9 +18,9 @@ export const getInitialValues = (person: Person) => {
     mobil: person.mobil,
     jobpos: person.jobpos,
     abteilung: person.abteilung,
-    betreutvon: person.betreutvon.split(","),
+    betreutvon: person.betreutvon,
     geburtsdatum: parseDateString(person.geburtsdatum) || "",
-    familienstand: person.familienstand,
+    famstand: person.famstand,
     tshirt: person.tshirt,
     hobbies: person.hobbies,
     musikrichtung: person.musikrichtung,
@@ -31,11 +31,7 @@ export const getInitialValues = (person: Person) => {
   };
 };
 
-export type FormValues = Omit<
-  Person,
-  "betreutvon" | "geburtsdatum" | "zustaendig"
-> & {
-  betreutvon: string[];
+export type FormValues = Omit<Person, "geburtsdatum" | "zustaendig"> & {
   geburtsdatum: Date | string;
   zustaendig: string[];
 };
