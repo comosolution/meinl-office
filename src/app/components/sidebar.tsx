@@ -46,11 +46,6 @@ export default function Sidebar() {
       href: "/company",
       icon: <IconBuildings size={20} />,
     },
-    // {
-    //   name: "Distributoren",
-    //   href: "/distributors",
-    //   icon: <IconBuildingWarehouse size={20} />,
-    // },
     {
       name: "Personen",
       href: "/person",
@@ -115,22 +110,18 @@ export default function Sidebar() {
     >
       <div
         className={`flex ${
-          isCollapsed ? "flex-col items-center" : "flex-row justify-between"
-        } gap-4 px-2`}
+          isCollapsed ? "flex-col" : "flex-row justify-between"
+        } items-center gap-4 px-2`}
       >
         <Link
           href="/"
           className="flex justify-center items-center cursor-pointer hover:opacity-80"
         >
-          <Image
-            src="/logo_w.svg"
-            alt="Meinl Logo"
-            width={24}
-            height={24}
-            className="inverted"
-          />
+          <Image src="/logo.svg" alt="Meinl Logo" width={32} height={32} />
           {!isCollapsed && (
-            <p className="text-xl font-bold tracking-tighter">Office</p>
+            <p className="text-2xl tracking-tighter text-[var(--main)]">
+              Office
+            </p>
           )}
         </Link>
         <ActionIcon color="dark" variant="transparent" onClick={toggleSidebar}>
