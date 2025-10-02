@@ -1,20 +1,19 @@
 import { Button, Paper } from "@mantine/core";
-import { IconEyeOff, IconHistoryOff, IconSearch } from "@tabler/icons-react";
+import { IconEyeOff, IconHistoryOff } from "@tabler/icons-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CompanyInStorage, PersonInStorage } from "../lib/interfaces";
 
 export default function HistoryList<T>({
   title,
   storageKey,
-  linkPrefix,
+  link,
   getAvatar,
   getTitle,
   getSubtitle,
 }: {
   title: string;
   storageKey: string;
-  linkPrefix: string;
+  link: (item: T) => string;
   getAvatar: (item: T) => React.ReactNode;
   getTitle: (item: T) => string;
   getSubtitle: (item: T) => string;
@@ -39,12 +38,7 @@ export default function HistoryList<T>({
           <>
             <div className="h-full flex flex-col">
               {history.map((item, index) => (
-                <Link
-                  key={index}
-                  href={`${linkPrefix}/${
-                    (item as CompanyInStorage | PersonInStorage).kdnr
-                  }`}
-                >
+                <Link key={index} href={link(item)}>
                   <div className="flex items-center gap-4 p-2 hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
                     {getAvatar(item)}
                     <div className="flex flex-col">
@@ -64,21 +58,10 @@ export default function HistoryList<T>({
             </Button>
           </>
         ) : (
-          <>
-            <div className="flex flex-col items-center gap-2">
-              <IconEyeOff size={48} color="gray" />
-              <p className="dimmed text-center">Keine {title} besucht.</p>
-            </div>
-            <Button
-              color="white"
-              variant="light"
-              leftSection={<IconSearch size={16} />}
-              component={Link}
-              href={`${linkPrefix}`}
-            >
-              {title} finden
-            </Button>
-          </>
+          <div className="flex flex-col items-center gap-2">
+            <IconEyeOff size={48} color="gray" />
+            <p className="dimmed text-center">Keine {title} besucht.</p>
+          </div>
         )}
       </div>
     </Paper>

@@ -103,7 +103,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (!person) return;
 
     const newEntry: PersonInStorage = {
-      kdnr: person.id.toString(),
+      id: person.id.toString(),
+      kdnr: person.kdnr,
       vorname: person.vorname,
       nachname: person.nachname,
       position: person.jobpos,

@@ -105,7 +105,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (!company) return;
 
     const newEntry: CompanyInStorage = {
-      kdnr: company.kdnr.toString(),
+      kdnr: company.kdnr,
       name: company.name1,
     };
 

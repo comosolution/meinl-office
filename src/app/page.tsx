@@ -2,7 +2,6 @@
 import { Avatar } from "@mantine/core";
 import { IconBuildings } from "@tabler/icons-react";
 import HistoryList from "./components/history";
-import { useOffice } from "./context/officeContext";
 import {
   MEINL_OFFICE_COMPANY_HISTORY_KEY,
   MEINL_OFFICE_PERSON_HISTORY_KEY,
@@ -11,8 +10,6 @@ import { CompanyInStorage, PersonInStorage } from "./lib/interfaces";
 import { getAvatarColor } from "./lib/utils";
 
 export default function Page() {
-  const { companies } = useOffice();
-
   return (
     <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 p-4">
@@ -29,12 +26,12 @@ export default function Page() {
         <HistoryList
           title="Firmen"
           storageKey={MEINL_OFFICE_COMPANY_HISTORY_KEY}
-          linkPrefix="/company"
+          link={(company: CompanyInStorage) => `/company/${company.kdnr}`}
           getAvatar={(company: CompanyInStorage) => (
             <Avatar
               size={48}
               variant="filled"
-              color={getAvatarColor(company.kdnr.substring(0, 5))}
+              color={getAvatarColor(company.kdnr)}
             >
               <IconBuildings />
             </Avatar>
@@ -45,11 +42,11 @@ export default function Page() {
         <HistoryList
           title="Personen"
           storageKey={MEINL_OFFICE_PERSON_HISTORY_KEY}
-          linkPrefix="/person"
+          link={(person) => `/person/${person.id}`}
           getAvatar={(person: PersonInStorage) => (
             <Avatar
               size={48}
-              color={getAvatarColor(person.kdnr.substring(0, 5))}
+              color={getAvatarColor(person.kdnr)}
               name={`${person.nachname} ${person.vorname}`}
             />
           )}

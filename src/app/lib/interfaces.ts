@@ -55,6 +55,7 @@ export interface Person {
 }
 
 export interface PersonInStorage {
+  id: string;
   kdnr: string;
   vorname: string;
   nachname: string;
