@@ -1,5 +1,6 @@
 "use client";
 import {
+  Avatar,
   Button,
   Drawer,
   Select,
@@ -19,6 +20,7 @@ import {
 } from "@tabler/icons-react";
 import { format, formatDistance } from "date-fns";
 import { de } from "date-fns/locale";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "../components/loader";
@@ -121,7 +123,22 @@ export default function Page() {
                   onClick={() => router.push(`/campaign/${campaign.id}`)}
                 >
                   <Table.Td>{campaign.id}</Table.Td>
-                  <Table.Td>{campaign.brand}</Table.Td>
+                  <Table.Td>
+                    <div className="flex items-center gap-2">
+                      <Avatar size={28}>
+                        <Image
+                          src={`/brands/${campaign.brand
+                            .replaceAll(" ", "-")
+                            .toUpperCase()}.png`}
+                          width={20}
+                          height={20}
+                          alt={`${campaign.brand} Logo`}
+                          className="inverted object-contain"
+                        />
+                      </Avatar>
+                      <p>{campaign.brand}</p>
+                    </div>
+                  </Table.Td>
                   <Table.Td>{campaign.title}</Table.Td>
                   <Table.Td>
                     {campaign.start ? formatDate(campaign.start) : ""}
