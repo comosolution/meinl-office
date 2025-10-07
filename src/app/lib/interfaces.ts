@@ -85,4 +85,5 @@ export interface Campaign {
 export interface Brand {
   title: string;
   url: string | null;
+  sort: number;
 }

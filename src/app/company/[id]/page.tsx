@@ -371,46 +371,48 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Fieldset>
                 <h2>Brands</h2>
                 <div className="flex flex-col gap-4">
-                  {form.values.brands.map((brand, index) => (
-                    <TextInput
-                      label={
-                        <div className="flex items-center gap-2">
-                          <Image
-                            src={`/brands/${brand.title
-                              .replaceAll(" ", "-")
-                              .toUpperCase()}.png`}
-                            width={20}
-                            height={20}
-                            alt={`${brand.title} Logo`}
-                            className="inverted opacity-70 object-contain"
-                          />
-                          <p>{brand.title}</p>
-                        </div>
-                      }
-                      placeholder="Enter brand URL"
-                      rightSection={
-                        <div className="flex">
-                          <ActionIcon
-                            size="sm"
-                            variant="transparent"
-                            color="dark"
-                            component="a"
-                            href={
-                              brand.url?.startsWith("http")
-                                ? brand.url
-                                : `https://${brand.url}`
-                            }
-                            target="_blank"
-                          >
-                            <IconExternalLink size={16} />
-                          </ActionIcon>
-                        </div>
-                      }
-                      key={brand.title}
-                      {...form.getInputProps(`brands.${index}.url`)}
-                      readOnly={!edit}
-                    />
-                  ))}
+                  {form.values.brands
+                    .sort((a, b) => a.sort - b.sort)
+                    .map((brand, index) => (
+                      <TextInput
+                        label={
+                          <div className="flex items-center gap-2">
+                            <Image
+                              src={`/brands/${brand.title
+                                .replaceAll(" ", "-")
+                                .toUpperCase()}.png`}
+                              width={20}
+                              height={20}
+                              alt={`${brand.title} Logo`}
+                              className="inverted opacity-70 object-contain"
+                            />
+                            <p>{brand.title}</p>
+                          </div>
+                        }
+                        placeholder="Enter brand URL"
+                        rightSection={
+                          <div className="flex">
+                            <ActionIcon
+                              size="sm"
+                              variant="transparent"
+                              color="dark"
+                              component="a"
+                              href={
+                                brand.url?.startsWith("http")
+                                  ? brand.url
+                                  : `https://${brand.url}`
+                              }
+                              target="_blank"
+                            >
+                              <IconExternalLink size={16} />
+                            </ActionIcon>
+                          </div>
+                        }
+                        key={brand.title}
+                        {...form.getInputProps(`brands.${index}.url`)}
+                        readOnly={!edit}
+                      />
+                    ))}
                 </div>
               </Fieldset>
               <Fieldset>
