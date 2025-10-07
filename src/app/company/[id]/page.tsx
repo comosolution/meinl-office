@@ -34,6 +34,7 @@ import {
   IconShoppingCartPin,
   IconUsersGroup,
 } from "@tabler/icons-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -369,7 +370,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <div className="flex flex-col gap-4">
                   {form.values.brands.map((brand, index) => (
                     <TextInput
-                      label={<p>{brand.title}</p>}
+                      label={
+                        <div className="flex items-center gap-2">
+                          <Image
+                            src={`/brands/${brand.title
+                              .replaceAll(" ", "-")
+                              .toUpperCase()}.png`}
+                            width={20}
+                            height={20}
+                            alt={`${brand.title} Logo`}
+                            className="inverted opacity-50 object-contain"
+                          />
+                          <p>{brand.title}</p>
+                        </div>
+                      }
                       placeholder="Enter brand URL"
                       rightSection={
                         <div className="flex">
