@@ -57,7 +57,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     validateInputOnChange: true,
   });
 
-  const dealerLocLink = `https://meinl-dealers.vercel.app?campagne=${
+  const dealerLocLink = `https://meinl-dealers.vercel.app?campaign=${
     form.values.id
   }&brand=${encodeURIComponent(form.values.brand.replaceAll(" ", "-"))}`;
 
