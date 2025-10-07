@@ -363,36 +363,37 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               </Fieldset>
-
               <Fieldset>
                 <h2>Brands</h2>
-                <div className="flex flex-col gap-6 pl-3">
-                  {company.brands.map((brand) => (
-                    <div key={brand.title}>
-                      <div className="flex items-center gap-2">
-                        <Image
-                          src={`/brands/${brand.title
-                            .replaceAll(" ", "-")
-                            .toUpperCase()}.png`}
-                          width={24}
-                          height={24}
-                          alt={`${brand} Logo`}
-                          className="inverted"
-                        />
-                        <p>{brand.title}</p>
-                      </div>
-                      <a
-                        href={
-                          brand.url?.startsWith("http")
-                            ? brand.url
-                            : `https://${brand.url}`
-                        }
-                        target="_blank"
-                        className="text-xs font-mono link"
-                      >
-                        {brand.url}
-                      </a>
-                    </div>
+                <div className="flex flex-col gap-4">
+                  {form.values.brands.map((brand, index) => (
+                    <TextInput
+                      label={brand.title}
+                      placeholder="Enter brand URL"
+                      rightSection={
+                        <a
+                          href={
+                            brand.url?.startsWith("http")
+                              ? brand.url
+                              : `https://${brand.url}`
+                          }
+                          target="_blank"
+                        >
+                          <Image
+                            src={`/brands/${brand.title
+                              .replaceAll(" ", "-")
+                              .toUpperCase()}.png`}
+                            width={20}
+                            height={20}
+                            alt={`${brand.title} Logo`}
+                            className="inverted"
+                          />
+                        </a>
+                      }
+                      key={brand.title}
+                      {...form.getInputProps(`brands.${index}.url`)}
+                      readOnly={!edit}
+                    />
                   ))}
                 </div>
               </Fieldset>
