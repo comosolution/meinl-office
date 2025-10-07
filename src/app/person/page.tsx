@@ -43,9 +43,6 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
-          {/* <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
-            Person hinzufügen
-          </Button> */}
         </div>
       </header>
 

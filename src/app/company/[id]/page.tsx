@@ -7,6 +7,7 @@ import { customerTypes } from "@/app/lib/data";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import {
+  ActionIcon,
   Avatar,
   Badge,
   Button,
@@ -29,10 +30,10 @@ import {
   IconCircleX,
   IconDeviceFloppy,
   IconEdit,
+  IconExternalLink,
   IconShoppingCartPin,
   IconUsersGroup,
 } from "@tabler/icons-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -368,27 +369,25 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <div className="flex flex-col gap-4">
                   {form.values.brands.map((brand, index) => (
                     <TextInput
-                      label={brand.title}
+                      label={<p>{brand.title}</p>}
                       placeholder="Enter brand URL"
                       rightSection={
-                        <a
-                          href={
-                            brand.url?.startsWith("http")
-                              ? brand.url
-                              : `https://${brand.url}`
-                          }
-                          target="_blank"
-                        >
-                          <Image
-                            src={`/brands/${brand.title
-                              .replaceAll(" ", "-")
-                              .toUpperCase()}.png`}
-                            width={20}
-                            height={20}
-                            alt={`${brand.title} Logo`}
-                            className="inverted"
-                          />
-                        </a>
+                        <div className="flex">
+                          <ActionIcon
+                            size="sm"
+                            variant="transparent"
+                            color="dark"
+                            component="a"
+                            href={
+                              brand.url?.startsWith("http")
+                                ? brand.url
+                                : `https://${brand.url}`
+                            }
+                            target="_blank"
+                          >
+                            <IconExternalLink size={16} />
+                          </ActionIcon>
+                        </div>
                       }
                       key={brand.title}
                       {...form.getInputProps(`brands.${index}.url`)}
