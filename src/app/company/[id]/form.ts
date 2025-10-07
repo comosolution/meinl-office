@@ -1,3 +1,4 @@
+import { customerTypes } from "@/app/lib/data";
 import { Company } from "../../lib/interfaces";
 import { notEmptyValidation } from "../../lib/utils";
 
@@ -5,7 +6,7 @@ export const getInitialValues = (company: Company) => {
   return {
     id: company.id,
     kdnr: company.kdnr || "",
-    type: company.type || "",
+    type: customerTypes[company.type] || "",
     name1: company.name1 || "",
     name2: company.name2 || "",
     name3: company.name3 || "",
