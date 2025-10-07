@@ -15,7 +15,7 @@ export interface Company {
   matchcode: string;
   dealerloc: boolean;
   distributor: boolean;
-  brands: string | string[];
+  brands: Brand[];
   latitude: number;
   longitude: number;
   personen: Person[];
@@ -80,4 +80,9 @@ export interface Campaign {
   start: string | null;
   end: string | null;
   dealers: string[];
+}
+
+export interface Brand {
+  title: string;
+  url: string | null;
 }

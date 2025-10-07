@@ -2,16 +2,6 @@ import { Company } from "../../lib/interfaces";
 import { notEmptyValidation } from "../../lib/utils";
 
 export const getInitialValues = (company: Company) => {
-  let brands: string[] = [];
-
-  if (typeof company.brands === "string") {
-    brands = company.brands
-      ? company.brands.split(",").map((b) => b.trim())
-      : [];
-  } else if (Array.isArray(company.brands)) {
-    brands = company.brands.map((b) => b.trim());
-  }
-
   return {
     id: company.id,
     kdnr: company.kdnr || "",
@@ -29,7 +19,7 @@ export const getInitialValues = (company: Company) => {
     matchcode: company.matchcode || "",
     dealerloc: company.dealerloc || false,
     distributor: company.distributor || false,
-    brands,
+    brands: company.brands || [],
     latitude: company.latitude || 0,
     longitude: company.longitude || 0,
     personen: company.personen || [],

@@ -3,7 +3,7 @@ import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
-import { brands, customerTypes } from "@/app/lib/data";
+import { customerTypes } from "@/app/lib/data";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import {
@@ -366,31 +366,25 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
               <Fieldset>
                 <h2>Brands</h2>
-                <Checkbox.Group {...form.getInputProps("brands")}>
-                  <div className="grid grid-cols-2 gap-2">
-                    {brands.map((brand) => (
-                      <Checkbox
-                        key={brand}
-                        label={
-                          <div className="flex items-center gap-2">
-                            <Image
-                              src={`/brands/${brand
-                                .replaceAll(" ", "-")
-                                .toUpperCase()}.png`}
-                              width={20}
-                              height={20}
-                              alt={`${brand} Logo`}
-                              className="inverted"
-                            />
-                            <p>{brand}</p>
-                          </div>
-                        }
-                        value={brand}
-                        disabled
+                <div className="grid grid-cols-2 gap-2">
+                  {company.brands.map((brand) => (
+                    <div
+                      key={brand.title}
+                      className="flex items-center gap-2 pl-3"
+                    >
+                      <Image
+                        src={`/brands/${brand.title
+                          .replaceAll(" ", "-")
+                          .toUpperCase()}.png`}
+                        width={24}
+                        height={24}
+                        alt={`${brand} Logo`}
+                        className="inverted"
                       />
-                    ))}
-                  </div>
-                </Checkbox.Group>
+                      <p>{brand.title}</p>
+                    </div>
+                  ))}
+                </div>
               </Fieldset>
               {company.latitude !== null && company.longitude !== null && (
                 <Map company={company} />
