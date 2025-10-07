@@ -365,6 +365,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               </Fieldset>
+              {company.latitude !== null && company.longitude !== null && (
+                <Map company={company} />
+              )}
               <Fieldset>
                 <h2>Brands</h2>
                 <div className="flex flex-col gap-4">
@@ -379,7 +382,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             width={20}
                             height={20}
                             alt={`${brand.title} Logo`}
-                            className="inverted opacity-50 object-contain"
+                            className="inverted opacity-70 object-contain"
                           />
                           <p>{brand.title}</p>
                         </div>
@@ -410,9 +413,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   ))}
                 </div>
               </Fieldset>
-              {company.latitude !== null && company.longitude !== null && (
-                <Map company={company} />
-              )}
               <Fieldset>
                 <h2>Kampagnen</h2>
                 <Table highlightOnHover>
