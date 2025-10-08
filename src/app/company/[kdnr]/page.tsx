@@ -199,7 +199,8 @@ export default function Page({
             </span>
           </h1>
           <p className="dimmed">
-            {company.kdnr} – {customerTypes[company.type]}
+            {company.kdnr} –{" "}
+            {company.distributor ? "Distributor" : customerTypes[company.type]}
           </p>
         </div>
       </header>
