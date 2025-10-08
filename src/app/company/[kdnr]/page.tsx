@@ -483,7 +483,7 @@ export default function Page({
                   <Table.Tr>
                     <Table.Th />
                     <Table.Th>Name</Table.Th>
-                    <Table.Th>Zusatz</Table.Th>
+                    <Table.Th>Brand</Table.Th>
                     <Table.Th>Kdnr</Table.Th>
                     <Table.Th>Stadt</Table.Th>
                     <Table.Th>Land</Table.Th>
@@ -514,7 +514,7 @@ export default function Page({
                           <b>{company.name1}</b>
                         </Table.Td>
                         <Table.Td>
-                          {company.name2} {company.name3}
+                          {company.brands as unknown as string}
                         </Table.Td>
                         <Table.Td>{company.kdnr}</Table.Td>
                         <Table.Td>{company.ort}</Table.Td>

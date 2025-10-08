@@ -2,7 +2,6 @@
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
-import { customerTypes } from "@/app/lib/data";
 import { Company } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import {
@@ -183,7 +182,7 @@ export default function Page({
             <Link href={`/company/${kdnr}`} className="link">
               <b>{company.name1}</b> ({company.kdnr})
             </Link>{" "}
-            – {customerTypes[distributor.type]}
+            – {distributor.brands as unknown as string}
           </p>
         </div>
       </header>
