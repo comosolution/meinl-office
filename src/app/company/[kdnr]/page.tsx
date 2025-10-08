@@ -41,8 +41,12 @@ import React, { useEffect, useState } from "react";
 import { getInitialValues, validateForm } from "./form";
 import EmployeesTab from "./tabs/employeesTab";
 
-export default function Page({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = React.use(params);
+export default function Page({
+  params,
+}: {
+  params: Promise<{ kdnr: string }>;
+}) {
+  const { kdnr } = React.use(params);
   const [company, setCompany] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
@@ -58,7 +62,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     getCompany();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [kdnr]);
 
   useEffect(() => {
     if (!company) return;
@@ -68,11 +72,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [company]);
 
   const getCompany = async () => {
-    const response = await fetch(`/api/company/${id}`);
+    const response = await fetch(`/api/company/${kdnr}`);
 
     if (!response.ok) {
       notifications.show({
-        id: `error-${id}`,
+        id: `error-${kdnr}`,
         title: `Fehler ${response.status}`,
         message: (
           <>
@@ -84,7 +88,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               rightSection={<IconChevronRight size={12} />}
               onClick={() => {
                 router.push("/");
-                notifications.hide(`error-${id}`);
+                notifications.hide(`error-${kdnr}`);
               }}
               fullWidth
             >
@@ -449,7 +453,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Tabs.Panel value="distributor" className="py-4">
           <div className="flex flex-col gap-4">
             {company.personen.length > 0 ? (
-              <Table stickyHeader>
+              <Table stickyHeader highlightOnHover>
                 <Table.Thead>
                   <Table.Tr>
                     <Table.Th />
@@ -463,7 +467,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Table.Thead>
                 <Table.Tbody>
                   {company.haendler.map((company, i) => (
-                    <Table.Tr key={i}>
+                    <Table.Tr
+                      key={i}
+                      className="cursor-pointer"
+                      onClick={() =>
+                        router.push(`/company/${company.kdnr}/${company.id}`)
+                      }
+                    >
                       <Table.Td>
                         <Avatar
                           size={24}
