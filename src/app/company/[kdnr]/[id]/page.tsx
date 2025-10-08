@@ -17,6 +17,9 @@ import {
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import {
+  IconBrandFacebook,
+  IconBrandInstagram,
+  IconBrandYoutube,
   IconBuildingEstate,
   IconBuildingWarehouse,
   IconChevronLeft,
@@ -281,6 +284,27 @@ export default function Page({
                   label="E-Mail"
                   {...form.getInputProps("mailadr")}
                   readOnly
+                />
+              </Fieldset>
+              <Fieldset>
+                <h2>Social Media</h2>
+                <TextInput
+                  label="Facebook"
+                  rightSection={<IconBrandFacebook size={16} />}
+                  {...form.getInputProps("facebook")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label="Instagram"
+                  rightSection={<IconBrandInstagram size={16} />}
+                  {...form.getInputProps("instagram")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label="YouTube"
+                  rightSection={<IconBrandYoutube size={16} />}
+                  {...form.getInputProps("youtube")}
+                  readOnly={!edit}
                 />
               </Fieldset>
             </div>

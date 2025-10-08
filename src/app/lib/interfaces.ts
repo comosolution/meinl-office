@@ -12,6 +12,9 @@ export interface Company {
   telefon: string;
   mailadr: string;
   www: string;
+  youtube: string;
+  facebook: string;
+  instagram: string;
   matchcode: string;
   dealerloc: boolean;
   distributor: boolean;
