@@ -495,7 +495,10 @@ export default function Page({
                         <Table.Td>{company.ort}</Table.Td>
                         <Table.Td>{company.land}</Table.Td>
                         <Table.Td>
-                          <Checkbox checked={company.dealerloc} />
+                          <Checkbox
+                            defaultChecked={company.dealerloc}
+                            disabled
+                          />
                         </Table.Td>
                       </Table.Tr>
                     ))}
