@@ -466,37 +466,39 @@ export default function Page({
                   </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
-                  {company.haendler.map((company, i) => (
-                    <Table.Tr
-                      key={i}
-                      className="cursor-pointer"
-                      onClick={() =>
-                        router.push(`/company/${company.kdnr}/${company.id}`)
-                      }
-                    >
-                      <Table.Td>
-                        <Avatar
-                          size={24}
-                          variant="filled"
-                          color={getAvatarColor(company.kdnr)}
-                        >
-                          <IconBuildingWarehouse size={14} />
-                        </Avatar>
-                      </Table.Td>
-                      <Table.Td>
-                        <b>{company.name1}</b>
-                      </Table.Td>
-                      <Table.Td>
-                        {company.name2} {company.name3}
-                      </Table.Td>
-                      <Table.Td>{company.kdnr}</Table.Td>
-                      <Table.Td>{company.ort}</Table.Td>
-                      <Table.Td>{company.land}</Table.Td>
-                      <Table.Td>
-                        <Checkbox checked={company.dealerloc} />
-                      </Table.Td>
-                    </Table.Tr>
-                  ))}
+                  {company.haendler
+                    .sort((a, b) => a.name1.localeCompare(b.name1))
+                    .map((company, i) => (
+                      <Table.Tr
+                        key={i}
+                        className="cursor-pointer"
+                        onClick={() =>
+                          router.push(`/company/${company.kdnr}/${company.id}`)
+                        }
+                      >
+                        <Table.Td>
+                          <Avatar
+                            size={24}
+                            variant="filled"
+                            color={getAvatarColor(company.kdnr)}
+                          >
+                            <IconBuildingWarehouse size={14} />
+                          </Avatar>
+                        </Table.Td>
+                        <Table.Td>
+                          <b>{company.name1}</b>
+                        </Table.Td>
+                        <Table.Td>
+                          {company.name2} {company.name3}
+                        </Table.Td>
+                        <Table.Td>{company.kdnr}</Table.Td>
+                        <Table.Td>{company.ort}</Table.Td>
+                        <Table.Td>{company.land}</Table.Td>
+                        <Table.Td>
+                          <Checkbox checked={company.dealerloc} />
+                        </Table.Td>
+                      </Table.Tr>
+                    ))}
                 </Table.Tbody>
               </Table>
             ) : (

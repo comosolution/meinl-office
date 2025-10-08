@@ -2,7 +2,6 @@
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
-import { useOffice } from "@/app/context/officeContext";
 import { customerTypes } from "@/app/lib/data";
 import { Company } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
@@ -40,10 +39,10 @@ export default function Page({
 }) {
   const { kdnr, id } = React.use(params);
   const [company, setCompany] = useState<Company>();
+  const [distributor, setDistributor] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
 
-  const { companies } = useOffice();
   const router = useRouter();
 
   const form = useForm<Company>({
@@ -58,8 +57,8 @@ export default function Page({
   }, [kdnr]);
 
   useEffect(() => {
-    if (!company) return;
-    form.setValues(getInitialValues(company));
+    if (!distributor) return;
+    form.setValues(getInitialValues(distributor));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
 
@@ -96,12 +95,11 @@ export default function Page({
     }
 
     const companies: Company[] = await response.json();
-    setCompany(companies[0].haendler.find((h) => h.id === +id));
+    setCompany(companies[0]);
+    setDistributor(companies[0].haendler.find((h) => h.id === +id));
   };
 
-  if (!company) return <Loader />;
-
-  const companyName = companies.find((c) => c.kdnr === company.kdnr)?.name1;
+  if (!company || !distributor) return <Loader />;
 
   const actions = (
     <div className="col-span-2 flex justify-end gap-2">
@@ -160,7 +158,7 @@ export default function Page({
             component={Link}
             href={`/company/${company.kdnr}`}
           >
-            {companyName}
+            {company.name1}
           </Button>
         </Button.Group>
         <Contact email={company.mailadr} phone={company.telefon} />
@@ -172,17 +170,17 @@ export default function Page({
         </Avatar>
         <div className="flex flex-col gap-1 w-full">
           <h1>
-            {company.name1}{" "}
+            {distributor.name1}{" "}
             <span className="font-normal">
-              {company.name2} {company.name3}
+              {distributor.name2} {distributor.name3}
             </span>
           </h1>
           <p>
             Händler für{" "}
             <Link href={`/company/${kdnr}`} className="link">
-              <b>{companyName}</b> ({company.kdnr})
+              <b>{company.name1}</b> ({company.kdnr})
             </Link>{" "}
-            – {customerTypes[company.type]}
+            – {customerTypes[distributor.type]}
           </p>
         </div>
       </header>
@@ -190,13 +188,13 @@ export default function Page({
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Tab value="info" leftSection={<IconBuildingEstate size={16} />}>
-            Firmendaten
+            Händlerdaten
           </Tabs.Tab>
           <Tabs.Tab
             value="storelocator"
             leftSection={<IconShoppingCartPin size={16} />}
             rightSection={
-              company.dealerloc ? (
+              distributor.dealerloc ? (
                 <IconCircleCheck size={16} color="gray" />
               ) : (
                 <IconCircleX size={16} color="gray" />
@@ -295,7 +293,7 @@ export default function Page({
               <Checkbox
                 size="md"
                 className="col-span-2"
-                label={`${company.name1} im DealerLocator anzeigen.`}
+                label={`${distributor.name1} im DealerLocator anzeigen.`}
                 {...form.getInputProps("dealerloc", { type: "checkbox" })}
                 disabled={!edit}
               />
@@ -325,9 +323,8 @@ export default function Page({
                   />
                 </div>
               </Fieldset>
-              {company.latitude !== null && company.longitude !== null && (
-                <Map company={company} />
-              )}
+              {distributor.latitude !== null &&
+                distributor.longitude !== null && <Map company={distributor} />}
               {/* <Fieldset>
                 <h2>Brands</h2>
                 <div className="flex flex-col gap-4">
