@@ -50,11 +50,11 @@ export default function Page() {
     validateInputOnChange: true,
     initialValues: {
       id: 0,
-      brand: "Meinl Cymbals",
+      brand: brands[0],
       title: "",
       description: "",
-      start: null,
-      end: null,
+      start: new Date().toISOString(),
+      end: new Date().toISOString(),
       dealers: [],
     },
     validate: {
