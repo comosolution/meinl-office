@@ -166,6 +166,7 @@ export default function Page() {
               body: JSON.stringify(values),
             });
             if (response.ok) {
+              getCampaigns();
               close();
             }
           })}
