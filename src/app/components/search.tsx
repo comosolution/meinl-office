@@ -104,7 +104,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         query={query}
         onQueryChange={setQuery}
         maxHeight="80vh"
-        nothingFound={query ? "Keine Treffer." : ""}
+        nothingFound=""
         filter={(_, a) => a}
         scrollable
         shortcut={["mod + K", "mod + P", "/"]}
