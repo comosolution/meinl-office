@@ -57,7 +57,7 @@ export default function RootLayout({
           <DatesProvider settings={{ locale: "de" }}>
             <OfficeProvider>
               <App>{children}</App>
-              <Notifications />
+              <Notifications position="top-center" />
             </OfficeProvider>
           </DatesProvider>
         </MantineProvider>

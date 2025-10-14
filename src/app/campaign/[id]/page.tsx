@@ -2,7 +2,7 @@
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { brands } from "@/app/lib/data";
-import { Campaign, Company } from "@/app/lib/interfaces";
+import { Campaign, Dealer, Product } from "@/app/lib/interfaces";
 import { notEmptyValidation } from "@/app/lib/utils";
 import {
   ActionIcon,
@@ -16,8 +16,9 @@ import {
   TextInput,
   Tooltip,
 } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
+import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import {
   IconCalendarEvent,
   IconCalendarWeek,
@@ -28,6 +29,7 @@ import {
   IconEdit,
   IconExclamationCircle,
   IconExternalLink,
+  IconSearch,
   IconTrash,
   IconX,
 } from "@tabler/icons-react";
@@ -39,13 +41,15 @@ import { getInitialValues } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
-  const { companies } = useOffice();
+  const { dealers } = useOffice();
 
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
   const [del, setDel] = useState(false);
-  const [search, setSearch] = useState("");
-  const [selectedKdnrs, setSelectedKdnrs] = useState<string[]>([]);
+  const [dealerSearch, setDealerSearch] = useState("");
+  const [selectedDealers, setSelectedDealers] = useState<Dealer[]>([]);
+  const [productSearch, setProductSearch] = useState("");
+  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
   const router = useRouter();
 
@@ -70,7 +74,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (!campaign) return;
 
     form.setValues(getInitialValues(campaign));
-    setSelectedKdnrs(campaign.dealers || []);
+    setSelectedDealers(campaign.dealers || []);
+    setSelectedProducts(campaign.products || []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign]);
 
@@ -89,29 +94,57 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
   };
 
-  const suggestions = useMemo(() => {
-    const lower = search.toLowerCase();
-    return companies.filter(
-      (c) =>
-        !selectedKdnrs.includes(c.kdnr) &&
-        (c.kdnr.toString().includes(lower) ||
-          c.name1.toLowerCase().includes(lower) ||
-          c.name2.toLowerCase().includes(lower) ||
-          c.name3.toLowerCase().includes(lower))
+  const dealerSuggestions = useMemo(() => {
+    const lower = dealerSearch.toLowerCase();
+    return dealers.filter(
+      (d) =>
+        !selectedDealers.find((s) => d.id === s.id && d.kdnr === s.kdnr) &&
+        (d.kdnr.toString().includes(lower) ||
+          d.name1?.toLowerCase().includes(lower) ||
+          d.name2?.toLowerCase().includes(lower))
     );
-  }, [search, companies, selectedKdnrs]);
+  }, [dealerSearch, dealers, selectedDealers]);
 
-  const selectCompany = (company: Company) => {
-    const newSelected = [...selectedKdnrs, company.kdnr];
-    setSelectedKdnrs(newSelected);
+  const selectDealer = (dealer: Dealer) => {
+    const newSelected = [...selectedDealers, dealer];
+    setSelectedDealers(newSelected);
     form.setFieldValue("dealers", newSelected);
-    setSearch("");
+    setDealerSearch("");
   };
 
-  const removeCompany = (kdnr: string) => {
-    const newSelected = selectedKdnrs.filter((id) => id !== kdnr);
-    setSelectedKdnrs(newSelected);
+  const isSameDealer = (a: Dealer, b: Dealer) =>
+    a.id === b.id && String(a.kdnr) === String(b.kdnr);
+
+  const removeCompany = (dealer: Dealer) => {
+    const newSelected = selectedDealers.filter((s) => !isSameDealer(s, dealer));
+    setSelectedDealers(newSelected);
     form.setFieldValue("dealers", newSelected);
+  };
+
+  const selectProduct = async () => {
+    const response = await fetch(`/api/campaign/product/${productSearch}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      notifications.show({
+        id: `error-${productSearch}`,
+        title: `Fehler ${response.status}`,
+        message: data,
+        autoClose: false,
+      });
+      return;
+    }
+
+    const newSelected = [...selectedProducts, data];
+    setSelectedProducts(newSelected);
+    form.setFieldValue("products", newSelected);
+    setProductSearch("");
+  };
+
+  const removeProduct = (artnr: string) => {
+    const newSelected = selectedProducts.filter((p) => p.artnr !== artnr);
+    setSelectedProducts(newSelected);
+    form.setFieldValue("products", newSelected);
   };
 
   if (!campaign) return <Loader />;
@@ -148,11 +181,24 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       </header>
 
       <form
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && e.target instanceof HTMLInputElement) {
+            if (e.target.type !== "textarea") {
+              e.preventDefault();
+            }
+          }
+        }}
         onSubmit={form.onSubmit(async (values) => {
+          const payload = {
+            ...values,
+            products: values.products?.map((p: Product) => p.artnr) || [],
+          };
+
           const response = await fetch("/api/campaign", {
             method: "POST",
-            body: JSON.stringify(values),
+            body: JSON.stringify(payload),
           });
+
           if (response.ok) {
             getCampaign();
             setEdit(false);
@@ -256,45 +302,46 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </CopyButton>
           </Button.Group>
         </div>
-
-        <Fieldset>
+        <Fieldset className="col-span-2">
           <h2>Daten</h2>
-          <Select
-            label="Brand"
-            data={brands}
-            allowDeselect={false}
-            checkIconPosition="right"
-            withAsterisk
-            {...form.getInputProps("brand")}
-            readOnly={!edit}
-            aria-readonly={!edit}
-          />
-          <TextInput
-            label="Titel"
-            withAsterisk
-            {...form.getInputProps("title")}
-            readOnly={!edit}
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <Select
+              label="Brand"
+              data={brands}
+              allowDeselect={false}
+              checkIconPosition="right"
+              withAsterisk
+              {...form.getInputProps("brand")}
+              readOnly={!edit}
+              aria-readonly={!edit}
+            />
+            <TextInput
+              label="Titel"
+              withAsterisk
+              {...form.getInputProps("title")}
+              readOnly={!edit}
+            />
+          </div>
           <Textarea
             label="Beschreibung"
             {...form.getInputProps("description")}
             readOnly={!edit}
-            rows={7}
+            rows={3}
             resize="vertical"
           />
           <div className="grid grid-cols-2 gap-4">
-            <DatePickerInput
+            <DateTimePicker
               label="Start"
-              valueFormat="DD.MM.YYYY"
+              valueFormat="DD.MM.YYYY HH:mm"
               rightSection={<IconCalendarEvent size={20} />}
               rightSectionPointerEvents="none"
               {...form.getInputProps("start")}
               readOnly={!edit}
               aria-readonly={!edit}
             />
-            <DatePickerInput
+            <DateTimePicker
               label="Ende"
-              valueFormat="DD.MM.YYYY"
+              valueFormat="DD.MM.YYYY HH:mm"
               rightSection={<IconCalendarWeek size={20} />}
               rightSectionPointerEvents="none"
               {...form.getInputProps("end")}
@@ -303,54 +350,57 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             />
           </div>
         </Fieldset>
-        <Fieldset>
-          <h2>Händler</h2>
+        <Fieldset mih={400}>
+          <h2>Teilnehmende Händler</h2>
           <div className="flex flex-col gap-2">
             <div className="relative">
               <TextInput
-                label="Teilnehmende Händler"
                 placeholder="Nach Name oder Kdnr suchen ..."
                 rightSection={
-                  search.length > 0 ? (
+                  dealerSearch.length > 0 ? (
                     <ActionIcon
                       variant="light"
                       color="dark"
-                      onClick={() => setSearch("")}
+                      onClick={() => setDealerSearch("")}
                     >
                       <IconX />
                     </ActionIcon>
                   ) : undefined
                 }
-                value={search}
-                onChange={(e) => setSearch(e.currentTarget.value)}
+                value={dealerSearch}
+                onChange={(e) => setDealerSearch(e.currentTarget.value)}
                 readOnly={!edit}
               />
-              {search && suggestions.length > 0 && (
+              {dealerSearch && dealerSuggestions.length > 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-[var(--background-subtle)] border border-[var(--subtle)] shadow-lg max-h-60 overflow-y-auto">
-                  {suggestions.map((c) => (
+                  {dealerSuggestions.map((d, i) => (
                     <div
-                      key={c.kdnr}
+                      key={i}
                       className="px-3 py-2 cursor-pointer hover:bg-[var(--background)]"
-                      onClick={() => selectCompany(c)}
+                      onClick={() => selectDealer(d)}
                     >
                       <p>
-                        <b>{c.name1}</b> {c.name2} {c.name3}
+                        <b>{d.name1}</b> {d.name2}
                       </p>
-                      <p className="text-xs dimmed">{c.kdnr}</p>
+                      <p className="text-xs dimmed">
+                        {d.kdnr} {d.id !== 0 && `– ${d.id} – ${d.brand}`}
+                      </p>
                     </div>
                   ))}
                 </div>
               )}
             </div>
-            {selectedKdnrs.length > 0 &&
-              selectedKdnrs.map((kdnr) => {
-                const company = companies.find((c) => c.kdnr === kdnr);
-                if (!company) return null;
+            {selectedDealers.length > 0 &&
+              selectedDealers.map((d, i) => {
+                const dealer = dealers.find(
+                  (c) => c.id === d.id && String(c.kdnr) === String(d.kdnr)
+                );
+                if (!dealer) return;
                 return (
                   <Card
-                    key={kdnr}
+                    key={i}
                     component={Link}
-                    href={`/company/${kdnr}`}
+                    href={`/company/${d.kdnr}`}
                     shadow="sm"
                     p="md"
                     bg="var(--background)"
@@ -358,14 +408,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="flex justify-between items-center">
                       <div>
                         <h3>
-                          {company.name1} {company.name2} {company.name3}
+                          {dealer.name1} {dealer.name2}
                         </h3>
-                        <p className="text-xs dimmed">{company.kdnr}</p>
+                        <p className="text-xs dimmed">
+                          {dealer.kdnr}{" "}
+                          {dealer.id !== 0 &&
+                            `– ${dealer.id} – ${dealer.brand}`}
+                        </p>
                       </div>
                       <ActionIcon.Group>
-                        {!company.dealerloc && (
+                        {!dealer.dealerloc && (
                           <Tooltip
-                            label={`DealerLocator ist für ${company.name1} nicht aktiviert.`}
+                            label={`${dealer.name1} ist für den DealerLocator nicht aktiviert.`}
                             position="left"
                             withArrow
                           >
@@ -378,13 +432,73 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                           color="red"
                           onClick={(e) => {
                             e.preventDefault();
-                            removeCompany(kdnr);
+                            removeCompany(dealer);
                           }}
                           disabled={!edit}
                         >
                           <IconX size={16} />
                         </ActionIcon>
                       </ActionIcon.Group>
+                    </div>
+                  </Card>
+                );
+              })}
+          </div>
+        </Fieldset>
+        <Fieldset>
+          <h2>Angebotene Produkte</h2>
+          <div className="flex flex-col gap-2">
+            <div
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  selectProduct();
+                }
+              }}
+              className="flex gap-2"
+            >
+              <TextInput
+                placeholder="Nach Artikelnummer suchen ..."
+                value={productSearch}
+                onChange={(e) => setProductSearch(e.currentTarget.value)}
+                readOnly={!edit}
+                className="flex-grow"
+              />
+              <Button
+                type="button"
+                variant="light"
+                color="dark"
+                leftSection={<IconSearch size={16} />}
+                disabled={productSearch.length < 1 || !edit}
+                onClick={selectProduct}
+              >
+                Suchen
+              </Button>
+            </div>
+            {selectedProducts.length > 0 &&
+              selectedProducts.map((product) => {
+                return (
+                  <Card
+                    key={product.artnr}
+                    shadow="sm"
+                    p="md"
+                    bg="var(--background)"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3>{product.artbez}</h3>
+                        <p className="text-xs dimmed">{product.artnr}</p>
+                      </div>
+                      <ActionIcon
+                        color="red"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeProduct(product.artnr);
+                        }}
+                        disabled={!edit}
+                      >
+                        <IconX size={16} />
+                      </ActionIcon>
                     </div>
                   </Card>
                 );

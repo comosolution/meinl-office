@@ -88,7 +88,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Button>
           </>
         ),
-        position: "top-center",
         autoClose: false,
         withCloseButton: false,
       });

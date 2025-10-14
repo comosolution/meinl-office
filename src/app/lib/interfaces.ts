@@ -1,3 +1,12 @@
+export interface Dealer {
+  id: number;
+  kdnr: string;
+  name1: string;
+  name2: string;
+  brand: string;
+  dealerloc: boolean;
+}
+
 export interface Company {
   id: number;
   kdnr: string;
@@ -80,9 +89,15 @@ export interface Campaign {
   brand: string;
   title: string;
   description: string;
-  start: string | null;
-  end: string | null;
-  dealers: string[];
+  start: string | null | Date;
+  end: string | null | Date;
+  dealers: Dealer[];
+  products: Product[];
+}
+
+export interface Product {
+  artnr: string;
+  artbez: string;
 }
 
 export interface Brand {

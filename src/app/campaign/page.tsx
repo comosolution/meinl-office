@@ -9,7 +9,7 @@ import {
   TextInput,
   Tooltip,
 } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
+import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -56,13 +56,14 @@ export default function Page() {
       start: new Date().toISOString(),
       end: new Date().toISOString(),
       dealers: [],
+      products: [],
     },
     validate: {
       title: (value) => notEmptyValidation(value, "Bitte Titel angeben."),
     },
   });
 
-  const formatDate = (date: string) => {
+  const formatDate = (date: string | Date) => {
     if (!date) return;
 
     try {
@@ -81,7 +82,7 @@ export default function Page() {
         </Tooltip>
       );
     } catch {
-      return date;
+      return date.toString();
     }
   };
 
@@ -128,7 +129,7 @@ export default function Page() {
                       <Avatar size={28}>
                         <Image
                           src={`/brands/${campaign.brand
-                            .replaceAll(" ", "-")
+                            ?.replaceAll(" ", "-")
                             .toUpperCase()}.png`}
                           width={20}
                           height={20}
@@ -191,17 +192,17 @@ export default function Page() {
             {...form.getInputProps("description")}
           />
           <div className="grid grid-cols-2 gap-4">
-            <DatePickerInput
+            <DateTimePicker
               label="Start"
-              valueFormat="DD.MM.YYYY"
+              valueFormat="DD.MM.YYYY HH:mm"
               rightSection={<IconCalendarEvent size={20} />}
               rightSectionPointerEvents="none"
               aria-readonly={false}
               {...form.getInputProps("start")}
             />
-            <DatePickerInput
+            <DateTimePicker
               label="Ende"
-              valueFormat="DD.MM.YYYY"
+              valueFormat="DD.MM.YYYY HH:mm"
               rightSection={<IconCalendarWeek size={20} />}
               rightSectionPointerEvents="none"
               aria-readonly={false}

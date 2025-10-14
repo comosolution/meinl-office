@@ -99,7 +99,6 @@ export default function Page({
             </Button>
           </>
         ),
-        position: "top-center",
         autoClose: false,
         withCloseButton: false,
       });

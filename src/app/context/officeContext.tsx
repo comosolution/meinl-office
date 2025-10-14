@@ -8,7 +8,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Company, Person } from "../lib/interfaces";
+import { Company, Dealer, Person } from "../lib/interfaces";
 import { fetchResults } from "../lib/utils";
 
 interface OfficeContextType {
@@ -16,6 +16,8 @@ interface OfficeContextType {
   setCompanies: Dispatch<SetStateAction<Company[]>>;
   persons: Person[];
   setPersons: Dispatch<SetStateAction<Person[]>>;
+  dealers: Dealer[];
+  setDealers: Dispatch<SetStateAction<Dealer[]>>;
   loading: boolean;
 }
 
@@ -24,13 +26,15 @@ const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
+  const [dealers, setDealers] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
-      const [allCompanies, allPersons] = await Promise.all([
+      const [allCompanies, allPersons, allDealers] = await Promise.all([
         fetchResults<Company>("companies"),
         fetchResults<Person>("persons"),
+        fetchResults<Dealer>("dealers"),
       ]);
 
       setCompanies(
@@ -42,6 +46,9 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
         (allPersons as Person[]).sort((a, b) =>
           a.nachname.localeCompare(b.nachname)
         )
+      );
+      setDealers(
+        (allDealers as Dealer[]).sort((a, b) => a.name1?.localeCompare(b.name1))
       );
       setLoading(false);
     };
@@ -56,6 +63,8 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
         setCompanies,
         persons,
         setPersons,
+        dealers,
+        setDealers,
         loading,
       }}
     >
