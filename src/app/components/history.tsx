@@ -58,10 +58,13 @@ export default function HistoryList<T>({
             </Button>
           </>
         ) : (
-          <div className="flex flex-col items-center gap-2">
-            <IconEyeOff size={48} color="gray" />
-            <p className="dimmed text-center">Keine {title} besucht.</p>
-          </div>
+          <>
+            <div className="flex flex-col items-center gap-2">
+              <IconEyeOff size={48} color="gray" />
+              <p className="dimmed text-center">Keine {title} besucht.</p>
+            </div>
+            <div />
+          </>
         )}
       </div>
     </Paper>

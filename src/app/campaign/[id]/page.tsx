@@ -279,6 +279,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             label="Beschreibung"
             {...form.getInputProps("description")}
             readOnly={!edit}
+            rows={7}
+            resize="vertical"
           />
           <div className="grid grid-cols-2 gap-4">
             <DatePickerInput
