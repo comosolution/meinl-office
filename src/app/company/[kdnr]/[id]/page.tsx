@@ -10,6 +10,7 @@ import {
   Checkbox,
   Fieldset,
   NumberInput,
+  Table,
   Tabs,
   TextInput,
 } from "@mantine/core";
@@ -347,54 +348,7 @@ export default function Page({
               </Fieldset>
               {distributor.latitude !== null &&
                 distributor.longitude !== null && <Map company={distributor} />}
-              {/* <Fieldset>
-                <h2>Brands</h2>
-                <div className="flex flex-col gap-4">
-                  {form.values.brands
-                    .sort((a, b) => a.sort - b.sort)
-                    .map((brand, index) => (
-                      <TextInput
-                        label={
-                          <div className="flex items-center gap-2">
-                            <Image
-                              src={`/brands/${brand.title
-                                .replaceAll(" ", "-")
-                                .toUpperCase()}.png`}
-                              width={20}
-                              height={20}
-                              alt={`${brand.title} Logo`}
-                              className="inverted opacity-70 object-contain"
-                            />
-                            <p>{brand.title}</p>
-                          </div>
-                        }
-                        placeholder="Enter brand URL"
-                        rightSection={
-                          <div className="flex">
-                            <ActionIcon
-                              size="sm"
-                              variant="transparent"
-                              color="dark"
-                              component="a"
-                              href={
-                                brand.url?.startsWith("http")
-                                  ? brand.url
-                                  : `https://${brand.url}`
-                              }
-                              target="_blank"
-                            >
-                              <IconExternalLink size={16} />
-                            </ActionIcon>
-                          </div>
-                        }
-                        key={brand.title}
-                        {...form.getInputProps(`brands.${index}.url`)}
-                        readOnly={!edit}
-                      />
-                    ))}
-                </div>
-              </Fieldset> */}
-              {/* <Fieldset>
+              <Fieldset>
                 <h2>Kampagnen</h2>
                 <Table highlightOnHover>
                   <Table.Thead>
@@ -404,7 +358,7 @@ export default function Page({
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
-                    {company.campagnen
+                    {distributor.campagnen
                       .sort((a, b) => a.id - b.id)
                       .map((campaign, index) => (
                         <Table.Tr
@@ -420,7 +374,7 @@ export default function Page({
                       ))}
                   </Table.Tbody>
                 </Table>
-              </Fieldset> */}
+              </Fieldset>
             </div>
           </Tabs.Panel>
         </form>
