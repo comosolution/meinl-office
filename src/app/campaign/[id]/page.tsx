@@ -400,7 +400,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <Card
                     key={i}
                     component={Link}
-                    href={`/company/${d.kdnr}`}
+                    href={`/company/${d.kdnr}${d.id === 0 ? "" : `/${d.id}`}`}
                     shadow="sm"
                     p="md"
                     bg="var(--background)"
