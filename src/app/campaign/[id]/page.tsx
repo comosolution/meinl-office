@@ -383,7 +383,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         <b>{d.name1}</b> {d.name2}
                       </p>
                       <p className="text-xs dimmed">
-                        {d.kdnr} {d.id !== 0 && `– ${d.id} – ${d.brand}`}
+                        {d.kdnr} – {d.plz} {d.ort} {d.land}{" "}
+                        {d.id !== 0 && `– ${d.id} – ${d.brand}`}
                       </p>
                     </div>
                   ))}
@@ -409,7 +410,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       <div>
                         <h3>{dealer.name1}</h3>
                         <p className="text-xs dimmed">
-                          {dealer.kdnr}{" "}
+                          {dealer.kdnr} – {dealer.plz} {dealer.ort}{" "}
+                          {dealer.land}
                           {dealer.id !== 0 &&
                             `– ${dealer.id} – ${dealer.brand}`}
                         </p>
