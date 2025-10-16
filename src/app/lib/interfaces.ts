@@ -5,6 +5,9 @@ export interface Dealer {
   name2: string;
   brand: string;
   dealerloc: boolean;
+  plz: string;
+  ort: string;
+  land: string;
 }
 
 export interface Company {

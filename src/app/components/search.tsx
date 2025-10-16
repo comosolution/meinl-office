@@ -1,17 +1,21 @@
 import { Avatar, Kbd, NavLink } from "@mantine/core";
-import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
-import { IconBuildings, IconSearch } from "@tabler/icons-react";
+import { Spotlight, spotlight, SpotlightActionData } from "@mantine/spotlight";
+import {
+  IconBuildings,
+  IconBuildingWarehouse,
+  IconSearch,
+} from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../lib/hooks";
-import { Company, Person } from "../lib/interfaces";
+import { Dealer, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
 import { fetchResults, getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [companies, setCompanies] = useState<Company[]>([]);
+  const [companies, setCompanies] = useState<Dealer[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
 
   const debouncedQuery = useDebounce(query, 500);
@@ -25,7 +29,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       }
 
       const [allCompanies, allPersons] = await Promise.all([
-        fetchResults<Company>("companies", debouncedQuery),
+        fetchResults<Dealer>("dealers", debouncedQuery),
         fetchResults<Person>("persons", debouncedQuery),
       ]);
 
@@ -39,20 +43,33 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
   const companyActions: SpotlightActionData[] = companies
     .filter((c) => c.name1 !== null)
     .map((c, index) => ({
-      id: `company-${index}-${c.kdnr}`,
+      id: `company-${index}-${c.id}-${c.kdnr}`,
       label: c.name1,
-      description: `${c.land}–${c.plz} ${c.ort}`,
-      onClick: () => router.push(`/company/${c.kdnr}`),
+      description: `${c.plz} ${c.ort} ${c.land} ${
+        c.id === 0 ? "" : `– ${c.brand}`
+      }`,
+      onClick: () =>
+        router.push(`/company/${c.kdnr}${c.id === 0 ? "" : `/${c.id}`}`),
       rightSection: <p className="text-xs dimmed">{c.kdnr}</p>,
       leftSection: (
-        <Avatar size={48} variant="filled" color={getAvatarColor(c.kdnr)}>
-          <IconBuildings />
+        <Avatar size={32} variant="filled" color={getAvatarColor(c.kdnr)}>
+          {c.id === 0 ? (
+            <IconBuildings size={16} />
+          ) : (
+            <IconBuildingWarehouse size={16} />
+          )}
         </Avatar>
       ),
     }))
-    .sort((a, b) =>
-      a.label!.localeCompare(b.label!, "de", { sensitivity: "base" })
-    );
+    .sort((a, b) => {
+      const aIsMain = a.id.includes("-0-");
+      const bIsMain = b.id.includes("-0-");
+
+      if (aIsMain && !bIsMain) return -1;
+      if (!aIsMain && bIsMain) return 1;
+
+      return a.label!.localeCompare(b.label!, "de", { sensitivity: "base" });
+    });
 
   const personActions: SpotlightActionData[] = persons
     .map((p, index) => ({
@@ -63,7 +80,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       rightSection: <p className="text-xs dimmed">{p.b2bnr}</p>,
       leftSection: (
         <Avatar
-          size={48}
+          size={32}
           color={getAvatarColor(p.kdnr)}
           name={`${p.nachname[0]} ${p.vorname[0]}`}
         />
