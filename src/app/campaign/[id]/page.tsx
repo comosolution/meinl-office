@@ -383,8 +383,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         <b>{d.name1}</b> {d.name2}
                       </p>
                       <p className="text-xs dimmed">
-                        {d.kdnr} – {d.plz} {d.ort} {d.land}{" "}
-                        {d.id !== 0 && `– ${d.id} – ${d.brand}`}
+                        <b>{d.kdnr}</b>
+                        {d.id !== 0 && ` – ${d.id} – ${d.brand}`} – {d.plz}{" "}
+                        {d.ort} {d.land}{" "}
                       </p>
                     </div>
                   ))}
@@ -410,10 +411,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       <div>
                         <h3>{dealer.name1}</h3>
                         <p className="text-xs dimmed">
-                          {dealer.kdnr} – {dealer.plz} {dealer.ort}{" "}
-                          {dealer.land}
+                          <b>{dealer.kdnr}</b>
                           {dealer.id !== 0 &&
-                            `– ${dealer.id} – ${dealer.brand}`}
+                            ` – ${dealer.id} – ${dealer.brand}`}{" "}
+                          – {dealer.plz} {dealer.ort} {dealer.land}
                         </p>
                       </div>
                       <ActionIcon.Group>
