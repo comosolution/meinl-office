@@ -50,6 +50,7 @@ export default function Page() {
     validateInputOnChange: true,
     initialValues: {
       id: 0,
+      salt: null,
       brand: brands[0],
       title: "",
       description: "",

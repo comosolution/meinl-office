@@ -3,6 +3,7 @@ import { Campaign } from "@/app/lib/interfaces";
 export const getInitialValues = (campaign: Campaign) => {
   return {
     id: campaign?.id || 0,
+    salt: campaign?.salt || "",
     brand: campaign?.brand || "Meinl Cymbals",
     title: campaign?.title || "",
     description: campaign?.description || "",

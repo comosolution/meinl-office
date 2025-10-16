@@ -86,6 +86,7 @@ export interface PersonInStorage {
 
 export interface Campaign {
   id: number;
+  salt: string | null;
   brand: string;
   title: string;
   description: string;

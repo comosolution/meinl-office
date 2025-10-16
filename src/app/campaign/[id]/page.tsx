@@ -62,7 +62,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   });
 
   const dealerLocLink = `https://meinl-dealers.vercel.app?campaign=${
-    form.values.id
+    campaign?.salt
   }&brand=${encodeURIComponent(form.values.brand.replaceAll(" ", "-"))}`;
 
   useEffect(() => {
@@ -407,9 +407,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   >
                     <div className="flex justify-between items-center">
                       <div>
-                        <h3>
-                          {dealer.name1} {dealer.name2}
-                        </h3>
+                        <h3>{dealer.name1}</h3>
                         <p className="text-xs dimmed">
                           {dealer.kdnr}{" "}
                           {dealer.id !== 0 &&
