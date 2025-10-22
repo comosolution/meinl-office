@@ -393,57 +393,63 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               )}
             </div>
             {selectedDealers.length > 0 &&
-              selectedDealers.map((d, i) => {
-                const dealer = dealers.find(
-                  (c) => c.id === d.id && String(c.kdnr) === String(d.kdnr)
-                );
-                if (!dealer) return;
-                return (
-                  <Card
-                    key={i}
-                    component={Link}
-                    href={`/company/${d.kdnr}${d.id === 0 ? "" : `/${d.id}`}`}
-                    shadow="sm"
-                    p="md"
-                    bg="var(--background)"
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3>{dealer.name1}</h3>
-                        <p className="text-xs dimmed">
-                          <b>{dealer.kdnr}</b>
-                          {dealer.id !== 0 &&
-                            ` – ${dealer.id} – ${dealer.brand}`}{" "}
-                          – {dealer.plz} {dealer.ort} {dealer.land}
-                        </p>
-                      </div>
-                      <ActionIcon.Group>
-                        {!dealer.dealerloc && (
-                          <Tooltip
-                            label={`${dealer.name1} ist für den DealerLocator nicht aktiviert.`}
-                            position="left"
-                            withArrow
+              selectedDealers
+                .sort((a, b) =>
+                  a.kdnr.localeCompare(b.kdnr, "de", {
+                    sensitivity: "base",
+                  })
+                )
+                .map((d, i) => {
+                  const dealer = dealers.find(
+                    (c) => c.id === d.id && String(c.kdnr) === String(d.kdnr)
+                  );
+                  if (!dealer) return;
+                  return (
+                    <Card
+                      key={i}
+                      component={Link}
+                      href={`/company/${d.kdnr}${d.id === 0 ? "" : `/${d.id}`}`}
+                      shadow="sm"
+                      p="md"
+                      bg="var(--background)"
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <h3>{dealer.name1}</h3>
+                          <p className="text-xs dimmed">
+                            <b>{dealer.kdnr}</b>
+                            {dealer.id !== 0 &&
+                              ` – ${dealer.id} – ${dealer.brand}`}{" "}
+                            – {dealer.plz} {dealer.ort} {dealer.land}
+                          </p>
+                        </div>
+                        <ActionIcon.Group>
+                          {!dealer.dealerloc && (
+                            <Tooltip
+                              label={`${dealer.name1} ist für den DealerLocator nicht aktiviert.`}
+                              position="left"
+                              withArrow
+                            >
+                              <ActionIcon variant="transparent">
+                                <IconExclamationCircle size={16} />
+                              </ActionIcon>
+                            </Tooltip>
+                          )}
+                          <ActionIcon
+                            color="red"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              removeCompany(dealer);
+                            }}
+                            disabled={!edit}
                           >
-                            <ActionIcon variant="transparent">
-                              <IconExclamationCircle size={16} />
-                            </ActionIcon>
-                          </Tooltip>
-                        )}
-                        <ActionIcon
-                          color="red"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            removeCompany(dealer);
-                          }}
-                          disabled={!edit}
-                        >
-                          <IconX size={16} />
-                        </ActionIcon>
-                      </ActionIcon.Group>
-                    </div>
-                  </Card>
-                );
-              })}
+                            <IconX size={16} />
+                          </ActionIcon>
+                        </ActionIcon.Group>
+                      </div>
+                    </Card>
+                  );
+                })}
           </div>
         </Fieldset>
         <Fieldset>

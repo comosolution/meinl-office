@@ -15,7 +15,7 @@
 .dark {
   --background: var(--mantine-color-black);
   --foreground: var(--mantine-color-white);
-  --background-subtle: var(--mantine-color-dark-8);
+  --background-subtle: var(--mantine-color-dark-9);
   --subtle: rgba(255, 255, 255, 0.2);
   --filter-inverted: none;
 }
@@ -84,7 +84,7 @@ img.inverted {
 .mantine-InputWrapper-label {
   padding-left: calc(var(--defaultPadding) + 1px);
   font-size: var(--defaultPadding);
-  color: var(--mantine-color-gray-7);
+  color: var(--mantine-color-dimmed);
 }
 
 .mantine-Checkbox-input:disabled {
