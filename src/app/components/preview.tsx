@@ -18,7 +18,6 @@ export default function LogoPreview({
     try {
       const res = await fetch(`/api/logo/${company.kdnr}/${company.id}`, {
         method: "POST",
-        body: "",
       });
 
       if (!res.ok) throw new Error("Fehler beim Löschen");
