@@ -8,6 +8,30 @@ export async function POST(
   const { kdnr, id } = await params;
 
   try {
+    const contentLength = request.headers.get("content-length");
+    const hasBody = contentLength && parseInt(contentLength) > 0;
+
+    if (!hasBody) {
+      const response = await fetch(
+        `${MEINL_WEB_API}/office/upload/logo/${kdnr}/${id}`,
+        {
+          method: "POST",
+        }
+      );
+
+      if (!response.ok) {
+        return NextResponse.json(
+          { error: "Löschen fehlgeschlagen." },
+          { status: 500 }
+        );
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: "Logo erfolgreich gelöscht.",
+      });
+    }
+
     const formData = await request.formData();
 
     const response = await fetch(
@@ -27,7 +51,7 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      message: "File forwarded successfully",
+      message: "Datei erfolgreich weitergeleitet.",
     });
   } catch (error) {
     console.error("Upload proxy error:", error);
