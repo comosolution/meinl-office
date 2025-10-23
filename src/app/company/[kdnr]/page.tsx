@@ -498,7 +498,7 @@ export default function Page({
 
         <Tabs.Panel value="distributor" className="py-4">
           <div className="flex flex-col gap-4">
-            {company.personen.length > 0 ? (
+            {company.haendler.length > 0 ? (
               <Table stickyHeader highlightOnHover>
                 <Table.Thead>
                   <Table.Tr>
@@ -551,9 +551,7 @@ export default function Page({
                 </Table.Tbody>
               </Table>
             ) : (
-              <p className="dimmed text-center p-4">
-                Keine Mitarbeiter erfasst.
-              </p>
+              <p className="dimmed text-center p-4">Keine Händler erfasst.</p>
             )}
           </div>
         </Tabs.Panel>
