@@ -163,7 +163,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </Button>
       </div>
 
-      <header className="flex items-center gap-4 p-4">
+      <header className="flex items-center gap-4 py-4">
         <Avatar size={72}>
           <Image
             src={`/brands/${campaign.brand

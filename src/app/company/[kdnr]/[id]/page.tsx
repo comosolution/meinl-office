@@ -33,6 +33,7 @@ import {
   IconPhoto,
   IconShoppingCartPin,
 } from "@tabler/icons-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -169,7 +170,7 @@ export default function Page({
         <Contact email={company.mailadr} phone={company.telefon} />
       </div>
 
-      <header className="flex items-center gap-4 p-4">
+      <header className="flex items-center gap-4 py-4">
         <Avatar size={72} variant="filled" color={getAvatarColor(company.kdnr)}>
           <IconBuildingWarehouse size={40} stroke={2} />
         </Avatar>
@@ -188,6 +189,15 @@ export default function Page({
             – {distributor.brands as unknown as string}
           </p>
         </div>
+        {distributor.logo && distributor.logo !== "" && (
+          <Image
+            src={distributor.logo}
+            width={72}
+            height={72}
+            alt={`${distributor.name1} Logo`}
+            className="object-contain"
+          />
+        )}
       </header>
 
       <Tabs value={activeTab} onChange={setActiveTab}>
