@@ -14,6 +14,8 @@ export default function LogoPreview({
   const [hovered, setHovered] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
+  const hasLogo = company.logo && company.logo !== "";
+
   async function handleDelete() {
     try {
       const res = await fetch(`/api/logo/${company.kdnr}/${company.id}`, {
@@ -41,13 +43,13 @@ export default function LogoPreview({
       onMouseLeave={() => setHovered(false)}
     >
       <Image
-        src={company.logo && company.logo !== "" ? company.logo : "/logo_l.svg"}
+        src={hasLogo ? company.logo : "/logo_l.svg"}
         fill
         style={{ objectFit: "contain" }}
         alt={`Logo ${company.name1}`}
+        className="p-4"
       />
-
-      {company.logo && company.logo !== "" && (
+      {hasLogo && (
         <div
           className={`absolute inset-0 flex items-center justify-center backdrop-blur-xs transition-opacity ${
             hovered ? "opacity-100" : "opacity-0"
