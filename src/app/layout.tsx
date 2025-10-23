@@ -2,6 +2,7 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { DatesProvider } from "@mantine/dates";
 import "@mantine/dates/styles.css";
+import "@mantine/dropzone/styles.css";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import "@mantine/spotlight/styles.css";

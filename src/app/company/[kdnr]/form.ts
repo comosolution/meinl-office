@@ -17,6 +17,7 @@ export const getInitialValues = (company: Company) => {
     telefon: company.telefon || "",
     mailadr: company.mailadr || "",
     www: company.www || "",
+    logo: company.logo || "",
     youtube: company.youtube || "",
     facebook: company.facebook || "",
     instagram: company.instagram || "",

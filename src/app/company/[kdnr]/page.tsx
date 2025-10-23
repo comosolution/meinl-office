@@ -2,6 +2,8 @@
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
+import LogoPreview from "@/app/components/preview";
+import FileUploader from "@/app/components/upload";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
 import { customerTypes } from "@/app/lib/data";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
@@ -34,6 +36,7 @@ import {
   IconDeviceFloppy,
   IconEdit,
   IconExternalLink,
+  IconPhoto,
   IconShoppingCartPin,
   IconUsersGroup,
 } from "@tabler/icons-react";
@@ -208,6 +211,9 @@ export default function Page({
         <Tabs.List>
           <Tabs.Tab value="info" leftSection={<IconBuildingEstate size={16} />}>
             Firmendaten
+          </Tabs.Tab>
+          <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
+            Firmenlogo
           </Tabs.Tab>
           <Tabs.Tab
             value="storelocator"
@@ -473,6 +479,13 @@ export default function Page({
             </div>
           </Tabs.Panel>
         </form>
+
+        <Tabs.Panel value="logo" className="py-4">
+          <div className="grid grid-cols-2 gap-4">
+            <LogoPreview company={company} onDelete={() => getCompany()} />
+            <FileUploader company={company} onSuccess={() => getCompany()} />
+          </div>
+        </Tabs.Panel>
 
         <Tabs.Panel value="distributor" className="py-4">
           <div className="flex flex-col gap-4">

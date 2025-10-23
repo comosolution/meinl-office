@@ -6,6 +6,7 @@
   --background-subtle: var(--mantine-color-gray-1);
   --subtle: rgba(0, 0, 0, 0.2);
   --hover: var(--mantine-color-gray-light);
+  --border-color: var(--mantine-color-gray-4);
   --main: #ef233c;
   --transition: 300ms all ease-in-out;
   --defaultPadding: 12px;
@@ -17,6 +18,7 @@
   --foreground: var(--mantine-color-white);
   --background-subtle: var(--mantine-color-dark-9);
   --subtle: rgba(255, 255, 255, 0.2);
+  --border-color: var(--mantine-color-dark-4);
   --filter-inverted: none;
 }
 
@@ -151,4 +153,8 @@ img.inverted {
 
 .mantine-Table-tbody .mantine-Table-tr:hover:where([data-hover]) {
   background-color: var(--hover);
+}
+
+.mantine-Dropzone-root {
+  background-color: transparent;
 }

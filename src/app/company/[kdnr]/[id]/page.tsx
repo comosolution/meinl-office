@@ -2,6 +2,8 @@
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
+import LogoPreview from "@/app/components/preview";
+import FileUploader from "@/app/components/upload";
 import { Company } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import {
@@ -28,6 +30,7 @@ import {
   IconCircleX,
   IconDeviceFloppy,
   IconEdit,
+  IconPhoto,
   IconShoppingCartPin,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -191,6 +194,9 @@ export default function Page({
         <Tabs.List>
           <Tabs.Tab value="info" leftSection={<IconBuildingEstate size={16} />}>
             Händlerdaten
+          </Tabs.Tab>
+          <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
+            Händlerlogo
           </Tabs.Tab>
           <Tabs.Tab
             value="storelocator"
@@ -378,6 +384,16 @@ export default function Page({
             </div>
           </Tabs.Panel>
         </form>
+
+        <Tabs.Panel value="logo" className="py-4">
+          <div className="grid grid-cols-2 gap-4">
+            <LogoPreview company={distributor} onDelete={() => getCompany()} />
+            <FileUploader
+              company={distributor}
+              onSuccess={() => getCompany()}
+            />
+          </div>
+        </Tabs.Panel>
       </Tabs>
     </main>
   );

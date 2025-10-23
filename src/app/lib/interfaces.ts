@@ -24,6 +24,7 @@ export interface Company {
   telefon: string;
   mailadr: string;
   www: string;
+  logo: string;
   youtube: string;
   facebook: string;
   instagram: string;
