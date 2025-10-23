@@ -59,10 +59,13 @@ export default function FileUploader({
         className="min-h-48 flex justify-center items-center gap-2"
         style={{ pointerEvents: "none" }}
       >
-        <IconPhoto size={48} color="var(--mantine-color-dimmed)" stroke={1.5} />
+        <IconPhoto size={96} color="var(--mantine-color-dimmed)" stroke={2} />
         <div>
           <p>Logo per Drag&Drop oder Klick hinzufügen</p>
-          <p className="text-xs dimmed">Eine Bilddatei – maximal 5 MB</p>
+          <p className="text-xs dimmed">
+            Eine Bilddatei – maximal 5 MB <br /> Bevorzugt auf weißem /
+            transparentem Hintergrund
+          </p>
         </div>
       </div>
     </Dropzone>

@@ -1,5 +1,5 @@
 import { Button } from "@mantine/core";
-import { IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconTrash, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Company } from "../lib/interfaces";
@@ -57,10 +57,18 @@ export default function LogoPreview({
         >
           {confirmDelete ? (
             <Button.Group>
-              <Button color="red" onClick={handleDelete}>
+              <Button
+                color="red"
+                onClick={handleDelete}
+                leftSection={<IconCheck size={16} />}
+              >
                 Löschen bestätigen
               </Button>
-              <Button color="dark" onClick={() => setConfirmDelete(false)}>
+              <Button
+                color="dark"
+                onClick={() => setConfirmDelete(false)}
+                leftSection={<IconX size={16} />}
+              >
                 Abbrechen
               </Button>
             </Button.Group>
