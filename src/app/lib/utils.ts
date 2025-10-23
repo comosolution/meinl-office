@@ -9,6 +9,10 @@ export const notEmptyValidation = (value: string, error: string) => {
   return value.trim().length < 1 ? error : null;
 };
 
+export const parseUrl = (url: string) => {
+  return url.startsWith("http") ? url : `https://${url}`;
+};
+
 export const parseDateString = (dob: string) => {
   if (!dob) return null;
   const year = parseInt(dob.substring(0, 4), 10);

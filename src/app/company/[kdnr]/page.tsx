@@ -7,7 +7,7 @@ import FileUploader from "@/app/components/upload";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
 import { customerTypes } from "@/app/lib/data";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
-import { getAvatarColor } from "@/app/lib/utils";
+import { getAvatarColor, parseUrl } from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -391,6 +391,20 @@ export default function Page({
                     label="Website URL"
                     {...form.getInputProps("www")}
                     readOnly={!edit}
+                    rightSection={
+                      <div className="flex">
+                        <ActionIcon
+                          size="sm"
+                          variant="transparent"
+                          color="dark"
+                          component="a"
+                          href={parseUrl(company.www)}
+                          target="_blank"
+                        >
+                          <IconExternalLink size={16} />
+                        </ActionIcon>
+                      </div>
+                    }
                   />
                   <TextInput
                     label="Kundentyp"
@@ -441,11 +455,7 @@ export default function Page({
                               variant="transparent"
                               color="dark"
                               component="a"
-                              href={
-                                brand.url?.startsWith("http")
-                                  ? brand.url
-                                  : `https://${brand.url}`
-                              }
+                              href={parseUrl(brand.url || company.www)}
                               target="_blank"
                             >
                               <IconExternalLink size={16} />

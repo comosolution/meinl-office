@@ -6,8 +6,9 @@ import LogoPreview from "@/app/components/preview";
 import FileUploader from "@/app/components/upload";
 import { MEINL_OFFICE_DEALER_HISTORY_KEY } from "@/app/lib/constants";
 import { Company, DealerInStorage } from "@/app/lib/interfaces";
-import { getAvatarColor } from "@/app/lib/utils";
+import { getAvatarColor, parseUrl } from "@/app/lib/utils";
 import {
+  ActionIcon,
   Avatar,
   Button,
   Checkbox,
@@ -31,6 +32,7 @@ import {
   IconCircleX,
   IconDeviceFloppy,
   IconEdit,
+  IconExternalLink,
   IconPhoto,
   IconShoppingCartPin,
 } from "@tabler/icons-react";
@@ -370,6 +372,20 @@ export default function Page({
                     label="Website URL"
                     {...form.getInputProps("www")}
                     readOnly={!edit}
+                    rightSection={
+                      <div className="flex">
+                        <ActionIcon
+                          size="sm"
+                          variant="transparent"
+                          color="dark"
+                          component="a"
+                          href={parseUrl(distributor.www)}
+                          target="_blank"
+                        >
+                          <IconExternalLink size={16} />
+                        </ActionIcon>
+                      </div>
+                    }
                   />
                   <TextInput
                     label="Kundentyp"
