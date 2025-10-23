@@ -49,7 +49,7 @@ export default function LogoPreview({
 
       {company.logo && company.logo !== "" && (
         <div
-          className={`absolute inset-0 flex items-center justify-center bg-[var(--subtle)] transition-opacity ${
+          className={`absolute inset-0 flex items-center justify-center backdrop-blur-xs transition-opacity ${
             hovered ? "opacity-100" : "opacity-0"
           }`}
         >
