@@ -45,6 +45,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { getInitialValues, validateForm } from "./form";
+import DistributorTab from "./tabs/distributorTab";
 import EmployeesTab from "./tabs/employeesTab";
 
 export default function Page({
@@ -496,66 +497,7 @@ export default function Page({
           </div>
         </Tabs.Panel>
 
-        <Tabs.Panel value="distributor" className="py-4">
-          <div className="flex flex-col gap-4">
-            {company.haendler.length > 0 ? (
-              <Table stickyHeader highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th />
-                    <Table.Th>Name</Table.Th>
-                    <Table.Th>Brand</Table.Th>
-                    <Table.Th>Kdnr</Table.Th>
-                    <Table.Th>Stadt</Table.Th>
-                    <Table.Th>Land</Table.Th>
-                    <Table.Th>DealerLocator</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {company.haendler
-                    .sort((a, b) => a.name1.localeCompare(b.name1))
-                    .map((company, i) => (
-                      <Table.Tr
-                        key={i}
-                        className="cursor-pointer"
-                        onClick={() =>
-                          router.push(`/company/${company.kdnr}/${company.id}`)
-                        }
-                      >
-                        <Table.Td>
-                          <Avatar
-                            size={24}
-                            variant="filled"
-                            color={getAvatarColor(company.kdnr)}
-                          >
-                            <IconBuildingWarehouse size={14} />
-                          </Avatar>
-                        </Table.Td>
-                        <Table.Td>
-                          <b>{company.name1}</b>
-                        </Table.Td>
-                        <Table.Td>
-                          {company.brands as unknown as string}
-                        </Table.Td>
-                        <Table.Td>{company.kdnr}</Table.Td>
-                        <Table.Td>{company.ort}</Table.Td>
-                        <Table.Td>{company.land}</Table.Td>
-                        <Table.Td>
-                          <Checkbox
-                            defaultChecked={company.dealerloc}
-                            disabled
-                          />
-                        </Table.Td>
-                      </Table.Tr>
-                    ))}
-                </Table.Tbody>
-              </Table>
-            ) : (
-              <p className="dimmed text-center p-4">Keine Händler erfasst.</p>
-            )}
-          </div>
-        </Tabs.Panel>
-
+        <DistributorTab company={company} />
         <EmployeesTab company={company} />
       </Tabs>
     </main>
