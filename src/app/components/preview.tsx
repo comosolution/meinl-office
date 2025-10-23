@@ -18,6 +18,7 @@ export default function LogoPreview({
     try {
       const res = await fetch(`/api/logo/${company.kdnr}/${company.id}`, {
         method: "POST",
+        body: "",
       });
 
       if (!res.ok) throw new Error("Fehler beim Löschen");
@@ -58,11 +59,7 @@ export default function LogoPreview({
               <Button color="red" onClick={handleDelete}>
                 Löschen bestätigen
               </Button>
-              <Button
-                color="dark"
-                variant="light"
-                onClick={() => setConfirmDelete(false)}
-              >
+              <Button color="dark" onClick={() => setConfirmDelete(false)}>
                 Abbrechen
               </Button>
             </Button.Group>
