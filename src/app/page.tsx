@@ -1,12 +1,17 @@
 "use client";
 import { Avatar } from "@mantine/core";
-import { IconBuildings } from "@tabler/icons-react";
+import { IconBuildings, IconBuildingWarehouse } from "@tabler/icons-react";
 import HistoryList from "./components/history";
 import {
   MEINL_OFFICE_COMPANY_HISTORY_KEY,
+  MEINL_OFFICE_DEALER_HISTORY_KEY,
   MEINL_OFFICE_PERSON_HISTORY_KEY,
 } from "./lib/constants";
-import { CompanyInStorage, PersonInStorage } from "./lib/interfaces";
+import {
+  CompanyInStorage,
+  DealerInStorage,
+  PersonInStorage,
+} from "./lib/interfaces";
 import { getAvatarColor } from "./lib/utils";
 
 export default function Page() {
@@ -22,7 +27,7 @@ export default function Page() {
           <Avatar size={48}>MM</Avatar>
         </div>
       </header>
-      <div className="grid lg:grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-3 gap-4">
         <HistoryList
           title="Firmen"
           storageKey={MEINL_OFFICE_COMPANY_HISTORY_KEY}
@@ -38,6 +43,26 @@ export default function Page() {
           )}
           getTitle={(company: CompanyInStorage) => company.name}
           getSubtitle={(company: CompanyInStorage) => company.kdnr}
+        />
+        <HistoryList
+          title="Händler"
+          storageKey={MEINL_OFFICE_DEALER_HISTORY_KEY}
+          link={(company: DealerInStorage) =>
+            `/company/${company.kdnr}/${company.id}`
+          }
+          getAvatar={(company: DealerInStorage) => (
+            <Avatar
+              size={48}
+              variant="filled"
+              color={getAvatarColor(company.kdnr)}
+            >
+              <IconBuildingWarehouse />
+            </Avatar>
+          )}
+          getTitle={(company: DealerInStorage) => company.name}
+          getSubtitle={(company: DealerInStorage) =>
+            `${company.kdnr}-${company.id}`
+          }
         />
         <HistoryList
           title="Personen"

@@ -4,7 +4,8 @@ import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
 import LogoPreview from "@/app/components/preview";
 import FileUploader from "@/app/components/upload";
-import { Company } from "@/app/lib/interfaces";
+import { MEINL_OFFICE_DEALER_HISTORY_KEY } from "@/app/lib/constants";
+import { Company, DealerInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import {
   Avatar,
@@ -65,6 +66,7 @@ export default function Page({
 
   useEffect(() => {
     if (!distributor) return;
+    updateHistory();
     form.setValues(getInitialValues(distributor));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
@@ -103,6 +105,30 @@ export default function Page({
     const companies: Company[] = await response.json();
     setCompany(companies[0]);
     setDistributor(companies[0].haendler.find((h) => h.id === +id));
+  };
+
+  const updateHistory = () => {
+    if (!distributor) return;
+
+    const newEntry: DealerInStorage = {
+      id: distributor.id.toString(),
+      kdnr: distributor.kdnr,
+      name: distributor.name1,
+    };
+
+    const history: DealerInStorage[] = JSON.parse(
+      localStorage.getItem(MEINL_OFFICE_DEALER_HISTORY_KEY) || "[]"
+    );
+
+    const filteredHistory = history.filter(
+      (item) => item.kdnr !== newEntry.kdnr
+    );
+
+    const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
+    localStorage.setItem(
+      MEINL_OFFICE_DEALER_HISTORY_KEY,
+      JSON.stringify(updatedHistory)
+    );
   };
 
   if (!company || !distributor) return <Loader />;

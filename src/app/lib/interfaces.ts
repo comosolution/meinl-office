@@ -10,6 +10,12 @@ export interface Dealer {
   land: string;
 }
 
+export interface DealerInStorage {
+  id: string;
+  kdnr: string;
+  name: string;
+}
+
 export interface Company {
   id: number;
   kdnr: string;

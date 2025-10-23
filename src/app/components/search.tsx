@@ -50,7 +50,11 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       }`,
       onClick: () =>
         router.push(`/company/${c.kdnr}${c.id === 0 ? "" : `/${c.id}`}`),
-      rightSection: <p className="text-xs dimmed">{c.kdnr}</p>,
+      rightSection: (
+        <p className="text-xs dimmed">
+          {c.id === 0 ? c.kdnr : `${c.kdnr}-${c.id}`}
+        </p>
+      ),
       leftSection: (
         <Avatar size={32} variant="filled" color={getAvatarColor(c.kdnr)}>
           {c.id === 0 ? (
