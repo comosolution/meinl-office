@@ -14,7 +14,7 @@ import { OfficeProvider } from "./context/officeContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MEINL Office",
+  title: "Meinl Office",
   description: "",
 };
 

@@ -1,9 +1,30 @@
 import { MEINL_WEB_API } from "@/app/lib/constants";
 
 export async function GET() {
-  const res = await fetch(`${MEINL_WEB_API}/campaign`);
-  const data = await res.json();
-  return Response.json(data);
+  try {
+    const res = await fetch(`${MEINL_WEB_API}/campaign`);
+
+    if (res.status === 204) {
+      return Response.json([]);
+    }
+
+    if (!res.ok) {
+      return Response.json(
+        { error: `Failed to fetch campaigns (${res.status})` },
+        { status: res.status }
+      );
+    }
+
+    const data = await res.json();
+
+    return Response.json(data || []);
+  } catch (err) {
+    console.error("Error fetching campaigns:", err);
+    return Response.json(
+      { error: "Failed to fetch campaigns" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: Request) {
