@@ -1,6 +1,5 @@
 import { Popover } from "@mantine/core";
 import { GoogleMap, OverlayView, useLoadScript } from "@react-google-maps/api";
-import Image from "next/image";
 import { useState } from "react";
 import { Company } from "../lib/interfaces";
 import { mapStyles } from "../lib/map";
@@ -56,40 +55,30 @@ export default function Map({ company }: { company: Company }) {
             <div
               style={{
                 position: "relative",
-                zIndex: 20,
-                width: 20,
-                height: 20,
+                width: 36,
+                height: 36,
                 transform: "translate(-50%, -100%)",
                 cursor: "pointer",
+                zIndex: 10,
+                transition: "transform 0.2s ease",
               }}
-              onClick={() => setOpened(!opened)}
             >
-              <div
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                width="36"
+                height="36"
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "#ef233c",
+                  display: "block",
+                  fill: "#000",
+                  transition: "all 0.3s ease",
                 }}
               >
-                <Image
-                  src="/logo_w.svg"
-                  alt="Meinl Logo"
-                  width={20}
-                  height={20}
+                <path
+                  stroke="#fff"
+                  d="M16 0C9.4 0 4 5.4 4 12c0 7.5 9.6 18.7 11.5 20.8a.7.7 0 0 0 1 .1c1.9-2.1 11.5-13.3 11.5-20.9 0-6.6-5.4-12-12-12zm0 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"
                 />
-              </div>
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: -8,
-                  left: 0,
-                  width: 0,
-                  height: 0,
-                  borderLeft: "10px solid transparent",
-                  borderRight: "10px solid transparent",
-                  borderTop: "8px solid #ef233c",
-                }}
-              />
+              </svg>
             </div>
           </Popover.Target>
           <Popover.Dropdown>

@@ -1,11 +1,11 @@
 export const mapStyles = [
   {
     elementType: "geometry",
-    stylers: [{ color: "#ffffff" }],
+    stylers: [{ color: "#f2f1ef" }],
   },
   {
     elementType: "labels.text.fill",
-    stylers: [{ color: "#666666" }],
+    stylers: [{ color: "#5b5b5b" }],
   },
   {
     elementType: "labels.text.stroke",
@@ -19,67 +19,67 @@ export const mapStyles = [
   {
     featureType: "administrative",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#888888" }],
+    stylers: [{ color: "#7d7d7d" }],
   },
   {
     featureType: "poi",
     elementType: "geometry",
-    stylers: [{ color: "#e0e0e0" }],
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text.fill",
-    stylers: [{ color: "#999999" }],
+    stylers: [{ color: "#d7e4d0" }],
   },
   {
     featureType: "poi.park",
     elementType: "geometry",
-    stylers: [{ color: "#d9d9d9" }],
+    stylers: [{ color: "#bcd7a6" }],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#7a9974" }],
   },
   {
     featureType: "road",
     elementType: "geometry",
-    stylers: [{ color: "#cccccc" }],
+    stylers: [{ color: "#e1dcd5" }],
   },
   {
     featureType: "road",
     elementType: "geometry.stroke",
-    stylers: [{ color: "#bfbfbf" }],
+    stylers: [{ color: "#c7c2bc" }],
   },
   {
     featureType: "road.highway",
     elementType: "geometry",
-    stylers: [{ color: "#b0b0b0" }],
+    stylers: [{ color: "#d3c2b5" }],
   },
   {
     featureType: "road.highway",
     elementType: "geometry.stroke",
-    stylers: [{ color: "#9e9e9e" }],
+    stylers: [{ color: "#b8a79c" }],
   },
   {
     featureType: "road.local",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#7a7a7a" }],
+    stylers: [{ color: "#8b8b8b" }],
   },
   {
     featureType: "road",
-    elementType: "labels",
+    elementType: "labels.icon",
     stylers: [{ visibility: "off" }],
   },
   {
     featureType: "transit",
     elementType: "geometry",
-    stylers: [{ color: "#d8d8d8" }],
+    stylers: [{ color: "#d4e0e8" }],
   },
   {
     featureType: "water",
     elementType: "geometry",
-    stylers: [{ color: "#F1F3F5" }],
+    stylers: [{ color: "#a7c7d9" }],
   },
   {
     featureType: "water",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#F1F3F5" }],
+    stylers: [{ color: "#7da2b4" }],
   },
   {
     featureType: "poi",
