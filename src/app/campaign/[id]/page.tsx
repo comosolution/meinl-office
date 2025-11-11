@@ -395,7 +395,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             {selectedDealers.length > 0 &&
               selectedDealers
                 .sort((a, b) =>
-                  a.kdnr.localeCompare(b.kdnr, "de", {
+                  String(a.kdnr).localeCompare(String(b.kdnr), "de", {
                     sensitivity: "base",
                   })
                 )
