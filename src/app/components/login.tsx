@@ -52,6 +52,7 @@ export default function Login() {
             <p className="text-xl font-bold tracking-tighter">Office</p>
           </div>
           <PasswordInput
+            id="mainPasswort"
             size="lg"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

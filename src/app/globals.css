@@ -131,7 +131,7 @@ img.inverted {
 }
 
 .mantine-Input-input,
-.mantine-PasswordInput-input,
+.mantine-PasswordInput-input:not(#mainPasswort),
 .mantine-DatePickerInput-input[aria-readonly="false"],
 .mantine-DateTimePicker-input[aria-readonly="false"],
 .mantine-Checkbox-input,
