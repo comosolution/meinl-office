@@ -1,6 +1,7 @@
 "use client";
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
+import { MEINL_DEALERS_URL } from "@/app/lib/constants";
 import { brands } from "@/app/lib/data";
 import { Campaign, Dealer, Product } from "@/app/lib/interfaces";
 import { notEmptyValidation } from "@/app/lib/utils";
@@ -61,7 +62,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     validateInputOnChange: true,
   });
 
-  const dealerLocLink = `https://meinl-dealers.vercel.app?campaign=${
+  const dealerLocLink = `${MEINL_DEALERS_URL}?campaign=${
     campaign?.salt
   }&brand=${encodeURIComponent(form.values.brand.replaceAll(" ", "-"))}`;
 
