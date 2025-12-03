@@ -1,6 +1,7 @@
 "use client";
 import {
   ActionIcon,
+  Badge,
   NavLink,
   useComputedColorScheme,
   useMantineColorScheme,
@@ -88,6 +89,14 @@ export default function Sidebar() {
     ) : null;
   };
 
+  const DevIndicator = () => {
+    return process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ? (
+      <Badge size="xs" variant="light" color="dark">
+        DEV
+      </Badge>
+    ) : null;
+  };
+
   useEffect(() => {
     const savedState = localStorage.getItem(MEINL_OFFICE_SIDEBAR_KEY);
     if (savedState !== null) {
@@ -124,6 +133,7 @@ export default function Sidebar() {
             </p>
           )}
         </Link>
+        <DevIndicator />
         <ActionIcon color="dark" variant="transparent" onClick={toggleSidebar}>
           {isCollapsed ? (
             <IconLayoutSidebarLeftExpand size={20} />
