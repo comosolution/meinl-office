@@ -91,7 +91,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       ),
     }))
     .sort((a, b) =>
-      a.label!.localeCompare(b.label!, "de", { sensitivity: "base" })
+      a.label!.localeCompare(b.label!, "de", { sensitivity: "base" }),
     );
 
   const actions: SpotlightActionData[] = [...companyActions, ...personActions];

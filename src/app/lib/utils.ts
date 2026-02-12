@@ -5,12 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const safeLocaleCompare = (
-  a?: string | null,
-  b?: string | null
-) => {
+export const safeLocaleCompare = (a?: string | null, b?: string | null) => {
   if (!a && !b) return 0;
-  if (!a) return 1;  
+  if (!a) return 1;
   if (!b) return -1;
   return a.localeCompare(b);
 };
@@ -57,7 +54,7 @@ export const getAvatarColor = (input: string | number) => {
 
 export const fetchResults = async <T>(
   type: "companies" | "persons" | "dealers",
-  query?: string
+  query?: string,
 ): Promise<T[]> => {
   const res = await fetch("/api/search", {
     method: "POST",
