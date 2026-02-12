@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { Company, Dealer, Person } from "../lib/interfaces";
-import { fetchResults } from "../lib/utils";
+import { fetchResults, safeLocaleCompare } from "../lib/utils";
 
 interface OfficeContextType {
   companies: Company[];
@@ -39,17 +39,20 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
 
       setCompanies(
         (allCompanies as Company[]).sort((a, b) =>
-          a.name1.localeCompare(b.name1)
-        )
+          safeLocaleCompare(a.name1, b.name1),
+        ),
       );
       setPersons(
         (allPersons as Person[]).sort((a, b) =>
-          a.nachname.localeCompare(b.nachname)
-        )
+          safeLocaleCompare(a.nachname, b.nachname),
+        ),
       );
       setDealers(
-        (allDealers as Dealer[]).sort((a, b) => a.name1?.localeCompare(b.name1))
+        (allDealers as Dealer[]).sort((a, b) =>
+          safeLocaleCompare(a.name1, b.name1),
+        ),
       );
+
       setLoading(false);
     };
 
