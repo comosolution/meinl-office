@@ -16,6 +16,7 @@ import {
   IconNews,
   IconSun,
   IconUsersGroup,
+  IconWorld,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
@@ -70,15 +71,13 @@ export default function Sidebar() {
   }, [colorScheme]);
 
   const SourceSwitch = () => {
+    const name = source === "OFFGUT" ? "Deutschland" : "USA";
+
     return (
       <NavLink
-        label={source}
-        title={source}
-        leftSection={
-          <div className="text-center text-lg">
-            {source === "OFFGUT" ? "🇩🇪" : "🇺🇸"}
-          </div>
-        }
+        label={name}
+        title={name}
+        leftSection={<IconWorld size={20} />}
         styles={{
           root: navLink(isCollapsed),
         }}
