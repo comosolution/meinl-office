@@ -1,6 +1,7 @@
 "use client";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
+import { useOffice } from "@/app/context/officeContext";
 import { MEINL_OFFICE_PERSON_HISTORY_KEY } from "@/app/lib/constants";
 import {
   competences,
@@ -39,6 +40,7 @@ import { FormValues, getInitialValues, validateForm } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
+  const { source } = useOffice();
   const [person, setPerson] = useState<Person>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
@@ -64,7 +66,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [person]);
 
   const getCustomer = async () => {
-    const response = await fetch(`/api/person/${id}`);
+    const response = await fetch("/api/person", {
+      method: "POST",
+      body: JSON.stringify({ id, source }),
+    });
 
     if (!response.ok) {
       notifications.show({
@@ -110,17 +115,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       company: person.name1,
     };
     const history = JSON.parse(
-      localStorage.getItem(MEINL_OFFICE_PERSON_HISTORY_KEY) || "[]"
+      localStorage.getItem(MEINL_OFFICE_PERSON_HISTORY_KEY) || "[]",
     );
 
     const filteredHistory = history.filter(
-      (item: PersonInStorage) => item.kdnr !== newEntry.kdnr
+      (item: PersonInStorage) => item.kdnr !== newEntry.kdnr,
     );
 
     const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
     localStorage.setItem(
       MEINL_OFFICE_PERSON_HISTORY_KEY,
-      JSON.stringify(updatedHistory)
+      JSON.stringify(updatedHistory),
     );
   };
 
@@ -234,8 +239,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   zustaendig: formattedCompetences,
                 },
                 null,
-                2
-              )
+                2,
+              ),
             );
           })}
         >

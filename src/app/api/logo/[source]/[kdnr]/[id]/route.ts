@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ kdnr: string; id: string }> }
+  { params }: { params: Promise<{ source: string; kdnr: string; id: string }> },
 ) {
-  const { kdnr, id } = await params;
+  const { source, kdnr, id } = await params;
 
   try {
     const contentLength = request.headers.get("content-length");
@@ -13,16 +13,16 @@ export async function POST(
 
     if (!hasBody) {
       const response = await fetch(
-        `${MEINL_WEB_API}/office/upload/logo/${kdnr}/${id}`,
+        `${MEINL_WEB_API}/office/upload/logo/${source}/${kdnr}/${id}`,
         {
           method: "POST",
-        }
+        },
       );
 
       if (!response.ok) {
         return NextResponse.json(
           { error: "Löschen fehlgeschlagen." },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -35,17 +35,17 @@ export async function POST(
     const formData = await request.formData();
 
     const response = await fetch(
-      `${MEINL_WEB_API}/office/upload/logo/${kdnr}/${id}`,
+      `${MEINL_WEB_API}/office/upload/logo/${source}/${kdnr}/${id}`,
       {
         method: "POST",
         body: formData,
-      }
+      },
     );
 
     if (!response.ok) {
       return NextResponse.json(
         { error: "Upload fehlgeschlagen." },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -57,7 +57,7 @@ export async function POST(
     console.error("Upload proxy error:", error);
     return NextResponse.json(
       { error: "Ein unbekannter Fehler ist aufgetreten." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

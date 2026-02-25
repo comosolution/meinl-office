@@ -42,7 +42,7 @@ import { getInitialValues } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
-  const { dealers } = useOffice();
+  const { source, dealers } = useOffice();
 
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
@@ -81,13 +81,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [campaign]);
 
   const getCampaign = async () => {
-    const response = await fetch(`/api/campaign/${id}`);
+    const response = await fetch("/api/campaign", {
+      method: "POST",
+      body: JSON.stringify({ source, salt: id }),
+    });
     const data = await response.json();
     setCampaign(data[0]);
   };
 
   const handleDelete = async () => {
-    const response = await fetch(`/api/campaign/${id}`, {
+    const response = await fetch(`/api/campaign/${source}/${id}`, {
       method: "DELETE",
     });
     if (response.ok) {
@@ -102,7 +105,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         !selectedDealers.find((s) => d.id === s.id && d.kdnr === s.kdnr) &&
         (d.kdnr.toString().includes(lower) ||
           d.name1?.toLowerCase().includes(lower) ||
-          d.name2?.toLowerCase().includes(lower))
+          d.name2?.toLowerCase().includes(lower)),
     );
   }, [dealerSearch, dealers, selectedDealers]);
 
@@ -193,9 +196,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           const payload = {
             ...values,
             products: values.products?.map((p: Product) => p.artnr) || [],
+            source,
           };
 
-          const response = await fetch("/api/campaign", {
+          const response = await fetch("/api/campaign/save", {
             method: "POST",
             body: JSON.stringify(payload),
           });
@@ -269,7 +273,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           )}
         </div>
 
-        <div className="col-span-2 flex">
+        <div className="col-span-2 flex gap-2">
           <TextInput
             className="w-full"
             value={dealerLocLink}
@@ -398,11 +402,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 .sort((a, b) =>
                   String(a.kdnr).localeCompare(String(b.kdnr), "de", {
                     sensitivity: "base",
-                  })
+                  }),
                 )
                 .map((d, i) => {
                   const dealer = dealers.find(
-                    (c) => c.id === d.id && String(c.kdnr) === String(d.kdnr)
+                    (c) => c.id === d.id && String(c.kdnr) === String(d.kdnr),
                   );
                   if (!dealer) return;
                   return (

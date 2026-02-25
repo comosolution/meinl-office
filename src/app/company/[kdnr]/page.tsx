@@ -4,6 +4,7 @@ import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
 import LogoPreview from "@/app/components/preview";
 import FileUploader from "@/app/components/upload";
+import { useOffice } from "@/app/context/officeContext";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
 import { customerTypes } from "@/app/lib/data";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
@@ -54,6 +55,7 @@ export default function Page({
   params: Promise<{ kdnr: string }>;
 }) {
   const { kdnr } = React.use(params);
+  const { source } = useOffice();
   const [company, setCompany] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
@@ -79,7 +81,10 @@ export default function Page({
   }, [company]);
 
   const getCompany = async () => {
-    const response = await fetch(`/api/company/${kdnr}`);
+    const response = await fetch("/api/company/", {
+      method: "POST",
+      body: JSON.stringify({ kdnr, source }),
+    });
 
     if (!response.ok) {
       notifications.show({
@@ -122,17 +127,17 @@ export default function Page({
     };
 
     const history: CompanyInStorage[] = JSON.parse(
-      localStorage.getItem(MEINL_OFFICE_COMPANY_HISTORY_KEY) || "[]"
+      localStorage.getItem(MEINL_OFFICE_COMPANY_HISTORY_KEY) || "[]",
     );
 
     const filteredHistory = history.filter(
-      (item) => item.kdnr !== newEntry.kdnr
+      (item) => item.kdnr !== newEntry.kdnr,
     );
 
     const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
     localStorage.setItem(
       MEINL_OFFICE_COMPANY_HISTORY_KEY,
-      JSON.stringify(updatedHistory)
+      JSON.stringify(updatedHistory),
     );
   };
 
@@ -272,9 +277,9 @@ export default function Page({
 
         <form
           onSubmit={form.onSubmit(async (values) => {
-            const response = await fetch("/api/company", {
+            const response = await fetch("/api/company/save", {
               method: "POST",
-              body: JSON.stringify(values),
+              body: JSON.stringify({ ...values, source }),
             });
             if (response.ok) {
               getCompany();

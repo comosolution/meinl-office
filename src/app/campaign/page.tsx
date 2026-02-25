@@ -24,19 +24,24 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "../components/loader";
+import { useOffice } from "../context/officeContext";
 import { brands } from "../lib/data";
 import { Campaign } from "../lib/interfaces";
 import { notEmptyValidation } from "../lib/utils";
 
 export default function Page() {
   const router = useRouter();
+  const { source } = useOffice();
   const [opened, { open, close }] = useDisclosure(false);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getCampaigns = async () => {
     setLoading(true);
-    const res = await fetch("/api/campaign");
+    const res = await fetch("/api/campaign", {
+      method: "POST",
+      body: JSON.stringify({ source, salt: "" }),
+    });
     const data = await res.json();
     setCampaigns(data);
     setLoading(false);
@@ -116,41 +121,42 @@ export default function Page() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {campaigns
-              .sort((a, b) => a.id - b.id)
-              .map((campaign, index) => (
-                <Table.Tr
-                  key={index}
-                  className="cursor-pointer"
-                  onClick={() => router.push(`/campaign/${campaign.id}`)}
-                >
-                  <Table.Td>{campaign.id}</Table.Td>
-                  <Table.Td>
-                    <div className="flex items-center gap-2">
-                      <Avatar size={28}>
-                        <Image
-                          src={`/brands/${campaign.brand
-                            ?.replaceAll(" ", "-")
-                            .toUpperCase()}.png`}
-                          width={20}
-                          height={20}
-                          alt={`${campaign.brand} Logo`}
-                          className="inverted object-contain"
-                        />
-                      </Avatar>
-                      <p>{campaign.brand}</p>
-                    </div>
-                  </Table.Td>
-                  <Table.Td>{campaign.title}</Table.Td>
-                  <Table.Td>
-                    {campaign.start ? formatDate(campaign.start) : ""}
-                  </Table.Td>
-                  <Table.Td>
-                    {campaign.end ? formatDate(campaign.end) : ""}
-                  </Table.Td>
-                  <Table.Td>{campaign.dealers.length}</Table.Td>
-                </Table.Tr>
-              ))}
+            {campaigns &&
+              campaigns
+                .sort((a, b) => a.id - b.id)
+                .map((campaign, index) => (
+                  <Table.Tr
+                    key={index}
+                    className="cursor-pointer"
+                    onClick={() => router.push(`/campaign/${campaign.id}`)}
+                  >
+                    <Table.Td>{campaign.id}</Table.Td>
+                    <Table.Td>
+                      <div className="flex items-center gap-2">
+                        <Avatar size={28}>
+                          <Image
+                            src={`/brands/${campaign.brand
+                              ?.replaceAll(" ", "-")
+                              .toUpperCase()}.png`}
+                            width={20}
+                            height={20}
+                            alt={`${campaign.brand} Logo`}
+                            className="inverted object-contain"
+                          />
+                        </Avatar>
+                        <p>{campaign.brand}</p>
+                      </div>
+                    </Table.Td>
+                    <Table.Td>{campaign.title}</Table.Td>
+                    <Table.Td>
+                      {campaign.start ? formatDate(campaign.start) : ""}
+                    </Table.Td>
+                    <Table.Td>
+                      {campaign.end ? formatDate(campaign.end) : ""}
+                    </Table.Td>
+                    <Table.Td>{campaign.dealers.length}</Table.Td>
+                  </Table.Tr>
+                ))}
           </Table.Tbody>
         </Table>
       </main>
@@ -163,9 +169,9 @@ export default function Page() {
         <form
           className="flex flex-col gap-4"
           onSubmit={form.onSubmit(async (values) => {
-            const response = await fetch("/api/campaign", {
+            const response = await fetch("/api/campaign/save", {
               method: "POST",
-              body: JSON.stringify(values),
+              body: JSON.stringify({ ...values, source }),
             });
             if (response.ok) {
               getCampaigns();

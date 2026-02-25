@@ -1,6 +1,7 @@
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { IconPhoto } from "@tabler/icons-react";
+import { useOffice } from "../context/officeContext";
 import { Company } from "../lib/interfaces";
 
 export default function FileUploader({
@@ -10,15 +11,20 @@ export default function FileUploader({
   company: Company;
   onSuccess?: () => void;
 }) {
+  const { source } = useOffice();
+
   const uploadFile = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const res = await fetch(`/api/logo/${company.kdnr}/${company.id}`, {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        `/api/logo/${source}/${company.kdnr}/${company.id}`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.error || "Fehler beim Hochladen!");

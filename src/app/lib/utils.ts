@@ -53,12 +53,13 @@ export const getAvatarColor = (input: string | number) => {
 };
 
 export const fetchResults = async <T>(
+  source: string,
   type: "companies" | "persons" | "dealers",
   query?: string,
 ): Promise<T[]> => {
   const res = await fetch("/api/search", {
     method: "POST",
-    body: JSON.stringify({ type, search: query || " " }),
+    body: JSON.stringify({ type, search: query || " ", source: source }),
   });
   return res.json();
 };

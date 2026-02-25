@@ -12,6 +12,8 @@ import { Company, Dealer, Person } from "../lib/interfaces";
 import { fetchResults, safeLocaleCompare } from "../lib/utils";
 
 interface OfficeContextType {
+  source: string;
+  setSource: Dispatch<SetStateAction<string>>;
   companies: Company[];
   setCompanies: Dispatch<SetStateAction<Company[]>>;
   persons: Person[];
@@ -24,6 +26,7 @@ interface OfficeContextType {
 const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 
 export const OfficeProvider = ({ children }: { children: ReactNode }) => {
+  const [source, setSource] = useState<string>("OFFGUT");
   const [companies, setCompanies] = useState<Company[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
   const [dealers, setDealers] = useState<Dealer[]>([]);
@@ -32,9 +35,9 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const getData = async () => {
       const [allCompanies, allPersons, allDealers] = await Promise.all([
-        fetchResults<Company>("companies"),
-        fetchResults<Person>("persons"),
-        fetchResults<Dealer>("dealers"),
+        fetchResults<Company>(source, "companies"),
+        fetchResults<Person>(source, "persons"),
+        fetchResults<Dealer>(source, "dealers"),
       ]);
 
       setCompanies(
@@ -62,6 +65,8 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   return (
     <OfficeContext.Provider
       value={{
+        source,
+        setSource,
         companies,
         setCompanies,
         persons,

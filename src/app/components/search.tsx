@@ -7,6 +7,7 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useOffice } from "../context/officeContext";
 import { useDebounce } from "../lib/hooks";
 import { Dealer, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
@@ -14,6 +15,7 @@ import { fetchResults, getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
+  const { source } = useOffice();
   const [query, setQuery] = useState("");
   const [companies, setCompanies] = useState<Dealer[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
@@ -29,8 +31,8 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       }
 
       const [allCompanies, allPersons] = await Promise.all([
-        fetchResults<Dealer>("dealers", debouncedQuery),
-        fetchResults<Person>("persons", debouncedQuery),
+        fetchResults<Dealer>(source, "dealers", debouncedQuery),
+        fetchResults<Person>(source, "persons", debouncedQuery),
       ]);
 
       setCompanies(allCompanies);

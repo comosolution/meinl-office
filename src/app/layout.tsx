@@ -40,7 +40,7 @@ const theme = createTheme({
       "#a7001a",
     ],
   },
-  defaultRadius: "0",
+  defaultRadius: "sm",
 });
 
 export default function RootLayout({

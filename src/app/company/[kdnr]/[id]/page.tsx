@@ -4,6 +4,7 @@ import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
 import LogoPreview from "@/app/components/preview";
 import FileUploader from "@/app/components/upload";
+import { useOffice } from "@/app/context/officeContext";
 import { MEINL_OFFICE_DEALER_HISTORY_KEY } from "@/app/lib/constants";
 import { Company, DealerInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor, parseUrl } from "@/app/lib/utils";
@@ -48,6 +49,7 @@ export default function Page({
   params: Promise<{ kdnr: string; id: string }>;
 }) {
   const { kdnr, id } = React.use(params);
+  const { source } = useOffice();
   const [company, setCompany] = useState<Company>();
   const [distributor, setDistributor] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
@@ -74,7 +76,10 @@ export default function Page({
   }, [company]);
 
   const getCompany = async () => {
-    const response = await fetch(`/api/company/${kdnr}`);
+    const response = await fetch("/api/company/", {
+      method: "POST",
+      body: JSON.stringify({ kdnr, source }),
+    });
 
     if (!response.ok) {
       notifications.show({
@@ -119,17 +124,17 @@ export default function Page({
     };
 
     const history: DealerInStorage[] = JSON.parse(
-      localStorage.getItem(MEINL_OFFICE_DEALER_HISTORY_KEY) || "[]"
+      localStorage.getItem(MEINL_OFFICE_DEALER_HISTORY_KEY) || "[]",
     );
 
     const filteredHistory = history.filter(
-      (item) => item.kdnr !== newEntry.kdnr
+      (item) => item.kdnr !== newEntry.kdnr,
     );
 
     const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
     localStorage.setItem(
       MEINL_OFFICE_DEALER_HISTORY_KEY,
-      JSON.stringify(updatedHistory)
+      JSON.stringify(updatedHistory),
     );
   };
 
@@ -255,7 +260,7 @@ export default function Page({
           onSubmit={form.onSubmit(async (values) => {
             const response = await fetch("/api/company", {
               method: "POST",
-              body: JSON.stringify(values),
+              body: JSON.stringify({ ...values, source }),
             });
             if (response.ok) {
               getCompany();

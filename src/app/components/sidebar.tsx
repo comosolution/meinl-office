@@ -16,12 +16,14 @@ import {
   IconNews,
   IconSun,
   IconUsersGroup,
+  IconWorld,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useOffice } from "../context/officeContext";
 import { MEINL_OFFICE_SIDEBAR_KEY } from "../lib/constants";
 import { navLink } from "../lib/styles";
 import Search from "./search";
@@ -30,6 +32,7 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  const { source, setSource } = useOffice();
   const { setColorScheme, colorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
@@ -169,6 +172,17 @@ export default function Sidebar() {
           })}
         </div>
         <div>
+          <NavLink
+            label={source}
+            title={source}
+            leftSection={<IconWorld size={20} />}
+            styles={{
+              root: navLink(isCollapsed),
+            }}
+            onClick={() => {
+              //setSource(source === "OFFGUT" ? "OFFUSA" : "OFFGUT");
+            }}
+          />
           <ThemeSwitch />
           <NavLink
             label="Ausloggen"

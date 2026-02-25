@@ -2,6 +2,7 @@ import { Button } from "@mantine/core";
 import { IconCheck, IconTrash, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
+import { useOffice } from "../context/officeContext";
 import { Company } from "../lib/interfaces";
 
 export default function LogoPreview({
@@ -11,6 +12,7 @@ export default function LogoPreview({
   company: Company;
   onDelete: () => void;
 }) {
+  const { source } = useOffice();
   const [hovered, setHovered] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -18,9 +20,12 @@ export default function LogoPreview({
 
   async function handleDelete() {
     try {
-      const res = await fetch(`/api/logo/${company.kdnr}/${company.id}`, {
-        method: "POST",
-      });
+      const res = await fetch(
+        `/api/logo/${source}/${company.kdnr}/${company.id}`,
+        {
+          method: "POST",
+        },
+      );
 
       if (!res.ok) throw new Error("Fehler beim Löschen");
 
