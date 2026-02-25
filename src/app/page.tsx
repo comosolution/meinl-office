@@ -1,6 +1,11 @@
 "use client";
-import { Avatar } from "@mantine/core";
-import { IconBuildings, IconBuildingWarehouse } from "@tabler/icons-react";
+import { Avatar, Button } from "@mantine/core";
+import {
+  IconBuildings,
+  IconBuildingWarehouse,
+  IconUsersGroup,
+} from "@tabler/icons-react";
+import Link from "next/link";
 import HistoryList from "./components/history";
 import {
   MEINL_OFFICE_COMPANY_HISTORY_KEY,
@@ -27,6 +32,33 @@ export default function Page() {
           <Avatar size={48}>MM</Avatar>
         </div>
       </header>
+      <div className="grid lg:grid-cols-2 gap-4">
+        {[
+          {
+            label: "Firmen",
+            icon: <IconBuildings size={24} />,
+            href: "/company",
+          },
+          {
+            label: "Personen",
+            icon: <IconUsersGroup size={24} />,
+            href: "/person",
+          },
+        ].map((item, index) => (
+          <Button
+            key={index}
+            color="gray"
+            variant="light"
+            size="xl"
+            radius="md"
+            component={Link}
+            href={item.href}
+            leftSection={item.icon}
+          >
+            Alle {item.label}
+          </Button>
+        ))}
+      </div>
       <div className="grid lg:grid-cols-3 gap-4">
         <HistoryList
           title="Firmen"

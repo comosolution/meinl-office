@@ -19,7 +19,7 @@ export default function Login() {
       setError("Falsches Kennwort. Bitte erneut versuchen.");
     } else if (errorFromQuery) {
       setError(
-        "Ein unerwarteter Fehler ist aufgetreten. Bitte erneut versuchen."
+        "Ein unerwarteter Fehler ist aufgetreten. Bitte erneut versuchen.",
       );
     }
   }, [searchParams]);
@@ -38,6 +38,7 @@ export default function Login() {
     <div className="min-w-screen min-h-screen flex justify-center items-center">
       <Paper
         shadow="xl"
+        radius="md"
         className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8 backdrop-blur-md shadow-2xl shadow-black/20"
       >
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
@@ -71,7 +72,7 @@ export default function Login() {
       </Paper>
       <DotPattern
         className={cn(
-          "[mask-image:radial-gradient(640px_circle_at_center,white,transparent)]"
+          "[mask-image:radial-gradient(640px_circle_at_center,white,transparent)]",
         )}
       />
     </div>

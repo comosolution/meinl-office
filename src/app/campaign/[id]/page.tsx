@@ -126,7 +126,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   const selectProduct = async () => {
-    const response = await fetch(`/api/campaign/product/${productSearch}`);
+    const response = await fetch("/api/campaign/product", {
+      method: "POST",
+      body: JSON.stringify({ artnr: productSearch, source }),
+    });
     const data = await response.json();
 
     if (!response.ok) {
@@ -170,9 +173,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <header className="flex items-center gap-4 py-4">
         <Avatar size={72}>
           <Image
-            src={`/brands/${campaign.brand
-              .replaceAll(" ", "-")
-              .toUpperCase()}.png`}
+            src={
+              campaign.brand
+                ? `/brands/${campaign.brand
+                    .replaceAll(" ", "-")
+                    .toUpperCase()}.png`
+                : "/logo_w.svg"
+            }
             width={48}
             height={48}
             alt={`${campaign.brand} Logo`}

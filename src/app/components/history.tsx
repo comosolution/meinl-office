@@ -1,5 +1,5 @@
 import { Button, Paper } from "@mantine/core";
-import { IconEyeOff, IconHistoryOff } from "@tabler/icons-react";
+import { IconEyeOff, IconTrash } from "@tabler/icons-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -31,7 +31,7 @@ export default function HistoryList<T>({
   };
 
   return (
-    <Paper p="lg" className="flex flex-col gap-4">
+    <Paper p="lg" radius="md">
       <div className="h-full flex flex-col gap-4 justify-between">
         <h2>Kürzlich besuchte {title}</h2>
         {history.length > 0 ? (
@@ -39,11 +39,11 @@ export default function HistoryList<T>({
             <div className="h-full flex flex-col">
               {history.map((item, index) => (
                 <Link key={index} href={link(item)}>
-                  <div className="flex items-center gap-4 p-2 hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
+                  <div className="flex items-center gap-2 rounded p-2 hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
                     {getAvatar(item)}
                     <div className="flex flex-col">
                       <h3>{getTitle(item)}</h3>
-                      <p className="dimmed">{getSubtitle(item)}</p>
+                      <p className="text-xs dimmed">{getSubtitle(item)}</p>
                     </div>
                   </div>
                 </Link>
@@ -51,7 +51,7 @@ export default function HistoryList<T>({
             </div>
             <Button
               variant="transparent"
-              leftSection={<IconHistoryOff size={16} />}
+              leftSection={<IconTrash size={16} />}
               onClick={clearHistory}
             >
               Verlauf löschen
