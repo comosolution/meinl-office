@@ -1,5 +1,5 @@
 import { Person } from "../../lib/interfaces";
-import { notEmptyValidation, parseDateString } from "../../lib/utils";
+import { parseDateString } from "../../lib/utils";
 
 export const getInitialValues = (person: Person) => {
   return {
@@ -46,7 +46,5 @@ export type FormValues = Omit<Person, "gebdat" | "zustaendig"> & {
 };
 
 export function validateForm(values: FormValues) {
-  return {
-    name1: notEmptyValidation(values.vorname, "Bitte Vornamen angeben."),
-  };
+  return {};
 }

@@ -15,6 +15,7 @@ import {
   IconMoon,
   IconNews,
   IconSun,
+  IconTicket,
   IconUsersGroup,
   IconWorld,
 } from "@tabler/icons-react";
@@ -59,6 +60,11 @@ export default function Sidebar() {
       name: "Kampagnen",
       href: "/campaign",
       icon: <IconNews size={20} />,
+    },
+    {
+      name: "RMA Tickets",
+      href: "/ticket",
+      icon: <IconTicket size={20} />,
     },
   ];
 

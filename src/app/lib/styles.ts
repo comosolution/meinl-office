@@ -7,5 +7,6 @@ export const navLink = (isCollapsed: boolean) => {
     paddingInline: isCollapsed ? "2.25rem" : "0.8rem",
     paddingBlock: "0.6rem",
     transition: "all 300ms ease",
+    whiteSpace: "nowrap",
   };
 };

@@ -1,0 +1,689 @@
+"use client";
+import FilesPanel from "@/app/components/filesPanel";
+import HistoryPanel from "@/app/components/historyPanel";
+import Loader from "@/app/components/loader";
+import { useOffice } from "@/app/context/officeContext";
+import { LONG_DATE_FORMAT } from "@/app/lib/constants";
+import { Ticket } from "@/app/lib/interfaces";
+import { parseDb2Date } from "@/app/lib/utils";
+import {
+  ActionIcon,
+  Badge,
+  Button,
+  NumberInput,
+  Paper,
+  Tabs,
+  Textarea,
+  TextInput,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+import {
+  IconAddressBook,
+  IconChevronLeft,
+  IconChevronRight,
+  IconDeviceFloppy,
+  IconEdit,
+  IconError404,
+  IconFiles,
+  IconHistory,
+  IconNews,
+  IconTicket,
+  IconTruckReturn,
+} from "@tabler/icons-react";
+import { format } from "date-fns";
+import JsBarcode from "jsbarcode";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import QRCode from "qrcode";
+import React, { useEffect, useState } from "react";
+
+export default function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
+  const { data: session } = useSession();
+  const { companies } = useOffice();
+
+  const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [activeTab, setActiveTab] = useState<string | null>("info");
+
+  const form = useForm<Partial<Ticket>>({
+    initialValues: {
+      artnr_mei: "",
+      artnr_ku: "",
+      sernr_mei: "",
+      sernr_ku: "",
+      descr: "",
+      menge: 1,
+      auftr_art: "",
+      versandadresse: {
+        vanr: "",
+        vaname: "",
+        name2: "",
+        name3: "",
+        vastrasse: "",
+        vaplz: "",
+        vaort: "",
+        valand: "",
+        zusatz: "",
+      },
+    },
+  });
+
+  const getTicket = async () => {
+    try {
+      const response = await fetch(`/api/ticket/${id}`);
+      if (response.ok) {
+        const data: Ticket = await response.json();
+        const transformed = {
+          ...data,
+          created: parseDb2Date(data.created),
+          modified: parseDb2Date(data.modified),
+        };
+        setTicket(transformed);
+        form.setValues({
+          kdnr: transformed.kdnr || "",
+          kdnr_name: transformed.kdnr_name || "",
+          artnr_mei: transformed.artnr_mei || "",
+          artnr_ku: transformed.artnr_ku || "",
+          sernr_mei: transformed.sernr_mei || "",
+          sernr_ku: transformed.sernr_ku || "",
+          descr: transformed.descr || "",
+          menge: transformed.menge || 1,
+          auftr_art: transformed.auftr_art || "",
+          versandadresse: transformed.versandadresse || {
+            vanr: "",
+            vaname: "",
+            name2: "",
+            name3: "",
+            vastrasse: "",
+            vaplz: "",
+            vaort: "",
+            valand: "",
+            zusatz: "",
+          },
+        });
+      } else {
+        console.error("Failed to fetch ticket");
+      }
+    } catch (error) {
+      console.error("Error fetching ticket:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = form.onSubmit(async (values) => {
+    try {
+      const payload = {
+        ...ticket,
+        nr: id,
+        kdnr: ticket!.kdnr,
+        kdnr_full: ticket!.kdnr_full,
+        updatedby: session?.user?.name || ticket!.updatedby,
+        createdby: ticket!.createdby,
+        artnr_ku: values.artnr_ku || ticket!.artnr_ku,
+        artnr_mei: values.artnr_mei || ticket!.artnr_mei,
+        sernr_ku: values.sernr_ku || ticket!.sernr_ku,
+        sernr_mei: values.sernr_mei || ticket!.sernr_mei,
+        descr: values.descr || ticket!.descr,
+        menge: values.menge || ticket!.menge,
+        auftr_art: values.auftr_art || ticket!.auftr_art,
+        source: "OF",
+        versandadresse: values.versandadresse || ticket!.versandadresse,
+        files: ticket!.files && ticket!.files.length > 0 ? ticket!.files : null,
+      };
+
+      const res = await fetch("/api/ticket", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        console.log("Ticket updated successfully");
+        getTicket();
+        setEditing(false);
+      } else {
+        console.error("Failed to update ticket:", await res.text());
+      }
+    } catch (error) {
+      console.error("Error updating ticket:", error);
+    }
+  });
+
+  const handleCancel = () => {
+    if (ticket) {
+      form.setValues({
+        artnr_mei: ticket.artnr_mei || "",
+        artnr_ku: ticket.artnr_ku || "",
+        sernr_mei: ticket.sernr_mei || "",
+        sernr_ku: ticket.sernr_ku || "",
+        descr: ticket.descr || "",
+        menge: ticket.menge || 1,
+        auftr_art: ticket.auftr_art || "",
+        versandadresse: ticket.versandadresse || {
+          vanr: "",
+          vaname: "",
+          name2: "",
+          name3: "",
+          vastrasse: "",
+          vaplz: "",
+          vaort: "",
+          valand: "",
+          zusatz: "",
+        },
+      });
+    }
+    setEditing(false);
+  };
+
+  const handleCreateReturn = async () => {
+    if (!ticket || !ticket.versandadresse) return;
+
+    const { vastrasse, vaplz, vaort, vaname } = ticket.versandadresse;
+
+    if (!vastrasse || !vaplz || !vaort || !vaname) {
+      notifications.show({
+        title: "Fehlende Versandadresse",
+        message: "Die Versandadresse des Tickets ist unvollständig.",
+      });
+      return;
+    }
+
+    const addressParts = vastrasse.trim().split(/\s+(?=\S*$)/);
+    const addressStreet = addressParts[0] || vastrasse;
+    const addressHouse = addressParts[1] || "1";
+
+    const body = {
+      receiverId: "deu",
+      shipper: {
+        name1: vaname,
+        addressStreet: addressStreet,
+        addressHouse: addressHouse,
+        postalCode: vaplz,
+        city: vaort,
+      },
+      customerReference: id,
+    };
+
+    try {
+      const response = await fetch("/api/return/dhl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const pdfData = data.pdf;
+        const shipmentNo = data.shipmentNo;
+
+        const uploadBody = {
+          ticketNr: id,
+          status: ticket.status_int.nr,
+          versender: "DHL",
+          kdnr: ticket.kdnr,
+          source: "OF",
+          createdBy: session?.user?.name || ticket.createdby,
+          sendungsNr: shipmentNo,
+          labelBase64: pdfData,
+        };
+
+        const uploadRes = await fetch("/api/return", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(uploadBody),
+        });
+
+        if (uploadRes.ok) {
+          notifications.show({
+            title: "Retoure erstellt",
+            message: `Die Retoure mit Sendungsnummer ${shipmentNo} wurde erfolgreich erstellt.`,
+            autoClose: 3000,
+            color: "dark",
+          });
+
+          const payload = {
+            ...ticket,
+            status_int: {
+              nr: "110",
+            },
+            status_ext: {
+              nr: "810",
+            },
+          };
+
+          const res = await fetch("/api/ticket", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (res.ok) {
+            console.log("Ticket status updated successfully");
+            getTicket();
+          } else {
+            console.error("Failed to update ticket status:", await res.text());
+          }
+        } else {
+          console.error(
+            "Failed to upload return label:",
+            await uploadRes.text(),
+          );
+        }
+      } else {
+        console.error("Failed to create return label");
+      }
+    } catch (error) {
+      console.error("Error creating return label:", error);
+    }
+  };
+
+  const handleDownload = () => {
+    if (!ticket || !ticket.tracking) return;
+
+    const link = document.createElement("a");
+    link.href = `data:application/pdf;base64,${ticket.tracking.label}`;
+    link.download = `Rücksendeetikett_${id}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleGenerateLaufzettel = async () => {
+    if (!ticket) return;
+
+    const doc = new jsPDF();
+    doc.setFontSize(20);
+    doc.text("Laufzettel", 16, 20);
+
+    autoTable(doc, {
+      body: [
+        ["Ticket ID", id],
+        ["Erstellt am", format(ticket.created, LONG_DATE_FORMAT)],
+        ["Kunde", `${ticket.kdnr_full} – ${ticket.kdnr_name}` || ""],
+        ["Artikelnummer", ticket.artnr_mei || ticket.artnr_ku || ""],
+        ["Seriennummer", ticket.sernr_mei || ticket.sernr_ku || ""],
+        ["Fehlerbeschreibung", ticket.descr || ""],
+        ["Menge", ticket.menge?.toString() || ""],
+        ["Status", ticket.status_int?.text || ""],
+      ],
+      startY: 30,
+      styles: { fontSize: 10 },
+    });
+
+    const canvas = document.createElement("canvas");
+    JsBarcode(canvas, id, {
+      format: "CODE128",
+      width: 2,
+      height: 40,
+      displayValue: true,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const finalY = (doc as any).lastAutoTable.finalY || 100;
+    doc.addImage(imgData, "PNG", 20, finalY + 20, 100, 40);
+
+    const url = `${window.location.origin}/ticket/${id}`;
+    const qrDataURL = await QRCode.toDataURL(url);
+    doc.addImage(qrDataURL, "PNG", 130, finalY + 20, 50, 50);
+
+    doc.save(`laufzettel_${id}.pdf`);
+  };
+
+  const loadShippingAddress = () => {
+    if (!ticket) return;
+
+    const company = companies.find((c) => c.kdnr.toString() === ticket.kdnr);
+
+    if (company) {
+      form.setFieldValue("versandadresse", {
+        vanr: company.kdnr.toString() || "",
+        vaname: company.name1 || "",
+        name2: company.name2 || "",
+        name3: company.name3 || "",
+        vastrasse: company.strasse || "",
+        vaplz: company.plz || "",
+        vaort: company.ort || "",
+        valand: company.land || "",
+        zusatz: "",
+      });
+    } else {
+      notifications.show({
+        title: "Fehlende Versandadresse",
+        message: `Für den Kunden ${ticket.kdnr} wurde keine Versandadresse gefunden.`,
+      });
+    }
+  };
+
+  useEffect(() => {
+    getTicket();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (!ticket) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <IconError404 size={64} />
+        <p className="dimmed pb-2">Kein Ticket zu {id} gefunden</p>
+        <Button
+          variant="light"
+          component={Link}
+          href="/ticket"
+          leftSection={<IconChevronLeft size={16} />}
+        >
+          Alle Tickets anzeigen
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <main className="flex flex-col gap-8 p-4">
+      <header className="flex justify-between">
+        <div className="flex gap-1">
+          <Button
+            variant="light"
+            color="gray"
+            component={Link}
+            href="/ticket"
+            leftSection={<IconChevronLeft size={16} />}
+          >
+            Alle Tickets
+          </Button>
+          <Button
+            variant="transparent"
+            color="gray"
+            component={Link}
+            href={`/customer/${ticket.kdnr}`}
+            leftSection={<IconChevronLeft size={16} />}
+          >
+            Kunde {ticket.kdnr}
+          </Button>
+        </div>
+        <div className="flex gap-1">
+          {ticket.tracking ? (
+            <Button
+              leftSection={<IconTruckReturn size={16} />}
+              onClick={handleDownload}
+            >
+              Label herunterladen
+            </Button>
+          ) : (
+            <Button
+              variant="light"
+              leftSection={<IconTruckReturn size={16} />}
+              onClick={handleCreateReturn}
+            >
+              Retoure erstellen
+            </Button>
+          )}
+          <Button
+            variant="light"
+            leftSection={<IconNews size={16} />}
+            onClick={handleGenerateLaufzettel}
+          >
+            Laufzettel herunterladen
+          </Button>
+        </div>
+      </header>
+      <div className="flex justify-between items-end">
+        <div>
+          <h1>Ticket {id}</h1>
+          <div className="flex items-baseline gap-2">
+            <p>
+              von{" "}
+              <Link href={`/customer/${ticket.kdnr}`} className="link">
+                {ticket.kdnr_name}{" "}
+                <span className="dimmed">({ticket.kdnr_full})</span>
+              </Link>
+            </p>
+            <Badge variant="light">{ticket.status_int.text}</Badge>
+          </div>
+        </div>
+        <p>
+          {format(ticket.created, LONG_DATE_FORMAT)}{" "}
+          <span className="dimmed">von</span> {ticket.createdby}
+        </p>
+      </div>
+
+      <Tabs value={activeTab} onChange={setActiveTab}>
+        <Tabs.List>
+          <Tabs.Tab value="info" leftSection={<IconTicket size={16} />}>
+            Details
+          </Tabs.Tab>
+          <Tabs.Tab
+            value="files"
+            leftSection={<IconFiles size={16} />}
+            rightSection={
+              <Badge size="xs" color="gray">
+                {ticket.files?.length || 0}
+              </Badge>
+            }
+          >
+            Dateien
+          </Tabs.Tab>
+          <Tabs.Tab
+            value="history"
+            leftSection={<IconHistory size={16} />}
+            rightSection={
+              <Badge size="xs" color="gray">
+                {ticket.history?.length || 0}
+              </Badge>
+            }
+          >
+            Historie
+          </Tabs.Tab>
+        </Tabs.List>
+
+        <Tabs.Panel value="info" className="py-4">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
+            <div className="col-span-2 flex justify-end items-end gap-2">
+              {!editing ? (
+                <Button
+                  color="dark"
+                  variant="transparent"
+                  leftSection={<IconEdit size={16} />}
+                  onClick={() => setEditing(true)}
+                >
+                  Bearbeiten
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    color="dark"
+                    variant="transparent"
+                    onClick={handleCancel}
+                  >
+                    Abbrechen
+                  </Button>
+                  <Button
+                    type="submit"
+                    color="dark"
+                    leftSection={<IconDeviceFloppy size={16} />}
+                  >
+                    Speichern
+                  </Button>
+                </>
+              )}
+            </div>
+            <Paper p="lg" radius="md">
+              <div className="flex flex-col gap-2">
+                <h2>Artikel</h2>
+                <div className="flex items-end">
+                  <TextInput
+                    label="Artikelnummer (ext)"
+                    {...form.getInputProps("artnr_ku")}
+                    readOnly={!editing}
+                    className="flex-1"
+                  />
+                  <ActionIcon
+                    size="input-sm"
+                    variant="subtle"
+                    aria-label="Copy KU to MEI"
+                    disabled={!editing}
+                    onClick={() =>
+                      form.setFieldValue("artnr_mei", form.values.artnr_ku)
+                    }
+                  >
+                    <IconChevronRight size={18} />
+                  </ActionIcon>
+                  <TextInput
+                    label="Artikelnummer (int)"
+                    {...form.getInputProps("artnr_mei")}
+                    readOnly={!editing}
+                    className="flex-1"
+                  />
+                </div>
+                <div className="flex items-end">
+                  <TextInput
+                    label="Seriennummer (ext)"
+                    {...form.getInputProps("sernr_ku")}
+                    readOnly={!editing}
+                    className="flex-1"
+                  />
+                  <ActionIcon
+                    size="input-sm"
+                    variant="subtle"
+                    aria-label="Copy KU to MEI"
+                    disabled={!editing}
+                    onClick={() =>
+                      form.setFieldValue("sernr_mei", form.values.sernr_ku)
+                    }
+                  >
+                    <IconChevronRight size={18} />
+                  </ActionIcon>
+                  <TextInput
+                    label="Seriennummer (int)"
+                    {...form.getInputProps("sernr_mei")}
+                    readOnly={!editing}
+                    className="flex-1"
+                  />
+                </div>
+                <Textarea
+                  label="Beschreibung"
+                  rows={4}
+                  resize="vertical"
+                  {...form.getInputProps("descr")}
+                  readOnly={!editing}
+                />
+
+                <div className="flex items-end gap-2">
+                  <NumberInput
+                    label="Menge"
+                    min={1}
+                    {...form.getInputProps("menge")}
+                    readOnly={!editing}
+                    className="flex-1"
+                  />
+                  <TextInput
+                    label="Auftragsart"
+                    {...form.getInputProps("auftr_art")}
+                    readOnly={!editing}
+                    className="flex-1"
+                  />
+                </div>
+              </div>
+            </Paper>
+            <Paper p="lg" radius="md">
+              <div className="flex flex-col gap-2">
+                <header className="flex justify-between items-baseline">
+                  <h2>Versandadresse</h2>
+                  <Button
+                    color="dark"
+                    variant="light"
+                    onClick={() => loadShippingAddress()}
+                    disabled={!editing}
+                    leftSection={<IconAddressBook size={16} />}
+                  >
+                    Firmenadresse laden
+                  </Button>
+                </header>
+                <div className="grid grid-cols-2 gap-2">
+                  <TextInput
+                    label="Name 1"
+                    className="col-span-2"
+                    {...form.getInputProps("versandadresse.vaname")}
+                    readOnly={!editing}
+                  />
+                  <TextInput
+                    label="Name 2"
+                    {...form.getInputProps("versandadresse.vaname2")}
+                    readOnly={!editing}
+                  />
+                  <TextInput
+                    label="Name 3"
+                    {...form.getInputProps("versandadresse.vaname3")}
+                    readOnly={!editing}
+                  />
+                  <TextInput
+                    label="Straße & Nr."
+                    className="col-span-2"
+                    {...form.getInputProps("versandadresse.vastrasse")}
+                    readOnly={!editing}
+                  />
+                  <TextInput
+                    label="PLZ"
+                    {...form.getInputProps("versandadresse.vaplz")}
+                    readOnly={!editing}
+                  />
+                  <TextInput
+                    label="Ort"
+                    {...form.getInputProps("versandadresse.vaort")}
+                    readOnly={!editing}
+                  />
+                  <TextInput
+                    label="Land"
+                    {...form.getInputProps("versandadresse.valand")}
+                    readOnly={!editing}
+                  />
+                  <TextInput
+                    label="Zusatz"
+                    {...form.getInputProps("versandadresse.zusatz")}
+                    readOnly={!editing}
+                  />
+                </div>
+              </div>
+            </Paper>
+          </form>
+        </Tabs.Panel>
+        <Tabs.Panel value="files" className="py-4">
+          <FilesPanel
+            ticketnr={id}
+            createdby={session?.user?.name || ""}
+            files={ticket.files || []}
+            onFileUploaded={async () => {
+              await getTicket();
+              setActiveTab("files");
+            }}
+          />
+        </Tabs.Panel>
+        <Tabs.Panel value="history" className="py-4">
+          {session?.user?.name && (
+            <HistoryPanel
+              ticketnr={id}
+              createdby={session.user.name}
+              history={ticket.history}
+              onCommentAdded={async () => {
+                await getTicket();
+                setActiveTab("history");
+              }}
+            />
+          )}
+        </Tabs.Panel>
+      </Tabs>
+    </main>
+  );
+}

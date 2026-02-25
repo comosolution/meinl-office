@@ -116,3 +116,169 @@ export interface Brand {
   url: string | null;
   sort: number;
 }
+
+export interface TicketSummary {
+  superticket: string;
+  nr: string;
+  status_int: Status;
+  status_ext: Status;
+  kdnr: string;
+  kdnr_full: string;
+  created: string;
+  modified: string;
+  updatedby: string;
+  createdby: string;
+  artnr_ku: string;
+  artnr_mei: string;
+  kdnr_name: string;
+}
+
+export interface Ticket {
+  superticket: string;
+  nr: string;
+  status_int: Status;
+  status_ext: Status;
+  kdnr: string;
+  kdnr_full: string;
+  kdnr_name: string;
+  updatedby: string;
+  createdby: string;
+  created: string;
+  modified: string;
+  artnr_ku: string;
+  artnr_mei: string;
+  descr: string;
+  cur_owner: string;
+  auftr_art: string;
+  url: string;
+  sernr_ku: string;
+  sernr_mei: string;
+  menge: number;
+  rgnr: number;
+  rgnrimpt: string;
+  source: string;
+  ct_import: string;
+  nr_kunde: string;
+  optemail: string;
+  mediumpath: string;
+  person: Person | null;
+  versandadresse: Versandadresse;
+  tracking: Tracking | null;
+  files: Attachment[] | null;
+  fileinfo: FileInfo[];
+  history: HistoryEntry[];
+}
+
+export interface Status {
+  nr: string;
+  text: string;
+  scope: "Intern" | "Extern" | string;
+}
+
+export interface Versandadresse {
+  vanr: string;
+  vaname: string;
+  name2: string | null;
+  name3: string | null;
+  vastrasse: string;
+  vaplz: string;
+  vaort: string;
+  valand: string;
+  zusatz: string | null;
+}
+
+export interface Attachment {
+  lfdn: string;
+  status: string;
+  filename: string;
+  created: string;
+  createdBy: string;
+}
+
+export interface Tracking {
+  versender: string;
+  sendungnr: string;
+  label: string;
+}
+
+export interface FileInfo {
+  ticketnr: string;
+  ldfn: number;
+  filename: string;
+}
+
+export interface HistoryEntry {
+  ticketnr: string;
+  created: string;
+  createdBy: string;
+  comment: string;
+
+  status_int: Status;
+  status_ext: Status;
+
+  tracknr: string;
+  source: string;
+  public: number;
+}
+
+export interface Person {
+  [key: string]: unknown;
+}
+
+export interface Order {
+  KUNDENNUMMER: number;
+  AUFTRAGSSTATUS: string;
+  AUFTRAGSNUMMER: number;
+  BESTELLDATUMDESKUNDEN: string;
+}
+
+export interface TicketFormValues {
+  kdnr: string;
+  kdnr_full?: string;
+  kdnr_name: string;
+  artnr_ku: string;
+  sernr_ku?: string;
+  descr: string;
+  files: File[];
+  menge: number;
+  vaname: string;
+  name2: string;
+  name3: string;
+  vastrasse: string;
+  vaplz: string;
+  vaort: string;
+  valand: string;
+  zusatz?: string;
+}
+
+export interface FileUpload {
+  Filename: string;
+  Data: string; // base64 encoded
+}
+
+export interface CreateTicketPayload {
+  nr: string; // empty for new ticket
+  kdnr: string;
+  kdnr_full: string;
+  updatedby: string;
+  createdby: string;
+  artnr_ku: string;
+  artnr_mei?: string;
+  sernr_ku?: string;
+  sernr_mei?: string;
+  descr: string;
+  menge: number;
+  source: string;
+  versandadresse: {
+    vanr: string;
+    vaname: string;
+    name2?: string | null;
+    name3?: string | null;
+    vastrasse: string;
+    vaplz: string;
+    vaort: string;
+    valand: string;
+    zusatz?: string | null;
+  };
+  Files: FileUpload[] | null;
+}
