@@ -16,7 +16,6 @@ import {
   IconNews,
   IconSun,
   IconUsersGroup,
-  IconWorld,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
@@ -69,6 +68,26 @@ export default function Sidebar() {
   useEffect(() => {
     document.body.classList.toggle("dark", colorScheme === "dark");
   }, [colorScheme]);
+
+  const SourceSwitch = () => {
+    return (
+      <NavLink
+        label={source}
+        title={source}
+        leftSection={
+          <div className="text-center text-lg">
+            {source === "OFFGUT" ? "🇩🇪" : "🇺🇸"}
+          </div>
+        }
+        styles={{
+          root: navLink(isCollapsed),
+        }}
+        onClick={() => {
+          setSource(source === "OFFGUT" ? "OFFUSA" : "OFFGUT");
+        }}
+      />
+    );
+  };
 
   const ThemeSwitch = () => {
     return mounted ? (
@@ -172,17 +191,7 @@ export default function Sidebar() {
           })}
         </div>
         <div>
-          <NavLink
-            label={source}
-            title={source}
-            leftSection={<IconWorld size={20} />}
-            styles={{
-              root: navLink(isCollapsed),
-            }}
-            onClick={() => {
-              //setSource(source === "OFFGUT" ? "OFFUSA" : "OFFGUT");
-            }}
-          />
+          <SourceSwitch />
           <ThemeSwitch />
           <NavLink
             label="Ausloggen"

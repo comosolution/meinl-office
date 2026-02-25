@@ -32,35 +32,39 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const getData = async () => {
+    setLoading(true);
+    const [allCompanies, allPersons, allDealers] = await Promise.all([
+      fetchResults<Company>(source, "companies"),
+      fetchResults<Person>(source, "persons"),
+      fetchResults<Dealer>(source, "dealers"),
+    ]);
+
+    setCompanies(
+      (allCompanies as Company[]).sort((a, b) =>
+        safeLocaleCompare(a.name1, b.name1),
+      ),
+    );
+    setPersons(
+      (allPersons as Person[]).sort((a, b) =>
+        safeLocaleCompare(a.nachname, b.nachname),
+      ),
+    );
+    setDealers(
+      (allDealers as Dealer[]).sort((a, b) =>
+        safeLocaleCompare(a.name1, b.name1),
+      ),
+    );
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      const [allCompanies, allPersons, allDealers] = await Promise.all([
-        fetchResults<Company>(source, "companies"),
-        fetchResults<Person>(source, "persons"),
-        fetchResults<Dealer>(source, "dealers"),
-      ]);
-
-      setCompanies(
-        (allCompanies as Company[]).sort((a, b) =>
-          safeLocaleCompare(a.name1, b.name1),
-        ),
-      );
-      setPersons(
-        (allPersons as Person[]).sort((a, b) =>
-          safeLocaleCompare(a.nachname, b.nachname),
-        ),
-      );
-      setDealers(
-        (allDealers as Dealer[]).sort((a, b) =>
-          safeLocaleCompare(a.name1, b.name1),
-        ),
-      );
-
-      setLoading(false);
-    };
-
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [source]);
 
   return (
     <OfficeContext.Provider
