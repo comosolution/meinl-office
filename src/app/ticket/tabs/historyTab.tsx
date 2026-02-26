@@ -10,10 +10,10 @@ import { useForm } from "@mantine/form";
 import { IconLock, IconLockOpen, IconPlus } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
-import { LONG_DATE_FORMAT } from "../lib/constants";
-import { parseDb2Date } from "../lib/utils";
+import { LONG_DATE_FORMAT } from "../../lib/constants";
+import { parseDb2Date } from "../../lib/utils";
 
-export default function HistoryPanel({
+export default function HistoryTab({
   ticketnr,
   createdby,
   onCommentAdded,

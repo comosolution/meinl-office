@@ -1,5 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
+import FAB from "./fab";
 import Loader from "./loader";
 import Login from "./login";
 import Sidebar from "./sidebar";
@@ -23,6 +24,7 @@ export default function PageWrapper({
     <div className="flex">
       <Sidebar />
       <main className="w-full flex flex-col">{children}</main>
+      <FAB />
     </div>
   );
 }

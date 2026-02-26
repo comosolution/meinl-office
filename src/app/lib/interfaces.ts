@@ -179,9 +179,9 @@ export interface Status {
 export interface Versandadresse {
   vanr: string;
   vaname: string;
-  name2: string | null;
-  name3: string | null;
-  vastr: string;
+  vaname2: string | null;
+  vaname3: string | null;
+  vastrasse: string;
   vaplz: string;
   vaort: string;
   valand: string;
@@ -244,9 +244,9 @@ export interface TicketFormValues {
   menge: number;
   vanr: string;
   vaname: string;
-  name2: string;
-  name3: string;
-  vastr: string;
+  vaname2: string;
+  vaname3: string;
+  vastrasse: string;
   vaplz: string;
   vaort: string;
   valand: string;
@@ -274,8 +274,8 @@ export interface CreateTicketPayload {
   versandadresse: {
     vanr: string;
     vaname: string;
-    name2?: string | null;
-    name3?: string | null;
+    vaname2?: string | null;
+    vaname3?: string | null;
     vastrasse: string;
     vaplz: string;
     vaort: string;

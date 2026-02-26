@@ -23,13 +23,11 @@ export default function StatsTable({
       <Table highlightOnHover={entries.some((e) => e.href)}>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>#</Table.Th>
+            <Table.Th />
             <Table.Th>
               {title.includes("Kunde") ? "Kundennummer" : "Artikelnummer"}
             </Table.Th>
-            <Table.Th>
-              <span className="text-right">Tickets</span>
-            </Table.Th>
+            <Table.Th>Tickets</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -43,7 +41,7 @@ export default function StatsTable({
             >
               <Table.Td>{index + 1}</Table.Td>
               <Table.Td>{entry.label}</Table.Td>
-              <Table.Td align="right">{entry.count}</Table.Td>
+              <Table.Td>{entry.count}</Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>

@@ -9,11 +9,11 @@ import {
 } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
-import { LONG_DATE_FORMAT } from "../lib/constants";
-import { Attachment } from "../lib/interfaces";
-import { fileToBase64, parseDb2Date } from "../lib/utils";
+import { LONG_DATE_FORMAT } from "../../lib/constants";
+import { Attachment } from "../../lib/interfaces";
+import { fileToBase64, parseDb2Date } from "../../lib/utils";
 
-export default function FilesPanel({
+export default function FilesTab({
   ticketnr,
   createdby,
   files = [],

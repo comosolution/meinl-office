@@ -1,11 +1,11 @@
 "use client";
-import FilesPanel from "@/app/components/filesPanel";
-import HistoryPanel from "@/app/components/historyPanel";
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { LONG_DATE_FORMAT } from "@/app/lib/constants";
 import { Ticket } from "@/app/lib/interfaces";
 import { parseDb2Date } from "@/app/lib/utils";
+import FilesTab from "@/app/ticket/tabs/filesTab";
+import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
   ActionIcon,
   Badge,
@@ -19,7 +19,6 @@ import {
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import {
-  IconAddressBook,
   IconChevronLeft,
   IconChevronRight,
   IconDeviceFloppy,
@@ -62,9 +61,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       versandadresse: {
         vanr: "",
         vaname: "",
-        name2: "",
-        name3: "",
-        vastr: "",
+        vaname2: "",
+        vaname3: "",
+        vastrasse: "",
         vaplz: "",
         vaort: "",
         valand: "",
@@ -168,8 +167,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         versandadresse: ticket.versandadresse || {
           vanr: "",
           vaname: "",
-          name2: "",
-          name3: "",
+          vaname2: "",
+          vaname3: "",
           vastrasse: "",
           vaplz: "",
           vaort: "",
@@ -184,9 +183,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const handleCreateReturn = async () => {
     if (!ticket || !ticket.versandadresse) return;
 
-    const { vastr, vaplz, vaort, vaname } = ticket.versandadresse;
+    const { vastrasse, vaplz, vaort, vaname } = ticket.versandadresse;
 
-    if (!vastr || !vaplz || !vaort || !vaname) {
+    if (!vastrasse || !vaplz || !vaort || !vaname) {
       notifications.show({
         title: "Fehlende Versandadresse",
         message: "Die Versandadresse des Tickets ist unvollständig.",
@@ -194,8 +193,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       return;
     }
 
-    const addressParts = vastr.trim().split(/\s+(?=\S*$)/);
-    const addressStreet = addressParts[0] || vastr;
+    const addressParts = vastrasse.trim().split(/\s+(?=\S*$)/);
+    const addressStreet = addressParts[0] || vastrasse;
     const addressHouse = addressParts[1] || "1";
 
     const body = {
@@ -334,31 +333,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     doc.addImage(qrDataURL, "PNG", 130, finalY + 20, 50, 50);
 
     doc.save(`laufzettel_${id}.pdf`);
-  };
-
-  const loadShippingAddress = () => {
-    if (!ticket) return;
-
-    const company = companies.find((c) => c.kdnr.toString() === ticket.kdnr);
-
-    if (company) {
-      form.setFieldValue("versandadresse", {
-        vanr: company.kdnr.toString() || "",
-        vaname: company.name1 || "",
-        name2: company.name2 || "",
-        name3: company.name3 || "",
-        vastr: company.strasse || "",
-        vaplz: company.plz || "",
-        vaort: company.ort || "",
-        valand: company.land || "",
-        zusatz: "",
-      });
-    } else {
-      notifications.show({
-        title: "Fehlende Versandadresse",
-        message: `Für den Kunden ${ticket.kdnr} wurde keine Versandadresse gefunden.`,
-      });
-    }
   };
 
   useEffect(() => {
@@ -594,18 +568,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Paper>
             <Paper p="lg" radius="md">
               <div className="flex flex-col gap-2">
-                <header className="flex justify-between items-baseline">
-                  <h2>Versandadresse</h2>
-                  <Button
-                    color="dark"
-                    variant="light"
-                    onClick={() => loadShippingAddress()}
-                    disabled={!editing}
-                    leftSection={<IconAddressBook size={16} />}
-                  >
-                    Firmenadresse laden
-                  </Button>
-                </header>
+                <h2>Versandadresse</h2>
                 <div className="grid grid-cols-2 gap-2">
                   <TextInput
                     label="Name 1"
@@ -655,7 +618,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </form>
         </Tabs.Panel>
         <Tabs.Panel value="files" className="py-4">
-          <FilesPanel
+          <FilesTab
             ticketnr={id}
             createdby={session?.user?.name || ""}
             files={ticket.files || []}
@@ -667,7 +630,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </Tabs.Panel>
         <Tabs.Panel value="history" className="py-4">
           {session?.user?.name && (
-            <HistoryPanel
+            <HistoryTab
               ticketnr={id}
               createdby={session.user.name}
               history={ticket.history}

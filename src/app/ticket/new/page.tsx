@@ -1,5 +1,4 @@
 "use client";
-import { ContactSelect } from "@/app/components/contactSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
 import {
@@ -18,12 +17,13 @@ import { useForm } from "@mantine/form";
 import { IconChevronRight, IconPaperclip, IconPlus } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Page() {
   const { data: session } = useSession();
-  const { companies, source } = useOffice();
+  const { companies, persons, source } = useOffice();
   const [active, setActive] = useState(0);
+  const [loadedKdnr, setLoadedKdnr] = useState<string>();
   const [company, setCompany] = useState<Company>();
 
   const router = useRouter();
@@ -41,9 +41,9 @@ export default function Page() {
       menge: 1,
       vanr: "",
       vaname: "",
-      name2: "",
-      name3: "",
-      vastr: "",
+      vaname2: "",
+      vaname3: "",
+      vastrasse: "",
       vaplz: "",
       vaort: "",
       valand: "",
@@ -51,6 +51,8 @@ export default function Page() {
     },
     validate: {
       kdnr: (v) => (v ? null : "Kunde ist erforderlich"),
+      vanr: (v) => (v ? null : "Versandadresse ist erforderlich"),
+      kdnr_full: (v) => (v ? null : "Kontaktperson ist erforderlich"),
       kdnr_name: (v) => (v ? null : "Kontaktperson ist erforderlich"),
       artnr_ku: (v) => (v ? null : "Artikel ist erforderlich"),
     },
@@ -85,7 +87,7 @@ export default function Page() {
         nr: "",
         kdnr: values.kdnr,
         kdnr_name: values.kdnr_name,
-        kdnr_full: values.kdnr_name,
+        kdnr_full: values.kdnr_full,
         updatedby: session?.user?.name,
         createdby: session?.user?.name,
         artnr_ku: values.artnr_ku,
@@ -95,9 +97,9 @@ export default function Page() {
         versandadresse: {
           vanr: values.vanr,
           vaname: values.vaname,
-          name2: values.name2,
-          name3: values.name3,
-          vastr: values.vastr,
+          vaname2: values.vaname2,
+          vaname3: values.vaname3,
+          vastrasse: values.vastrasse,
           vaplz: values.vaplz,
           vaort: values.vaort,
           valand: values.valand,
@@ -116,7 +118,6 @@ export default function Page() {
         console.error(await res.text());
       }
 
-      // TODO: Get new ticket ID from response and navigate to it
       router.push("/ticket");
     } catch (error) {
       console.error("Error preparing form data", error);
@@ -134,16 +135,81 @@ export default function Page() {
   };
 
   useEffect(() => {
+    if (!form.values.kdnr) return;
+    if (form.values.kdnr === loadedKdnr) return;
+
+    form.setFieldValue("kdnr_full", "");
+    form.setFieldValue("kdnr_name", "");
+    form.setFieldValue("vanr", "");
+
+    setLoadedKdnr(form.values.kdnr);
     getCompany();
   }, [form.values.kdnr]);
+
+  useEffect(() => {
+    if (!company || !form.values.kdnr) return;
+
+    const person = company.personen.find(
+      (p) => p.b2bnr === form.values.kdnr_full,
+    );
+
+    if (!person) return;
+
+    form.setFieldValue("kdnr_name", `${person.vorname} ${person.nachname}`);
+  }, [form.values.kdnr_full]);
+
+  useEffect(() => {
+    if (!company || !form.values.vanr) return;
+
+    const address = company.versandadressen.find(
+      (a) => a.vanr === form.values.vanr,
+    );
+
+    if (!address) return;
+
+    form.setFieldValue("vaname", address.vaname ?? "");
+    form.setFieldValue("vaname2", address.vaname2 ?? "");
+    form.setFieldValue("vaname3", address.vaname3 ?? "");
+    form.setFieldValue("vastrasse", address.vastrasse ?? "");
+    form.setFieldValue("vaplz", address.vaplz ?? "");
+    form.setFieldValue("vaort", address.vaort ?? "");
+    form.setFieldValue("valand", address.valand ?? "");
+    form.setFieldValue("zusatz", address.zusatz ?? "");
+  }, [form.values.vanr, company]);
+
+  const uniqueCompanies = Array.from(
+    new Map(companies.map((c) => [c.kdnr, c])).values(),
+  );
+
+  const customerOptions = useMemo(
+    () =>
+      uniqueCompanies.map((c) => ({
+        label: `${c.kdnr} – ${c.name1}`,
+        value: c.kdnr.toString(),
+      })),
+    [uniqueCompanies],
+  );
 
   const addresses = company
     ? company.versandadressen.map((a) => {
         return {
-          label: `${a.vastr}, ${a.vaplz} ${a.vaort}`,
+          label: `${a.vastrasse}, ${a.vaplz} ${a.vaort}`,
           value: a.vanr,
         };
       })
+    : [];
+
+  const personOptions = company
+    ? Array.from(
+        new Map(
+          persons
+            .filter((p) => p.kdnr === company.kdnr)
+            .map((p) => [p.b2bnr, p]),
+        ).values(),
+      ).map((p) => ({
+        label: `${p.vorname} ${p.nachname} (${p.b2bnr})`,
+        value: p.b2bnr,
+      }))
     : [];
 
   return (
@@ -158,74 +224,74 @@ export default function Page() {
                 placeholder="Kundennummer oder Name eingeben"
                 searchable
                 clearable
-                data={companies.map((c) => {
-                  return {
-                    label: `${c.kdnr} – ${c.name1}`,
-                    value: c.kdnr.toString(),
-                  };
-                })}
+                data={customerOptions}
                 checkIconPosition="right"
                 {...form.getInputProps("kdnr")}
                 withAsterisk
               />
               {form.values.kdnr && (
-                <Select
-                  label="Versandadressen"
-                  data={[
-                    ...addresses,
-                    { label: "Neue Adresse", value: "0000" },
-                  ]}
-                  checkIconPosition="right"
-                  searchable
-                  {...form.getInputProps("vanr")}
-                  withAsterisk
-                />
-              )}
-              {form.values.vanr === "0000" && (
-                <Paper p="lg" radius="md" bg="var(--background)" withBorder>
-                  <h3>Neue Versandadresse</h3>
-                  <div className="grid grid-cols-2 gap-2">
-                    <TextInput
-                      label="Name 1"
-                      className="col-span-2"
-                      {...form.getInputProps("vaname")}
-                      withAsterisk
-                    />
-                    <TextInput
-                      label="Name 2"
-                      {...form.getInputProps("name2")}
-                    />
-                    <TextInput
-                      label="Name 3"
-                      {...form.getInputProps("name3")}
-                    />
-                    <TextInput
-                      label="Straße & Nr."
-                      className="col-span-2"
-                      {...form.getInputProps("vastrasse")}
-                      withAsterisk
-                    />
-                    <TextInput
-                      label="PLZ"
-                      {...form.getInputProps("vaplz")}
-                      withAsterisk
-                    />
-                    <TextInput
-                      label="Ort"
-                      {...form.getInputProps("vaort")}
-                      withAsterisk
-                    />
-                    <TextInput
-                      label="Land"
-                      {...form.getInputProps("valand")}
-                      withAsterisk
-                    />
-                    <TextInput
-                      label="Zusatz"
-                      {...form.getInputProps("zusatz")}
-                    />
-                  </div>
-                </Paper>
+                <>
+                  <Select
+                    label="Versandadresse"
+                    data={[
+                      ...addresses,
+                      { label: "Neue Adresse", value: "0000" },
+                    ]}
+                    checkIconPosition="right"
+                    searchable
+                    {...form.getInputProps("vanr")}
+                    withAsterisk
+                  />
+                  <Paper
+                    p="lg"
+                    radius="md"
+                    bg="var(--background)"
+                    shadow="xl"
+                    withBorder
+                  >
+                    <div className="grid grid-cols-2 gap-2">
+                      <TextInput
+                        label="Name 1"
+                        className="col-span-2"
+                        {...form.getInputProps("vaname")}
+                        withAsterisk
+                      />
+                      <TextInput
+                        label="Name 2"
+                        {...form.getInputProps("vaname2")}
+                      />
+                      <TextInput
+                        label="Name 3"
+                        {...form.getInputProps("vaname3")}
+                      />
+                      <TextInput
+                        label="Straße & Nr."
+                        className="col-span-2"
+                        {...form.getInputProps("vastrasse")}
+                        withAsterisk
+                      />
+                      <TextInput
+                        label="PLZ"
+                        {...form.getInputProps("vaplz")}
+                        withAsterisk
+                      />
+                      <TextInput
+                        label="Ort"
+                        {...form.getInputProps("vaort")}
+                        withAsterisk
+                      />
+                      <TextInput
+                        label="Land"
+                        {...form.getInputProps("valand")}
+                        withAsterisk
+                      />
+                      <TextInput
+                        label="Zusatz"
+                        {...form.getInputProps("zusatz")}
+                      />
+                    </div>
+                  </Paper>
+                </>
               )}
             </Stack>
           </Stepper.Step>
@@ -233,18 +299,14 @@ export default function Page() {
           <Stepper.Step label="Person">
             <Stack>
               <h2>Verantwortliche Person auswählen</h2>
-              <ContactSelect
-                customerId={form.values.kdnr}
-                value={form.values.kdnr_name}
-                onChange={(value) => form.setFieldValue("kdnr_name", value)}
-                onSelectPerson={(person) => {
-                  form.setFieldValue(
-                    "kdnr_name",
-                    `${person.vorname} ${person.nachname}`,
-                  );
-                  form.setFieldValue("kdnr_full", person.b2bnr);
-                }}
-                error={form.errors.kdnr_name?.toString()}
+              <Select
+                label="Name der Kontaktperson"
+                searchable
+                clearable
+                data={personOptions}
+                checkIconPosition="right"
+                {...form.getInputProps("kdnr_full")}
+                withAsterisk
               />
             </Stack>
           </Stepper.Step>
@@ -253,11 +315,6 @@ export default function Page() {
             <Stack>
               <h2>Details eingeben</h2>
               <div className="grid grid-cols-3 gap-2">
-                {/* <ArticleSelect
-                  value={form.values.artnr_ku}
-                  onChange={(value) => form.setFieldValue("artnr_ku", value)}
-                  error={form.errors.artnr_ku?.toString()}
-                /> */}
                 <TextInput
                   label="Artikelnummer"
                   {...form.getInputProps("artnr_ku")}
