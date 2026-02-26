@@ -159,22 +159,43 @@ export default function Page() {
   }, [form.values.kdnr_full]);
 
   useEffect(() => {
+    if (!company) return;
+
+    const va = company.versandadressen[0];
+
+    if (va) {
+      form.setFieldValue("vanr", va.vanr ?? "0000");
+    } else {
+      form.setFieldValue("vanr", "0000");
+    }
+  }, [company]);
+
+  useEffect(() => {
     if (!company || !form.values.vanr) return;
 
     const address = company.versandadressen.find(
       (a) => a.vanr === form.values.vanr,
     );
 
-    if (!address) return;
-
-    form.setFieldValue("vaname", address.vaname ?? "");
-    form.setFieldValue("vaname2", address.vaname2 ?? "");
-    form.setFieldValue("vaname3", address.vaname3 ?? "");
-    form.setFieldValue("vastrasse", address.vastrasse ?? "");
-    form.setFieldValue("vaplz", address.vaplz ?? "");
-    form.setFieldValue("vaort", address.vaort ?? "");
-    form.setFieldValue("valand", address.valand ?? "");
-    form.setFieldValue("zusatz", address.zusatz ?? "");
+    if (!address) {
+      form.setFieldValue("vaname", "");
+      form.setFieldValue("vaname2", "");
+      form.setFieldValue("vaname3", "");
+      form.setFieldValue("vastrasse", "");
+      form.setFieldValue("vaplz", "");
+      form.setFieldValue("vaort", "");
+      form.setFieldValue("valand", "");
+      form.setFieldValue("zusatz", "");
+    } else {
+      form.setFieldValue("vaname", address.vaname ?? "");
+      form.setFieldValue("vaname2", address.vaname2 ?? "");
+      form.setFieldValue("vaname3", address.vaname3 ?? "");
+      form.setFieldValue("vastrasse", address.vastrasse ?? "");
+      form.setFieldValue("vaplz", address.vaplz ?? "");
+      form.setFieldValue("vaort", address.vaort ?? "");
+      form.setFieldValue("valand", address.valand ?? "");
+      form.setFieldValue("zusatz", address.zusatz ?? "");
+    }
   }, [form.values.vanr, company]);
 
   const uniqueCompanies = Array.from(
@@ -184,7 +205,7 @@ export default function Page() {
   const customerOptions = useMemo(
     () =>
       uniqueCompanies.map((c) => ({
-        label: `${c.kdnr} – ${c.name1}`,
+        label: `${c.name1} (${c.kdnr})`,
         value: c.kdnr.toString(),
       })),
     [uniqueCompanies],

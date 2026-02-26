@@ -1,6 +1,5 @@
 "use client";
 import Loader from "@/app/components/loader";
-import { useOffice } from "@/app/context/officeContext";
 import { LONG_DATE_FORMAT } from "@/app/lib/constants";
 import { Ticket } from "@/app/lib/interfaces";
 import { parseDb2Date } from "@/app/lib/utils";
@@ -42,7 +41,6 @@ import React, { useEffect, useState } from "react";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
-  const { companies } = useOffice();
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
@@ -414,12 +412,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <h1>{id}</h1>
         <div className="flex items-center gap-2">
           <p>
-            Erstellt von{" "}
+            RMA von{" "}
             <Link href={`/customer/${ticket.kdnr}`} className="link">
               {ticket.kdnr_name}{" "}
               <span className="dimmed">({ticket.kdnr_full})</span>
             </Link>{" "}
-            am {format(ticket.created, LONG_DATE_FORMAT)}
+            erstellt am {format(ticket.created, LONG_DATE_FORMAT)}
           </p>
           <Badge variant="light">{ticket.status_int.text}</Badge>
         </div>
