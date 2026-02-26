@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col gap-4 p-4">
-      <header className="flex justify-between items-center gap-2 p-4">
+      <header className="flex justify-between items-center gap-2 py-4">
         <h1>Alle Tickets</h1>
         <SegmentedControl
           value={value}
@@ -83,7 +83,7 @@ export default function Home() {
         />
         <Button
           component={Link}
-          href="/new"
+          href="/ticket/new"
           leftSection={<IconPlus size={16} />}
         >
           Ticket erstellen

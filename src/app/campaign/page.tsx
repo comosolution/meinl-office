@@ -15,8 +15,8 @@ import { useDisclosure } from "@mantine/hooks";
 import {
   IconCalendarEvent,
   IconCalendarWeek,
-  IconCirclePlus,
   IconDeviceFloppy,
+  IconPlus,
 } from "@tabler/icons-react";
 import { format, formatDistance } from "date-fns";
 import { de } from "date-fns/locale";
@@ -97,14 +97,10 @@ export default function Page() {
   return (
     <>
       <main className="flex flex-col gap-8 px-8 py-4">
-        <header className="flex justify-between items-center gap-2 p-4">
+        <header className="flex justify-between items-center gap-2 py-4">
           <h1>Kampagnen</h1>
           <div className="flex gap-1">
-            <Button
-              color="dark"
-              leftSection={<IconCirclePlus size={16} />}
-              onClick={open}
-            >
+            <Button leftSection={<IconPlus size={16} />} onClick={open}>
               Neue Kampagne anlegen
             </Button>
           </div>

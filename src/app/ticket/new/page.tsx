@@ -1,13 +1,14 @@
 "use client";
 import { ContactSelect } from "@/app/components/contactSelect";
-import { CustomerSelect } from "@/app/components/customerSelect";
-import { type TicketFormValues } from "@/app/lib/interfaces";
+import { useOffice } from "@/app/context/officeContext";
+import { Company, type TicketFormValues } from "@/app/lib/interfaces";
 import {
   Button,
   FileInput,
   Group,
   NumberInput,
   Paper,
+  Select,
   Stack,
   Stepper,
   TextInput,
@@ -17,11 +18,13 @@ import { useForm } from "@mantine/form";
 import { IconChevronRight, IconPaperclip, IconPlus } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const { data: session } = useSession();
+  const { companies, source } = useOffice();
   const [active, setActive] = useState(0);
+  const [company, setCompany] = useState<Company>();
 
   const router = useRouter();
 
@@ -36,10 +39,11 @@ export default function Page() {
       descr: "",
       files: [],
       menge: 1,
+      vanr: "",
       vaname: "",
       name2: "",
       name3: "",
-      vastrasse: "",
+      vastr: "",
       vaplz: "",
       vaort: "",
       valand: "",
@@ -80,6 +84,7 @@ export default function Page() {
       const payload = {
         nr: "",
         kdnr: values.kdnr,
+        kdnr_name: values.kdnr_name,
         kdnr_full: values.kdnr_name,
         updatedby: session?.user?.name,
         createdby: session?.user?.name,
@@ -88,11 +93,11 @@ export default function Page() {
         menge: values.menge,
         source: "OF",
         versandadresse: {
-          vanr: "",
+          vanr: values.vanr,
           vaname: values.vaname,
           name2: values.name2,
           name3: values.name3,
-          vastrasse: values.vastrasse,
+          vastr: values.vastr,
           vaplz: values.vaplz,
           vaort: values.vaort,
           valand: values.valand,
@@ -118,6 +123,29 @@ export default function Page() {
     }
   };
 
+  const getCompany = async () => {
+    const response = await fetch("/api/company/", {
+      method: "POST",
+      body: JSON.stringify({ kdnr: form.values.kdnr, source }),
+    });
+
+    const companies = await response.json();
+    setCompany(companies[0]);
+  };
+
+  useEffect(() => {
+    getCompany();
+  }, [form.values.kdnr]);
+
+  const addresses = company
+    ? company.versandadressen.map((a) => {
+        return {
+          label: `${a.vastr}, ${a.vaplz} ${a.vaort}`,
+          value: a.vanr,
+        };
+      })
+    : [];
+
   return (
     <Paper mx="auto" p="xl" radius="md" mt="xl" w="100%" maw={800}>
       <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -125,24 +153,37 @@ export default function Page() {
           <Stepper.Step label="Kunde">
             <Stack>
               <h2>Kunde auswählen</h2>
-              <CustomerSelect
-                value={form.values.kdnr}
-                onChange={(value) => form.setFieldValue("kdnr", value)}
-                onSelectCompany={(company) => {
-                  form.setFieldValue("kdnr", company.kdnr.toString() || "");
-                  form.setFieldValue("vaname", company.name1 || "");
-                  form.setFieldValue("name2", company.name2 || "");
-                  form.setFieldValue("name3", company.name3 || "");
-                  form.setFieldValue("vastrasse", company.strasse || "");
-                  form.setFieldValue("vaplz", company.plz || "");
-                  form.setFieldValue("vaort", company.ort || "");
-                  form.setFieldValue("valand", company.land || "");
-                }}
-                error={form.errors.kdnr?.toString()}
+              <Select
+                label="Kunde"
+                placeholder="Kundennummer oder Name eingeben"
+                searchable
+                clearable
+                data={companies.map((c) => {
+                  return {
+                    label: `${c.kdnr} – ${c.name1}`,
+                    value: c.kdnr.toString(),
+                  };
+                })}
+                checkIconPosition="right"
+                {...form.getInputProps("kdnr")}
+                withAsterisk
               />
               {form.values.kdnr && (
-                <div className="pt-4">
-                  <h3>Versandadresse</h3>
+                <Select
+                  label="Versandadressen"
+                  data={[
+                    ...addresses,
+                    { label: "Neue Adresse", value: "0000" },
+                  ]}
+                  checkIconPosition="right"
+                  searchable
+                  {...form.getInputProps("vanr")}
+                  withAsterisk
+                />
+              )}
+              {form.values.vanr === "0000" && (
+                <Paper p="lg" radius="md" bg="var(--background)" withBorder>
+                  <h3>Neue Versandadresse</h3>
                   <div className="grid grid-cols-2 gap-2">
                     <TextInput
                       label="Name 1"
@@ -184,7 +225,7 @@ export default function Page() {
                       {...form.getInputProps("zusatz")}
                     />
                   </div>
-                </div>
+                </Paper>
               )}
             </Stack>
           </Stepper.Step>
@@ -197,7 +238,10 @@ export default function Page() {
                 value={form.values.kdnr_name}
                 onChange={(value) => form.setFieldValue("kdnr_name", value)}
                 onSelectPerson={(person) => {
-                  form.setFieldValue("kdnr_name", person.b2bnr);
+                  form.setFieldValue(
+                    "kdnr_name",
+                    `${person.vorname} ${person.nachname}`,
+                  );
                   form.setFieldValue("kdnr_full", person.b2bnr);
                 }}
                 error={form.errors.kdnr_name?.toString()}

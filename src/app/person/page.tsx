@@ -15,8 +15,8 @@ export default function Page() {
     const keywords = search.trim().toLowerCase().split(" ");
     return keywords.every((keyword) =>
       [e.kdnr.toString() || "", e.vorname || "", e.nachname || ""].some(
-        (value) => value.toLowerCase().includes(keyword)
-      )
+        (value) => value.toLowerCase().includes(keyword),
+      ),
     );
   });
 
@@ -33,7 +33,7 @@ export default function Page() {
 
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
-      <header className="flex justify-between items-center gap-2 p-4">
+      <header className="flex justify-between items-center gap-2 py-4">
         <h1>Alle Personen</h1>
         <div className="flex gap-1">
           <TextInput

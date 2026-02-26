@@ -64,7 +64,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         vaname: "",
         name2: "",
         name3: "",
-        vastrasse: "",
+        vastr: "",
         vaplz: "",
         vaort: "",
         valand: "",
@@ -184,9 +184,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const handleCreateReturn = async () => {
     if (!ticket || !ticket.versandadresse) return;
 
-    const { vastrasse, vaplz, vaort, vaname } = ticket.versandadresse;
+    const { vastr, vaplz, vaort, vaname } = ticket.versandadresse;
 
-    if (!vastrasse || !vaplz || !vaort || !vaname) {
+    if (!vastr || !vaplz || !vaort || !vaname) {
       notifications.show({
         title: "Fehlende Versandadresse",
         message: "Die Versandadresse des Tickets ist unvollständig.",
@@ -194,8 +194,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       return;
     }
 
-    const addressParts = vastrasse.trim().split(/\s+(?=\S*$)/);
-    const addressStreet = addressParts[0] || vastrasse;
+    const addressParts = vastr.trim().split(/\s+(?=\S*$)/);
+    const addressStreet = addressParts[0] || vastr;
     const addressHouse = addressParts[1] || "1";
 
     const body = {
@@ -347,7 +347,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         vaname: company.name1 || "",
         name2: company.name2 || "",
         name3: company.name3 || "",
-        vastrasse: company.strasse || "",
+        vastr: company.strasse || "",
         vaplz: company.plz || "",
         vaort: company.ort || "",
         valand: company.land || "",
@@ -389,7 +389,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <main className="flex flex-col gap-8 p-4">
-      <header className="flex justify-between">
+      <div className="flex justify-between">
         <div className="flex gap-1">
           <Button
             variant="light"
@@ -435,26 +435,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             Laufzettel herunterladen
           </Button>
         </div>
-      </header>
-      <div className="flex justify-between items-end">
-        <div>
-          <h1>Ticket {id}</h1>
-          <div className="flex items-baseline gap-2">
-            <p>
-              von{" "}
-              <Link href={`/customer/${ticket.kdnr}`} className="link">
-                {ticket.kdnr_name}{" "}
-                <span className="dimmed">({ticket.kdnr_full})</span>
-              </Link>
-            </p>
-            <Badge variant="light">{ticket.status_int.text}</Badge>
-          </div>
-        </div>
-        <p>
-          {format(ticket.created, LONG_DATE_FORMAT)}{" "}
-          <span className="dimmed">von</span> {ticket.createdby}
-        </p>
       </div>
+      <header className="flex flex-col gap-1">
+        <h1>{id}</h1>
+        <div className="flex items-center gap-2">
+          <p>
+            Erstellt von{" "}
+            <Link href={`/customer/${ticket.kdnr}`} className="link">
+              {ticket.kdnr_name}{" "}
+              <span className="dimmed">({ticket.kdnr_full})</span>
+            </Link>{" "}
+            am {format(ticket.created, LONG_DATE_FORMAT)}
+          </p>
+          <Badge variant="light">{ticket.status_int.text}</Badge>
+        </div>
+      </header>
 
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>

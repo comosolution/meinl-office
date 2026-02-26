@@ -86,6 +86,7 @@ export function ContactSelect({
       data={data}
       onChange={handleChange}
       onSearchChange={setSearchQuery}
+      checkIconPosition="right"
       withAsterisk
     />
   );

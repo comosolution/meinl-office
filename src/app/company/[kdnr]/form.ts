@@ -30,6 +30,7 @@ export const getInitialValues = (company: Company) => {
     personen: company.personen || [],
     campagnen: company.campagnen || [],
     haendler: company.haendler || [],
+    versandadressen: company.versandadressen || [],
   };
 };
 

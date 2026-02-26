@@ -27,9 +27,11 @@ export default function Page() {
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
             <h3>Max Mustermann</h3>
-            <p className="dimmed">max.mustermann@meinl.de</p>
+            <p className="dimmed text-xs">max.mustermann@meinl.de</p>
           </div>
-          <Avatar size={48}>MM</Avatar>
+          <Avatar color="red" size={48}>
+            MM
+          </Avatar>
         </div>
       </header>
       <div className="grid lg:grid-cols-2 gap-4">

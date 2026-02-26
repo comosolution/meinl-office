@@ -22,7 +22,7 @@ export default function Page() {
         c.plz || "",
         c.ort || "",
         c.matchcode || "",
-      ].some((value) => value.toLowerCase().includes(keyword))
+      ].some((value) => value.toLowerCase().includes(keyword)),
     );
   });
 
@@ -39,7 +39,7 @@ export default function Page() {
 
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
-      <header className="flex justify-between items-center gap-2 p-4">
+      <header className="flex justify-between items-center gap-2 py-4">
         <h1>Alle Firmen</h1>
         <div className="flex gap-1">
           <TextInput
@@ -49,7 +49,7 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
-          {/* <Button color="dark" leftSection={<IconCirclePlus size={16} />}>
+          {/* <Button leftSection={<IconPlus size={16} />}>
             Firma anlegen
           </Button> */}
         </div>

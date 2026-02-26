@@ -43,6 +43,7 @@ export interface Company {
   personen: Person[];
   campagnen: Campaign[];
   haendler: Company[];
+  versandadressen: Versandadresse[];
 }
 
 export interface CompanyInStorage {
@@ -180,7 +181,7 @@ export interface Versandadresse {
   vaname: string;
   name2: string | null;
   name3: string | null;
-  vastrasse: string;
+  vastr: string;
   vaplz: string;
   vaort: string;
   valand: string;
@@ -241,10 +242,11 @@ export interface TicketFormValues {
   descr: string;
   files: File[];
   menge: number;
+  vanr: string;
   vaname: string;
   name2: string;
   name3: string;
-  vastrasse: string;
+  vastr: string;
   vaplz: string;
   vaort: string;
   valand: string;
@@ -253,11 +255,11 @@ export interface TicketFormValues {
 
 export interface FileUpload {
   Filename: string;
-  Data: string; // base64 encoded
+  Data: string;
 }
 
 export interface CreateTicketPayload {
-  nr: string; // empty for new ticket
+  nr: string;
   kdnr: string;
   kdnr_full: string;
   updatedby: string;
