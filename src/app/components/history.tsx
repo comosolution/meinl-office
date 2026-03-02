@@ -41,9 +41,9 @@ export default function HistoryList<T>({
     .slice(0, 5);
 
   return (
-    <Paper p="lg" radius="md">
+    <Paper p="lg" radius="md" bg="transparent" withBorder>
       <div className="h-full flex flex-col gap-4 justify-between">
-        <h2>Kürzlich besuchte {title}</h2>
+        <h2 className="text-center">Kürzlich besuchte {title}</h2>
         {filteredHistory.length > 0 ? (
           <>
             <div className="h-full flex flex-col gap-4">

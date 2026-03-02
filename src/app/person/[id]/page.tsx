@@ -228,21 +228,23 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </Tabs.List>
 
         <form
-          onSubmit={form.onSubmit((values) => {
+          onSubmit={form.onSubmit(async (values) => {
             const formattedDob = formatDateToString(values.gebdat as Date);
             const formattedCompetences = values.zustaendig.join(",");
 
-            console.log(
-              JSON.stringify(
-                {
-                  ...values,
-                  geburtsdatum: formattedDob,
-                  zustaendig: formattedCompetences,
-                },
-                null,
-                2,
-              ),
-            );
+            const response = await fetch("/api/person/save", {
+              method: "POST",
+              body: JSON.stringify({
+                ...values,
+                geburtsdatum: formattedDob,
+                zustaendig: formattedCompetences,
+                source,
+              }),
+            });
+            if (response.ok) {
+              getCustomer();
+              setEdit(false);
+            }
           })}
         >
           <Tabs.Panel value="info" className="py-4">
