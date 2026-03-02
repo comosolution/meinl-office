@@ -121,6 +121,7 @@ export default function Page({
       id: distributor.id.toString(),
       kdnr: distributor.kdnr,
       name: distributor.name1,
+      source,
     };
 
     const history: DealerInStorage[] = JSON.parse(
@@ -131,7 +132,7 @@ export default function Page({
       (item) => item.kdnr !== newEntry.kdnr,
     );
 
-    const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
+    const updatedHistory = [newEntry, ...filteredHistory];
     localStorage.setItem(
       MEINL_OFFICE_DEALER_HISTORY_KEY,
       JSON.stringify(updatedHistory),

@@ -14,6 +14,7 @@ export interface DealerInStorage {
   id: string;
   kdnr: string;
   name: string;
+  source: string;
 }
 
 export interface Company {
@@ -49,6 +50,7 @@ export interface Company {
 export interface CompanyInStorage {
   kdnr: string;
   name: string;
+  source: string;
 }
 
 export interface Person {
@@ -93,6 +95,7 @@ export interface PersonInStorage {
   nachname: string;
   position: string;
   company?: string;
+  source: string;
 }
 
 export interface Campaign {

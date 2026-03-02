@@ -124,6 +124,7 @@ export default function Page({
     const newEntry: CompanyInStorage = {
       kdnr: company.kdnr,
       name: company.name1,
+      source,
     };
 
     const history: CompanyInStorage[] = JSON.parse(
@@ -134,7 +135,7 @@ export default function Page({
       (item) => item.kdnr !== newEntry.kdnr,
     );
 
-    const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
+    const updatedHistory = [newEntry, ...filteredHistory];
     localStorage.setItem(
       MEINL_OFFICE_COMPANY_HISTORY_KEY,
       JSON.stringify(updatedHistory),

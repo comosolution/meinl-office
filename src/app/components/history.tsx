@@ -2,6 +2,7 @@ import { Button, Paper } from "@mantine/core";
 import { IconEyeOff, IconTrash } from "@tabler/icons-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useOffice } from "../context/officeContext";
 
 export default function HistoryList<T>({
   title,
@@ -10,6 +11,7 @@ export default function HistoryList<T>({
   getAvatar,
   getTitle,
   getSubtitle,
+  getSource,
 }: {
   title: string;
   storageKey: string;
@@ -17,7 +19,9 @@ export default function HistoryList<T>({
   getAvatar: (item: T) => React.ReactNode;
   getTitle: (item: T) => string;
   getSubtitle: (item: T) => string;
+  getSource: (item: T) => string;
 }) {
+  const { source } = useOffice();
   const [history, setHistory] = useState<T[]>([]);
 
   useEffect(() => {
@@ -30,14 +34,20 @@ export default function HistoryList<T>({
     setHistory([]);
   };
 
+  const filteredHistory = history
+    .filter((item) => {
+      return getSource(item) === source;
+    })
+    .slice(0, 5);
+
   return (
     <Paper p="lg" radius="md">
       <div className="h-full flex flex-col gap-4 justify-between">
         <h2>Kürzlich besuchte {title}</h2>
-        {history.length > 0 ? (
+        {filteredHistory.length > 0 ? (
           <>
             <div className="h-full flex flex-col gap-4">
-              {history.map((item, index) => (
+              {filteredHistory.map((item, index) => (
                 <Link key={index} href={link(item)}>
                   <div className="flex items-center gap-2 text-[var(--mantine-color-dimmed)] hover:text-[var(--foreground)] transition-all duration-300">
                     {getAvatar(item)}

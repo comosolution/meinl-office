@@ -8,6 +8,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { MEINL_OFFICE_SOURCE_KEY } from "../lib/constants";
 import { Company, Dealer, Person } from "../lib/interfaces";
 import { fetchResults, safeLocaleCompare } from "../lib/utils";
 
@@ -59,10 +60,15 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    const savedSource = localStorage.getItem(MEINL_OFFICE_SOURCE_KEY);
+    if (savedSource !== null) {
+      setSource(savedSource);
+    }
     getData();
   }, []);
 
   useEffect(() => {
+    localStorage.setItem(MEINL_OFFICE_SOURCE_KEY, source);
     getData();
   }, [source]);
 

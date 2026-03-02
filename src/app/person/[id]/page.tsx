@@ -113,6 +113,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       nachname: person.nachname,
       position: person.jobpos,
       company: person.name1,
+      source,
     };
     const history = JSON.parse(
       localStorage.getItem(MEINL_OFFICE_PERSON_HISTORY_KEY) || "[]",
@@ -122,7 +123,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       (item: PersonInStorage) => item.kdnr !== newEntry.kdnr,
     );
 
-    const updatedHistory = [newEntry, ...filteredHistory].slice(0, 5);
+    const updatedHistory = [newEntry, ...filteredHistory];
     localStorage.setItem(
       MEINL_OFFICE_PERSON_HISTORY_KEY,
       JSON.stringify(updatedHistory),

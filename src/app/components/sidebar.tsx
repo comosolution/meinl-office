@@ -23,7 +23,7 @@ import {
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { MEINL_OFFICE_SIDEBAR_KEY } from "../lib/constants";
@@ -40,6 +40,7 @@ export default function Sidebar() {
     getInitialValueInEffect: true,
   });
 
+  const router = useRouter();
   const path = usePathname();
   const nav = [
     {
@@ -96,6 +97,7 @@ export default function Sidebar() {
         }}
         onClick={() => {
           setSource(source === "OFFGUT" ? "OFFUSA" : "OFFGUT");
+          router.push("/");
         }}
       />
     );
