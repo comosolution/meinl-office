@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { TicketSummary } from "@/app/lib/interfaces";
+import { Status, TicketSummary } from "@/app/lib/interfaces";
 import { Button, Pagination, Select, Table } from "@mantine/core";
 import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -24,8 +24,7 @@ export default function SortableTable({
     kdnr: kdnr ? kdnr : "",
     kdnr_name: "",
     status_int: "",
-    artnr_mei: "",
-    artnr_ku: "",
+    artnr: "",
   });
 
   const filteredTickets = useMemo(() => {
@@ -37,30 +36,18 @@ export default function SortableTable({
       const matchesStatus = filters.status_int
         ? ticket.status_int.nr === filters.status_int
         : true;
-      const matchesArticle = filters.artnr_mei
-        ? ticket.artnr_mei === filters.artnr_mei
-        : true;
-      const matchesArticleKU = filters.artnr_ku
-        ? ticket.artnr_ku === filters.artnr_ku
-        : true;
+
+      const ticketArtNr = ticket.artnr_mei || ticket.artnr_ku;
+      const matchesArtNr = filters.artnr ? ticketArtNr === filters.artnr : true;
 
       setPage(1);
-      return (
-        matchesKdnr &&
-        matchesKdnrName &&
-        matchesStatus &&
-        matchesArticle &&
-        matchesArticleKU
-      );
+      return matchesKdnr && matchesKdnrName && matchesStatus && matchesArtNr;
     });
   }, [tickets, filters]);
 
   type TicketKey = keyof TicketSummary;
 
-  const getFilterOptions = (
-    data: TicketSummary[],
-    key: TicketKey,
-  ): { label: string; value: string }[] => {
+  const getFilterOptions = (data: TicketSummary[], key: TicketKey) => {
     return Array.from(new Set(data.map((t) => t[key]).filter(Boolean)))
       .sort((a, b) => String(a).localeCompare(String(b)))
       .map((value) => ({
@@ -86,14 +73,14 @@ export default function SortableTable({
         .map((value) => value),
     [filteredTickets],
   );
-  const artnrOptions = useMemo(
-    () => getFilterOptions(filteredTickets, "artnr_mei"),
-    [filteredTickets],
-  );
-  const artnrKUOptions = useMemo(
-    () => getFilterOptions(filteredTickets, "artnr_ku"),
-    [filteredTickets],
-  );
+  const artnrOptions = useMemo(() => {
+    const artnrSet = new Set(
+      filteredTickets.map((t) => t.artnr_mei || t.artnr_ku).filter(Boolean),
+    );
+    return Array.from(artnrSet)
+      .sort((a, b) => String(a).localeCompare(String(b)))
+      .map((value) => ({ label: String(value), value: String(value) }));
+  }, [filteredTickets]);
 
   const columns: {
     label: string;
@@ -118,12 +105,9 @@ export default function SortableTable({
       key: "kdnr_full",
     },
     {
-      label: "ArtNr (int)",
-      key: "artnr_mei",
-    },
-    {
-      label: "ArtNr (ext)",
-      key: "artnr_ku",
+      label: "Artikelnummer",
+      key: "artnr",
+      render: (ticket) => ticket.artnr_mei || ticket.artnr_ku,
     },
     {
       label: "Erstellt",
@@ -150,12 +134,18 @@ export default function SortableTable({
     if (!sortBy) return filteredTickets;
 
     return [...filteredTickets].sort((a, b) => {
-      let aVal = a[sortBy];
-      let bVal = b[sortBy];
+      let aVal: string | Status = a[sortBy as keyof TicketSummary];
+      let bVal: string | Status = b[sortBy as keyof TicketSummary];
 
+      // Special cases
       if (sortBy === "status_int") {
         aVal = a.status_int.nr;
         bVal = b.status_int.nr;
+      }
+
+      if (sortBy === "artnr") {
+        aVal = a.artnr_mei || a.artnr_ku || "";
+        bVal = b.artnr_mei || b.artnr_ku || "";
       }
 
       if (typeof aVal === "number" && typeof bVal === "number") {
@@ -176,7 +166,7 @@ export default function SortableTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-6 items-end gap-2">
+      <div className="grid grid-cols-5 items-end gap-2">
         <Select
           label="Kundennummer"
           searchable
@@ -188,6 +178,7 @@ export default function SortableTable({
             setFilters((prev) => ({ ...prev, kdnr: value || "" }))
           }
           disabled={kdnr !== undefined}
+          checkIconPosition="right"
         />
         <Select
           label="Name"
@@ -199,6 +190,7 @@ export default function SortableTable({
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, kdnr_name: value || "" }))
           }
+          checkIconPosition="right"
         />
         <Select
           label="Status"
@@ -210,31 +202,22 @@ export default function SortableTable({
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, status_int: value || "" }))
           }
+          checkIconPosition="right"
         />
         <Select
-          label="ArtNr (int)"
+          label="Artikelnummer"
           searchable
           clearable
           placeholder="Filtern ..."
           data={artnrOptions}
-          value={filters.artnr_mei}
+          value={filters.artnr}
           onChange={(value) =>
-            setFilters((prev) => ({ ...prev, artnr_mei: value || "" }))
+            setFilters((prev) => ({ ...prev, artnr: value || "" }))
           }
-        />
-        <Select
-          label="ArtNr (ext)"
-          searchable
-          clearable
-          placeholder="Filtern ..."
-          data={artnrKUOptions}
-          value={filters.artnr_ku}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, artnr_ku: value || "" }))
-          }
+          checkIconPosition="right"
         />
         <div>
-          <label className="text-[14px] text-right dimmed">
+          <label className="text-[12px] dimmed">
             {filteredTickets.length} Ergebnisse
           </label>
           <Button
@@ -249,7 +232,7 @@ export default function SortableTable({
           </Button>
         </div>
       </div>
-      <Table highlightOnHover layout="fixed">
+      <Table stickyHeader highlightOnHover layout="fixed">
         <Table.Thead>
           <Table.Tr>
             {columns.map(({ label, key }) => (

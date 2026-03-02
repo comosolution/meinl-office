@@ -214,7 +214,7 @@ export default function Page() {
   const addresses = company
     ? company.versandadressen.map((a) => {
         return {
-          label: `${a.vastrasse}, ${a.vaplz} ${a.vaort}`,
+          label: `${a.vaname}, ${a.vastrasse}, ${a.vaplz} ${a.vaort}`,
           value: a.vanr,
         };
       })
@@ -235,11 +235,14 @@ export default function Page() {
 
   return (
     <Paper mx="auto" p="xl" radius="md" mt="xl" w="100%" maw={800}>
-      <form onSubmit={form.onSubmit(handleSubmit)}>
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={form.onSubmit(handleSubmit)}
+      >
+        <h1>Neues Ticket</h1>
         <Stepper active={active} allowNextStepsSelect={false}>
           <Stepper.Step label="Kunde">
             <Stack>
-              <h2>Kunde auswählen</h2>
               <Select
                 label="Kunde"
                 placeholder="Kundennummer oder Name eingeben"
@@ -319,7 +322,6 @@ export default function Page() {
 
           <Stepper.Step label="Person">
             <Stack>
-              <h2>Verantwortliche Person auswählen</h2>
               <Select
                 label="Name der Kontaktperson"
                 searchable
@@ -334,7 +336,6 @@ export default function Page() {
 
           <Stepper.Step label="Details">
             <Stack>
-              <h2>Details eingeben</h2>
               <div className="grid grid-cols-3 gap-2">
                 <TextInput
                   label="Artikelnummer"

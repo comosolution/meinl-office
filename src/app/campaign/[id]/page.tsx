@@ -315,7 +315,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Button.Group>
         </div>
         <Fieldset className="col-span-2">
-          <h2>Daten</h2>
+          <h2>Details</h2>
           <div className="grid grid-cols-2 gap-4">
             <Select
               label="Brand"

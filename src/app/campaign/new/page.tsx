@@ -49,7 +49,7 @@ export default function Page() {
           }
         })}
       >
-        <h2>Neue Kampagne</h2>
+        <h1>Neue Kampagne</h1>
         <Select
           label="Brand"
           data={brands}

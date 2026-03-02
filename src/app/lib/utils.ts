@@ -211,7 +211,7 @@ export const fetchResults = async <T>(
 ): Promise<T[]> => {
   const res = await fetch("/api/search", {
     method: "POST",
-    body: JSON.stringify({ type, search: query || " ", source: source }),
+    body: JSON.stringify({ type, search: query || " ", source }),
   });
   return res.json();
 };

@@ -131,7 +131,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         auftr_art: values.auftr_art || ticket!.auftr_art,
         source: "OF",
         versandadresse: values.versandadresse || ticket!.versandadresse,
-        files: ticket!.files && ticket!.files.length > 0 ? ticket!.files : null,
+        files: null,
       };
 
       const res = await fetch("/api/ticket", {
@@ -376,7 +376,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             variant="transparent"
             color="gray"
             component={Link}
-            href={`/customer/${ticket.kdnr}`}
+            href={`/company/${ticket.kdnr}`}
             leftSection={<IconChevronLeft size={16} />}
           >
             Kunde {ticket.kdnr}
@@ -413,8 +413,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <div className="flex items-center gap-2">
           <p>
             RMA von{" "}
-            <Link href={`/customer/${ticket.kdnr}`} className="link">
-              {ticket.kdnr_name}{" "}
+            <Link href={`/company/${ticket.kdnr}`} className="link">
+              <b>{ticket.kdnr_name}</b>{" "}
               <span className="dimmed">({ticket.kdnr_full})</span>
             </Link>{" "}
             erstellt am {format(ticket.created, LONG_DATE_FORMAT)}

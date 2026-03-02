@@ -8,6 +8,8 @@ import {
 } from "@mantine/core";
 import {
   IconBuildings,
+  IconCurrencyDollar,
+  IconCurrencyEuro,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
@@ -17,7 +19,6 @@ import {
   IconSun,
   IconTicket,
   IconUsersGroup,
-  IconWorld,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
@@ -83,7 +84,13 @@ export default function Sidebar() {
       <NavLink
         label={name}
         title={name}
-        leftSection={<IconWorld size={20} />}
+        leftSection={
+          source === "OFFGUT" ? (
+            <IconCurrencyEuro size={20} />
+          ) : (
+            <IconCurrencyDollar size={20} />
+          )
+        }
         styles={{
           root: navLink(isCollapsed),
         }}

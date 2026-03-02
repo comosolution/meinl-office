@@ -1,8 +1,8 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import {
   IconBuildings,
-  IconCirclePlus,
   IconNews,
+  IconPlus,
   IconTicket,
   IconUser,
 } from "@tabler/icons-react";
@@ -35,17 +35,18 @@ export default function FAB() {
   ];
 
   return (
-    <div className="fixed bottom-8 right-4 z-50">
+    <div className="fixed bottom-8 right-8 z-50 rounded-full shadow-md shadow-black/20">
       <Menu
         position="left-end"
         width={200}
+        offset={4}
         trigger="click-hover"
         shadow="md"
         transitionProps={{ transition: "rotate-left", duration: 150 }}
       >
         <Menu.Target>
           <ActionIcon size="xl" radius="xl">
-            <IconCirclePlus />
+            <IconPlus />
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>

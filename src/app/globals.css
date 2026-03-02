@@ -84,8 +84,8 @@ img.inverted {
 }
 
 .mantine-InputWrapper-label {
-  padding-left: calc(var(--defaultPadding) + 1px);
-  font-size: var(--defaultPadding);
+  padding-left: var(--defaultPadding);
+  font-size: 12px;
   color: var(--mantine-color-dimmed);
 }
 

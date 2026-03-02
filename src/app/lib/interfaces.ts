@@ -131,6 +131,7 @@ export interface TicketSummary {
   createdby: string;
   artnr_ku: string;
   artnr_mei: string;
+  artnr: string;
   kdnr_name: string;
 }
 

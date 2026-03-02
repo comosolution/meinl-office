@@ -36,10 +36,10 @@ export default function HistoryList<T>({
         <h2>Kürzlich besuchte {title}</h2>
         {history.length > 0 ? (
           <>
-            <div className="h-full flex flex-col">
+            <div className="h-full flex flex-col gap-4">
               {history.map((item, index) => (
                 <Link key={index} href={link(item)}>
-                  <div className="flex items-center gap-2 rounded p-2 hover:bg-[var(--mantine-color-gray-light)] transition-all duration-300">
+                  <div className="flex items-center gap-2 text-[var(--mantine-color-dimmed)] hover:text-[var(--foreground)] transition-all duration-300">
                     {getAvatar(item)}
                     <div className="flex flex-col">
                       <h3>{getTitle(item)}</h3>
