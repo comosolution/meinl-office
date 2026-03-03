@@ -413,7 +413,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                   <TextInput
                     label="Musikrichtung"
-                    {...form.getInputProps("musikrichtung")}
+                    {...form.getInputProps("musikri")}
                     readOnly={!edit}
                   />
                   <TextInput

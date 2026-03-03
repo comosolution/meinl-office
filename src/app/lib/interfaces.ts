@@ -83,7 +83,7 @@ export interface Person {
   famstand: string;
   tshirt: string;
   hobbies: string;
-  musikrichtung: string;
+  musikri: string;
   instrument: string;
   zustaendig: string;
 }

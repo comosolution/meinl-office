@@ -1,7 +1,15 @@
 "use client";
 import { useOffice } from "@/app/context/officeContext";
+import {
+  competences,
+  familyStatus,
+  genders,
+  sizes,
+  titles,
+} from "@/app/lib/data";
 import { formatDateToString } from "@/app/lib/utils";
 import {
+  Autocomplete,
   Button,
   Checkbox,
   Group,
@@ -13,27 +21,35 @@ import {
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import { IconChevronRight, IconPlus } from "@tabler/icons-react";
+import {
+  IconBalloon,
+  IconBuildings,
+  IconChecklist,
+  IconChevronRight,
+  IconPlus,
+  IconUser,
+} from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { getInitialValues, type FormValues } from "../[id]/form";
+import { getInitialValues, validateForm, type FormValues } from "../[id]/form";
 
 export default function NewPersonPage() {
   const { companies, source } = useOffice();
   const [active, setActive] = useState(0);
 
-  const STEPS = 3;
+  const router = useRouter();
+  const STEPS = 4;
 
   const form = useForm<FormValues>({
     validateInputOnChange: true,
     initialValues: { ...getInitialValues({} as any), id: 0 },
-    validate: {
-      kdnr: (v) => (v ? null : "Firma ist erforderlich"),
-    },
+    validate: (values: FormValues) => validateForm(values, active),
   });
 
-  const nextStep = () =>
+  const nextStep = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setActive((current) => (current < STEPS ? current + 1 : current));
-
+  };
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
@@ -56,39 +72,39 @@ export default function NewPersonPage() {
         className="flex flex-col gap-4"
         onSubmit={form.onSubmit(async (values: FormValues) => {
           const formattedDob = formatDateToString(values.gebdat as Date);
+          const formattedCompetences = values.zustaendig.join(",");
+
           const payload = {
             ...values,
             id: 0,
-            kdnr: Number(values.kdnr) || 0,
-            source: source,
+            kdnr: Number(values.kdnr),
             geburtsdatum: formattedDob,
-            zustaendig: Array.isArray(values.zustaendig)
-              ? values.zustaendig.join(",")
-              : values.zustaendig,
+            zustaendig: formattedCompetences,
+            source,
           };
 
           console.log(JSON.stringify(payload));
 
-          // try {
-          //   const res = await fetch("/api/person/save", {
-          //     method: "POST",
-          //     headers: { "Content-Type": "application/json" },
-          //     body: JSON.stringify(payload),
-          //   });
+          try {
+            const res = await fetch("/api/person/save", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
 
-          //   if (res.ok) {
-          //     router.push("/person");
-          //   } else {
-          //     console.error(await res.text());
-          //   }
-          // } catch (err) {
-          //   console.error("Error saving person", err);
-          // }
+            if (res.ok) {
+              router.push(`/company/${values.kdnr}`);
+            } else {
+              console.error(await res.text());
+            }
+          } catch (err) {
+            console.error("Error saving person", err);
+          }
         })}
       >
         <h1>Neue Person</h1>
         <Stepper active={active} allowNextStepsSelect={false}>
-          <Stepper.Step label="Firma">
+          <Stepper.Step label="Firma" icon={<IconBuildings size={18} />}>
             <Stack>
               <Select
                 label="Firma"
@@ -103,26 +119,47 @@ export default function NewPersonPage() {
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="Person">
+          <Stepper.Step label="Person" icon={<IconUser size={18} />}>
             <Stack>
-              <div className="grid grid-cols-2 gap-2">
-                <TextInput
-                  label="Vorname"
-                  {...form.getInputProps("vorname")}
-                  required
+              <h2>Persönliche Daten</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <Autocomplete
+                  label="Anrede"
+                  data={genders}
+                  {...form.getInputProps("anrede")}
+                  withAsterisk
+                />
+                <Autocomplete
+                  label="Titel"
+                  data={titles}
+                  {...form.getInputProps("titel")}
                 />
                 <TextInput
                   label="Nachname"
                   {...form.getInputProps("nachname")}
-                  required
+                  withAsterisk
+                />
+                <TextInput
+                  label="Vorname"
+                  {...form.getInputProps("vorname")}
+                  withAsterisk
                 />
                 <TextInput label="Position" {...form.getInputProps("jobpos")} />
                 <TextInput
                   label="Abteilung"
                   {...form.getInputProps("abteilung")}
                 />
-                <TextInput label="E-Mail" {...form.getInputProps("email")} />
+              </div>
+              <h2>Kommunikation</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <TextInput label="Telefon" {...form.getInputProps("phone")} />
                 <TextInput label="Mobil" {...form.getInputProps("mobil")} />
+                <TextInput label="Fax" {...form.getInputProps("fax")} />
+                <TextInput
+                  label="E-Mail"
+                  {...form.getInputProps("email")}
+                  withAsterisk
+                />
                 <TextInput
                   label="Betreut von"
                   {...form.getInputProps("betreutvon")}
@@ -131,31 +168,62 @@ export default function NewPersonPage() {
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="Details">
+          <Stepper.Step
+            label="Zuständigkeiten"
+            icon={<IconChecklist size={18} />}
+          >
             <Stack>
-              <div className="grid grid-cols-2 gap-2">
+              <h2>Zuständigkeiten</h2>
+              <Checkbox.Group {...form.getInputProps("zustaendig")}>
+                <div className="grid grid-cols-2 gap-2">
+                  {competences.map((c, i) => (
+                    <Checkbox key={i} label={c} value={c} />
+                  ))}
+                </div>
+              </Checkbox.Group>
+            </Stack>
+          </Stepper.Step>
+
+          <Stepper.Step label="Privat" icon={<IconBalloon size={18} />}>
+            <Stack>
+              <h2>Privatanschrift</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <TextInput label="Land" {...form.getInputProps("landpr")} />
+                <TextInput
+                  label="Straße"
+                  {...form.getInputProps("strassepr")}
+                />
+                <TextInput label="PLZ" {...form.getInputProps("plzpr")} />
+                <TextInput label="Ort" {...form.getInputProps("ortpr")} />
+              </div>
+              <h2>Details</h2>
+              <div className="grid grid-cols-2 gap-4">
                 <DateInput
                   label="Geburtsdatum"
                   valueFormat="DD.MM.YYYY"
                   {...form.getInputProps("gebdat")}
                 />
-                <TextInput label="T-Shirt" {...form.getInputProps("tshirt")} />
+                <Select
+                  label="Familienstand"
+                  data={familyStatus}
+                  {...form.getInputProps("famstand")}
+                  checkIconPosition="right"
+                  aria-readonly={false}
+                />
+                <TextInput label="Hobbies" {...form.getInputProps("hobbies")} />
+                <Autocomplete
+                  label="T-Shirt"
+                  data={sizes}
+                  {...form.getInputProps("tshirt")}
+                />
                 <TextInput
-                  label="Hobbies (kommagetrennt)"
-                  {...form.getInputProps("hobbies")}
+                  label="Musikrichtung"
+                  {...form.getInputProps("musikri")}
                 />
                 <TextInput
                   label="Instrument"
                   {...form.getInputProps("instrument")}
                 />
-                <Checkbox.Group {...(form.getInputProps("zustaendig") as any)}>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Checkbox value="Administration" label="Administration" />
-                    <Checkbox value="Vertrieb" label="Vertrieb" />
-                    <Checkbox value="Marketing" label="Marketing" />
-                    <Checkbox value="IT" label="IT" />
-                  </div>
-                </Checkbox.Group>
               </div>
             </Stack>
           </Stepper.Step>
@@ -172,6 +240,7 @@ export default function NewPersonPage() {
           {active < STEPS - 1 ? (
             <Button
               type="button"
+              disabled={!form.isValid()}
               rightSection={<IconChevronRight size={16} />}
               onClick={nextStep}
             >
@@ -183,7 +252,7 @@ export default function NewPersonPage() {
               disabled={!form.isValid()}
               leftSection={<IconPlus size={16} />}
             >
-              Ticket erstellen
+              Person anlegen
             </Button>
           )}
         </Group>

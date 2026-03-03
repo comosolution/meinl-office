@@ -180,8 +180,14 @@ export const parseDateString = (dob: string) => {
   return new Date(year, month, day);
 };
 
-export const formatDateToString = (date: Date | null): string => {
+export const formatDateToString = (date: Date | string | null): string => {
   if (!date) return "";
+
+  if (typeof date === "string") {
+    const d = parseDateString(date);
+    if (!d) return "";
+    date = d;
+  }
 
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Ensure 2 digits

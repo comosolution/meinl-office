@@ -14,7 +14,14 @@ import {
   Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconChevronRight, IconPaperclip, IconPlus } from "@tabler/icons-react";
+import {
+  IconBuildings,
+  IconChevronRight,
+  IconInfoCircle,
+  IconPaperclip,
+  IconPlus,
+  IconUser,
+} from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -27,6 +34,7 @@ export default function Page() {
   const [company, setCompany] = useState<Company>();
 
   const router = useRouter();
+  const STEPS = 3;
 
   const form = useForm<TicketFormValues>({
     validateInputOnChange: true,
@@ -49,17 +57,36 @@ export default function Page() {
       valand: "",
       zusatz: "",
     },
-    validate: {
-      kdnr: (v) => (v ? null : "Kunde ist erforderlich"),
-      vanr: (v) => (v ? null : "Versandadresse ist erforderlich"),
-      kdnr_full: (v) => (v ? null : "Kontaktperson ist erforderlich"),
-      kdnr_name: (v) => (v ? null : "Kontaktperson ist erforderlich"),
-      artnr_ku: (v) => (v ? null : "Artikel ist erforderlich"),
+    validate: (values: TicketFormValues) => {
+      if (active === 0) {
+        return {
+          kdnr: values.kdnr ? null : "Kunde ist erforderlich",
+          vanr: values.vanr ? null : "Versandadresse ist erforderlich",
+        };
+      }
+      if (active === 1) {
+        return {
+          kdnr_full: values.kdnr_full ? null : "Kontaktperson ist erforderlich",
+          kdnr_name: values.kdnr_name ? null : "Kontaktperson ist erforderlich",
+        };
+      }
+      if (active === 2) {
+        return {
+          artnr_ku: values.artnr_ku ? null : "Artikel ist erforderlich",
+          descr: values.descr ? null : "Beschreibung ist erforderlich",
+          menge: values.menge > 0 ? null : "Menge muss größer als 0 sein",
+        };
+      }
+      return {};
     },
   });
 
-  const nextStep = () => setActive((current) => Math.min(current + 1, 2));
-  const prevStep = () => setActive((current) => Math.max(current - 1, 0));
+  const nextStep = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setActive((current) => (current < STEPS ? current + 1 : current));
+  };
+  const prevStep = () =>
+    setActive((current) => (current > 0 ? current - 1 : current));
 
   const handleSubmit = async (values: TicketFormValues) => {
     try {
@@ -241,7 +268,7 @@ export default function Page() {
       >
         <h1>Neues Ticket</h1>
         <Stepper active={active} allowNextStepsSelect={false}>
-          <Stepper.Step label="Kunde">
+          <Stepper.Step label="Kunde" icon={<IconBuildings size={18} />}>
             <Stack>
               <Select
                 label="Kunde"
@@ -320,7 +347,7 @@ export default function Page() {
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="Person">
+          <Stepper.Step label="Person" icon={<IconUser size={18} />}>
             <Stack>
               <Select
                 label="Name der Kontaktperson"
@@ -334,7 +361,7 @@ export default function Page() {
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="Details">
+          <Stepper.Step label="Details" icon={<IconInfoCircle size={18} />}>
             <Stack>
               <div className="grid grid-cols-3 gap-2">
                 <TextInput
@@ -383,9 +410,10 @@ export default function Page() {
               Zurück
             </Button>
           )}
-          {active < 2 ? (
+          {active < STEPS - 1 ? (
             <Button
               type="button"
+              disabled={!form.isValid()}
               rightSection={<IconChevronRight size={16} />}
               onClick={nextStep}
             >
