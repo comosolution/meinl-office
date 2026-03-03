@@ -20,7 +20,6 @@ export default function FAB() {
       label: "Neue Person",
       href: "/person/new",
       icon: <IconUser size={16} />,
-      disabled: true,
     },
     {
       label: "Neue Kampagne",

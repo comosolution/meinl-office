@@ -41,7 +41,7 @@ export default function Page() {
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>Alle Firmen</h1>
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <TextInput
             placeholder="Firmen durchsuchen ..."
             leftSection={<IconSearch size={16} />}

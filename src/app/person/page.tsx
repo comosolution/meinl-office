@@ -1,6 +1,7 @@
 "use client";
-import { Pagination, Table, TextInput } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { Button, Pagination, Table, TextInput } from "@mantine/core";
+import { IconPlus, IconSearch } from "@tabler/icons-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import EmployeeHead from "../components/employeeHead";
 import EmployeeRow from "../components/employeeRow";
@@ -35,7 +36,7 @@ export default function Page() {
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>Alle Personen</h1>
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <TextInput
             placeholder="Personen durchsuchen ..."
             leftSection={<IconSearch size={16} />}
@@ -43,6 +44,13 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
+          <Button
+            component={Link}
+            href="/person/new"
+            leftSection={<IconPlus size={16} />}
+          >
+            Person anlegen
+          </Button>
         </div>
       </header>
 

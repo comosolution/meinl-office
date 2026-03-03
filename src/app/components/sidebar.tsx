@@ -8,8 +8,6 @@ import {
 } from "@mantine/core";
 import {
   IconBuildings,
-  IconCurrencyDollar,
-  IconCurrencyEuro,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
@@ -85,13 +83,7 @@ export default function Sidebar() {
       <NavLink
         label={name}
         title={name}
-        leftSection={
-          source === "OFFGUT" ? (
-            <IconCurrencyEuro size={20} />
-          ) : (
-            <IconCurrencyDollar size={20} />
-          )
-        }
+        leftSection={source === "OFFGUT" ? <span>🇩🇪</span> : <span>🇺🇸</span>}
         styles={{
           root: navLink(isCollapsed),
         }}

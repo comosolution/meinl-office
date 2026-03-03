@@ -379,12 +379,13 @@ export default function Page() {
           {active === 0 ? (
             <div />
           ) : (
-            <Button variant="transparent" onClick={prevStep}>
+            <Button type="button" variant="transparent" onClick={prevStep}>
               Zurück
             </Button>
           )}
           {active < 2 ? (
             <Button
+              type="button"
               rightSection={<IconChevronRight size={16} />}
               onClick={nextStep}
             >

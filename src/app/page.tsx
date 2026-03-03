@@ -3,8 +3,6 @@ import { Avatar, Button, SegmentedControl } from "@mantine/core";
 import {
   IconBuildings,
   IconBuildingWarehouse,
-  IconCurrencyDollar,
-  IconCurrencyEuro,
   IconUsersGroup,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -36,7 +34,7 @@ export default function Page() {
             {
               label: (
                 <div className="flex items-center gap-1">
-                  <IconCurrencyEuro size={16} />
+                  <span>🇩🇪</span>
                   <p>Deutschland</p>
                 </div>
               ),
@@ -45,7 +43,7 @@ export default function Page() {
             {
               label: (
                 <div className="flex items-center gap-1">
-                  <IconCurrencyDollar size={16} />
+                  <span>🇺🇸</span>
                   <p>USA</p>
                 </div>
               ),
