@@ -13,5 +13,6 @@ export async function POST(request: Request) {
     return new Response("Failed to update person", { status: res.status });
   }
 
-  return new Response("Person updated successfully.", { status: 200 });
+  const resText = await res.text();
+  return new Response(resText, { status: 200 });
 }

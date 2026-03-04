@@ -239,7 +239,7 @@ export interface Order {
 
 export interface TicketFormValues {
   kdnr: string;
-  kdnr_full?: string;
+  kdnr_full?: string | null;
   kdnr_name: string;
   artnr_ku: string;
   sernr_ku?: string;

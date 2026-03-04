@@ -83,19 +83,18 @@ export default function NewPersonPage() {
             source,
           };
 
-          console.log(JSON.stringify(payload));
-
           try {
             const res = await fetch("/api/person/save", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(payload),
             });
+            const resText = await res.text();
 
             if (res.ok) {
-              router.push(`/company/${values.kdnr}`);
+              router.push(`/person/${resText}`);
             } else {
-              console.error(await res.text());
+              console.error(resText);
             }
           } catch (err) {
             console.error("Error saving person", err);
@@ -201,6 +200,7 @@ export default function NewPersonPage() {
                 <DateInput
                   label="Geburtsdatum"
                   valueFormat="DD.MM.YYYY"
+                  defaultLevel="decade"
                   {...form.getInputProps("gebdat")}
                 />
                 <Select

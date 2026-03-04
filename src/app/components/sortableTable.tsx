@@ -137,7 +137,6 @@ export default function SortableTable({
       let aVal: string | Status = a[sortBy as keyof TicketSummary];
       let bVal: string | Status = b[sortBy as keyof TicketSummary];
 
-      // Special cases
       if (sortBy === "status_int") {
         aVal = a.status_int.nr;
         bVal = b.status_int.nr;

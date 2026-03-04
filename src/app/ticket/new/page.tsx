@@ -40,7 +40,7 @@ export default function Page() {
     validateInputOnChange: true,
     initialValues: {
       kdnr: "",
-      kdnr_full: "",
+      kdnr_full: null,
       kdnr_name: "",
       artnr_ku: "",
       sernr_ku: "",
@@ -165,7 +165,7 @@ export default function Page() {
     if (!form.values.kdnr) return;
     if (form.values.kdnr === loadedKdnr) return;
 
-    form.setFieldValue("kdnr_full", "");
+    form.setFieldValue("kdnr_full", null);
     form.setFieldValue("kdnr_name", "");
     form.setFieldValue("vanr", "");
 
@@ -247,18 +247,24 @@ export default function Page() {
       })
     : [];
 
-  const personOptions = company
-    ? Array.from(
-        new Map(
+  const uniquePersons = Array.from(
+    company
+      ? new Map(
           persons
             .filter((p) => p.kdnr === company.kdnr)
             .map((p) => [p.b2bnr, p]),
-        ).values(),
-      ).map((p) => ({
+        ).values()
+      : [],
+  );
+
+  const personOptions = useMemo(
+    () =>
+      uniquePersons.map((p) => ({
         label: `${p.vorname} ${p.nachname} (${p.b2bnr})`,
         value: p.b2bnr,
-      }))
-    : [];
+      })),
+    [uniquePersons],
+  );
 
   return (
     <Paper mx="auto" p="xl" radius="md" mt="xl" w="100%" maw={800}>
@@ -290,16 +296,11 @@ export default function Page() {
                     ]}
                     checkIconPosition="right"
                     searchable
+                    allowDeselect={false}
                     {...form.getInputProps("vanr")}
                     withAsterisk
                   />
-                  <Paper
-                    p="lg"
-                    radius="md"
-                    bg="var(--background)"
-                    shadow="xl"
-                    withBorder
-                  >
+                  <Paper p="lg" radius="md" bg="var(--background)" shadow="xl">
                     <div className="grid grid-cols-2 gap-2">
                       <TextInput
                         label="Name 1"

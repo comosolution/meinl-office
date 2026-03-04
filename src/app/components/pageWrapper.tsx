@@ -1,4 +1,5 @@
 "use client";
+import "dayjs/locale/de";
 import { useSession } from "next-auth/react";
 import FAB from "./fab";
 import Loader from "./loader";

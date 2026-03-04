@@ -11,6 +11,8 @@ export const DHL_API_TOKEN =
   "https://api-sandbox.dhl.com/parcel/de/account/auth/ropc/v1/token";
 export const DHL_API_RETURN_LABEL =
   "https://api-sandbox.dhl.com/parcel/de/shipping/returns/v1/orders?labelType=SHIPMENT_LABEL";
+export const GLS_API =
+  "https://shipit-wbm-test01.gls-group.eu:8443/backend/rs/shipments";
 
 export const MEINL_OFFICE_SIDEBAR_KEY = "meinl.office.sidebar.collapsed";
 export const MEINL_OFFICE_SOURCE_KEY = "meinl.office.source";
