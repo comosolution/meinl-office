@@ -3,6 +3,7 @@ import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { LONG_DATE_FORMAT } from "@/app/lib/constants";
 import { Ticket } from "@/app/lib/interfaces";
+import { states } from "@/app/lib/rma";
 import { parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
@@ -14,6 +15,7 @@ import {
   Modal,
   NumberInput,
   Paper,
+  Select,
   Tabs,
   Textarea,
   TextInput,
@@ -23,6 +25,7 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import {
+  IconCalendarCheck,
   IconChevronLeft,
   IconChevronRight,
   IconDeviceFloppy,
@@ -52,6 +55,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>("info");
+  const [newState, setNewState] = useState<string | null>(null);
   const [glsPickupDate, setGlsPickupDate] = useState<string | null>(
     new Date().toDateString(),
   );
@@ -91,6 +95,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           created: parseDb2Date(data.created),
           modified: parseDb2Date(data.modified),
         };
+
         setTicket(transformed);
         form.setValues({
           kdnr: transformed.kdnr || "",
@@ -105,8 +110,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           versandadresse: transformed.versandadresse || {
             vanr: "",
             vaname: "",
-            name2: "",
-            name3: "",
+            vaname2: "",
+            vaname3: "",
             vastrasse: "",
             vaplz: "",
             vaort: "",
@@ -445,6 +450,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   useEffect(() => {
+    if (!newState) return;
+
+    const selectedState = states.find((s) => s.int === newState);
+
+    if (selectedState) {
+      updateTicketStatus(selectedState.int, selectedState.ext);
+    } else {
+      notifications.show({
+        title: "Ungültiger Status",
+        message: "Der ausgewählte Status ist ungültig.",
+      });
+    }
+  }, [newState]);
+
+  useEffect(() => {
     getTicket();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -576,7 +596,24 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               onSubmit={handleSubmit}
               className="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
-              <div className="col-span-2 flex justify-end items-end gap-2">
+              <Paper p="lg" radius="md" bg="transparent" withBorder>
+                <div className="flex flex-col gap-2">
+                  <h2>Status</h2>
+                  <Select
+                    placeholder="Neuer Status (int)"
+                    value={newState}
+                    onChange={setNewState}
+                    data={[
+                      ...states.map((s) => {
+                        return { label: `${s.label} (${s.int})`, value: s.int };
+                      }),
+                    ]}
+                    searchable
+                    checkIconPosition="right"
+                  />
+                </div>
+              </Paper>
+              <div className="flex justify-end items-end">
                 {!editing ? (
                   <Button
                     color="dark"
@@ -584,7 +621,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     leftSection={<IconEdit size={16} />}
                     onClick={() => setEditing(true)}
                   >
-                    Bearbeiten
+                    Ticket bearbeiten
                   </Button>
                 ) : (
                   <>
@@ -765,6 +802,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         opened={opened}
         onClose={close}
         title="Abholtermin wählen"
+        radius="md"
       >
         <div className="flex flex-col justify-center items-center gap-4 pt-4">
           <DatePicker
@@ -783,6 +821,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 handleCreateGlsReturn();
               }
             }}
+            leftSection={<IconCalendarCheck size={16} />}
             fullWidth
           >
             Abholtermin buchen

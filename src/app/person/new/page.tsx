@@ -199,6 +199,7 @@ export default function NewPersonPage() {
               <div className="grid grid-cols-2 gap-4">
                 <DateInput
                   label="Geburtsdatum"
+                  locale="de"
                   valueFormat="DD.MM.YYYY"
                   defaultLevel="decade"
                   {...form.getInputProps("gebdat")}

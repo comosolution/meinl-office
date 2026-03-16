@@ -200,7 +200,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Avatar
           size={72}
           color={getAvatarColor(person.kdnr)}
-          name={`${person.nachname[0]} ${person.vorname[0]}`}
+          name={
+            person.nachname && person.vorname
+              ? `${person.nachname[0]} ${person.vorname[0]}`
+              : undefined
+          }
         />
         <div className="flex flex-col gap-1 w-full">
           <h1>
@@ -388,6 +392,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <div className="grid grid-cols-2 gap-4">
                   <DateInput
                     label="Geburtsdatum"
+                    locale="de"
                     valueFormat="DD.MM.YYYY"
                     {...form.getInputProps("gebdat")}
                     readOnly={!edit}

@@ -88,7 +88,11 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         <Avatar
           size={32}
           color={getAvatarColor(p.kdnr)}
-          name={`${p.nachname[0]} ${p.vorname[0]}`}
+          name={
+            p.nachname && p.vorname
+              ? `${p.nachname[0]} ${p.vorname[0]}`
+              : undefined
+          }
         />
       ),
     }))

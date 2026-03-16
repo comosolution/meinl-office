@@ -22,7 +22,11 @@ export default function EmployeeRow({
         <Avatar
           size={24}
           color={getAvatarColor(employee.kdnr)}
-          name={`${employee.nachname[0]} ${employee.vorname[0]}`}
+          name={
+            employee.nachname && employee.vorname
+              ? `${employee.nachname[0]} ${employee.vorname[0]}`
+              : undefined
+          }
         />
       </Table.Td>
       <Table.Td>
