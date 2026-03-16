@@ -24,6 +24,16 @@ export function parseDb2Date(db2Date: string): string {
   return db2Date;
 }
 
+export const filterByKundenart = <T extends { kundenart?: number }>(
+  items: T[],
+  kundenart: string,
+) => {
+  if (kundenart === "all") return items;
+  if (kundenart === "b2b") return items.filter((i) => (i.kundenart ?? 0) < 60);
+  if (kundenart === "b2c") return items.filter((i) => (i.kundenart ?? 0) >= 60);
+  return items;
+};
+
 export async function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -197,17 +207,7 @@ export const formatDateToString = (date: Date | string | null): string => {
 };
 
 export const getAvatarColor = (input: string | number) => {
-  const colors = [
-    "red",
-    "violet",
-    "indigo",
-    "cyan",
-    "teal",
-    "lime",
-    "yellow",
-    "orange",
-  ];
-  return colors[+input % colors.length];
+  return +input < 60 ? "red" : "yellow";
 };
 
 export const fetchResults = async <T>(

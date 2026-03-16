@@ -70,7 +70,7 @@ export default function Page() {
             <Avatar
               size={48}
               variant="filled"
-              color={getAvatarColor(company.kdnr)}
+              color={getAvatarColor(company.kundenart)}
             >
               <IconBuildings />
             </Avatar>
@@ -89,7 +89,7 @@ export default function Page() {
             <Avatar
               size={48}
               variant="filled"
-              color={getAvatarColor(company.kdnr)}
+              color={getAvatarColor(company.kundenart)}
             >
               <IconBuildingWarehouse />
             </Avatar>
@@ -107,7 +107,7 @@ export default function Page() {
           getAvatar={(person: PersonInStorage) => (
             <Avatar
               size={48}
-              color={getAvatarColor(person.kdnr)}
+              color={getAvatarColor(person.kundenart)}
               name={`${person.nachname} ${person.vorname}`}
             />
           )}

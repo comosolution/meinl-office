@@ -5,6 +5,7 @@ export const getInitialValues = (person: Person) => {
   return {
     id: person.id || 0,
     kdnr: person.kdnr || "",
+    kundenart: person.kundenart || 0,
     vorname: person.vorname || "",
     nachname: person.nachname || "",
     name1: person.name1 || "",

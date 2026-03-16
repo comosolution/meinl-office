@@ -65,6 +65,7 @@ export default function Page() {
             <Table.Th>Kdnr</Table.Th>
             <Table.Th>Stadt</Table.Th>
             <Table.Th>Land</Table.Th>
+            <Table.Th>KA</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -78,7 +79,7 @@ export default function Page() {
                 <Avatar
                   size={24}
                   variant="filled"
-                  color={getAvatarColor(company.kdnr)}
+                  color={getAvatarColor(company.kundenart)}
                 >
                   <IconBuildings size={14} />
                 </Avatar>
@@ -93,6 +94,7 @@ export default function Page() {
               <Table.Td>{company.kdnr}</Table.Td>
               <Table.Td>{company.ort}</Table.Td>
               <Table.Td>{company.land}</Table.Td>
+              <Table.Td>{company.kundenart}</Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>

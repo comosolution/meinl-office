@@ -21,12 +21,8 @@ export default function EmployeeRow({
       <Table.Td>
         <Avatar
           size={24}
-          color={getAvatarColor(employee.kdnr)}
-          name={
-            employee.nachname && employee.vorname
-              ? `${employee.nachname[0]} ${employee.vorname[0]}`
-              : undefined
-          }
+          color={getAvatarColor(employee.kundenart)}
+          name={`${employee.nachname} ${employee.vorname}`}
         />
       </Table.Td>
       <Table.Td>

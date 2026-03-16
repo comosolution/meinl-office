@@ -41,6 +41,18 @@ const theme = createTheme({
       "#bf0021",
       "#a7001a",
     ],
+    yellow: [
+      "#fff4e4",
+      "#f8e7d4",
+      "#eccfad",
+      "#e1b483",
+      "#d69d5e",
+      "#d08f47",
+      "#ce883a",
+      "#b6752b",
+      "#a36723",
+      "#8e5717",
+    ],
   },
   defaultRadius: "sm",
 });

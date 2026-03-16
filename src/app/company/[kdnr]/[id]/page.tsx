@@ -120,6 +120,7 @@ export default function Page({
     const newEntry: DealerInStorage = {
       id: distributor.id.toString(),
       kdnr: distributor.kdnr,
+      kundenart: distributor.kundenart,
       name: distributor.name1,
       source,
     };
@@ -205,7 +206,11 @@ export default function Page({
       </div>
 
       <header className="flex items-center gap-4 py-4">
-        <Avatar size={72} variant="filled" color={getAvatarColor(company.kdnr)}>
+        <Avatar
+          size={72}
+          variant="filled"
+          color={getAvatarColor(company.kundenart)}
+        >
           <IconBuildingWarehouse size={40} stroke={2} />
         </Avatar>
         <div className="flex flex-col gap-1 w-full">

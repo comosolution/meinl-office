@@ -109,6 +109,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const newEntry: PersonInStorage = {
       id: person.id.toString(),
       kdnr: person.kdnr,
+      kundenart: person.kundenart,
       vorname: person.vorname,
       nachname: person.nachname,
       position: person.jobpos,
@@ -200,11 +201,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Avatar
           size={72}
           color={getAvatarColor(person.kdnr)}
-          name={
-            person.nachname && person.vorname
-              ? `${person.nachname[0]} ${person.vorname[0]}`
-              : undefined
-          }
+          name={`${person.nachname} ${person.vorname}`}
         />
         <div className="flex flex-col gap-1 w-full">
           <h1>

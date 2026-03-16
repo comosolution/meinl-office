@@ -3,6 +3,7 @@ import {
   ActionIcon,
   Badge,
   NavLink,
+  SegmentedControl,
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
@@ -32,7 +33,7 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const { source, setSource } = useOffice();
+  const { source, setSource, kundenart, setKundenart } = useOffice();
   const { setColorScheme, colorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
@@ -141,8 +142,8 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`gradient h-screen ${
-        isCollapsed ? "w-[64px]" : "w-[260px]"
+      className={`bg-(--background-subtle) h-screen ${
+        isCollapsed ? "w-16" : "w-[260px]"
       } sticky top-0 z-50 flex flex-col gap-2 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
     >
       <div
@@ -169,6 +170,19 @@ export default function Sidebar() {
             <IconLayoutSidebarLeftCollapse size={20} />
           )}
         </ActionIcon>
+      </div>
+      <div>
+        <SegmentedControl
+          value={kundenart}
+          onChange={setKundenart}
+          data={[
+            { label: "Alle", value: "all" },
+            { label: "B2B", value: "b2b" },
+            { label: "B2C", value: "b2c" },
+          ]}
+          orientation={isCollapsed ? "vertical" : "horizontal"}
+          fullWidth
+        />
       </div>
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">

@@ -1,6 +1,7 @@
 export interface Dealer {
   id: number;
   kdnr: string;
+  kundenart: number;
   name1: string;
   name2: string;
   brand: string;
@@ -13,6 +14,7 @@ export interface Dealer {
 export interface DealerInStorage {
   id: string;
   kdnr: string;
+  kundenart: number;
   name: string;
   source: string;
 }
@@ -20,6 +22,8 @@ export interface DealerInStorage {
 export interface Company {
   id: number;
   kdnr: string;
+  kundenart: number;
+  kundenartText: string;
   type: string;
   name1: string;
   name2: string;
@@ -49,6 +53,7 @@ export interface Company {
 
 export interface CompanyInStorage {
   kdnr: string;
+  kundenart: number;
   name: string;
   source: string;
 }
@@ -56,6 +61,7 @@ export interface CompanyInStorage {
 export interface Person {
   id: number;
   kdnr: string;
+  kundenart: number;
   vorname: string;
   nachname: string;
   name1: string;
@@ -91,6 +97,7 @@ export interface Person {
 export interface PersonInStorage {
   id: string;
   kdnr: string;
+  kundenart: number;
   vorname: string;
   nachname: string;
   position: string;

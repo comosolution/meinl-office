@@ -8,13 +8,19 @@ import {
   useEffect,
   useState,
 } from "react";
-import { MEINL_OFFICE_SOURCE_KEY } from "../lib/constants";
+import { MEINL_OFFICE_KA_KEY, MEINL_OFFICE_SOURCE_KEY } from "../lib/constants";
 import { Company, Dealer, Person } from "../lib/interfaces";
-import { fetchResults, safeLocaleCompare } from "../lib/utils";
+import {
+  fetchResults,
+  filterByKundenart,
+  safeLocaleCompare,
+} from "../lib/utils";
 
 interface OfficeContextType {
   source: string;
   setSource: Dispatch<SetStateAction<string>>;
+  kundenart: string;
+  setKundenart: Dispatch<SetStateAction<string>>;
   companies: Company[];
   setCompanies: Dispatch<SetStateAction<Company[]>>;
   persons: Person[];
@@ -28,6 +34,7 @@ const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 
 export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   const [source, setSource] = useState<string>("OFFGUT");
+  const [kundenart, setKundenart] = useState<string>("all");
   const [companies, setCompanies] = useState<Company[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
   const [dealers, setDealers] = useState<Dealer[]>([]);
@@ -35,27 +42,36 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
 
   const getData = async () => {
     setLoading(true);
+
     const [allCompanies, allPersons, allDealers] = await Promise.all([
       fetchResults<Company>(source, "companies"),
       fetchResults<Person>(source, "persons"),
       fetchResults<Dealer>(source, "dealers"),
     ]);
 
+    const filteredCompanies = filterByKundenart(
+      allCompanies as Company[],
+      kundenart,
+    );
+    const filteredPersons = filterByKundenart(
+      allPersons as Person[],
+      kundenart,
+    );
+    const filteredDealers = filterByKundenart(
+      allDealers as Dealer[],
+      kundenart,
+    );
+
     setCompanies(
-      (allCompanies as Company[]).sort((a, b) =>
-        safeLocaleCompare(a.name1, b.name1),
-      ),
+      filteredCompanies.sort((a, b) => safeLocaleCompare(a.name1, b.name1)),
     );
     setPersons(
-      (allPersons as Person[]).sort((a, b) =>
-        safeLocaleCompare(a.nachname, b.nachname),
-      ),
+      filteredPersons.sort((a, b) => safeLocaleCompare(a.nachname, b.nachname)),
     );
     setDealers(
-      (allDealers as Dealer[]).sort((a, b) =>
-        safeLocaleCompare(a.name1, b.name1),
-      ),
+      filteredDealers.sort((a, b) => safeLocaleCompare(a.name1, b.name1)),
     );
+
     setLoading(false);
   };
 
@@ -63,6 +79,10 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
     const savedSource = localStorage.getItem(MEINL_OFFICE_SOURCE_KEY);
     if (savedSource !== null) {
       setSource(savedSource);
+    }
+    const savedKundenart = localStorage.getItem(MEINL_OFFICE_KA_KEY);
+    if (savedKundenart !== null) {
+      setKundenart(savedKundenart);
     }
     getData();
   }, []);
@@ -72,11 +92,18 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
     getData();
   }, [source]);
 
+  useEffect(() => {
+    localStorage.setItem(MEINL_OFFICE_KA_KEY, kundenart);
+    getData();
+  }, [kundenart]);
+
   return (
     <OfficeContext.Provider
       value={{
         source,
         setSource,
+        kundenart,
+        setKundenart,
         companies,
         setCompanies,
         persons,

@@ -6,6 +6,8 @@ export const getInitialValues = (company: Company) => {
   return {
     id: company.id,
     kdnr: company.kdnr || "",
+    kundenart: company.kundenart || 0,
+    kundenartText: company.kundenartText || "",
     type: customerTypes[company.type] || "",
     name1: company.name1 || "",
     name2: company.name2 || "",

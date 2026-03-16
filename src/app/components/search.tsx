@@ -11,11 +11,11 @@ import { useOffice } from "../context/officeContext";
 import { useDebounce } from "../lib/hooks";
 import { Dealer, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
-import { fetchResults, getAvatarColor } from "../lib/utils";
+import { fetchResults, filterByKundenart, getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
-  const { source } = useOffice();
+  const { source, kundenart } = useOffice();
   const [query, setQuery] = useState("");
   const [companies, setCompanies] = useState<Dealer[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
@@ -24,7 +24,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
 
   useEffect(() => {
     const getData = async () => {
-      if (debouncedQuery.trim() === "") {
+      if (debouncedQuery.trim() === "" || debouncedQuery.trim().length < 2) {
         setCompanies([]);
         setPersons([]);
         return;
@@ -35,8 +35,17 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         fetchResults<Person>(source, "persons", debouncedQuery),
       ]);
 
-      setCompanies(allCompanies);
-      setPersons(allPersons);
+      const filteredCompanies = filterByKundenart(
+        allCompanies as Dealer[],
+        kundenart,
+      );
+      const filteredPersons = filterByKundenart(
+        allPersons as Person[],
+        kundenart,
+      );
+
+      setCompanies(filteredCompanies);
+      setPersons(filteredPersons);
     };
 
     getData();
@@ -47,7 +56,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     .map((c, index) => ({
       id: `company-${index}-${c.id}-${c.kdnr}`,
       label: c.name1,
-      description: `${c.plz} ${c.ort} ${c.land} ${
+      description: `${c.plz} ${c.ort} ${c.land} – ${c.kundenart} ${
         c.id === 0 ? "" : `– ${c.brand}`
       }`,
       onClick: () =>
@@ -58,7 +67,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         </p>
       ),
       leftSection: (
-        <Avatar size={32} variant="filled" color={getAvatarColor(c.kdnr)}>
+        <Avatar size={32} variant="filled" color={getAvatarColor(c.kundenart)}>
           {c.id === 0 ? (
             <IconBuildings size={16} />
           ) : (
@@ -87,12 +96,8 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       leftSection: (
         <Avatar
           size={32}
-          color={getAvatarColor(p.kdnr)}
-          name={
-            p.nachname && p.vorname
-              ? `${p.nachname[0]} ${p.vorname[0]}`
-              : undefined
-          }
+          color={getAvatarColor(p.kundenart)}
+          name={`${p.nachname} ${p.vorname}`}
         />
       ),
     }))
@@ -126,7 +131,6 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
 
       <Spotlight
         color="black"
-        limit={100}
         actions={actions}
         query={query}
         onQueryChange={setQuery}

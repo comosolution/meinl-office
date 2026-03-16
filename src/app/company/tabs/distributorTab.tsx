@@ -11,7 +11,7 @@ export default function DistributorTab({ company }: { company: Company }) {
   const router = useRouter();
 
   const sortedDistributors = company.haendler.sort((a, b) =>
-    a.name1.localeCompare(b.name1)
+    a.name1.localeCompare(b.name1),
   );
 
   const pageSize = 25;
@@ -50,7 +50,7 @@ export default function DistributorTab({ company }: { company: Company }) {
                       <Avatar
                         size={24}
                         variant="filled"
-                        color={getAvatarColor(company.kdnr)}
+                        color={getAvatarColor(company.kundenart)}
                       >
                         <IconBuildingWarehouse size={14} />
                       </Avatar>
