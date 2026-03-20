@@ -7,6 +7,7 @@ import FileUploader from "@/app/components/upload";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
 import { customerTypes } from "@/app/lib/data";
+import { t } from "@/app/lib/i18n";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor, parseUrl } from "@/app/lib/utils";
 import {
@@ -55,7 +56,7 @@ export default function Page({
   params: Promise<{ kdnr: string }>;
 }) {
   const { kdnr } = React.use(params);
-  const { source } = useOffice();
+  const { source, locale } = useOffice();
   const [company, setCompany] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
@@ -104,7 +105,7 @@ export default function Page({
               }}
               fullWidth
             >
-              Zurück zur Startseite
+              {t(locale, "backToStart")}
             </Button>
           </>
         ),
@@ -157,7 +158,7 @@ export default function Page({
               setEdit(false);
             }}
           >
-            Verwerfen
+            {t(locale, "discard")}
           </Button>
           <Button
             type="submit"
@@ -166,7 +167,7 @@ export default function Page({
             leftSection={<IconDeviceFloppy size={16} />}
             disabled={!form.isValid()}
           >
-            Änderungen speichern
+            {t(locale, "saveChanges")}
           </Button>
         </Button.Group>
       ) : (
@@ -176,7 +177,7 @@ export default function Page({
           leftSection={<IconEdit size={16} />}
           onClick={() => setEdit(true)}
         >
-          Daten bearbeiten
+          {t(locale, "editData")}
         </Button>
       )}
     </div>
@@ -192,7 +193,7 @@ export default function Page({
           component={Link}
           href="/company"
         >
-          Alle Firmen
+          {t(locale, "allCompanies")}
         </Button>
         <Contact email={company.mailadr} phone={company.telefon} />
       </div>
@@ -232,10 +233,10 @@ export default function Page({
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Tab value="info" leftSection={<IconBuildingEstate size={16} />}>
-            Firmendaten
+            {t(locale, "companyDetails")}
           </Tabs.Tab>
           <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
-            Firmenlogo
+            {t(locale, "companyLogo")}
           </Tabs.Tab>
           <Tabs.Tab
             value="storelocator"
@@ -248,7 +249,7 @@ export default function Page({
               )
             }
           >
-            DealerLocator
+            {t(locale, "dealerLocator")}
           </Tabs.Tab>
           {company.distributor && (
             <Tabs.Tab
@@ -260,7 +261,7 @@ export default function Page({
                 </Badge>
               }
             >
-              Händler
+              {t(locale, "dealer")}
             </Tabs.Tab>
           )}
           <Tabs.Tab
@@ -272,7 +273,7 @@ export default function Page({
               </Badge>
             }
           >
-            Mitarbeiter
+            {t(locale, "employees")}
           </Tabs.Tab>
           {/* <Tabs.Tab value="history" leftSection={<IconHistory size={16} />}>
             Historie
@@ -298,15 +299,15 @@ export default function Page({
             <div className="grid grid-cols-2 gap-4">
               {actions}
               <Fieldset>
-                <h2>Unternehmen</h2>
+                <h2>{t(locale, "company")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Name"
+                    label={t(locale, "nameLabel")}
                     {...form.getInputProps("name1")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Zusatz"
+                    label={t(locale, "nameLabel") + " 2"}
                     {...form.getInputProps("name2")}
                     readOnly={!edit}
                   />
@@ -316,52 +317,52 @@ export default function Page({
                     readOnly
                   />
                   <NumberInput
-                    label="Kundennummer"
+                    label={t(locale, "customerNumber")}
                     {...form.getInputProps("kdnr")}
                     readOnly
                   />
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Anschrift</h2>
+                <h2>{t(locale, "address")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Land"
+                    label={t(locale, "country")}
                     {...form.getInputProps("land")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Straße / Postfach"
+                    label={t(locale, "streetPostbox")}
                     {...form.getInputProps("strasse")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="PLZ"
+                    label={t(locale, "postalCode")}
                     {...form.getInputProps("plz")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Ort"
+                    label={t(locale, "city")}
                     {...form.getInputProps("ort")}
                     readOnly={!edit}
                   />
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Kommunikation</h2>
+                <h2>{t(locale, "communication")}</h2>
                 <TextInput
-                  label="Telefon"
+                  label={t(locale, "phone") ?? "Telefon"}
                   {...form.getInputProps("telefon")}
                   readOnly
                 />
                 <TextInput
-                  label="E-Mail"
+                  label={t(locale, "email") ?? "E-Mail"}
                   {...form.getInputProps("mailadr")}
                   readOnly
                 />
               </Fieldset>
               <Fieldset>
-                <h2>Social Media</h2>
+                <h2>{t(locale, "socialMedia")}</h2>
                 <TextInput
                   label="Facebook"
                   rightSection={<IconBrandFacebook size={16} />}
@@ -391,13 +392,13 @@ export default function Page({
               <Checkbox
                 size="md"
                 className="col-span-2"
-                label={`${company.name1} im DealerLocator anzeigen.`}
+                label={`${company.name1} ${t(locale, "showInDealerLocator")}.`}
                 {...form.getInputProps("dealerloc", { type: "checkbox" })}
                 disabled={!edit}
               />
 
               <Fieldset>
-                <h2>Daten</h2>
+                <h2>{t(locale, "details")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
                     label="Website URL"
@@ -439,7 +440,7 @@ export default function Page({
                 <Map company={company} />
               )}
               <Fieldset>
-                <h2>Brands</h2>
+                <h2>{t(locale, "brands")}</h2>
                 <div className="flex flex-col gap-4">
                   {form.values.brands
                     .sort((a, b) => a.sort - b.sort)
@@ -486,8 +487,8 @@ export default function Page({
                 <Table highlightOnHover>
                   <Table.Thead>
                     <Table.Tr>
-                      <Table.Th>ID</Table.Th>
-                      <Table.Th>Name</Table.Th>
+                      <Table.Th>{t(locale, "idLabel")}</Table.Th>
+                      <Table.Th>{t(locale, "nameLabel")}</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>

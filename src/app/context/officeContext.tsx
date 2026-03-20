@@ -8,7 +8,11 @@ import {
   useEffect,
   useState,
 } from "react";
-import { MEINL_OFFICE_KA_KEY, MEINL_OFFICE_SOURCE_KEY } from "../lib/constants";
+import {
+  MEINL_OFFICE_KA_KEY,
+  MEINL_OFFICE_LOCALE_KEY,
+  MEINL_OFFICE_SOURCE_KEY,
+} from "../lib/constants";
 import { Company, Dealer, Person } from "../lib/interfaces";
 import {
   fetchResults,
@@ -21,6 +25,8 @@ interface OfficeContextType {
   setSource: Dispatch<SetStateAction<string>>;
   kundenart: string;
   setKundenart: Dispatch<SetStateAction<string>>;
+  locale: "de" | "en";
+  setLocale: Dispatch<SetStateAction<"de" | "en">>;
   companies: Company[];
   setCompanies: Dispatch<SetStateAction<Company[]>>;
   persons: Person[];
@@ -35,6 +41,7 @@ const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   const [source, setSource] = useState<string>("OFFGUT");
   const [kundenart, setKundenart] = useState<string>("all");
+  const [locale, setLocale] = useState<"de" | "en">("de");
   const [companies, setCompanies] = useState<Company[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
   const [dealers, setDealers] = useState<Dealer[]>([]);
@@ -80,10 +87,20 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
     if (savedSource !== null) {
       setSource(savedSource);
     }
+
     const savedKundenart = localStorage.getItem(MEINL_OFFICE_KA_KEY);
     if (savedKundenart !== null) {
       setKundenart(savedKundenart);
     }
+
+    const savedLocale = localStorage.getItem(MEINL_OFFICE_LOCALE_KEY) as
+      | "de"
+      | "en"
+      | null;
+    if (savedLocale === "de" || savedLocale === "en") {
+      setLocale(savedLocale);
+    }
+
     getData();
   }, []);
 
@@ -97,6 +114,10 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
     getData();
   }, [kundenart]);
 
+  useEffect(() => {
+    localStorage.setItem(MEINL_OFFICE_LOCALE_KEY, locale);
+  }, [locale]);
+
   return (
     <OfficeContext.Provider
       value={{
@@ -104,6 +125,8 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
         setSource,
         kundenart,
         setKundenart,
+        locale,
+        setLocale,
         companies,
         setCompanies,
         persons,

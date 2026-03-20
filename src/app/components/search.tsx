@@ -9,13 +9,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { useDebounce } from "../lib/hooks";
+import { t } from "../lib/i18n";
 import { Dealer, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
 import { fetchResults, filterByKundenart, getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
-  const { source, kundenart } = useOffice();
+  const { source, locale, kundenart } = useOffice();
   const [query, setQuery] = useState("");
   const [companies, setCompanies] = useState<Dealer[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
@@ -110,8 +111,8 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
   return (
     <>
       <NavLink
-        label="Suche"
-        title="Suche"
+        label={t(locale, "search")}
+        title={t(locale, "search")}
         active
         color="dark"
         leftSection={<IconSearch size={20} />}

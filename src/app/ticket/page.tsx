@@ -7,11 +7,14 @@ import LineGraph from "../components/lineGraph";
 import Loader from "../components/loader";
 import SortableTable from "../components/sortableTable";
 import StatsOverview from "../components/statsOverview";
+import { useOffice } from "../context/officeContext";
 import orderData from "../data/orders.json";
+import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
 import { parseDb2Date } from "../lib/utils";
 
 export default function Home() {
+  const { locale } = useOffice();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState("table");
   const [tickets, setTickets] = useState<TicketSummary[]>([]);
@@ -56,7 +59,7 @@ export default function Home() {
   return (
     <main className="flex flex-col gap-4 p-4">
       <header className="flex justify-between items-center gap-2 py-4">
-        <h1>Alle Tickets</h1>
+        <h1>{t(locale, "allTickets")}</h1>
         <SegmentedControl
           value={value}
           onChange={setValue}
@@ -65,7 +68,7 @@ export default function Home() {
               label: (
                 <div className="flex items-center gap-1">
                   <IconTable size={16} />
-                  <p>Übersicht</p>
+                  <p>{t(locale, "ticketOverview")}</p>
                 </div>
               ),
               value: "table",
@@ -74,7 +77,7 @@ export default function Home() {
               label: (
                 <div className="flex items-center gap-1">
                   <IconDashboard size={16} />
-                  <p>Auswertungen</p>
+                  <p>{t(locale, "ticketStats")}</p>
                 </div>
               ),
               value: "dashboard",
@@ -86,7 +89,7 @@ export default function Home() {
           href="/ticket/new"
           leftSection={<IconPlus size={16} />}
         >
-          Ticket erstellen
+          {t(locale, "createTicket")}
         </Button>
       </header>
       {value === "table" ? (

@@ -3,6 +3,7 @@ import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_DEALERS_URL } from "@/app/lib/constants";
 import { brands } from "@/app/lib/data";
+import { t } from "@/app/lib/i18n";
 import { Campaign, Dealer, Product } from "@/app/lib/interfaces";
 import { notEmptyValidation } from "@/app/lib/utils";
 import {
@@ -42,7 +43,7 @@ import { getInitialValues } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
-  const { source, dealers } = useOffice();
+  const { source, locale, dealers } = useOffice();
 
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
@@ -166,7 +167,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           component={Link}
           href="/campaign"
         >
-          Alle Kampagnen
+          {t(locale, "allCampaigns")}
         </Button>
       </div>
 
@@ -227,7 +228,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 leftSection={<IconDeviceFloppy size={16} />}
                 disabled={!form.isValid()}
               >
-                Änderungen speichern
+                {t(locale, "saveChanges")}
               </Button>
               <Button
                 color="dark"
@@ -237,7 +238,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   setEdit(false);
                 }}
               >
-                Verwerfen
+                {t(locale, "discard")}
               </Button>
             </Button.Group>
           ) : (
@@ -247,7 +248,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               leftSection={<IconEdit size={16} />}
               onClick={() => setEdit(true)}
             >
-              Kampagne bearbeiten
+              {t(locale, "editData")}
             </Button>
           )}
           {del ? (
@@ -256,7 +257,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 onClick={handleDelete}
                 leftSection={<IconTrash size={16} />}
               >
-                Kampagne endgültig löschen
+                {t(locale, "deleteConfirm")}
               </Button>
               <Button
                 variant="transparent"
@@ -264,7 +265,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   setDel(false);
                 }}
               >
-                Abbrechen
+                {t(locale, "cancel")}
               </Button>
             </Button.Group>
           ) : (
@@ -275,7 +276,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 setDel(true);
               }}
             >
-              Löschen
+              {t(locale, "delete")}
             </Button>
           )}
         </div>
@@ -308,7 +309,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     copied ? <IconCheck size={16} /> : <IconCopy size={16} />
                   }
                 >
-                  {copied ? "Link kopiert" : "Link kopieren"}
+                  {copied ? "Link kopiert" : t(locale, "copyLink")}
                 </Button>
               )}
             </CopyButton>

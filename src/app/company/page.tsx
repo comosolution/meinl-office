@@ -4,10 +4,11 @@ import { IconBuildings, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 import { getAvatarColor } from "../lib/utils";
 
 export default function Page() {
-  const { companies } = useOffice();
+  const { companies, locale } = useOffice();
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -40,10 +41,10 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
-        <h1>Alle Firmen</h1>
+        <h1>{t(locale, "allCompanies")}</h1>
         <div className="flex gap-2">
           <TextInput
-            placeholder="Firmen durchsuchen ..."
+            placeholder={t(locale, "searchCompanies")}
             leftSection={<IconSearch size={16} />}
             rightSection={<p className="text-xs">{filteredData.length}</p>}
             value={search}
@@ -59,13 +60,13 @@ export default function Page() {
         <Table.Thead>
           <Table.Tr>
             <Table.Th />
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Zusatz</Table.Th>
-            <Table.Th>Matchcode</Table.Th>
-            <Table.Th>Kdnr</Table.Th>
-            <Table.Th>Stadt</Table.Th>
-            <Table.Th>Land</Table.Th>
-            <Table.Th>KA</Table.Th>
+            <Table.Th>{t(locale, "companyLabel")}</Table.Th>
+            <Table.Th>{t(locale, "extra")}</Table.Th>
+            <Table.Th>{t(locale, "matchcode")}</Table.Th>
+            <Table.Th>{t(locale, "kdnr")}</Table.Th>
+            <Table.Th>{t(locale, "city")}</Table.Th>
+            <Table.Th>{t(locale, "country")}</Table.Th>
+            <Table.Th>{t(locale, "ka")}</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>

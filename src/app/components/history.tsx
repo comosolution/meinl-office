@@ -21,7 +21,7 @@ export default function HistoryList<T>({
   getSubtitle: (item: T) => string;
   getSource: (item: T) => string;
 }) {
-  const { source } = useOffice();
+  const { source, locale } = useOffice();
   const [history, setHistory] = useState<T[]>([]);
 
   useEffect(() => {
@@ -43,13 +43,15 @@ export default function HistoryList<T>({
   return (
     <Paper p="lg" radius="md" bg="transparent" withBorder>
       <div className="h-full flex flex-col gap-4 justify-between">
-        <h2 className="text-center">Kürzlich besuchte {title}</h2>
+        <h2 className="text-center">
+          {locale === "de" ? "Kürzlich besuchte" : "Recently visited"} {title}
+        </h2>
         {filteredHistory.length > 0 ? (
           <>
             <div className="h-full flex flex-col gap-4">
               {filteredHistory.map((item, index) => (
                 <Link key={index} href={link(item)}>
-                  <div className="flex items-center gap-2 text-[var(--mantine-color-dimmed)] hover:text-[var(--foreground)] transition-all duration-300">
+                  <div className="flex items-center gap-2 text-(--mantine-color-dimmed) hover:text-(--foreground) transition-all duration-300">
                     {getAvatar(item)}
                     <div className="flex flex-col">
                       <h3>{getTitle(item)}</h3>
@@ -64,14 +66,18 @@ export default function HistoryList<T>({
               leftSection={<IconTrash size={16} />}
               onClick={clearHistory}
             >
-              Verlauf löschen
+              {locale === "de" ? "Verlauf löschen" : "Clear history"}
             </Button>
           </>
         ) : (
           <>
             <div className="flex flex-col items-center gap-2">
               <IconEyeOff size={48} color="gray" />
-              <p className="dimmed text-center">Keine {title} besucht</p>
+              <p className="dimmed text-center">
+                {locale === "de"
+                  ? `Keine ${title} besucht`
+                  : `No ${title} visited`}
+              </p>
             </div>
             <div />
           </>

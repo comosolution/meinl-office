@@ -13,6 +13,7 @@ import {
   MEINL_OFFICE_DEALER_HISTORY_KEY,
   MEINL_OFFICE_PERSON_HISTORY_KEY,
 } from "./lib/constants";
+import { t } from "./lib/i18n";
 import {
   CompanyInStorage,
   DealerInStorage,
@@ -21,12 +22,12 @@ import {
 import { getAvatarColor } from "./lib/utils";
 
 export default function Page() {
-  const { source, setSource } = useOffice();
+  const { source, setSource, locale } = useOffice();
 
   return (
     <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 p-4">
-        <h1>Willkommen</h1>
+        <h1>{t(locale, "homeTitle")}</h1>
         <SegmentedControl
           value={source}
           onChange={setSource}
@@ -63,7 +64,7 @@ export default function Page() {
       </header>
       <div className="grid lg:grid-cols-3 gap-4">
         <HistoryList
-          title="Firmen"
+          title={t(locale, "companies")}
           storageKey={MEINL_OFFICE_COMPANY_HISTORY_KEY}
           link={(company: CompanyInStorage) => `/company/${company.kdnr}`}
           getAvatar={(company: CompanyInStorage) => (
@@ -80,7 +81,7 @@ export default function Page() {
           getSource={(company: CompanyInStorage) => company.source}
         />
         <HistoryList
-          title="Händler"
+          title={t(locale, "dealers")}
           storageKey={MEINL_OFFICE_DEALER_HISTORY_KEY}
           link={(company: DealerInStorage) =>
             `/company/${company.kdnr}/${company.id}`
@@ -101,7 +102,7 @@ export default function Page() {
           getSource={(company: DealerInStorage) => company.source}
         />
         <HistoryList
-          title="Personen"
+          title={t(locale, "people")}
           storageKey={MEINL_OFFICE_PERSON_HISTORY_KEY}
           link={(person) => `/person/${person.id}`}
           getAvatar={(person: PersonInStorage) => (
@@ -121,12 +122,12 @@ export default function Page() {
       <div className="grid lg:grid-cols-2 gap-4">
         {[
           {
-            label: "Firmen",
+            label: t(locale, "companies"),
             icon: <IconBuildings size={24} />,
             href: "/company",
           },
           {
-            label: "Personen",
+            label: t(locale, "people"),
             icon: <IconUsersGroup size={24} />,
             href: "/person",
           },

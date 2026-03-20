@@ -10,6 +10,7 @@ import {
   sizes,
   titles,
 } from "@/app/lib/data";
+import { t } from "@/app/lib/i18n";
 import { Person, PersonInStorage } from "@/app/lib/interfaces";
 import { formatDateToString, getAvatarColor } from "@/app/lib/utils";
 import {
@@ -40,7 +41,7 @@ import { FormValues, getInitialValues, validateForm } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
-  const { source } = useOffice();
+  const { source, locale } = useOffice();
   const [person, setPerson] = useState<Person>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
@@ -89,7 +90,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               }}
               fullWidth
             >
-              Zurück zur Startseite
+              {t(locale, "backToStart")}
             </Button>
           </>
         ),
@@ -141,7 +142,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             // TODO: reset form
             onClick={() => setEdit(false)}
           >
-            Verwerfen
+            {t(locale, "discard")}
           </Button>
           <Button
             type="submit"
@@ -150,7 +151,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             leftSection={<IconDeviceFloppy size={16} />}
             disabled={!form.isValid()}
           >
-            Änderungen speichern
+            {t(locale, "saveChanges")}
           </Button>
         </Button.Group>
       ) : (
@@ -160,7 +161,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           leftSection={<IconEdit size={16} />}
           onClick={() => setEdit(true)}
         >
-          Daten bearbeiten
+          {t(locale, "editData")}
         </Button>
       )}
     </div>
@@ -179,7 +180,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             component={Link}
             href="/person"
           >
-            Alle Personen
+            {t(locale, "allPeople")}
           </Button>
           <Button
             color="gray"
@@ -209,7 +210,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </h1>
           <div className="flex justify-between items-baseline gap-2">
             <p>
-              {person.jobpos || "Mitarbeiter"} bei{" "}
+              {person.jobpos || t(locale, "employee")} bei{" "}
               <Link href={`/company/${person.kdnr}`} className="link">
                 <b>{person.name1}</b> ({person.kdnr})
               </Link>
@@ -221,10 +222,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Tab value="info" leftSection={<IconUser size={16} />}>
-            Persönliche Daten
+            {t(locale, "personalData")}
           </Tabs.Tab>
           <Tabs.Tab value="private" leftSection={<IconBalloon size={16} />}>
-            Privat
+            {t(locale, "privateSection")}
           </Tabs.Tab>
         </Tabs.List>
 
@@ -252,67 +253,67 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <div className="grid grid-cols-2 gap-4">
               {actions}
               <Fieldset>
-                <h2>Person</h2>
+                <h2>{t(locale, "person")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <Autocomplete
-                    label="Anrede"
+                    label={t(locale, "salutation") ?? "Anrede"}
                     data={genders}
                     {...form.getInputProps("anrede")}
                     readOnly={!edit}
                   />
                   <Autocomplete
-                    label="Titel"
+                    label={t(locale, "title") ?? "Titel"}
                     data={titles}
                     {...form.getInputProps("titel")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Nachname"
+                    label={t(locale, "lastName") ?? "Nachname"}
                     {...form.getInputProps("nachname")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Vorname"
+                    label={t(locale, "firstName") ?? "Vorname"}
                     {...form.getInputProps("vorname")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Position"
+                    label={t(locale, "position")}
                     {...form.getInputProps("jobpos")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Abteilung"
+                    label={t(locale, "department")}
                     {...form.getInputProps("abteilung")}
                     readOnly={!edit}
                   />
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Kommunikation</h2>
+                <h2>{t(locale, "communication")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Telefon"
+                    label={t(locale, "phone")}
                     {...form.getInputProps("phone")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Mobil"
+                    label={t(locale, "mobile") ?? "Mobil"}
                     {...form.getInputProps("mobil")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Fax"
+                    label={t(locale, "fax") ?? "Fax"}
                     {...form.getInputProps("fax")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="E-Mail"
+                    label={t(locale, "email")}
                     {...form.getInputProps("email")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Betreut von"
+                    label={t(locale, "managedBy")}
                     {...form.getInputProps("betreutvon")}
                     readOnly={!edit}
                   />

@@ -6,6 +6,7 @@ import LogoPreview from "@/app/components/preview";
 import FileUploader from "@/app/components/upload";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_OFFICE_DEALER_HISTORY_KEY } from "@/app/lib/constants";
+import { t } from "@/app/lib/i18n";
 import { Company, DealerInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor, parseUrl } from "@/app/lib/utils";
 import {
@@ -49,7 +50,7 @@ export default function Page({
   params: Promise<{ kdnr: string; id: string }>;
 }) {
   const { kdnr, id } = React.use(params);
-  const { source } = useOffice();
+  const { source, locale } = useOffice();
   const [company, setCompany] = useState<Company>();
   const [distributor, setDistributor] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
@@ -154,7 +155,7 @@ export default function Page({
               setEdit(false);
             }}
           >
-            Verwerfen
+            {t(locale, "discard")}
           </Button>
           <Button
             type="submit"
@@ -163,7 +164,7 @@ export default function Page({
             leftSection={<IconDeviceFloppy size={16} />}
             disabled={!form.isValid()}
           >
-            Änderungen speichern
+            {t(locale, "saveChanges")}
           </Button>
         </Button.Group>
       ) : (
@@ -173,7 +174,7 @@ export default function Page({
           leftSection={<IconEdit size={16} />}
           onClick={() => setEdit(true)}
         >
-          Daten bearbeiten
+          {t(locale, "editData")}
         </Button>
       )}
     </div>
@@ -190,7 +191,7 @@ export default function Page({
             component={Link}
             href="/company"
           >
-            Alle Firmen
+            {t(locale, "allCompanies")}
           </Button>
           <Button
             color="gray"
@@ -221,7 +222,7 @@ export default function Page({
             </span>
           </h1>
           <p>
-            Händler für{" "}
+            {t(locale, "dealerFor")}{" "}
             <Link href={`/company/${kdnr}`} className="link">
               <b>{company.name1}</b> ({company.kdnr})
             </Link>{" "}
@@ -242,10 +243,10 @@ export default function Page({
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Tab value="info" leftSection={<IconBuildingEstate size={16} />}>
-            Händlerdaten
+            {t(locale, "dealer")}
           </Tabs.Tab>
           <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
-            Händlerlogo
+            {t(locale, "companyLogo")}
           </Tabs.Tab>
           <Tabs.Tab
             value="storelocator"
@@ -258,7 +259,7 @@ export default function Page({
               )
             }
           >
-            DealerLocator
+            {t(locale, "dealerLocator")}
           </Tabs.Tab>
         </Tabs.List>
 
@@ -278,15 +279,15 @@ export default function Page({
             <div className="grid grid-cols-2 gap-4">
               {actions}
               <Fieldset>
-                <h2>Unternehmen</h2>
+                <h2>{t(locale, "company")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Name"
+                    label={t(locale, "nameLabel")}
                     {...form.getInputProps("name1")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Zusatz"
+                    label={t(locale, "nameLabel") + " 2"}
                     {...form.getInputProps("name2")}
                     readOnly={!edit}
                   />
@@ -296,39 +297,39 @@ export default function Page({
                     readOnly
                   />
                   <NumberInput
-                    label="Kundennummer"
+                    label={t(locale, "customerNumber")}
                     {...form.getInputProps("kdnr")}
                     readOnly
                   />
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Anschrift</h2>
+                <h2>{t(locale, "address")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Land"
+                    label={t(locale, "country") ?? "Land"}
                     {...form.getInputProps("land")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Straße / Postfach"
+                    label={t(locale, "streetPostbox")}
                     {...form.getInputProps("strasse")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="PLZ"
+                    label={t(locale, "postalCode") ?? "PLZ"}
                     {...form.getInputProps("plz")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Ort"
+                    label={t(locale, "city") ?? "Ort"}
                     {...form.getInputProps("ort")}
                     readOnly={!edit}
                   />
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Kommunikation</h2>
+                <h2>{t(locale, "communication")}</h2>
                 <TextInput
                   label="Telefon"
                   {...form.getInputProps("telefon")}
@@ -341,7 +342,7 @@ export default function Page({
                 />
               </Fieldset>
               <Fieldset>
-                <h2>Social Media</h2>
+                <h2>{t(locale, "socialMedia")}</h2>
                 <TextInput
                   label="Facebook"
                   rightSection={<IconBrandFacebook size={16} />}
@@ -371,16 +372,16 @@ export default function Page({
               <Checkbox
                 size="md"
                 className="col-span-2"
-                label={`${distributor.name1} im DealerLocator anzeigen.`}
+                label={`${distributor.name1} ${t(locale, "showInDealerLocator")}.`}
                 {...form.getInputProps("dealerloc", { type: "checkbox" })}
                 disabled={!edit}
               />
 
               <Fieldset>
-                <h2>Daten</h2>
+                <h2>{t(locale, "details")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Website URL"
+                    label={t(locale, "websiteUrl")}
                     {...form.getInputProps("www")}
                     readOnly={!edit}
                     rightSection={
@@ -399,17 +400,17 @@ export default function Page({
                     }
                   />
                   <TextInput
-                    label="Kundentyp"
+                    label={t(locale, "customerType")}
                     {...form.getInputProps("type")}
                     readOnly
                   />
                   <TextInput
-                    label="Breitengrad"
+                    label={t(locale, "latitude") ?? "Breitengrad"}
                     {...form.getInputProps("latitude")}
                     readOnly
                   />
                   <TextInput
-                    label="Längengrad"
+                    label={t(locale, "longitude") ?? "Längengrad"}
                     {...form.getInputProps("longitude")}
                     readOnly
                   />
@@ -418,12 +419,12 @@ export default function Page({
               {distributor.latitude !== null &&
                 distributor.longitude !== null && <Map company={distributor} />}
               <Fieldset>
-                <h2>Kampagnen</h2>
+                <h2>{t(locale, "campaigns")}</h2>
                 <Table highlightOnHover>
                   <Table.Thead>
                     <Table.Tr>
-                      <Table.Th>ID</Table.Th>
-                      <Table.Th>Name</Table.Th>
+                      <Table.Th>{t(locale, "idLabel")}</Table.Th>
+                      <Table.Th>{t(locale, "nameLabel")}</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>

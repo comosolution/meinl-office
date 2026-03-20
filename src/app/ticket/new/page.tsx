@@ -1,5 +1,6 @@
 "use client";
 import { useOffice } from "@/app/context/officeContext";
+import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
 import {
   Button,
@@ -28,7 +29,7 @@ import { useEffect, useMemo, useState } from "react";
 
 export default function Page() {
   const { data: session } = useSession();
-  const { companies, persons, source } = useOffice();
+  const { companies, persons, source, locale } = useOffice();
   const [active, setActive] = useState(0);
   const [loadedKdnr, setLoadedKdnr] = useState<string>();
   const [company, setCompany] = useState<Company>();
@@ -60,21 +61,36 @@ export default function Page() {
     validate: (values: TicketFormValues) => {
       if (active === 0) {
         return {
-          kdnr: values.kdnr ? null : "Kunde ist erforderlich",
-          vanr: values.vanr ? null : "Versandadresse ist erforderlich",
+          kdnr: values.kdnr
+            ? null
+            : `${t(locale, "customer")} ${t(locale, "invalidRequired")}`,
+          vanr: values.vanr
+            ? null
+            : `${t(locale, "shippingAddress")} ${t(locale, "invalidRequired")}`,
         };
       }
       if (active === 1) {
         return {
-          kdnr_full: values.kdnr_full ? null : "Kontaktperson ist erforderlich",
-          kdnr_name: values.kdnr_name ? null : "Kontaktperson ist erforderlich",
+          kdnr_full: values.kdnr_full
+            ? null
+            : `${t(locale, "contactPerson")} ${t(locale, "invalidRequired")}`,
+          kdnr_name: values.kdnr_name
+            ? null
+            : `${t(locale, "contactPerson")} ${t(locale, "invalidRequired")}`,
         };
       }
       if (active === 2) {
         return {
-          artnr_ku: values.artnr_ku ? null : "Artikel ist erforderlich",
-          descr: values.descr ? null : "Beschreibung ist erforderlich",
-          menge: values.menge > 0 ? null : "Menge muss größer als 0 sein",
+          artnr_ku: values.artnr_ku
+            ? null
+            : `${t(locale, "articleNumber")} ${t(locale, "invalidRequired")}`,
+          descr: values.descr
+            ? null
+            : `${t(locale, "descriptionLabel")} ${t(locale, "invalidRequired")}`,
+          menge:
+            values.menge > 0
+              ? null
+              : `${t(locale, "quantity")} ${t(locale, "invalidRequired")}`,
         };
       }
       return {};
@@ -272,13 +288,16 @@ export default function Page() {
         className="flex flex-col gap-4"
         onSubmit={form.onSubmit(handleSubmit)}
       >
-        <h1>Neues Ticket</h1>
+        <h1>{t(locale, "createTicket")}</h1>
         <Stepper active={active} allowNextStepsSelect={false}>
-          <Stepper.Step label="Kunde" icon={<IconBuildings size={18} />}>
+          <Stepper.Step
+            label={t(locale, "customer")}
+            icon={<IconBuildings size={18} />}
+          >
             <Stack>
               <Select
-                label="Kunde"
-                placeholder="Kundennummer oder Name eingeben"
+                label={t(locale, "customer")}
+                placeholder={t(locale, "selectCustomer")}
                 searchable
                 clearable
                 data={customerOptions}
@@ -348,10 +367,13 @@ export default function Page() {
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="Person" icon={<IconUser size={18} />}>
+          <Stepper.Step
+            label={t(locale, "contactPerson")}
+            icon={<IconUser size={18} />}
+          >
             <Stack>
               <Select
-                label="Name der Kontaktperson"
+                label={t(locale, "contactPerson")}
                 searchable
                 clearable
                 data={personOptions}
@@ -362,11 +384,14 @@ export default function Page() {
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="Details" icon={<IconInfoCircle size={18} />}>
+          <Stepper.Step
+            label={t(locale, "details")}
+            icon={<IconInfoCircle size={18} />}
+          >
             <Stack>
               <div className="grid grid-cols-3 gap-2">
                 <TextInput
-                  label="Artikelnummer"
+                  label={t(locale, "articleNumber")}
                   {...form.getInputProps("artnr_ku")}
                   withAsterisk
                 />
@@ -375,7 +400,7 @@ export default function Page() {
                   {...form.getInputProps("sernr_ku")}
                 />
                 <NumberInput
-                  label="Menge"
+                  label={t(locale, "quantity")}
                   min={1}
                   {...form.getInputProps("menge")}
                   withAsterisk
@@ -383,7 +408,7 @@ export default function Page() {
               </div>
 
               <Textarea
-                label="Beschreibung"
+                label={t(locale, "descriptionLabel")}
                 rows={4}
                 {...form.getInputProps("descr")}
                 withAsterisk
@@ -408,7 +433,7 @@ export default function Page() {
             <div />
           ) : (
             <Button type="button" variant="transparent" onClick={prevStep}>
-              Zurück
+              {t(locale, "previous")}
             </Button>
           )}
           {active < STEPS - 1 ? (
@@ -418,7 +443,7 @@ export default function Page() {
               rightSection={<IconChevronRight size={16} />}
               onClick={nextStep}
             >
-              Weiter
+              {t(locale, "next")}
             </Button>
           ) : (
             <Button
@@ -426,7 +451,7 @@ export default function Page() {
               disabled={!form.isValid()}
               leftSection={<IconPlus size={16} />}
             >
-              Ticket erstellen
+              {t(locale, "createTicket")}
             </Button>
           )}
         </Group>

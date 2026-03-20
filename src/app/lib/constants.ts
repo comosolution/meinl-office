@@ -17,6 +17,7 @@ export const GLS_API =
 export const MEINL_OFFICE_SIDEBAR_KEY = "meinl.office.sidebar.collapsed";
 export const MEINL_OFFICE_SOURCE_KEY = "meinl.office.source";
 export const MEINL_OFFICE_KA_KEY = "meinl.office.kundenart";
+export const MEINL_OFFICE_LOCALE_KEY = "meinl.office.locale";
 export const MEINL_OFFICE_COMPANY_HISTORY_KEY = "meinl.office.company.recent";
 export const MEINL_OFFICE_DEALER_HISTORY_KEY = "meinl.office.dealer.recent";
 export const MEINL_OFFICE_PERSON_HISTORY_KEY = "meinl.office.person.recent";

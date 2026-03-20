@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import EmployeeHead from "../components/employeeHead";
 import EmployeeRow from "../components/employeeRow";
 import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 
 export default function Page() {
-  const { persons: employees } = useOffice();
+  const { persons: employees, locale } = useOffice();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
@@ -35,10 +36,10 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
-        <h1>Alle Personen</h1>
+        <h1>{t(locale, "allPeople")}</h1>
         <div className="flex gap-2">
           <TextInput
-            placeholder="Personen durchsuchen ..."
+            placeholder={t(locale, "searchPeople")}
             leftSection={<IconSearch size={16} />}
             rightSection={<p className="text-xs">{filteredData.length}</p>}
             value={search}
@@ -49,7 +50,7 @@ export default function Page() {
             href="/person/new"
             leftSection={<IconPlus size={16} />}
           >
-            Person anlegen
+            {t(locale, "createPerson")}
           </Button>
         </div>
       </header>

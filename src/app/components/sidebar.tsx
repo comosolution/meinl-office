@@ -26,6 +26,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { MEINL_OFFICE_SIDEBAR_KEY } from "../lib/constants";
+import { t } from "../lib/i18n";
 import { navLink } from "../lib/styles";
 import Search from "./search";
 
@@ -33,7 +34,8 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const { source, setSource, kundenart, setKundenart } = useOffice();
+  const { source, setSource, kundenart, setKundenart, locale, setLocale } =
+    useOffice();
   const { setColorScheme, colorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
@@ -43,27 +45,27 @@ export default function Sidebar() {
   const path = usePathname();
   const nav = [
     {
-      name: "Startseite",
+      name: t(locale, "startPage"),
       href: "/",
       icon: <IconLayoutDashboard size={20} />,
     },
     {
-      name: "Firmen",
+      name: t(locale, "companies"),
       href: "/company",
       icon: <IconBuildings size={20} />,
     },
     {
-      name: "Personen",
+      name: t(locale, "people"),
       href: "/person",
       icon: <IconUsersGroup size={20} />,
     },
     {
-      name: "Kampagnen",
+      name: t(locale, "campaigns"),
       href: "/campaign",
       icon: <IconNews size={20} />,
     },
     {
-      name: "RMA Tickets",
+      name: t(locale, "tickets"),
       href: "/ticket",
       icon: <IconTicket size={20} />,
     },
@@ -82,8 +84,8 @@ export default function Sidebar() {
 
     return (
       <NavLink
-        label={name}
-        title={name}
+        label={`${t(locale, "source")}: ${name}`}
+        title={`${t(locale, "source")}: ${name}`}
         leftSection={source === "OFFGUT" ? <span>🇩🇪</span> : <span>🇺🇸</span>}
         styles={{
           root: navLink(isCollapsed),
@@ -92,6 +94,21 @@ export default function Sidebar() {
           setSource(source === "OFFGUT" ? "OFFUSA" : "OFFGUT");
           router.push("/");
         }}
+      />
+    );
+  };
+
+  const LanguageSwitch = () => {
+    return (
+      <SegmentedControl
+        value={locale}
+        onChange={(value) => setLocale(value as "de" | "en")}
+        data={[
+          { label: "DE", value: "de" },
+          { label: "EN", value: "en" },
+        ]}
+        orientation={isCollapsed ? "vertical" : "horizontal"}
+        fullWidth
       />
     );
   };
@@ -157,9 +174,7 @@ export default function Sidebar() {
         >
           <Image src="/logo.svg" alt="Meinl Logo" width={32} height={32} />
           {!isCollapsed && (
-            <p className="text-2xl tracking-tighter text-[var(--main)]">
-              Office
-            </p>
+            <p className="text-2xl tracking-tighter text-(--main)">Office</p>
           )}
         </Link>
         <DevIndicator />
@@ -210,12 +225,13 @@ export default function Sidebar() {
             );
           })}
         </div>
-        <div>
+        <div className="flex flex-col">
+          <LanguageSwitch />
           <SourceSwitch />
           <ThemeSwitch />
           <NavLink
-            label="Ausloggen"
-            title="Ausloggen"
+            label={t(locale, "logout")}
+            title={t(locale, "logout")}
             active
             color="dark"
             leftSection={<IconLogout size={20} />}

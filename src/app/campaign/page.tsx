@@ -9,11 +9,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "../components/loader";
 import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 import { Campaign } from "../lib/interfaces";
 
 export default function Page() {
   const router = useRouter();
-  const { source } = useOffice();
+  const { source, locale } = useOffice();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -60,14 +61,14 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
-        <h1>Kampagnen</h1>
+        <h1>{t(locale, "campaigns")}</h1>
         <div className="flex gap-1">
           <Button
             component={Link}
             href="/campaign/new"
             leftSection={<IconPlus size={16} />}
           >
-            Kampagne anlegen
+            {t(locale, "addCampaign")}
           </Button>
         </div>
       </header>
@@ -75,11 +76,11 @@ export default function Page() {
         <Table.Thead>
           <Table.Tr>
             <Table.Th>ID</Table.Th>
-            <Table.Th>Brand</Table.Th>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Start</Table.Th>
-            <Table.Th>Ende</Table.Th>
-            <Table.Th>Händler</Table.Th>
+            <Table.Th>{t(locale, "companyLabel")}</Table.Th>
+            <Table.Th>{t(locale, "all")}</Table.Th>
+            <Table.Th>{t(locale, "start")}</Table.Th>
+            <Table.Th>{t(locale, "end")}</Table.Th>
+            <Table.Th>{t(locale, "dealer")}</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>

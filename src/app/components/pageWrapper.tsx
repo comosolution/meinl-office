@@ -1,6 +1,10 @@
 "use client";
+import dayjs from "dayjs";
 import "dayjs/locale/de";
+import "dayjs/locale/en";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useOffice } from "../context/officeContext";
 import FAB from "./fab";
 import Loader from "./loader";
 import Login from "./login";
@@ -12,6 +16,12 @@ export default function PageWrapper({
   children: React.ReactNode;
 }) {
   const { data: session, status } = useSession();
+  const { locale } = useOffice();
+
+  useEffect(() => {
+    dayjs.locale(locale);
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   if (status === "loading") {
     return <Loader />;
