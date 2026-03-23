@@ -5,6 +5,7 @@ import {
   IconBuildingWarehouse,
   IconUsersGroup,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import HistoryList from "./components/history";
 import { useOffice } from "./context/officeContext";
@@ -22,6 +23,7 @@ import {
 import { getAvatarColor } from "./lib/utils";
 
 export default function Page() {
+  const { data: session } = useSession();
   const { source, setSource, locale } = useOffice();
 
   return (
@@ -54,12 +56,10 @@ export default function Page() {
         />
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
-            <h3>Max Mustermann</h3>
-            <p className="dimmed text-xs">max.mustermann@meinl.de</p>
+            <h3>{session?.user?.name}</h3>
+            <p className="dimmed text-xs">{session?.user?.email}</p>
           </div>
-          <Avatar color="red" size={48}>
-            MM
-          </Avatar>
+          <Avatar color="red" size={48} name={session?.user?.name ?? ""} />
         </div>
       </header>
       <div className="grid lg:grid-cols-3 gap-4">
@@ -142,7 +142,7 @@ export default function Page() {
             href={item.href}
             leftSection={item.icon}
           >
-            Alle {item.label}
+            {t(locale, "all")} {item.label}
           </Button>
         ))}
       </div>

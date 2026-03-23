@@ -58,7 +58,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const form = useForm<Campaign>({
     initialValues: getInitialValues({} as Campaign),
     validate: {
-      title: (value) => notEmptyValidation(value, "Bitte Titel angeben."),
+      title: (value) =>
+        notEmptyValidation(value, t(locale, "pleaseEnterTitle")),
     },
     validateInputOnChange: true,
   });
@@ -136,7 +137,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (!response.ok) {
       notifications.show({
         id: `error-${productSearch}`,
-        title: `Fehler ${response.status}`,
+        title: `${t(locale, "error")} ${response.status}`,
         message: data,
         autoClose: false,
       });
@@ -293,7 +294,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 component="a"
                 href={dealerLocLink}
                 target="_blank"
-                aria-label="Link öffnen"
+                aria-label={t(locale, "openLink")}
               >
                 <IconExternalLink size={16} />
               </ActionIcon>
@@ -309,17 +310,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     copied ? <IconCheck size={16} /> : <IconCopy size={16} />
                   }
                 >
-                  {copied ? "Link kopiert" : t(locale, "copyLink")}
+                  {copied ? t(locale, "linkCopied") : t(locale, "copyLink")}
                 </Button>
               )}
             </CopyButton>
           </Button.Group>
         </div>
         <Fieldset className="col-span-2">
-          <h2>Details</h2>
+          <h2>{t(locale, "details")}</h2>
           <div className="grid grid-cols-2 gap-4">
             <Select
-              label="Brand"
+              label={t(locale, "brand")}
               data={brands}
               allowDeselect={false}
               checkIconPosition="right"
@@ -329,14 +330,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               aria-readonly={!edit}
             />
             <TextInput
-              label="Titel"
+              label={t(locale, "title")}
               withAsterisk
               {...form.getInputProps("title")}
               readOnly={!edit}
             />
           </div>
           <Textarea
-            label="Beschreibung"
+            label={t(locale, "description")}
             {...form.getInputProps("description")}
             readOnly={!edit}
             rows={3}
@@ -344,7 +345,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           />
           <div className="grid grid-cols-2 gap-4">
             <DateTimePicker
-              label="Start"
+              label={t(locale, "start")}
               valueFormat="DD.MM.YYYY HH:mm"
               rightSection={<IconCalendarEvent size={20} />}
               rightSectionPointerEvents="none"
@@ -353,7 +354,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               aria-readonly={!edit}
             />
             <DateTimePicker
-              label="Ende"
+              label={t(locale, "end")}
               valueFormat="DD.MM.YYYY HH:mm"
               rightSection={<IconCalendarWeek size={20} />}
               rightSectionPointerEvents="none"
@@ -364,11 +365,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </Fieldset>
         <Fieldset mih={400}>
-          <h2>Teilnehmende Händler</h2>
+          <h2>{t(locale, "participatingDealers")}</h2>
           <div className="flex flex-col gap-2">
             <div className="relative">
               <TextInput
-                placeholder="Nach Name oder Kdnr suchen ..."
+                placeholder={t(locale, "searchByNameOrKdnr")}
                 rightSection={
                   dealerSearch.length > 0 ? (
                     <ActionIcon
@@ -439,7 +440,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         <ActionIcon.Group>
                           {!dealer.dealerloc && (
                             <Tooltip
-                              label={`${dealer.name1} ist für den DealerLocator nicht aktiviert.`}
+                              label={`${dealer.name1} ${t(locale, "notActivatedForDealerLocator")}`}
                               position="left"
                               withArrow
                             >
@@ -466,7 +467,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </Fieldset>
         <Fieldset>
-          <h2>Angebotene Produkte</h2>
+          <h2>{t(locale, "offeredProducts")}</h2>
           <div className="flex flex-col gap-2">
             <div
               onKeyDown={(e) => {
@@ -478,7 +479,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               className="flex gap-2"
             >
               <TextInput
-                placeholder="Nach Artikelnummer suchen ..."
+                placeholder={t(locale, "searchByArticleNumber")}
                 value={productSearch}
                 onChange={(e) => setProductSearch(e.currentTarget.value)}
                 readOnly={!edit}
@@ -492,7 +493,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 disabled={productSearch.length < 1 || !edit}
                 onClick={selectProduct}
               >
-                Suchen
+                {t(locale, "search")}
               </Button>
             </div>
             {selectedProducts.length > 0 &&

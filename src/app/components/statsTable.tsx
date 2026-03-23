@@ -1,5 +1,7 @@
 import { Paper, Table } from "@mantine/core";
 import { useRouter } from "next/navigation";
+import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 
 interface Entry {
   key: string;
@@ -16,6 +18,7 @@ export default function StatsTable({
   entries: Entry[];
 }) {
   const router = useRouter();
+  const { locale } = useOffice();
 
   return (
     <Paper p="md" radius="md">
@@ -25,9 +28,11 @@ export default function StatsTable({
           <Table.Tr>
             <Table.Th />
             <Table.Th>
-              {title.includes("Kunde") ? "Kundennummer" : "Artikelnummer"}
+              {title.includes("Kunde")
+                ? t(locale, "customerNumber")
+                : t(locale, "articleNumber")}
             </Table.Th>
-            <Table.Th>Tickets</Table.Th>
+            <Table.Th>{t(locale, "tickets")}</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>

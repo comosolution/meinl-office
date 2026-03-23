@@ -6,7 +6,9 @@ import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
+import { useOffice } from "../context/officeContext";
 import { LONG_DATE_FORMAT } from "../lib/constants";
+import { t } from "../lib/i18n";
 import { exportXLSX } from "../lib/utils";
 
 export default function SortableTable({
@@ -17,6 +19,7 @@ export default function SortableTable({
   kdnr?: string;
 }) {
   const router = useRouter();
+  const { locale } = useOffice();
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState<TicketKey>("created");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
@@ -92,30 +95,30 @@ export default function SortableTable({
       key: "nr",
     },
     {
-      label: "Status",
+      label: t(locale, "status"),
       key: "status_int",
       render: (ticket) => ticket.status_int.text,
     },
     {
-      label: "Name",
+      label: t(locale, "nameLabel"),
       key: "kdnr_name",
     },
     {
-      label: "Kundennummer",
+      label: t(locale, "customerNumber"),
       key: "kdnr_full",
     },
     {
-      label: "Artikelnummer",
+      label: t(locale, "articleNumber"),
       key: "artnr",
       render: (ticket) => ticket.artnr_mei || ticket.artnr_ku,
     },
     {
-      label: "Erstellt",
+      label: t(locale, "created"),
       key: "created",
       render: (ticket) => format(new Date(ticket.created), LONG_DATE_FORMAT),
     },
     {
-      label: "Bearbeitet",
+      label: t(locale, "modified"),
       key: "modified",
       render: (ticket) => format(new Date(ticket.modified), LONG_DATE_FORMAT),
     },
@@ -167,10 +170,10 @@ export default function SortableTable({
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-5 items-end gap-2">
         <Select
-          label="Kundennummer"
+          label={t(locale, "customerNumber")}
           searchable
           clearable
-          placeholder="Filtern ..."
+          placeholder={t(locale, "filter")}
           data={kdnrOptions}
           value={filters.kdnr}
           onChange={(value) =>
@@ -180,10 +183,10 @@ export default function SortableTable({
           checkIconPosition="right"
         />
         <Select
-          label="Name"
+          label={t(locale, "nameLabel")}
           searchable
           clearable
-          placeholder="Filtern ..."
+          placeholder={t(locale, "filter")}
           data={kdnrNameOptions}
           value={filters.kdnr_name}
           onChange={(value) =>
@@ -192,10 +195,10 @@ export default function SortableTable({
           checkIconPosition="right"
         />
         <Select
-          label="Status"
+          label={t(locale, "status")}
           searchable
           clearable
-          placeholder="Filtern ..."
+          placeholder={t(locale, "filter")}
           data={statusOptions}
           value={filters.status_int}
           onChange={(value) =>
@@ -204,10 +207,10 @@ export default function SortableTable({
           checkIconPosition="right"
         />
         <Select
-          label="Artikelnummer"
+          label={t(locale, "articleNumber")}
           searchable
           clearable
-          placeholder="Filtern ..."
+          placeholder={t(locale, "filter")}
           data={artnrOptions}
           value={filters.artnr}
           onChange={(value) =>
@@ -217,7 +220,7 @@ export default function SortableTable({
         />
         <div>
           <label className="text-[12px] dimmed">
-            {filteredTickets.length} Ergebnisse
+            {filteredTickets.length} {t(locale, "results")}
           </label>
           <Button
             variant="light"
@@ -227,7 +230,7 @@ export default function SortableTable({
             fullWidth
             leftSection={<IconTableExport size={16} />}
           >
-            Exportieren
+            {t(locale, "export")}
           </Button>
         </div>
       </div>

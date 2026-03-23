@@ -24,6 +24,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
 import { MEINL_OFFICE_SIDEBAR_KEY } from "../lib/constants";
 import { t } from "../lib/i18n";
@@ -79,14 +80,37 @@ export default function Sidebar() {
     document.body.classList.toggle("dark", colorScheme === "dark");
   }, [colorScheme]);
 
+  const KundenartSwitch = () => {
+    return (
+      <SegmentedControl
+        value={kundenart}
+        onChange={setKundenart}
+        data={[
+          { label: t(locale, "all"), value: "all" },
+          { label: "B2B", value: "b2b" },
+          { label: "B2C", value: "b2c" },
+        ]}
+        orientation={isCollapsed ? "vertical" : "horizontal"}
+        fullWidth
+      />
+    );
+  };
+
   const SourceSwitch = () => {
     const name = source === "OFFGUT" ? "Deutschland" : "USA";
 
     return (
       <NavLink
-        label={`${t(locale, "source")}: ${name}`}
-        title={`${t(locale, "source")}: ${name}`}
-        leftSection={source === "OFFGUT" ? <span>🇩🇪</span> : <span>🇺🇸</span>}
+        label={name}
+        title={name}
+        leftSection={
+          <div className="w-5">
+            <ReactCountryFlag
+              countryCode={source === "OFFGUT" ? "DE" : "US"}
+              style={{ width: 16, height: 16 }}
+            />
+          </div>
+        }
         styles={{
           root: navLink(isCollapsed),
         }}
@@ -99,30 +123,43 @@ export default function Sidebar() {
   };
 
   const LanguageSwitch = () => {
+    const name = locale === "de" ? "Deutsch" : "English";
+
     return (
-      <SegmentedControl
-        value={locale}
-        onChange={(value) => setLocale(value as "de" | "en")}
-        data={[
-          { label: "DE", value: "de" },
-          { label: "EN", value: "en" },
-        ]}
-        orientation={isCollapsed ? "vertical" : "horizontal"}
-        fullWidth
+      <NavLink
+        label={name}
+        title={name}
+        leftSection={
+          <div className="w-5">
+            <ReactCountryFlag
+              countryCode={locale === "de" ? "DE" : "US"}
+              svg
+              style={{ width: 16, height: 16 }}
+            />
+          </div>
+        }
+        styles={{
+          root: navLink(isCollapsed),
+        }}
+        onClick={() => {
+          setLocale(locale === "de" ? "en" : "de");
+        }}
       />
     );
   };
 
   const ThemeSwitch = () => {
+    const name = colorScheme === "dark" ? "Dark Theme" : "Light Theme";
+
     return mounted ? (
       <NavLink
-        label="Theme"
-        title="Theme"
+        label={name}
+        title={name}
         leftSection={
           colorScheme === "dark" ? (
-            <IconSun size={20} />
-          ) : (
             <IconMoon size={20} />
+          ) : (
+            <IconSun size={20} />
           )
         }
         styles={{
@@ -166,7 +203,7 @@ export default function Sidebar() {
       <div
         className={`flex ${
           isCollapsed ? "flex-col" : "flex-row justify-between"
-        } items-center gap-4 px-2`}
+        } items-center gap-2 px-2`}
       >
         <Link
           href="/"
@@ -186,19 +223,7 @@ export default function Sidebar() {
           )}
         </ActionIcon>
       </div>
-      <div>
-        <SegmentedControl
-          value={kundenart}
-          onChange={setKundenart}
-          data={[
-            { label: "Alle", value: "all" },
-            { label: "B2B", value: "b2b" },
-            { label: "B2C", value: "b2c" },
-          ]}
-          orientation={isCollapsed ? "vertical" : "horizontal"}
-          fullWidth
-        />
-      </div>
+      <KundenartSwitch />
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">
           <Search collapsed={isCollapsed} />

@@ -2,6 +2,8 @@
 import { LineChart } from "@mantine/charts";
 import { Paper, SegmentedControl, Select } from "@mantine/core";
 import { useMemo, useState } from "react";
+import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
 import { getReturnsData } from "../lib/utils";
 
@@ -12,6 +14,7 @@ export default function LineGraph({
   tickets: TicketSummary[];
   orders: Order[];
 }) {
+  const { locale } = useOffice();
   const [period, setPeriod] = useState<"90d" | "12m" | "5y">("90d");
   const [selectedArtnr, setSelectedArtnr] = useState<string | null>(null);
   const [selectedKdnr, setSelectedKdnr] = useState<string | null>(null);
@@ -43,19 +46,19 @@ export default function LineGraph({
   return (
     <Paper p="md" radius="md">
       <div className="flex justify-between items-center gap-2 mb-2">
-        <h2>Historie</h2>
+        <h2>{t(locale, "history")}</h2>
         <div className="flex items-center gap-2">
           <SegmentedControl
             value={period}
             onChange={(value) => setPeriod(value as "90d" | "12m" | "5y")}
             data={[
-              { label: "90 Tage", value: "90d" },
-              { label: "12 Monate", value: "12m" },
-              { label: "5 Jahre", value: "5y" },
+              { label: t(locale, "days90"), value: "90d" },
+              { label: t(locale, "months12"), value: "12m" },
+              { label: t(locale, "years5"), value: "5y" },
             ]}
           />
           <Select
-            placeholder="Alle Kunden"
+            placeholder={t(locale, "allCustomers")}
             searchable
             clearable
             value={selectedKdnr}
@@ -64,7 +67,7 @@ export default function LineGraph({
             checkIconPosition="right"
           />
           <Select
-            placeholder="Alle Artikel"
+            placeholder={t(locale, "allArticles")}
             searchable
             clearable
             value={selectedArtnr}

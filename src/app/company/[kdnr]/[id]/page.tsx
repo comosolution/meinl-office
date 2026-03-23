@@ -100,7 +100,7 @@ export default function Page({
               }}
               fullWidth
             >
-              Zurück zur Startseite
+              {t(locale, "backToStart")}
             </Button>
           </>
         ),
@@ -292,7 +292,7 @@ export default function Page({
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Matchcode"
+                    label={t(locale, "matchcode")}
                     {...form.getInputProps("matchcode")}
                     readOnly
                   />
@@ -307,7 +307,7 @@ export default function Page({
                 <h2>{t(locale, "address")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label={t(locale, "country") ?? "Land"}
+                    label={t(locale, "country")}
                     {...form.getInputProps("land")}
                     readOnly={!edit}
                   />
@@ -317,12 +317,12 @@ export default function Page({
                     readOnly={!edit}
                   />
                   <TextInput
-                    label={t(locale, "postalCode") ?? "PLZ"}
+                    label={t(locale, "postalCode")}
                     {...form.getInputProps("plz")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label={t(locale, "city") ?? "Ort"}
+                    label={t(locale, "city")}
                     {...form.getInputProps("ort")}
                     readOnly={!edit}
                   />
@@ -331,12 +331,12 @@ export default function Page({
               <Fieldset>
                 <h2>{t(locale, "communication")}</h2>
                 <TextInput
-                  label="Telefon"
+                  label={t(locale, "phone")}
                   {...form.getInputProps("telefon")}
                   readOnly
                 />
                 <TextInput
-                  label="E-Mail"
+                  label={t(locale, "email")}
                   {...form.getInputProps("mailadr")}
                   readOnly
                 />
@@ -405,12 +405,12 @@ export default function Page({
                     readOnly
                   />
                   <TextInput
-                    label={t(locale, "latitude") ?? "Breitengrad"}
+                    label={t(locale, "latitude")}
                     {...form.getInputProps("latitude")}
                     readOnly
                   />
                   <TextInput
-                    label={t(locale, "longitude") ?? "Längengrad"}
+                    label={t(locale, "longitude")}
                     {...form.getInputProps("longitude")}
                     readOnly
                   />

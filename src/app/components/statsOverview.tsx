@@ -1,6 +1,8 @@
 "use client";
 import { BarChart } from "@mantine/charts";
 import { Paper } from "@mantine/core";
+import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
 import { getTop10Customers, getTop10Items } from "../lib/utils";
 import StatsTable from "./statsTable";
@@ -12,6 +14,7 @@ export default function StatsOverview({
   tickets: TicketSummary[];
   orders: Order[];
 }) {
+  const { locale } = useOffice();
   const topCustomers = getTop10Customers(tickets).map((c) => ({
     key: c.kdnr,
     label: c.kdnr,
@@ -27,15 +30,15 @@ export default function StatsOverview({
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <StatsTable title="Nach Kunde" entries={topCustomers} />
-      <StatsTable title="Nach Artikelnummer" entries={topItems} />
+      <StatsTable title={t(locale, "byCustomer")} entries={topCustomers} />
+      <StatsTable title={t(locale, "byArticleNumber")} entries={topItems} />
       <Paper p="md" radius="md">
-        <h2 className="text-center pb-8">Insgesamt</h2>
+        <h2 className="text-center pb-8">{t(locale, "total")}</h2>
         <BarChart
           h={360}
           data={[
             {
-              label: "Insgesamt",
+              label: t(locale, "total"),
               Bestellungen: orders.length,
               Tickets: tickets.length,
             },

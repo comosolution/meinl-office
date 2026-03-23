@@ -2,6 +2,7 @@
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { LONG_DATE_FORMAT } from "@/app/lib/constants";
+import { t } from "@/app/lib/i18n";
 import { Ticket } from "@/app/lib/interfaces";
 import { states } from "@/app/lib/rma";
 import { parseDb2Date } from "@/app/lib/utils";
@@ -49,7 +50,7 @@ import React, { useEffect, useState } from "react";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
-  const { persons } = useOffice();
+  const { persons, locale } = useOffice();
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
@@ -477,14 +478,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
         <IconError404 size={64} />
-        <p className="dimmed pb-2">Kein Ticket zu {id} gefunden</p>
+        <p className="dimmed pb-2">
+          {t(locale, "ticketNotFound").replace("{id}", id)}
+        </p>
         <Button
           variant="light"
           component={Link}
           href="/ticket"
           leftSection={<IconChevronLeft size={16} />}
         >
-          Alle Tickets anzeigen
+          {t(locale, "showAllTickets")}
         </Button>
       </div>
     );
@@ -502,7 +505,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               href="/ticket"
               leftSection={<IconChevronLeft size={16} />}
             >
-              Alle Tickets
+              {t(locale, "allTickets")}
             </Button>
             <Button
               variant="transparent"
@@ -511,7 +514,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               href={`/company/${ticket.kdnr}`}
               leftSection={<IconChevronLeft size={16} />}
             >
-              Kunde {ticket.kdnr}
+              {t(locale, "customerX").replace("{kdnr}", ticket.kdnr)}
             </Button>
           </div>
           <div className="flex gap-1">
@@ -520,7 +523,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 leftSection={<IconTruckReturn size={16} />}
                 onClick={handleDownload}
               >
-                Label herunterladen
+                {t(locale, "downloadReturnLabel")}
               </Button>
             ) : (
               <Menu shadow="md" width={160} trigger="click-hover">
@@ -529,7 +532,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     variant="light"
                     leftSection={<IconTruckReturn size={16} />}
                   >
-                    Retoure beantragen
+                    {t(locale, "createReturn")}
                   </Button>
                 </Menu.Target>
                 <Menu.Dropdown>
@@ -543,7 +546,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               leftSection={<IconNews size={16} />}
               onClick={handleGenerateLaufzettel}
             >
-              Laufzettel herunterladen
+              {t(locale, "downloadLaufzettel")}
             </Button>
           </div>
         </div>
@@ -551,12 +554,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <h1>{id}</h1>
           <div className="flex items-center gap-2">
             <p>
-              RMA von{" "}
+              {t(locale, "rmaFrom")}{" "}
               <Link href={`/company/${ticket.kdnr}`} className="link">
                 <b>{ticket.kdnr_name}</b>{" "}
                 <span className="dimmed">({ticket.kdnr_full})</span>
               </Link>{" "}
-              erstellt am {format(ticket.created, LONG_DATE_FORMAT)}
+              {t(locale, "createdOn")}{" "}
+              {format(ticket.created, LONG_DATE_FORMAT)}
             </p>
             <Badge variant="light">{ticket.status_int.text}</Badge>
           </div>
@@ -565,7 +569,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Tabs value={activeTab} onChange={setActiveTab}>
           <Tabs.List>
             <Tabs.Tab value="info" leftSection={<IconTicket size={16} />}>
-              Details
+              {t(locale, "tabDetails")}
             </Tabs.Tab>
             <Tabs.Tab
               value="files"
@@ -576,7 +580,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Badge>
               }
             >
-              Dateien
+              {t(locale, "tabFiles")}
             </Tabs.Tab>
             <Tabs.Tab
               value="history"
@@ -587,7 +591,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Badge>
               }
             >
-              Historie
+              {t(locale, "tabHistory")}
             </Tabs.Tab>
           </Tabs.List>
 
@@ -600,7 +604,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <div className="flex flex-col gap-2">
                   <h2>Status</h2>
                   <Select
-                    placeholder="Neuer Status (int)"
+                    placeholder={t(locale, "newStatus")}
                     value={newState}
                     onChange={setNewState}
                     data={[
@@ -621,7 +625,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     leftSection={<IconEdit size={16} />}
                     onClick={() => setEditing(true)}
                   >
-                    Ticket bearbeiten
+                    {t(locale, "editTicket")}
                   </Button>
                 ) : (
                   <>
@@ -630,24 +634,24 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       variant="transparent"
                       onClick={handleCancel}
                     >
-                      Abbrechen
+                      {t(locale, "cancel")}
                     </Button>
                     <Button
                       type="submit"
                       color="dark"
                       leftSection={<IconDeviceFloppy size={16} />}
                     >
-                      Speichern
+                      {t(locale, "save")}
                     </Button>
                   </>
                 )}
               </div>
               <Paper p="lg" radius="md">
                 <div className="flex flex-col gap-2">
-                  <h2>Artikel</h2>
+                  <h2>{t(locale, "articleNumber")}</h2>
                   <div className="flex items-end">
                     <TextInput
-                      label="Artikelnummer (ext)"
+                      label={t(locale, "articleNumberKu")}
                       {...form.getInputProps("artnr_ku")}
                       readOnly={!editing}
                       className="flex-1"
@@ -664,7 +668,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       <IconChevronRight size={18} />
                     </ActionIcon>
                     <TextInput
-                      label="Artikelnummer (int)"
+                      label={t(locale, "articleNumberMei")}
                       {...form.getInputProps("artnr_mei")}
                       readOnly={!editing}
                       className="flex-1"
@@ -672,7 +676,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </div>
                   <div className="flex items-end">
                     <TextInput
-                      label="Seriennummer (ext)"
+                      label={t(locale, "serialNumberKu")}
                       {...form.getInputProps("sernr_ku")}
                       readOnly={!editing}
                       className="flex-1"
@@ -689,14 +693,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       <IconChevronRight size={18} />
                     </ActionIcon>
                     <TextInput
-                      label="Seriennummer (int)"
+                      label={t(locale, "serialNumberMei")}
                       {...form.getInputProps("sernr_mei")}
                       readOnly={!editing}
                       className="flex-1"
                     />
                   </div>
                   <Textarea
-                    label="Beschreibung"
+                    label={t(locale, "description")}
                     rows={4}
                     resize="vertical"
                     {...form.getInputProps("descr")}
@@ -705,14 +709,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
                   <div className="flex items-end gap-2">
                     <NumberInput
-                      label="Menge"
+                      label={t(locale, "quantity")}
                       min={1}
                       {...form.getInputProps("menge")}
                       readOnly={!editing}
                       className="flex-1"
                     />
                     <TextInput
-                      label="Auftragsart"
+                      label={t(locale, "orderType")}
                       {...form.getInputProps("auftr_art")}
                       readOnly={!editing}
                       className="flex-1"
@@ -722,47 +726,47 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Paper>
               <Paper p="lg" radius="md">
                 <div className="flex flex-col gap-2">
-                  <h2>Versandadresse</h2>
+                  <h2>{t(locale, "shippingAddress")}</h2>
                   <div className="grid grid-cols-2 gap-2">
                     <TextInput
-                      label="Name 1"
+                      label={t(locale, "name1")}
                       className="col-span-2"
                       {...form.getInputProps("versandadresse.vaname")}
                       readOnly={!editing}
                     />
                     <TextInput
-                      label="Name 2"
+                      label={t(locale, "name2")}
                       {...form.getInputProps("versandadresse.vaname2")}
                       readOnly={!editing}
                     />
                     <TextInput
-                      label="Name 3"
+                      label={t(locale, "name3")}
                       {...form.getInputProps("versandadresse.vaname3")}
                       readOnly={!editing}
                     />
                     <TextInput
-                      label="Straße & Nr."
+                      label={t(locale, "streetAndNumber")}
                       className="col-span-2"
                       {...form.getInputProps("versandadresse.vastrasse")}
                       readOnly={!editing}
                     />
                     <TextInput
-                      label="PLZ"
+                      label={t(locale, "zip")}
                       {...form.getInputProps("versandadresse.vaplz")}
                       readOnly={!editing}
                     />
                     <TextInput
-                      label="Ort"
+                      label={t(locale, "city")}
                       {...form.getInputProps("versandadresse.vaort")}
                       readOnly={!editing}
                     />
                     <TextInput
-                      label="Land"
+                      label={t(locale, "country")}
                       {...form.getInputProps("versandadresse.valand")}
                       readOnly={!editing}
                     />
                     <TextInput
-                      label="Zusatz"
+                      label={t(locale, "additionalShipping")}
                       {...form.getInputProps("versandadresse.zusatz")}
                       readOnly={!editing}
                     />
@@ -801,7 +805,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         size="xs"
         opened={opened}
         onClose={close}
-        title="Abholtermin wählen"
+        title={t(locale, "selectPickupDate")}
         radius="md"
       >
         <div className="flex flex-col justify-center items-center gap-4 pt-4">

@@ -312,7 +312,7 @@ export default function Page({
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Matchcode"
+                    label={t(locale, "matchcode")}
                     {...form.getInputProps("matchcode")}
                     readOnly
                   />
@@ -401,7 +401,7 @@ export default function Page({
                 <h2>{t(locale, "details")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Website URL"
+                    label={t(locale, "websiteUrl")}
                     {...form.getInputProps("www")}
                     readOnly={!edit}
                     rightSection={
@@ -420,17 +420,17 @@ export default function Page({
                     }
                   />
                   <TextInput
-                    label="Kundentyp"
+                    label={t(locale, "customerType")}
                     {...form.getInputProps("type")}
                     readOnly
                   />
                   <TextInput
-                    label="Breitengrad"
+                    label={t(locale, "latitude")}
                     {...form.getInputProps("latitude")}
                     readOnly
                   />
                   <TextInput
-                    label="Längengrad"
+                    label={t(locale, "longitude")}
                     {...form.getInputProps("longitude")}
                     readOnly
                   />

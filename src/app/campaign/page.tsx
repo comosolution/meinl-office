@@ -2,7 +2,7 @@
 import { Avatar, Button, Table, Tooltip } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { format, formatDistance } from "date-fns";
-import { de } from "date-fns/locale";
+import { de, enUS } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -39,7 +39,7 @@ export default function Page() {
     try {
       const distance = formatDistance(date, new Date(), {
         addSuffix: true,
-        locale: de,
+        locale: locale === "de" ? de : enUS,
       });
 
       return (
@@ -76,8 +76,8 @@ export default function Page() {
         <Table.Thead>
           <Table.Tr>
             <Table.Th>ID</Table.Th>
-            <Table.Th>{t(locale, "companyLabel")}</Table.Th>
-            <Table.Th>{t(locale, "all")}</Table.Th>
+            <Table.Th>{t(locale, "brand")}</Table.Th>
+            <Table.Th>{t(locale, "title")}</Table.Th>
             <Table.Th>{t(locale, "start")}</Table.Th>
             <Table.Th>{t(locale, "end")}</Table.Th>
             <Table.Th>{t(locale, "dealer")}</Table.Th>

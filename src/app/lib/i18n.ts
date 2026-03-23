@@ -61,6 +61,7 @@ export type TranslationKey =
   | "address"
   | "communication"
   | "socialMedia"
+  | "brand"
   | "brands"
   | "start"
   | "end"
@@ -110,6 +111,68 @@ export type TranslationKey =
   | "firstName"
   | "mobile"
   | "fax"
+  | "hobbies"
+  | "musicGenre"
+  | "instrument"
+  | "dateOfBirth"
+  | "maritalStatus"
+  | "tShirtSize"
+  | "street"
+  | "poBox"
+  | "additional"
+  | "name1"
+  | "name2"
+  | "name3"
+  | "serialNumber"
+  | "orderType"
+  | "streetAndNumber"
+  | "zip"
+  | "additionalShipping"
+  | "status"
+  | "editTicket"
+  | "save"
+  | "files"
+  | "ticketId"
+  | "createdOn"
+  | "created"
+  | "rmaFrom"
+  | "downloadLaufzettel"
+  | "edit"
+  | "customerX"
+  | "tabDetails"
+  | "tabFiles"
+  | "tabHistory"
+  | "articleNumberKu"
+  | "articleNumberMei"
+  | "serialNumberKu"
+  | "serialNumberMei"
+  | "description"
+  | "newStatus"
+  | "showAllTickets"
+  | "createReturn"
+  | "pleaseEnterTitle"
+  | "error"
+  | "openLink"
+  | "linkCopied"
+  | "participatingDealers"
+  | "searchByNameOrKdnr"
+  | "notActivatedForDealerLocator"
+  | "offeredProducts"
+  | "searchByArticleNumber"
+  | "modified"
+  | "filter"
+  | "results"
+  | "export"
+  | "byCustomer"
+  | "byArticleNumber"
+  | "total"
+  | "orders"
+  | "history"
+  | "days90"
+  | "months12"
+  | "years5"
+  | "allCustomers"
+  | "allArticles"
   | "cookieDeprecated";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
@@ -174,6 +237,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     communication: "Kommunikation",
     socialMedia: "Social Media",
     brands: "Brands",
+    brand: "Brand",
     start: "Start",
     end: "Ende",
     searchByContact: "Nach Name oder Kdnr suchen ...",
@@ -222,6 +286,68 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     department: "Abteilung",
     managedBy: "Betreut von",
     copyLink: "Link kopieren",
+    hobbies: "Hobbies",
+    musicGenre: "Musikrichtung",
+    instrument: "Instrument",
+    dateOfBirth: "Geburtsdatum",
+    maritalStatus: "Familienstand",
+    tShirtSize: "T-Shirt",
+    street: "Straße",
+    poBox: "Postfach",
+    additional: "Zusatz",
+    name1: "Name 1",
+    name2: "Name 2",
+    name3: "Name 3",
+    serialNumber: "Seriennummer",
+    orderType: "Auftragsart",
+    streetAndNumber: "Straße & Nr.",
+    zip: "PLZ",
+    additionalShipping: "Zusatz",
+    status: "Status",
+    editTicket: "Ticket bearbeiten",
+    save: "Speichern",
+    files: "Dateien",
+    ticketId: "Ticket ID",
+    createdOn: "Erstellt am",
+    created: "Erstellt",
+    rmaFrom: "RMA von",
+    downloadLaufzettel: "Laufzettel herunterladen",
+    edit: "Bearbeiten",
+    customerX: "Kunde {kdnr}",
+    tabDetails: "Details",
+    tabFiles: "Dateien",
+    tabHistory: "Historie",
+    articleNumberKu: "Artikelnummer (ext)",
+    articleNumberMei: "Artikelnummer (int)",
+    serialNumberKu: "Seriennummer (ext)",
+    serialNumberMei: "Seriennummer (int)",
+    description: "Beschreibung",
+    newStatus: "Neuer Status",
+    showAllTickets: "Alle Tickets anzeigen",
+    createReturn: "Retoure beantragen",
+    pleaseEnterTitle: "Bitte Titel angeben.",
+    error: "Fehler",
+    openLink: "Link öffnen",
+    linkCopied: "Link kopiert",
+    participatingDealers: "Teilnehmende Händler",
+    searchByNameOrKdnr: "Nach Name oder Kdnr suchen ...",
+    notActivatedForDealerLocator: "ist für den DealerLocator nicht aktiviert.",
+    offeredProducts: "Angebotene Produkte",
+    searchByArticleNumber: "Nach Artikelnummer suchen ...",
+    modified: "Bearbeitet",
+    filter: "Filtern ...",
+    results: "Ergebnisse",
+    export: "Exportieren",
+    byCustomer: "Nach Kunde",
+    byArticleNumber: "Nach Artikelnummer",
+    total: "Insgesamt",
+    orders: "Bestellungen",
+    history: "Historie",
+    days90: "90 Tage",
+    months12: "12 Monate",
+    years5: "5 Jahre",
+    allCustomers: "Alle Kunden",
+    allArticles: "Alle Artikel",
     cookieDeprecated:
       "Diese Übersetzung ist aus Kompatibilitätsgründen eingestellt.",
   },
@@ -276,6 +402,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     communication: "Communication",
     socialMedia: "Social Media",
     brands: "Brands",
+    brand: "Brand",
     start: "Start",
     end: "End",
     searchByContact: "Search by name or kdnr ...",
@@ -325,15 +452,77 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     managedBy: "Managed by",
     copyLink: "Copy link",
     customer: "Customer",
-    shippingAddress: "",
-    contactPerson: "",
-    person: "",
-    articleNumber: "",
-    quantity: "",
-    descriptionLabel: "",
-    next: "",
-    previous: "",
-    selectCustomer: "",
+    shippingAddress: "Shipping address",
+    contactPerson: "Contact person",
+    person: "Person",
+    articleNumber: "Article number",
+    quantity: "Quantity",
+    descriptionLabel: "Description",
+    next: "Next",
+    previous: "Previous",
+    selectCustomer: "Enter customer number or name",
+    hobbies: "Hobbies",
+    musicGenre: "Music genre",
+    instrument: "Instrument",
+    dateOfBirth: "Date of birth",
+    maritalStatus: "Marital status",
+    tShirtSize: "T-shirt size",
+    street: "Street",
+    poBox: "P.O. box",
+    additional: "Additional",
+    name1: "Name 1",
+    name2: "Name 2",
+    name3: "Name 3",
+    serialNumber: "Serial number",
+    orderType: "Order type",
+    streetAndNumber: "Street & No.",
+    zip: "ZIP",
+    additionalShipping: "Additional",
+    status: "Status",
+    editTicket: "Edit ticket",
+    save: "Save",
+    files: "Files",
+    ticketId: "Ticket ID",
+    createdOn: "Created on",
+    created: "Created",
+    rmaFrom: "RMA from",
+    downloadLaufzettel: "Download laufzettel",
+    edit: "Edit",
+    customerX: "Customer {kdnr}",
+    tabDetails: "Details",
+    tabFiles: "Files",
+    tabHistory: "History",
+    articleNumberKu: "Article number (ext)",
+    articleNumberMei: "Article number (int)",
+    serialNumberKu: "Serial number (ext)",
+    serialNumberMei: "Serial number (int)",
+    description: "Description",
+    newStatus: "New status",
+    showAllTickets: "Show all tickets",
+    createReturn: "Request return",
+    pleaseEnterTitle: "Please enter title.",
+    error: "Error",
+    openLink: "Open link",
+    linkCopied: "Link copied",
+    participatingDealers: "Participating dealers",
+    searchByNameOrKdnr: "Search by name or kdnr ...",
+    notActivatedForDealerLocator: "is not activated for the DealerLocator.",
+    offeredProducts: "Offered products",
+    searchByArticleNumber: "Search by article number ...",
+    modified: "Modified",
+    filter: "Filter ...",
+    results: "results",
+    export: "Export",
+    byCustomer: "By customer",
+    byArticleNumber: "By article number",
+    total: "Total",
+    orders: "Orders",
+    history: "History",
+    days90: "90 days",
+    months12: "12 months",
+    years5: "5 years",
+    allCustomers: "All customers",
+    allArticles: "All articles",
     cookieDeprecated: "This translation is set for compatibility.",
   },
 };
