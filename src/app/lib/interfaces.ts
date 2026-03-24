@@ -92,6 +92,9 @@ export interface Person {
   musikri: string;
   instrument: string;
   zustaendig: string;
+  b2bzugriff: string;
+  b2bdltyp: string;
+  b2bdldis: boolean;
 }
 
 export interface PersonInStorage {

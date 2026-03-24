@@ -32,7 +32,7 @@ export default function Page() {
         <h1>{t(locale, "homeTitle")}</h1>
         <SegmentedControl
           value={source}
-          onChange={setSource}
+          onChange={(value) => setSource(value as "OFFGUT" | "OFFUSA")}
           data={[
             {
               label: (

@@ -1,7 +1,9 @@
 "use client";
 import { useOffice } from "@/app/context/officeContext";
 import {
+  b2bAccess,
   competences,
+  downloads,
   familyStatus,
   genders,
   sizes,
@@ -14,6 +16,7 @@ import {
   Checkbox,
   Group,
   Paper,
+  Radio,
   Select,
   Stack,
   Stepper,
@@ -26,6 +29,7 @@ import {
   IconBuildings,
   IconChecklist,
   IconChevronRight,
+  IconIdBadge2,
   IconPlus,
   IconUser,
 } from "@tabler/icons-react";
@@ -38,7 +42,7 @@ export default function NewPersonPage() {
   const [active, setActive] = useState(0);
 
   const router = useRouter();
-  const STEPS = 4;
+  const STEPS = 5;
 
   const form = useForm<FormValues>({
     validateInputOnChange: true,
@@ -73,6 +77,7 @@ export default function NewPersonPage() {
         onSubmit={form.onSubmit(async (values: FormValues) => {
           const formattedDob = formatDateToString(values.gebdat as Date);
           const formattedCompetences = values.zustaendig.join(",");
+          const formattedB2bDlTyp = values.b2bdltyp.join(",");
 
           const payload = {
             ...values,
@@ -80,6 +85,7 @@ export default function NewPersonPage() {
             kdnr: Number(values.kdnr),
             geburtsdatum: formattedDob,
             zustaendig: formattedCompetences,
+            b2bdltyp: formattedB2bDlTyp,
             source,
           };
 
@@ -164,6 +170,35 @@ export default function NewPersonPage() {
                   {...form.getInputProps("betreutvon")}
                 />
               </div>
+            </Stack>
+          </Stepper.Step>
+
+          <Stepper.Step label="B2B" icon={<IconIdBadge2 size={18} />}>
+            <Stack>
+              <h2>B2B-Zugriff</h2>
+              <Radio.Group {...form.getInputProps("b2bzugriff")}>
+                <div className="flex flex-col gap-2">
+                  {b2bAccess(source).map((b, i) => (
+                    <Radio key={i} label={b.label} value={b.value} />
+                  ))}
+                </div>
+              </Radio.Group>
+              <h2>Verfügbare Downloads</h2>
+              <Checkbox
+                label="Keine Downloads"
+                {...form.getInputProps("b2bdldis", { type: "checkbox" })}
+              />
+              {!form.values.b2bdldis && (
+                <Paper py="md" shadow="xl" bg="var(--background)" withBorder>
+                  <Checkbox.Group {...form.getInputProps("b2bdltyp")}>
+                    <div className="flex flex-col gap-2">
+                      {downloads(source).map((d, i) => (
+                        <Checkbox key={i} label={d.label} value={d.value} />
+                      ))}
+                    </div>
+                  </Checkbox.Group>
+                </Paper>
+              )}
             </Stack>
           </Stepper.Step>
 

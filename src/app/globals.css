@@ -81,20 +81,24 @@ img.inverted {
   color: var(--mantine-color-dimmed);
 }
 
-.mantine-Checkbox-input:disabled {
+.mantine-Checkbox-input:disabled,
+.mantine-Radio-radio:disabled {
   background: var(--mantine-color-gray-light);
   transition: var(--transition);
 }
 
-.mantine-Checkbox-input:disabled + .mantine-Checkbox-icon {
+.mantine-Checkbox-input:disabled + .mantine-Checkbox-icon,
+.mantine-Radio-radio:disabled + .mantine-Radio-icon {
   color: var(--mantine-color-gray-7) !important;
 }
 
-.mantine-Checkbox-root {
+.mantine-Checkbox-root,
+.mantine-Radio-root {
   padding-left: var(--defaultPadding);
 }
 
-.mantine-Checkbox-root:has(input:checked:disabled) .mantine-Checkbox-label {
+.mantine-Checkbox-root:has(input:checked:disabled) .mantine-Checkbox-label,
+.mantine-Radio-root:has(input:checked:disabled) .mantine-Radio-label {
   color: var(--foreground) !important;
 }
 

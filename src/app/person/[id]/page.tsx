@@ -4,7 +4,9 @@ import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_OFFICE_PERSON_HISTORY_KEY } from "@/app/lib/constants";
 import {
+  b2bAccess,
   competences,
+  downloads,
   familyStatus,
   genders,
   sizes,
@@ -19,6 +21,8 @@ import {
   Button,
   Checkbox,
   Fieldset,
+  Paper,
+  Radio,
   Select,
   Tabs,
   TextInput,
@@ -32,6 +36,9 @@ import {
   IconChevronRight,
   IconDeviceFloppy,
   IconEdit,
+  IconIdBadge2,
+  IconLockQuestion,
+  IconLockStar,
   IconUser,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -224,6 +231,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Tabs.Tab value="info" leftSection={<IconUser size={16} />}>
             {t(locale, "personalData")}
           </Tabs.Tab>
+          <Tabs.Tab value="b2b" leftSection={<IconIdBadge2 size={16} />}>
+            B2B
+          </Tabs.Tab>
           <Tabs.Tab value="private" leftSection={<IconBalloon size={16} />}>
             {t(locale, "privateSection")}
           </Tabs.Tab>
@@ -233,6 +243,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           onSubmit={form.onSubmit(async (values) => {
             const formattedDob = formatDateToString(values.gebdat as Date);
             const formattedCompetences = values.zustaendig.join(",");
+            const formattedB2bDlTyp = values.b2bdltyp.join(",");
 
             const response = await fetch("/api/person/save", {
               method: "POST",
@@ -240,6 +251,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 ...values,
                 geburtsdatum: formattedDob,
                 zustaendig: formattedCompetences,
+                b2bdltyp: formattedB2bDlTyp,
                 source,
               }),
             });
@@ -354,6 +366,69 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </div>
                 </Checkbox.Group>
               </Fieldset>
+            </div>
+          </Tabs.Panel>
+
+          <Tabs.Panel value="b2b" className="py-4">
+            <div className="grid grid-cols-2 gap-4">
+              {actions}
+              <Fieldset>
+                <h2>B2B-Zugriff</h2>
+                <Radio.Group {...form.getInputProps("b2bzugriff")}>
+                  <div className="flex flex-col gap-2">
+                    {b2bAccess(source).map((b, i) => (
+                      <Radio
+                        key={i}
+                        label={b.label}
+                        value={b.value}
+                        disabled={!edit}
+                      />
+                    ))}
+                  </div>
+                </Radio.Group>
+              </Fieldset>
+              <Fieldset>
+                <h2>Verfügbare Downloads</h2>
+                <Checkbox
+                  label="Keine Downloads"
+                  {...form.getInputProps("b2bdldis", { type: "checkbox" })}
+                  disabled={!edit}
+                />
+                {!form.values.b2bdldis && (
+                  <Paper py="md" shadow="xl" bg="var(--background)" withBorder>
+                    <Checkbox.Group {...form.getInputProps("b2bdltyp")}>
+                      <div className="flex flex-col gap-2">
+                        {downloads(source).map((d, i) => (
+                          <Checkbox
+                            key={i}
+                            label={d.label}
+                            value={d.value}
+                            disabled={!edit}
+                          />
+                        ))}
+                      </div>
+                    </Checkbox.Group>
+                  </Paper>
+                )}
+              </Fieldset>
+              <Button.Group>
+                <Button
+                  variant="light"
+                  leftSection={<IconLockStar size={16} />}
+                  disabled={!edit}
+                  fullWidth
+                >
+                  Passwort erzeugen
+                </Button>
+                <Button
+                  variant="light"
+                  leftSection={<IconLockQuestion size={16} />}
+                  disabled={!edit}
+                  fullWidth
+                >
+                  Passwort eingeben
+                </Button>
+              </Button.Group>
             </div>
           </Tabs.Panel>
 

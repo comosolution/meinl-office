@@ -38,12 +38,18 @@ export const getInitialValues = (person: Person) => {
     zustaendig: person.zustaendig
       ? person.zustaendig.split(",").map((c) => c.trim())
       : [],
+    b2bzugriff: person.b2bzugriff || "",
+    b2bdltyp: person.b2bdltyp
+      ? person.b2bdltyp.split(",").map((b) => b.trim())
+      : [],
+    b2bdldis: person.b2bdldis || false,
   };
 };
 
 export type FormValues = Omit<Person, "gebdat" | "zustaendig"> & {
   gebdat: Date | string;
   zustaendig: string[];
+  b2bdltyp: string[];
 };
 
 export function validateForm(values: FormValues, active?: number) {

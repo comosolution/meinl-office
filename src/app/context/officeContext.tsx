@@ -21,8 +21,8 @@ import {
 } from "../lib/utils";
 
 interface OfficeContextType {
-  source: string;
-  setSource: Dispatch<SetStateAction<string>>;
+  source: "OFFGUT" | "OFFUSA";
+  setSource: Dispatch<SetStateAction<"OFFGUT" | "OFFUSA">>;
   kundenart: string;
   setKundenart: Dispatch<SetStateAction<string>>;
   locale: "de" | "en";
@@ -39,7 +39,7 @@ interface OfficeContextType {
 const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 
 export const OfficeProvider = ({ children }: { children: ReactNode }) => {
-  const [source, setSource] = useState<string>("OFFGUT");
+  const [source, setSource] = useState<"OFFGUT" | "OFFUSA">("OFFGUT");
   const [kundenart, setKundenart] = useState<string>("all");
   const [locale, setLocale] = useState<"de" | "en">("de");
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -83,7 +83,10 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const savedSource = localStorage.getItem(MEINL_OFFICE_SOURCE_KEY);
+    const savedSource = localStorage.getItem(MEINL_OFFICE_SOURCE_KEY) as
+      | "OFFGUT"
+      | "OFFUSA"
+      | null;
     if (savedSource !== null) {
       setSource(savedSource);
     }
