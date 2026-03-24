@@ -5,15 +5,34 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import EmployeeHead from "../components/employeeHead";
 import EmployeeRow from "../components/employeeRow";
+import Loader from "../components/loader";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
+import { Person } from "../lib/interfaces";
+import {
+  fetchResults,
+  filterByKundenart,
+  safeLocaleCompare,
+} from "../lib/utils";
 
 export default function Page() {
-  const { persons: employees, locale } = useOffice();
+  const { locale, source, kundenart } = useOffice();
+  const [persons, setPersons] = useState<Person[]>([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const filteredData = employees.filter((e) => {
+  const fetchData = async () => {
+    setLoading(true);
+    const res = await fetchResults<Person>(source, "persons");
+    const filteredPersons = filterByKundenart(res, kundenart);
+    setPersons(
+      filteredPersons.sort((a, b) => safeLocaleCompare(a.nachname, b.nachname)),
+    );
+    setLoading(false);
+  };
+
+  const filteredData = persons.filter((e) => {
     const keywords = search.trim().toLowerCase().split(" ");
     return keywords.every((keyword) =>
       [e.kdnr.toString() || "", e.vorname || "", e.nachname || ""].some(
@@ -21,6 +40,10 @@ export default function Page() {
       ),
     );
   });
+
+  useEffect(() => {
+    fetchData();
+  }, [search, source, kundenart]);
 
   useEffect(() => {
     setPage(1);
@@ -32,6 +55,8 @@ export default function Page() {
   const endIndex = startIndex + pageSize;
   const currentPageData = filteredData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredData.length / pageSize);
+
+  if (loading) return <Loader />;
 
   return (
     <main className="flex flex-col gap-8 px-8 py-4">
@@ -58,7 +83,7 @@ export default function Page() {
       <Table stickyHeader highlightOnHover>
         <EmployeeHead withCompany />
         <Table.Tbody>
-          {employees &&
+          {persons &&
             currentPageData.map((employee, i) => (
               <EmployeeRow key={i} employee={employee} withCompany />
             ))}

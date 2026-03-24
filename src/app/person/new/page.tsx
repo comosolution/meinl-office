@@ -1,4 +1,5 @@
 "use client";
+import { CustomerSelect } from "@/app/components/customerSelect";
 import { useOffice } from "@/app/context/officeContext";
 import {
   b2bAccess,
@@ -34,11 +35,11 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { getInitialValues, validateForm, type FormValues } from "../[id]/form";
 
 export default function NewPersonPage() {
-  const { companies, source } = useOffice();
+  const { source } = useOffice();
   const [active, setActive] = useState(0);
 
   const router = useRouter();
@@ -56,19 +57,6 @@ export default function NewPersonPage() {
   };
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
-
-  const uniqueCompanies = Array.from(
-    new Map(companies.map((c) => [c.kdnr, c])).values(),
-  );
-
-  const customerOptions = useMemo(
-    () =>
-      uniqueCompanies.map((c) => ({
-        label: `${c.name1} (${c.kdnr})`,
-        value: c.kdnr.toString(),
-      })),
-    [uniqueCompanies],
-  );
 
   return (
     <Paper mx="auto" p="xl" radius="md" mt="xl" w="100%" maw={800}>
@@ -111,15 +99,12 @@ export default function NewPersonPage() {
         <Stepper active={active} allowNextStepsSelect={false}>
           <Stepper.Step label="Firma" icon={<IconBuildings size={18} />}>
             <Stack>
-              <Select
-                label="Firma"
-                placeholder="Kundennummer oder Name eingeben"
-                searchable
-                clearable
-                data={customerOptions}
-                checkIconPosition="right"
-                {...form.getInputProps("kdnr")}
+              <CustomerSelect
                 withAsterisk
+                value={form.values.kdnr?.toString() ?? null}
+                onChange={(val) =>
+                  form.setFieldValue("kdnr", val ? Number(val) : "")
+                }
               />
             </Stack>
           </Stepper.Step>

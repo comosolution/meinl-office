@@ -3,15 +3,34 @@ import { Avatar, Pagination, Table, TextInput } from "@mantine/core";
 import { IconBuildings, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Loader from "../components/loader";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
-import { getAvatarColor } from "../lib/utils";
+import { Company } from "../lib/interfaces";
+import {
+  fetchResults,
+  filterByKundenart,
+  getAvatarColor,
+  safeLocaleCompare,
+} from "../lib/utils";
 
 export default function Page() {
-  const { companies, locale } = useOffice();
+  const { locale, source, kundenart } = useOffice();
   const router = useRouter();
+  const [companies, setCompanies] = useState<Company[]>([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    setLoading(true);
+    const res = await fetchResults<Company>(source, "companies");
+    const filteredCompanies = filterByKundenart(res, kundenart);
+    setCompanies(
+      filteredCompanies.sort((a, b) => safeLocaleCompare(a.name1, b.name1)),
+    );
+    setLoading(false);
+  };
 
   const filteredData = companies.filter((c) => {
     const keywords = search.trim().toLowerCase().split(" ");
@@ -28,6 +47,10 @@ export default function Page() {
   });
 
   useEffect(() => {
+    fetchData();
+  }, [search, source, kundenart]);
+
+  useEffect(() => {
     setPage(1);
   }, [search]);
 
@@ -37,6 +60,8 @@ export default function Page() {
   const endIndex = startIndex + pageSize;
   const currentPageData = filteredData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredData.length / pageSize);
+
+  if (loading) return <Loader />;
 
   return (
     <main className="flex flex-col gap-8 px-8 py-4">

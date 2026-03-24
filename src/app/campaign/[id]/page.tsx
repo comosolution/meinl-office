@@ -1,11 +1,16 @@
 "use client";
+import DealerSelect from "@/app/components/dealerSelect";
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_DEALERS_URL } from "@/app/lib/constants";
 import { brands } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Campaign, Dealer, Product } from "@/app/lib/interfaces";
-import { notEmptyValidation } from "@/app/lib/utils";
+import {
+  fetchResults,
+  notEmptyValidation,
+  safeLocaleCompare,
+} from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -38,20 +43,22 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getInitialValues } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
-  const { source, locale, dealers } = useOffice();
+  const { source, locale } = useOffice();
 
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
   const [del, setDel] = useState(false);
   const [dealerSearch, setDealerSearch] = useState("");
+  const [dealers, setDealers] = useState<Dealer[]>([]);
   const [selectedDealers, setSelectedDealers] = useState<Dealer[]>([]);
   const [productSearch, setProductSearch] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -100,16 +107,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
   };
 
-  const dealerSuggestions = useMemo(() => {
-    const lower = dealerSearch.toLowerCase();
-    return dealers.filter(
-      (d) =>
-        !selectedDealers.find((s) => d.id === s.id && d.kdnr === s.kdnr) &&
-        (d.kdnr.toString().includes(lower) ||
-          d.name1?.toLowerCase().includes(lower) ||
-          d.name2?.toLowerCase().includes(lower)),
-    );
-  }, [dealerSearch, dealers, selectedDealers]);
+  const fetchData = async () => {
+    setLoading(true);
+    const res = await fetchResults<Dealer>(source, "dealers", dealerSearch);
+    setDealers(res.sort((a, b) => safeLocaleCompare(a.name1, b.name1)));
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [dealerSearch]);
 
   const selectDealer = (dealer: Dealer) => {
     const newSelected = [...selectedDealers, dealer];
@@ -367,45 +374,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Fieldset mih={400}>
           <h2>{t(locale, "participatingDealers")}</h2>
           <div className="flex flex-col gap-2">
-            <div className="relative">
-              <TextInput
-                placeholder={t(locale, "searchByNameOrKdnr")}
-                rightSection={
-                  dealerSearch.length > 0 ? (
-                    <ActionIcon
-                      variant="light"
-                      color="dark"
-                      onClick={() => setDealerSearch("")}
-                    >
-                      <IconX />
-                    </ActionIcon>
-                  ) : undefined
-                }
-                value={dealerSearch}
-                onChange={(e) => setDealerSearch(e.currentTarget.value)}
-                readOnly={!edit}
-              />
-              {dealerSearch && dealerSuggestions.length > 0 && (
-                <div className="absolute z-10 w-full mt-1 bg-[var(--background-subtle)] border border-[var(--subtle)] shadow-lg max-h-60 overflow-y-auto">
-                  {dealerSuggestions.map((d, i) => (
-                    <div
-                      key={i}
-                      className="px-3 py-2 cursor-pointer hover:bg-[var(--background)]"
-                      onClick={() => selectDealer(d)}
-                    >
-                      <p>
-                        <b>{d.name1}</b> {d.name2}
-                      </p>
-                      <p className="text-xs dimmed">
-                        <b>{d.kdnr}</b>
-                        {d.id !== 0 && ` – ${d.id} – ${d.brand}`} – {d.plz}{" "}
-                        {d.ort} {d.land}{" "}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <DealerSelect
+              value={selectedDealers}
+              onChange={(dealers) => {
+                setSelectedDealers(dealers);
+                form.setFieldValue("dealers", dealers);
+              }}
+              disabled={!edit}
+            />
+
             {selectedDealers.length > 0 &&
               selectedDealers
                 .sort((a, b) =>

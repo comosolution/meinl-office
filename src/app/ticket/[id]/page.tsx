@@ -3,9 +3,9 @@ import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { LONG_DATE_FORMAT } from "@/app/lib/constants";
 import { t } from "@/app/lib/i18n";
-import { Ticket } from "@/app/lib/interfaces";
+import { Person, Ticket } from "@/app/lib/interfaces";
 import { states } from "@/app/lib/rma";
-import { parseDb2Date } from "@/app/lib/utils";
+import { fetchResults, parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
@@ -50,7 +50,7 @@ import React, { useEffect, useState } from "react";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
-  const { persons, locale } = useOffice();
+  const { locale, source } = useOffice();
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
@@ -313,6 +313,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       return;
     }
 
+    const persons = await fetchResults<Person>(
+      source,
+      "persons",
+      ticket.kdnr_full,
+    );
     const contact = persons.find((p) => p.b2bnr === ticket.kdnr_full);
 
     if (!contact) {

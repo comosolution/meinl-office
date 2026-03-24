@@ -1,4 +1,5 @@
 "use client";
+import { CustomerSelect } from "@/app/components/customerSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
@@ -29,7 +30,7 @@ import { useEffect, useMemo, useState } from "react";
 
 export default function Page() {
   const { data: session } = useSession();
-  const { companies, persons, source, locale } = useOffice();
+  const { source, locale } = useOffice();
   const [active, setActive] = useState(0);
   const [loadedKdnr, setLoadedKdnr] = useState<string>();
   const [company, setCompany] = useState<Company>();
@@ -241,19 +242,6 @@ export default function Page() {
     }
   }, [form.values.vanr, company]);
 
-  const uniqueCompanies = Array.from(
-    new Map(companies.map((c) => [c.kdnr, c])).values(),
-  );
-
-  const customerOptions = useMemo(
-    () =>
-      uniqueCompanies.map((c) => ({
-        label: `${c.name1} (${c.kdnr})`,
-        value: c.kdnr.toString(),
-      })),
-    [uniqueCompanies],
-  );
-
   const addresses = company
     ? company.versandadressen.map((a) => {
         return {
@@ -264,13 +252,7 @@ export default function Page() {
     : [];
 
   const uniquePersons = Array.from(
-    company
-      ? new Map(
-          persons
-            .filter((p) => p.kdnr === company.kdnr)
-            .map((p) => [p.b2bnr, p]),
-        ).values()
-      : [],
+    company ? new Map(company.personen.map((p) => [p.b2bnr, p])).values() : [],
   );
 
   const personOptions = useMemo(
@@ -295,15 +277,12 @@ export default function Page() {
             icon={<IconBuildings size={18} />}
           >
             <Stack>
-              <Select
+              <CustomerSelect
                 label={t(locale, "customer")}
                 placeholder={t(locale, "selectCustomer")}
-                searchable
-                clearable
-                data={customerOptions}
-                checkIconPosition="right"
-                {...form.getInputProps("kdnr")}
                 withAsterisk
+                value={form.values.kdnr || null}
+                onChange={(val) => form.setFieldValue("kdnr", val ?? "")}
               />
               {form.values.kdnr && (
                 <>
