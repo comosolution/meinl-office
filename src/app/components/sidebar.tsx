@@ -1,7 +1,9 @@
 "use client";
 import {
   ActionIcon,
+  Avatar,
   Badge,
+  Menu,
   NavLink,
   SegmentedControl,
   useComputedColorScheme,
@@ -19,7 +21,7 @@ import {
   IconTicket,
   IconUsersGroup,
 } from "@tabler/icons-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -32,6 +34,8 @@ import { navLink } from "../lib/styles";
 import Search from "./search";
 
 export default function Sidebar() {
+  const { data: session } = useSession();
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -44,6 +48,7 @@ export default function Sidebar() {
 
   const router = useRouter();
   const path = usePathname();
+
   const nav = [
     {
       name: t(locale, "startPage"),
@@ -105,10 +110,7 @@ export default function Sidebar() {
         title={name}
         leftSection={
           <div className="w-5">
-            <ReactCountryFlag
-              countryCode={source === "OFFGUT" ? "DE" : "US"}
-              style={{ width: 16, height: 16 }}
-            />
+            <ReactCountryFlag countryCode={source === "OFFGUT" ? "DE" : "US"} />
           </div>
         }
         styles={{
@@ -131,11 +133,7 @@ export default function Sidebar() {
         title={name}
         leftSection={
           <div className="w-5">
-            <ReactCountryFlag
-              countryCode={locale === "de" ? "DE" : "US"}
-              svg
-              style={{ width: 16, height: 16 }}
-            />
+            <ReactCountryFlag countryCode={locale === "de" ? "DE" : "US"} svg />
           </div>
         }
         styles={{
@@ -152,23 +150,20 @@ export default function Sidebar() {
     const name = colorScheme === "dark" ? "Dark Theme" : "Light Theme";
 
     return mounted ? (
-      <NavLink
-        label={name}
-        title={name}
+      <Menu.Item
         leftSection={
           colorScheme === "dark" ? (
-            <IconMoon size={20} />
+            <IconMoon size={14} />
           ) : (
-            <IconSun size={20} />
+            <IconSun size={14} />
           )
         }
-        styles={{
-          root: navLink(isCollapsed),
-        }}
         onClick={() =>
           setColorScheme(computedColorScheme === "light" ? "dark" : "light")
         }
-      />
+      >
+        {name}
+      </Menu.Item>
     ) : null;
   };
 
@@ -253,18 +248,44 @@ export default function Sidebar() {
         <div className="flex flex-col">
           <LanguageSwitch />
           <SourceSwitch />
-          <ThemeSwitch />
-          <NavLink
-            label={t(locale, "logout")}
-            title={t(locale, "logout")}
-            active
-            color="dark"
-            leftSection={<IconLogout size={20} />}
-            styles={{
-              root: navLink(isCollapsed),
-            }}
-            onClick={() => signOut()}
-          />
+          <Menu
+            shadow="md"
+            width={200}
+            trigger="click-hover"
+            position={isCollapsed ? "right-end" : "top"}
+            offset={isCollapsed ? -4 : 2}
+            loop={false}
+            trapFocus={false}
+            menuItemTabIndex={0}
+          >
+            <Menu.Target>
+              <NavLink
+                label={session?.user?.name}
+                title={session?.user?.name ?? ""}
+                styles={{
+                  root: navLink(isCollapsed),
+                }}
+                leftSection={
+                  <Avatar
+                    color="red"
+                    size={20}
+                    name={session?.user?.name ?? ""}
+                  />
+                }
+                className="mb-2"
+              />
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Label>{session?.user?.email}</Menu.Label>
+              <ThemeSwitch />
+              <Menu.Item
+                leftSection={<IconLogout size={14} />}
+                onClick={() => signOut()}
+              >
+                {t(locale, "logout")}
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </div>
       </nav>
     </aside>

@@ -114,7 +114,7 @@ export default function Page() {
           )}
           getTitle={(person) => `${person.nachname}, ${person.vorname}`}
           getSubtitle={(person) => {
-            return `${person.position || "Mitarbeiter"} bei ${person.company}`;
+            return `${person.position || t(locale, "employee")} – ${person.company}`;
           }}
           getSource={(person: PersonInStorage) => person.source}
         />

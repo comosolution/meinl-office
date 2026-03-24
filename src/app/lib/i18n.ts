@@ -32,6 +32,7 @@ export type TranslationKey =
   | "companyLogo"
   | "dealerLocator"
   | "dealer"
+  | "employee"
   | "employees"
   | "details"
   | "addCampaign"
@@ -78,7 +79,6 @@ export type TranslationKey =
   | "position"
   | "department"
   | "managedBy"
-  | "employee"
   | "showInDealerLocator"
   | "noDealers"
   | "noEmployees"
@@ -120,6 +120,7 @@ export type TranslationKey =
   | "street"
   | "poBox"
   | "additional"
+  | "name"
   | "name1"
   | "name2"
   | "name3"
@@ -148,6 +149,10 @@ export type TranslationKey =
   | "serialNumberMei"
   | "description"
   | "newStatus"
+  | "newCompany"
+  | "newPerson"
+  | "newCampaign"
+  | "newTicket"
   | "showAllTickets"
   | "createReturn"
   | "pleaseEnterTitle"
@@ -295,6 +300,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     street: "Straße",
     poBox: "Postfach",
     additional: "Zusatz",
+    name: "Name",
     name1: "Name 1",
     name2: "Name 2",
     name3: "Name 3",
@@ -323,6 +329,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     serialNumberMei: "Seriennummer (int)",
     description: "Beschreibung",
     newStatus: "Neuer Status",
+    newCompany: "Neue Firma",
+    newPerson: "Neue Person",
+    newCampaign: "Neue Kampagne",
+    newTicket: "Neues RMA Ticket",
     showAllTickets: "Alle Tickets anzeigen",
     createReturn: "Retoure beantragen",
     pleaseEnterTitle: "Bitte Titel angeben.",
@@ -441,8 +451,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     firstName: "First name",
     mobile: "Mobile",
     fax: "Fax",
-    personalData: "Personal data",
     employee: "Employee",
+    personalData: "Personal data",
     privateSection: "Private",
     responsibilities: "Responsibilities",
     officeAddress: "Office address",
@@ -470,6 +480,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     street: "Street",
     poBox: "P.O. box",
     additional: "Additional",
+    name: "Name",
     name1: "Name 1",
     name2: "Name 2",
     name3: "Name 3",
@@ -486,7 +497,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     createdOn: "Created on",
     created: "Created",
     rmaFrom: "RMA from",
-    downloadLaufzettel: "Download laufzettel",
+    downloadLaufzettel: "Download tracking sheet",
     edit: "Edit",
     customerX: "Customer {kdnr}",
     tabDetails: "Details",
@@ -498,6 +509,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     serialNumberMei: "Serial number (int)",
     description: "Description",
     newStatus: "New status",
+    newCompany: "New company",
+    newPerson: "New person",
+    newCampaign: "New campaign",
+    newTicket: "New RMA ticket",
     showAllTickets: "Show all tickets",
     createReturn: "Request return",
     pleaseEnterTitle: "Please enter title.",

@@ -15,13 +15,13 @@ export default function StatsOverview({
   orders: Order[];
 }) {
   const { locale } = useOffice();
+
   const topCustomers = getTop10Customers(tickets).map((c) => ({
     key: c.kdnr,
     label: c.kdnr,
     count: c.count,
     href: `/company/${c.kdnr}`,
   }));
-
   const topItems = getTop10Items(tickets).map((i) => ({
     key: i.artnr,
     label: i.artnr,

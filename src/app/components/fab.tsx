@@ -7,27 +7,31 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 
 export default function FAB() {
+  const { locale } = useOffice();
+
   const data = [
     {
-      label: "Neue Firma",
+      label: t(locale, "newCompany"),
       href: "/comapny/new",
       icon: <IconBuildings size={16} />,
       disabled: true,
     },
     {
-      label: "Neue Person",
+      label: t(locale, "newPerson"),
       href: "/person/new",
       icon: <IconUser size={16} />,
     },
     {
-      label: "Neue Kampagne",
+      label: t(locale, "newCampaign"),
       href: "/campaign/new",
       icon: <IconNews size={16} />,
     },
     {
-      label: "Neues RMA Ticket",
+      label: t(locale, "newTicket"),
       href: "/ticket/new",
       icon: <IconTicket size={16} />,
     },

@@ -91,7 +91,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     .map((p, index) => ({
       id: `person-${index}-${p.b2bnr}`,
       label: `${p.nachname}, ${p.vorname}`,
-      description: `${p.jobpos || "Mitarbeiter"} bei ${p.name1}`,
+      description: `${p.jobpos || t(locale, "employee")} – ${p.name1}`,
       onClick: () => router.push(`/person/${p.id}`),
       rightSection: <p className="text-xs dimmed">{p.b2bnr}</p>,
       leftSection: (
