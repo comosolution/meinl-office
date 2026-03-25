@@ -298,7 +298,7 @@ export default function Page({
           <Tabs.Panel value="info" className="py-4">
             <div className="grid grid-cols-2 gap-4">
               {actions}
-              <Fieldset>
+              <Fieldset radius="md">
                 <h2>{t(locale, "company")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -323,7 +323,7 @@ export default function Page({
                   />
                 </div>
               </Fieldset>
-              <Fieldset>
+              <Fieldset radius="md">
                 <h2>{t(locale, "address")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -348,7 +348,7 @@ export default function Page({
                   />
                 </div>
               </Fieldset>
-              <Fieldset>
+              <Fieldset radius="md">
                 <h2>{t(locale, "communication")}</h2>
                 <TextInput
                   label={t(locale, "phone") ?? "Telefon"}
@@ -361,7 +361,7 @@ export default function Page({
                   readOnly
                 />
               </Fieldset>
-              <Fieldset>
+              <Fieldset radius="md">
                 <h2>{t(locale, "socialMedia")}</h2>
                 <TextInput
                   label="Facebook"
@@ -397,7 +397,7 @@ export default function Page({
                 disabled={!edit}
               />
 
-              <Fieldset>
+              <Fieldset radius="md">
                 <h2>{t(locale, "details")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -439,7 +439,7 @@ export default function Page({
               {company.latitude !== null && company.longitude !== null && (
                 <Map company={company} />
               )}
-              <Fieldset>
+              <Fieldset radius="md">
                 <h2>{t(locale, "brands")}</h2>
                 <div className="flex flex-col gap-4">
                   {form.values.brands
@@ -482,7 +482,7 @@ export default function Page({
                     ))}
                 </div>
               </Fieldset>
-              <Fieldset>
+              <Fieldset radius="md">
                 <h2>Kampagnen</h2>
                 <Table highlightOnHover>
                   <Table.Thead>

@@ -10,6 +10,7 @@ import {
 import { ActionIcon, Loader, TextInput } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import { t } from "../lib/i18n";
 
 interface DealerSelectProps {
   value: Dealer[];
@@ -67,10 +68,10 @@ export default function DealerSelect({
   return (
     <div className="flex flex-col gap-2 relative">
       <TextInput
-        placeholder="Search dealer by name or KDNr"
+        placeholder={t(locale, "searchByNameOrKdnr")}
         value={search}
         onChange={(e) => setSearch(e.currentTarget.value)}
-        disabled={disabled}
+        readOnly={disabled}
         rightSection={
           loading ? (
             <Loader size="xs" />

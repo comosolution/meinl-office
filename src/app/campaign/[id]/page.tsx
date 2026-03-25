@@ -323,7 +323,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </CopyButton>
           </Button.Group>
         </div>
-        <Fieldset className="col-span-2">
+        <Fieldset radius="md" className="col-span-2">
           <h2>{t(locale, "details")}</h2>
           <div className="grid grid-cols-2 gap-4">
             <Select
@@ -371,7 +371,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             />
           </div>
         </Fieldset>
-        <Fieldset mih={400}>
+        <Fieldset radius="md" mih={400}>
           <h2>{t(locale, "participatingDealers")}</h2>
           <div className="flex flex-col gap-2">
             <DealerSelect
@@ -443,7 +443,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 })}
           </div>
         </Fieldset>
-        <Fieldset>
+        <Fieldset radius="md">
           <h2>{t(locale, "offeredProducts")}</h2>
           <div className="flex flex-col gap-2">
             <div

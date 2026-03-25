@@ -12,10 +12,10 @@ import {
   ActionIcon,
   Badge,
   Button,
+  Fieldset,
   Menu,
   Modal,
   NumberInput,
-  Paper,
   Select,
   Tabs,
   Textarea,
@@ -605,23 +605,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               onSubmit={handleSubmit}
               className="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
-              <Paper p="lg" radius="md" bg="transparent" withBorder>
-                <div className="flex flex-col gap-2">
-                  <h2>Status</h2>
-                  <Select
-                    placeholder={t(locale, "newStatus")}
-                    value={newState}
-                    onChange={setNewState}
-                    data={[
-                      ...states.map((s) => {
-                        return { label: `${s.label} (${s.int})`, value: s.int };
-                      }),
-                    ]}
-                    searchable
-                    checkIconPosition="right"
-                  />
-                </div>
-              </Paper>
+              <Select
+                placeholder={t(locale, "newStatus")}
+                value={newState}
+                onChange={setNewState}
+                data={[
+                  ...states.map((s) => {
+                    return { label: `${s.label} (${s.int})`, value: s.int };
+                  }),
+                ]}
+                searchable
+                checkIconPosition="right"
+              />
               <div className="flex justify-end items-end">
                 {!editing ? (
                   <Button
@@ -651,7 +646,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </>
                 )}
               </div>
-              <Paper p="lg" radius="md">
+              <Fieldset radius="md">
                 <div className="flex flex-col gap-2">
                   <h2>{t(locale, "articleNumber")}</h2>
                   <div className="flex items-end">
@@ -728,8 +723,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     />
                   </div>
                 </div>
-              </Paper>
-              <Paper p="lg" radius="md">
+              </Fieldset>
+              <Fieldset radius="md">
                 <div className="flex flex-col gap-2">
                   <h2>{t(locale, "shippingAddress")}</h2>
                   <div className="grid grid-cols-2 gap-2">
@@ -777,7 +772,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     />
                   </div>
                 </div>
-              </Paper>
+              </Fieldset>
             </form>
           </Tabs.Panel>
           <Tabs.Panel value="files" className="py-4">
