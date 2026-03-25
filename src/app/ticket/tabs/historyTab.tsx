@@ -1,7 +1,8 @@
+import { useOffice } from "@/app/context/officeContext";
+import { t } from "@/app/lib/i18n";
 import { HistoryEntry } from "@/app/lib/interfaces";
 import {
-  Button,
-  Paper,
+  ActionIcon,
   SegmentedControl,
   TextInput,
   Timeline,
@@ -24,6 +25,8 @@ export default function HistoryTab({
   onCommentAdded?: (comment: HistoryEntry) => void;
   history?: HistoryEntry[];
 }) {
+  const { locale } = useOffice();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<{
@@ -78,55 +81,53 @@ export default function HistoryTab({
 
   return (
     <div className="flex flex-col gap-4">
-      <Paper p="md">
-        <form onSubmit={handleSubmit} className="flex items-center gap-2">
-          <TextInput
-            placeholder="Kommentar eingeben"
-            {...form.getInputProps("comment")}
-            className="flex-1"
-          />
-          <SegmentedControl
-            data={[
-              {
-                label: (
-                  <div className="flex items-center gap-1">
-                    <IconLockOpen size={16} /> Öffentlich
-                  </div>
-                ),
-                value: "1",
-              },
-              {
-                label: (
-                  <div className="flex items-center gap-1">
-                    <IconLock size={16} /> Privat
-                  </div>
-                ),
-                value: "0",
-              },
-            ]}
-            {...form.getInputProps("public")}
-          />
-          <Button
-            type="submit"
-            leftSection={<IconPlus size={16} />}
-            disabled={!form.isValid() || isSubmitting}
-            loading={isSubmitting}
-          >
-            Hinzufügen
-          </Button>
-        </form>
-      </Paper>
+      <h2>{t(locale, "history")}</h2>
+      <form onSubmit={handleSubmit} className="flex items-center gap-2">
+        <TextInput
+          placeholder="Kommentar eingeben"
+          {...form.getInputProps("comment")}
+          className="flex-1"
+        />
+        <SegmentedControl
+          data={[
+            {
+              label: <IconLockOpen size={20} />,
+              value: "1",
+            },
+            {
+              label: <IconLock size={20} />,
+              value: "0",
+            },
+          ]}
+          {...form.getInputProps("public")}
+        />
+        <ActionIcon
+          size="input-sm"
+          type="submit"
+          disabled={!form.isValid() || isSubmitting}
+          loading={isSubmitting}
+        >
+          <IconPlus size={16} />
+        </ActionIcon>
+      </form>
       <div className="p-4">
         {history && history.length > 0 ? (
           <Timeline active={history.length}>
             {history
               .map((entry, index) => (
-                <Timeline.Item key={index} title={entry.createdBy}>
+                <Timeline.Item
+                  key={index}
+                  title={
+                    <div className="flex justify-between">
+                      <p className="text-sm">{entry.createdBy}</p>
+                      <p className="text-sm dimmed">
+                        {format(parseDb2Date(entry.created), LONG_DATE_FORMAT)}
+                      </p>
+                    </div>
+                  }
+                >
                   <div>
                     <h2>{entry.comment}</h2>
-                    <p className="text-xs dimmed">
-                      {format(parseDb2Date(entry.created), LONG_DATE_FORMAT)}
-                    </p>
                   </div>
                 </Timeline.Item>
               ))

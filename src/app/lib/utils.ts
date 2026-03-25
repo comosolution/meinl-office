@@ -205,6 +205,7 @@ export const fetchResults = async <T>(
   service: string,
   type: "companies" | "persons" | "dealers",
   query?: string,
+  signal?: AbortSignal,
 ): Promise<T[]> => {
   const res = await fetch("/api/search", {
     method: "POST",
@@ -214,6 +215,7 @@ export const fetchResults = async <T>(
       source,
       service,
     }),
+    signal,
   });
   return res.json();
 };

@@ -6,7 +6,7 @@ import {
   IconSearch,
 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { useDebounce } from "../lib/hooks";
 import { t } from "../lib/i18n";
@@ -20,6 +20,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
   const [query, setQuery] = useState("");
   const [companies, setCompanies] = useState<Dealer[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const debouncedQuery = useDebounce(query, 500);
 
@@ -31,17 +32,43 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         return;
       }
 
-      const [allCompanies, allPersons] = await Promise.all([
-        fetchResults<Dealer>(source, service, "dealers", debouncedQuery),
-        fetchResults<Person>(source, service, "persons", debouncedQuery),
-      ]);
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
 
-      setCompanies(allCompanies);
-      setPersons(allPersons);
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
+
+      try {
+        const [allCompanies, allPersons] = await Promise.all([
+          fetchResults<Dealer>(
+            source,
+            service,
+            "dealers",
+            debouncedQuery,
+            signal,
+          ),
+          fetchResults<Person>(
+            source,
+            service,
+            "persons",
+            debouncedQuery,
+            signal,
+          ),
+        ]);
+
+        setCompanies(allCompanies);
+        setPersons(allPersons);
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") {
+          return;
+        }
+        console.error("Search error:", error);
+      }
     };
 
     getData();
-  }, [debouncedQuery]);
+  }, [debouncedQuery, source, service]);
 
   const companyActions: SpotlightActionData[] = companies
     .filter((c) => c.name1 !== null)

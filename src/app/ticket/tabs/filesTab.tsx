@@ -1,12 +1,9 @@
 "use client";
-import { Avatar, Button, FileInput, Paper } from "@mantine/core";
+import { useOffice } from "@/app/context/officeContext";
+import { t } from "@/app/lib/i18n";
+import { Button, FileInput, Paper } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import {
-  IconDownload,
-  IconFile,
-  IconPaperclip,
-  IconUpload,
-} from "@tabler/icons-react";
+import { IconDownload, IconPaperclip, IconUpload } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
 import { LONG_DATE_FORMAT } from "../../lib/constants";
@@ -24,6 +21,8 @@ export default function FilesTab({
   files?: Attachment[];
   onFileUploaded?: (uploaded: File[]) => void;
 }) {
+  const { locale } = useOffice();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [downloading, setDownloading] = useState<string | null>(null);
 
@@ -74,6 +73,7 @@ export default function FilesTab({
 
   return (
     <div className="flex flex-col gap-4">
+      <h2>{t(locale, "files")}</h2>
       <form onSubmit={handleSubmit} className="flex items-center gap-2">
         <FileInput
           placeholder="Bilder oder PDFs auswählen"
@@ -99,11 +99,8 @@ export default function FilesTab({
         <div className="flex flex-col gap-2">
           {files
             .map((entry, index) => (
-              <Paper key={index} p="md" bg="transparent" withBorder>
+              <Paper key={index} p="sm" shadow="sm" bg="var(--background)">
                 <div className="flex justify-between items-center gap-4">
-                  <Avatar size={48} variant="light" color="dark">
-                    <IconFile size={24} />
-                  </Avatar>
                   <div className="flex-1">
                     <p className="text-sm">{entry.createdBy}</p>
                     <h2>{entry.filename}</h2>
@@ -115,7 +112,7 @@ export default function FilesTab({
                         : ""}
                     </p>
                     <Button
-                      color="dark"
+                      variant="light"
                       leftSection={<IconDownload size={16} />}
                       loading={downloading === entry.lfdn}
                       onClick={async () => {

@@ -16,8 +16,8 @@ import {
   Menu,
   Modal,
   NumberInput,
+  Paper,
   Select,
-  Tabs,
   Textarea,
   TextInput,
 } from "@mantine/core";
@@ -32,10 +32,7 @@ import {
   IconDeviceFloppy,
   IconEdit,
   IconError404,
-  IconFiles,
-  IconHistory,
   IconNews,
-  IconTicket,
   IconTruckReturn,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -55,7 +52,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
-  const [activeTab, setActiveTab] = useState<string | null>("info");
   const [newState, setNewState] = useState<string | null>(null);
   const [glsPickupDate, setGlsPickupDate] = useState<string | null>(
     new Date().toDateString(),
@@ -567,242 +563,209 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <b>{ticket.kdnr_name}</b>{" "}
                 <span className="dimmed">({ticket.kdnr_full})</span>
               </Link>{" "}
-              {t(locale, "createdOn")}{" "}
+              – {t(locale, "createdOn")}{" "}
               {format(ticket.created, LONG_DATE_FORMAT)}
             </p>
             <Badge variant="light">{ticket.status_int.text}</Badge>
           </div>
         </header>
-
-        <Tabs value={activeTab} onChange={setActiveTab}>
-          <Tabs.List>
-            <Tabs.Tab value="info" leftSection={<IconTicket size={16} />}>
-              {t(locale, "tabDetails")}
-            </Tabs.Tab>
-            <Tabs.Tab
-              value="files"
-              leftSection={<IconFiles size={16} />}
-              rightSection={
-                <Badge size="xs" color="gray">
-                  {ticket.files?.length || 0}
-                </Badge>
-              }
-            >
-              {t(locale, "tabFiles")}
-            </Tabs.Tab>
-            <Tabs.Tab
-              value="history"
-              leftSection={<IconHistory size={16} />}
-              rightSection={
-                <Badge size="xs" color="gray">
-                  {ticket.history?.length || 0}
-                </Badge>
-              }
-            >
-              {t(locale, "tabHistory")}
-            </Tabs.Tab>
-          </Tabs.List>
-
-          <Tabs.Panel value="info" className="py-4">
-            <form
-              onSubmit={handleSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
-              <Select
-                placeholder={t(locale, "newStatus")}
-                value={newState}
-                onChange={setNewState}
-                data={[
-                  ...states.map((s) => {
-                    return { label: `${s.label} (${s.int})`, value: s.int };
-                  }),
-                ]}
-                searchable
-                checkIconPosition="right"
-              />
-              <div className="flex justify-end items-end">
-                {!editing ? (
-                  <Button
-                    color="dark"
-                    variant="transparent"
-                    leftSection={<IconEdit size={16} />}
-                    onClick={() => setEditing(true)}
-                  >
-                    {t(locale, "editTicket")}
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                      color="dark"
-                      variant="transparent"
-                      onClick={handleCancel}
-                    >
-                      {t(locale, "cancel")}
-                    </Button>
-                    <Button
-                      type="submit"
-                      color="dark"
-                      leftSection={<IconDeviceFloppy size={16} />}
-                    >
-                      {t(locale, "save")}
-                    </Button>
-                  </>
-                )}
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+          <Select
+            placeholder={t(locale, "newStatus")}
+            value={newState}
+            onChange={setNewState}
+            data={[
+              ...states.map((s) => {
+                return { label: `${s.label} (${s.int})`, value: s.int };
+              }),
+            ]}
+            searchable
+            checkIconPosition="right"
+          />
+          <div className="flex justify-end items-end">
+            {!editing ? (
+              <Button
+                color="dark"
+                variant="transparent"
+                leftSection={<IconEdit size={16} />}
+                onClick={() => setEditing(true)}
+              >
+                {t(locale, "editTicket")}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  color="dark"
+                  variant="transparent"
+                  onClick={handleCancel}
+                >
+                  {t(locale, "cancel")}
+                </Button>
+                <Button
+                  type="submit"
+                  color="dark"
+                  leftSection={<IconDeviceFloppy size={16} />}
+                >
+                  {t(locale, "save")}
+                </Button>
+              </>
+            )}
+          </div>
+          <Fieldset>
+            <div className="flex flex-col gap-2">
+              <h2>{t(locale, "details")}</h2>
+              <div className="flex items-end">
+                <TextInput
+                  label={t(locale, "articleNumberKu")}
+                  {...form.getInputProps("artnr_ku")}
+                  readOnly={!editing}
+                  className="flex-1"
+                />
+                <ActionIcon
+                  size="input-sm"
+                  variant="subtle"
+                  aria-label="Copy KU to MEI"
+                  disabled={!editing}
+                  onClick={() =>
+                    form.setFieldValue("artnr_mei", form.values.artnr_ku)
+                  }
+                >
+                  <IconChevronRight size={18} />
+                </ActionIcon>
+                <TextInput
+                  label={t(locale, "articleNumberMei")}
+                  {...form.getInputProps("artnr_mei")}
+                  readOnly={!editing}
+                  className="flex-1"
+                />
               </div>
-              <Fieldset>
-                <div className="flex flex-col gap-2">
-                  <h2>{t(locale, "articleNumber")}</h2>
-                  <div className="flex items-end">
-                    <TextInput
-                      label={t(locale, "articleNumberKu")}
-                      {...form.getInputProps("artnr_ku")}
-                      readOnly={!editing}
-                      className="flex-1"
-                    />
-                    <ActionIcon
-                      size="input-sm"
-                      variant="subtle"
-                      aria-label="Copy KU to MEI"
-                      disabled={!editing}
-                      onClick={() =>
-                        form.setFieldValue("artnr_mei", form.values.artnr_ku)
-                      }
-                    >
-                      <IconChevronRight size={18} />
-                    </ActionIcon>
-                    <TextInput
-                      label={t(locale, "articleNumberMei")}
-                      {...form.getInputProps("artnr_mei")}
-                      readOnly={!editing}
-                      className="flex-1"
-                    />
-                  </div>
-                  <div className="flex items-end">
-                    <TextInput
-                      label={t(locale, "serialNumberKu")}
-                      {...form.getInputProps("sernr_ku")}
-                      readOnly={!editing}
-                      className="flex-1"
-                    />
-                    <ActionIcon
-                      size="input-sm"
-                      variant="subtle"
-                      aria-label="Copy KU to MEI"
-                      disabled={!editing}
-                      onClick={() =>
-                        form.setFieldValue("sernr_mei", form.values.sernr_ku)
-                      }
-                    >
-                      <IconChevronRight size={18} />
-                    </ActionIcon>
-                    <TextInput
-                      label={t(locale, "serialNumberMei")}
-                      {...form.getInputProps("sernr_mei")}
-                      readOnly={!editing}
-                      className="flex-1"
-                    />
-                  </div>
-                  <Textarea
-                    label={t(locale, "description")}
-                    rows={4}
-                    resize="vertical"
-                    {...form.getInputProps("descr")}
-                    readOnly={!editing}
-                  />
+              <div className="flex items-end">
+                <TextInput
+                  label={t(locale, "serialNumberKu")}
+                  {...form.getInputProps("sernr_ku")}
+                  readOnly={!editing}
+                  className="flex-1"
+                />
+                <ActionIcon
+                  size="input-sm"
+                  variant="subtle"
+                  aria-label="Copy KU to MEI"
+                  disabled={!editing}
+                  onClick={() =>
+                    form.setFieldValue("sernr_mei", form.values.sernr_ku)
+                  }
+                >
+                  <IconChevronRight size={18} />
+                </ActionIcon>
+                <TextInput
+                  label={t(locale, "serialNumberMei")}
+                  {...form.getInputProps("sernr_mei")}
+                  readOnly={!editing}
+                  className="flex-1"
+                />
+              </div>
+              <Textarea
+                label={t(locale, "description")}
+                rows={4}
+                resize="vertical"
+                {...form.getInputProps("descr")}
+                readOnly={!editing}
+              />
 
-                  <div className="flex items-end gap-2">
-                    <NumberInput
-                      label={t(locale, "quantity")}
-                      min={1}
-                      {...form.getInputProps("menge")}
-                      readOnly={!editing}
-                      className="flex-1"
-                    />
-                    <TextInput
-                      label={t(locale, "orderType")}
-                      {...form.getInputProps("auftr_art")}
-                      readOnly={!editing}
-                      className="flex-1"
-                    />
-                  </div>
-                </div>
-              </Fieldset>
-              <Fieldset>
-                <div className="flex flex-col gap-2">
-                  <h2>{t(locale, "shippingAddress")}</h2>
-                  <div className="grid grid-cols-2 gap-2">
-                    <TextInput
-                      label={t(locale, "name1")}
-                      className="col-span-2"
-                      {...form.getInputProps("versandadresse.vaname")}
-                      readOnly={!editing}
-                    />
-                    <TextInput
-                      label={t(locale, "name2")}
-                      {...form.getInputProps("versandadresse.vaname2")}
-                      readOnly={!editing}
-                    />
-                    <TextInput
-                      label={t(locale, "name3")}
-                      {...form.getInputProps("versandadresse.vaname3")}
-                      readOnly={!editing}
-                    />
-                    <TextInput
-                      label={t(locale, "streetAndNumber")}
-                      className="col-span-2"
-                      {...form.getInputProps("versandadresse.vastrasse")}
-                      readOnly={!editing}
-                    />
-                    <TextInput
-                      label={t(locale, "zip")}
-                      {...form.getInputProps("versandadresse.vaplz")}
-                      readOnly={!editing}
-                    />
-                    <TextInput
-                      label={t(locale, "city")}
-                      {...form.getInputProps("versandadresse.vaort")}
-                      readOnly={!editing}
-                    />
-                    <TextInput
-                      label={t(locale, "country")}
-                      {...form.getInputProps("versandadresse.valand")}
-                      readOnly={!editing}
-                    />
-                    <TextInput
-                      label={t(locale, "additionalShipping")}
-                      {...form.getInputProps("versandadresse.zusatz")}
-                      readOnly={!editing}
-                    />
-                  </div>
-                </div>
-              </Fieldset>
-            </form>
-          </Tabs.Panel>
-          <Tabs.Panel value="files" className="py-4">
-            <FilesTab
-              ticketnr={id}
-              createdby={session?.user?.name || ""}
-              files={ticket.files || []}
-              onFileUploaded={async () => {
-                await getTicket();
-                setActiveTab("files");
-              }}
-            />
-          </Tabs.Panel>
-          <Tabs.Panel value="history" className="py-4">
-            {session?.user?.name && (
+              <div className="flex items-end gap-2">
+                <NumberInput
+                  label={t(locale, "quantity")}
+                  min={1}
+                  {...form.getInputProps("menge")}
+                  readOnly={!editing}
+                  className="flex-1"
+                />
+                <TextInput
+                  label={t(locale, "orderType")}
+                  {...form.getInputProps("auftr_art")}
+                  readOnly={!editing}
+                  className="flex-1"
+                />
+              </div>
+            </div>
+          </Fieldset>
+          <Fieldset>
+            <div className="flex flex-col gap-2">
+              <h2>{t(locale, "shippingAddress")}</h2>
+              <div className="grid grid-cols-2 gap-2">
+                <TextInput
+                  label={t(locale, "name1")}
+                  className="col-span-2"
+                  {...form.getInputProps("versandadresse.vaname")}
+                  readOnly={!editing}
+                />
+                <TextInput
+                  label={t(locale, "name2")}
+                  {...form.getInputProps("versandadresse.vaname2")}
+                  readOnly={!editing}
+                />
+                <TextInput
+                  label={t(locale, "name3")}
+                  {...form.getInputProps("versandadresse.vaname3")}
+                  readOnly={!editing}
+                />
+                <TextInput
+                  label={t(locale, "streetAndNumber")}
+                  className="col-span-2"
+                  {...form.getInputProps("versandadresse.vastrasse")}
+                  readOnly={!editing}
+                />
+                <TextInput
+                  label={t(locale, "zip")}
+                  {...form.getInputProps("versandadresse.vaplz")}
+                  readOnly={!editing}
+                />
+                <TextInput
+                  label={t(locale, "city")}
+                  {...form.getInputProps("versandadresse.vaort")}
+                  readOnly={!editing}
+                />
+                <TextInput
+                  label={t(locale, "country")}
+                  {...form.getInputProps("versandadresse.valand")}
+                  readOnly={!editing}
+                />
+                <TextInput
+                  label={t(locale, "additionalShipping")}
+                  {...form.getInputProps("versandadresse.zusatz")}
+                  readOnly={!editing}
+                />
+              </div>
+            </div>
+          </Fieldset>
+        </form>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 -mt-4">
+          {session?.user?.name && (
+            <Paper p="md">
               <HistoryTab
                 ticketnr={id}
                 createdby={session.user.name}
                 history={ticket.history}
                 onCommentAdded={async () => {
                   await getTicket();
-                  setActiveTab("history");
                 }}
               />
-            )}
-          </Tabs.Panel>
-        </Tabs>
+            </Paper>
+          )}
+          <Paper p="md">
+            <FilesTab
+              ticketnr={id}
+              createdby={session?.user?.name || ""}
+              files={ticket.files || []}
+              onFileUploaded={async () => {
+                await getTicket();
+              }}
+            />
+          </Paper>
+        </div>
       </main>
       <Modal
         size="xs"
