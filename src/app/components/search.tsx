@@ -12,11 +12,11 @@ import { useDebounce } from "../lib/hooks";
 import { t } from "../lib/i18n";
 import { Dealer, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
-import { fetchResults, filterByKundenart, getAvatarColor } from "../lib/utils";
+import { fetchResults, getAvatarColor } from "../lib/utils";
 
 export default function Search({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
-  const { source, locale, kundenart } = useOffice();
+  const { source, locale, service } = useOffice();
   const [query, setQuery] = useState("");
   const [companies, setCompanies] = useState<Dealer[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
@@ -32,21 +32,12 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       }
 
       const [allCompanies, allPersons] = await Promise.all([
-        fetchResults<Dealer>(source, "dealers", debouncedQuery),
-        fetchResults<Person>(source, "persons", debouncedQuery),
+        fetchResults<Dealer>(source, service, "dealers", debouncedQuery),
+        fetchResults<Person>(source, service, "persons", debouncedQuery),
       ]);
 
-      const filteredCompanies = filterByKundenart(
-        allCompanies as Dealer[],
-        kundenart,
-      );
-      const filteredPersons = filterByKundenart(
-        allPersons as Person[],
-        kundenart,
-      );
-
-      setCompanies(filteredCompanies);
-      setPersons(filteredPersons);
+      setCompanies(allCompanies);
+      setPersons(allPersons);
     };
 
     getData();

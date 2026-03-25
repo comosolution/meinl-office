@@ -78,7 +78,7 @@ export default function HistoryTab({
 
   return (
     <div className="flex flex-col gap-4">
-      <Paper p="md" radius="md">
+      <Paper p="md">
         <form onSubmit={handleSubmit} className="flex items-center gap-2">
           <TextInput
             placeholder="Kommentar eingeben"

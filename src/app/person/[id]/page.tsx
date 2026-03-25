@@ -41,6 +41,7 @@ import {
   IconLockStar,
   IconUser,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -48,7 +49,9 @@ import { FormValues, getInitialValues, validateForm } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
+  const { data: session } = useSession();
   const { source, locale } = useOffice();
+
   const [person, setPerson] = useState<Person>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
@@ -253,6 +256,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 zustaendig: formattedCompetences,
                 b2bdltyp: formattedB2bDlTyp,
                 source,
+                user: session?.user?.name,
               }),
             });
             if (response.ok) {
@@ -264,7 +268,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Tabs.Panel value="info" className="py-4">
             <div className="grid grid-cols-2 gap-4">
               {actions}
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>{t(locale, "person")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <Autocomplete
@@ -301,7 +305,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>{t(locale, "communication")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -331,7 +335,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>Büroanschrift</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -356,7 +360,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>Zuständigkeiten</h2>
                 <Checkbox.Group {...form.getInputProps("zustaendig")}>
                   <div className="grid grid-cols-2 gap-2">
@@ -372,7 +376,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Tabs.Panel value="b2b" className="py-4">
             <div className="grid grid-cols-2 gap-4">
               {actions}
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>B2B-Zugriff</h2>
                 <Radio.Group {...form.getInputProps("b2bzugriff")}>
                   <div className="flex flex-col gap-2">
@@ -387,7 +391,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </div>
                 </Radio.Group>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>Verfügbare Downloads</h2>
                 <Checkbox
                   label="Keine Downloads"
@@ -435,7 +439,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Tabs.Panel value="private" className="py-4">
             <div className="grid grid-cols-2 gap-4">
               {actions}
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>Privatanschrift</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -460,7 +464,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>Details</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <DateInput

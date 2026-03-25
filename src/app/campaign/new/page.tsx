@@ -10,10 +10,12 @@ import {
   IconCalendarWeek,
   IconPlus,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { brands } from "../../lib/data";
 
 export default function Page() {
+  const { data: session } = useSession();
   const { source } = useOffice();
   const router = useRouter();
 
@@ -36,13 +38,17 @@ export default function Page() {
   });
 
   return (
-    <Paper mx="auto" p="xl" radius="md" mt="xl" w="100%" maw={800}>
+    <Paper mx="auto" p="xl" mt="xl" w="100%" maw={800}>
       <form
         className="flex flex-col gap-4"
         onSubmit={form.onSubmit(async (values) => {
           const response = await fetch("/api/campaign/save", {
             method: "POST",
-            body: JSON.stringify({ ...values, source }),
+            body: JSON.stringify({
+              ...values,
+              source,
+              user: session?.user?.name,
+            }),
           });
           if (response.ok) {
             router.push("/campaign");

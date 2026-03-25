@@ -41,7 +41,7 @@ export default function HistoryList<T>({
     .slice(0, 5);
 
   return (
-    <Paper p="lg" radius="md" bg="transparent" withBorder>
+    <Paper p="lg" bg="transparent" withBorder>
       <div className="h-full flex flex-col gap-4 justify-between">
         <h2 className="text-center">
           {locale === "de" ? "Kürzlich besuchte" : "Recently visited"} {title}

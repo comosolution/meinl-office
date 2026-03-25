@@ -3,7 +3,7 @@
 import { useOffice } from "@/app/context/officeContext";
 import { useDebounce } from "@/app/lib/hooks";
 import { Dealer } from "@/app/lib/interfaces";
-import { fetchResults, filterByKundenart } from "@/app/lib/utils";
+import { fetchResults } from "@/app/lib/utils";
 import { Select, SelectProps } from "@mantine/core";
 import { useEffect, useState } from "react";
 
@@ -15,7 +15,7 @@ export function CustomerSelect({
   value: string | null;
   onChange: (value: string | null) => void;
 }) {
-  const { source, kundenart } = useOffice();
+  const { source, service } = useOffice();
 
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<{ label: string; value: string }[]>(
@@ -37,13 +37,12 @@ export function CustomerSelect({
       try {
         const allCompanies = await fetchResults<Dealer>(
           source,
+          service,
           "companies",
           debouncedQuery,
         );
 
-        const filtered = filterByKundenart(allCompanies as Dealer[], kundenart);
-
-        const mapped = filtered
+        const mapped = allCompanies
           .filter((c) => c.name1)
           .slice(0, 20)
           .map((c) => ({
@@ -60,7 +59,7 @@ export function CustomerSelect({
     };
 
     getData();
-  }, [debouncedQuery, source, kundenart]);
+  }, [debouncedQuery, source, service]);
 
   return (
     <Select

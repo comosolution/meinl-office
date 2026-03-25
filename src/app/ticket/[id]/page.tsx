@@ -50,7 +50,7 @@ import React, { useEffect, useState } from "react";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
-  const { locale, source } = useOffice();
+  const { locale, source, service } = useOffice();
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
@@ -149,6 +149,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         source: "OF",
         versandadresse: values.versandadresse || ticket!.versandadresse,
         files: null,
+        user: session?.user?.name,
       };
 
       const res = await fetch("/api/ticket", {
@@ -204,6 +205,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       status_ext: {
         nr: ext,
       },
+      user: session?.user?.name,
     };
 
     const res = await fetch("/api/ticket", {
@@ -315,6 +317,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     const persons = await fetchResults<Person>(
       source,
+      service,
       "persons",
       ticket.kdnr_full,
     );
@@ -646,7 +649,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </>
                 )}
               </div>
-              <Fieldset radius="md">
+              <Fieldset>
                 <div className="flex flex-col gap-2">
                   <h2>{t(locale, "articleNumber")}</h2>
                   <div className="flex items-end">
@@ -724,7 +727,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </div>
                 </div>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <div className="flex flex-col gap-2">
                   <h2>{t(locale, "shippingAddress")}</h2>
                   <div className="grid grid-cols-2 gap-2">
@@ -806,7 +809,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         opened={opened}
         onClose={close}
         title={t(locale, "selectPickupDate")}
-        radius="md"
       >
         <div className="flex flex-col justify-center items-center gap-4 pt-4">
           <DatePicker

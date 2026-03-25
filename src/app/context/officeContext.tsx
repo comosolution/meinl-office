@@ -9,16 +9,16 @@ import {
   useState,
 } from "react";
 import {
-  MEINL_OFFICE_KA_KEY,
   MEINL_OFFICE_LOCALE_KEY,
+  MEINL_OFFICE_SERVICE_KEY,
   MEINL_OFFICE_SOURCE_KEY,
 } from "../lib/constants";
 
 interface OfficeContextType {
   source: "OFFGUT" | "OFFUSA";
   setSource: Dispatch<SetStateAction<"OFFGUT" | "OFFUSA">>;
-  kundenart: string;
-  setKundenart: Dispatch<SetStateAction<string>>;
+  service: string;
+  setService: Dispatch<SetStateAction<string>>;
   locale: "de" | "en";
   setLocale: Dispatch<SetStateAction<"de" | "en">>;
 }
@@ -27,7 +27,7 @@ const OfficeContext = createContext<OfficeContextType | undefined>(undefined);
 
 export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   const [source, setSource] = useState<"OFFGUT" | "OFFUSA">("OFFGUT");
-  const [kundenart, setKundenart] = useState<string>("all");
+  const [service, setService] = useState<string>("B2B");
   const [locale, setLocale] = useState<"de" | "en">("de");
 
   useEffect(() => {
@@ -39,9 +39,9 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
       setSource(savedSource);
     }
 
-    const savedKundenart = localStorage.getItem(MEINL_OFFICE_KA_KEY);
-    if (savedKundenart !== null) {
-      setKundenart(savedKundenart);
+    const savedService = localStorage.getItem(MEINL_OFFICE_SERVICE_KEY);
+    if (savedService !== null) {
+      setService(savedService);
     }
 
     const savedLocale = localStorage.getItem(MEINL_OFFICE_LOCALE_KEY) as
@@ -58,8 +58,8 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
   }, [source]);
 
   useEffect(() => {
-    localStorage.setItem(MEINL_OFFICE_KA_KEY, kundenart);
-  }, [kundenart]);
+    localStorage.setItem(MEINL_OFFICE_SERVICE_KEY, service);
+  }, [service]);
 
   useEffect(() => {
     localStorage.setItem(MEINL_OFFICE_LOCALE_KEY, locale);
@@ -70,8 +70,8 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
       value={{
         source,
         setSource,
-        kundenart,
-        setKundenart,
+        service,
+        setService,
         locale,
         setLocale,
       }}

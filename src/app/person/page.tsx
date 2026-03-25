@@ -9,14 +9,10 @@ import Loader from "../components/loader";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Person } from "../lib/interfaces";
-import {
-  fetchResults,
-  filterByKundenart,
-  safeLocaleCompare,
-} from "../lib/utils";
+import { fetchResults, safeLocaleCompare } from "../lib/utils";
 
 export default function Page() {
-  const { locale, source, kundenart } = useOffice();
+  const { locale, source, service } = useOffice();
   const [persons, setPersons] = useState<Person[]>([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -24,11 +20,8 @@ export default function Page() {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetchResults<Person>(source, "persons");
-    const filteredPersons = filterByKundenart(res, kundenart);
-    setPersons(
-      filteredPersons.sort((a, b) => safeLocaleCompare(a.nachname, b.nachname)),
-    );
+    const res = await fetchResults<Person>(source, service, "persons");
+    setPersons(res.sort((a, b) => safeLocaleCompare(a.nachname, b.nachname)));
     setLoading(false);
   };
 
@@ -43,7 +36,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchData();
-  }, [search, source, kundenart]);
+  }, [source, service]);
 
   useEffect(() => {
     setPage(1);

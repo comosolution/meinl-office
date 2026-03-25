@@ -44,7 +44,7 @@ export default function LineGraph({
   }, [tickets, orders, period, selectedArtnr, selectedKdnr]);
 
   return (
-    <Paper p="md" radius="md">
+    <Paper p="md">
       <div className="flex justify-between items-center gap-2 mb-2">
         <h2>{t(locale, "history")}</h2>
         <div className="flex items-center gap-2">

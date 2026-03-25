@@ -21,7 +21,7 @@ export default function StatsTable({
   const { locale } = useOffice();
 
   return (
-    <Paper p="md" radius="md">
+    <Paper p="md">
       <h2 className="text-center pb-4">{title}</h2>
       <Table highlightOnHover={entries.some((e) => e.href)}>
         <Table.Thead>

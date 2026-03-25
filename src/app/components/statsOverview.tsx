@@ -32,7 +32,7 @@ export default function StatsOverview({
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <StatsTable title={t(locale, "byCustomer")} entries={topCustomers} />
       <StatsTable title={t(locale, "byArticleNumber")} entries={topItems} />
-      <Paper p="md" radius="md">
+      <Paper p="md">
         <h2 className="text-center pb-8">{t(locale, "total")}</h2>
         <BarChart
           h={360}

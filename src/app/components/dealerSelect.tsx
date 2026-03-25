@@ -2,11 +2,7 @@
 import { useOffice } from "@/app/context/officeContext";
 import { useDebounce } from "@/app/lib/hooks";
 import { Dealer } from "@/app/lib/interfaces";
-import {
-  fetchResults,
-  filterByKundenart,
-  safeLocaleCompare,
-} from "@/app/lib/utils";
+import { fetchResults, safeLocaleCompare } from "@/app/lib/utils";
 import { ActionIcon, Loader, TextInput } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -23,7 +19,7 @@ export default function DealerSelect({
   onChange,
   disabled,
 }: DealerSelectProps) {
-  const { source, locale } = useOffice();
+  const { source, locale, service } = useOffice();
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(false);
@@ -41,14 +37,12 @@ export default function DealerSelect({
       setLoading(true);
       const res = await fetchResults<Dealer>(
         source,
+        service,
         "dealers",
         debouncedSearch,
       );
-      const filteredCompanies = filterByKundenart(res, "b2b");
       if (!cancelled) {
-        setResults(
-          filteredCompanies.sort((a, b) => safeLocaleCompare(a.name1, b.name1)),
-        );
+        setResults(res.sort((a, b) => safeLocaleCompare(a.name1, b.name1)));
         setLoading(false);
       }
     };
@@ -89,7 +83,7 @@ export default function DealerSelect({
         }
       />
       {search && results.length > 0 && (
-        <div className="absolute z-10 w-full mt-10 rounded bg-(--background) shadow-xl max-h-60 overflow-y-auto">
+        <div className="absolute z-10 w-full mt-10 bg-(--background) shadow-xl max-h-60 overflow-y-auto">
           {results.map((d) => (
             <div
               key={`${d.kdnr}-${d.id}`}

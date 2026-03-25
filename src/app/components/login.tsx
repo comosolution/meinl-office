@@ -39,7 +39,6 @@ export default function Login() {
       <Paper
         p="lg"
         shadow="xl"
-        radius="md"
         className="relative z-50 backdrop-blur-md shadow-black/20"
       >
         <div className="flex flex-col gap-2">

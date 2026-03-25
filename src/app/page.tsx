@@ -137,7 +137,6 @@ export default function Page() {
             color="gray"
             variant="light"
             size="xl"
-            radius="md"
             component={Link}
             href={item.href}
             leftSection={item.icon}

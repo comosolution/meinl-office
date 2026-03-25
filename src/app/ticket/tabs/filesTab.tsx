@@ -80,7 +80,7 @@ export default function FilesTab({
           multiple
           leftSection={<IconPaperclip size={16} />}
           leftSectionPointerEvents="none"
-          className="flex-1 rounded"
+          className="flex-1"
           value={form.values.files as File[]}
           onChange={(v: File | File[] | null) =>
             form.setFieldValue("files", (v as File[]) || null)
@@ -99,7 +99,7 @@ export default function FilesTab({
         <div className="flex flex-col gap-2">
           {files
             .map((entry, index) => (
-              <Paper key={index} p="md" radius="md" bg="transparent" withBorder>
+              <Paper key={index} p="md" bg="transparent" withBorder>
                 <div className="flex justify-between items-center gap-4">
                   <Avatar size={48} variant="light" color="dark">
                     <IconFile size={24} />

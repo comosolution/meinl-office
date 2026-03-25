@@ -150,6 +150,7 @@ export default function Page() {
           zusatz: values.zusatz,
         },
         Files: filesData.length > 0 ? filesData : null,
+        user: session?.user?.name,
       };
 
       const res = await fetch("/api/ticket", {
@@ -265,7 +266,7 @@ export default function Page() {
   );
 
   return (
-    <Paper mx="auto" p="xl" radius="md" mt="xl" w="100%" maw={800}>
+    <Paper mx="auto" p="xl" mt="xl" w="100%" maw={800}>
       <form
         className="flex flex-col gap-4"
         onSubmit={form.onSubmit(handleSubmit)}
@@ -298,7 +299,7 @@ export default function Page() {
                     {...form.getInputProps("vanr")}
                     withAsterisk
                   />
-                  <Paper p="lg" radius="md" bg="var(--background)" shadow="xl">
+                  <Paper p="lg" bg="var(--background)" shadow="xl">
                     <div className="grid grid-cols-2 gap-2">
                       <TextInput
                         label="Name 1"

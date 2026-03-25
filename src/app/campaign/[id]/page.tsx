@@ -18,6 +18,7 @@ import {
   Card,
   CopyButton,
   Fieldset,
+  Loader as MantineLoader,
   Select,
   Textarea,
   TextInput,
@@ -40,6 +41,7 @@ import {
   IconTrash,
   IconX,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -48,7 +50,8 @@ import { getInitialValues } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
-  const { source, locale } = useOffice();
+  const { data: session } = useSession();
+  const { source, locale, service } = useOffice();
 
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
@@ -101,6 +104,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const handleDelete = async () => {
     const response = await fetch(`/api/campaign/${source}/${id}`, {
       method: "DELETE",
+      body: JSON.stringify({ user: session?.user?.name }),
     });
     if (response.ok) {
       router.push("/campaign");
@@ -109,7 +113,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetchResults<Dealer>(source, "dealers", dealerSearch);
+    const res = await fetchResults<Dealer>(
+      source,
+      service,
+      "dealers",
+      dealerSearch,
+    );
     setDealers(res.sort((a, b) => safeLocaleCompare(a.name1, b.name1)));
     setLoading(false);
   };
@@ -117,13 +126,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     fetchData();
   }, [dealerSearch]);
-
-  const selectDealer = (dealer: Dealer) => {
-    const newSelected = [...selectedDealers, dealer];
-    setSelectedDealers(newSelected);
-    form.setFieldValue("dealers", newSelected);
-    setDealerSearch("");
-  };
 
   const isSameDealer = (a: Dealer, b: Dealer) =>
     a.id === b.id && String(a.kdnr) === String(b.kdnr);
@@ -213,6 +215,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             ...values,
             products: values.products?.map((p: Product) => p.artnr) || [],
             source,
+            user: session?.user?.name,
           };
 
           const response = await fetch("/api/campaign/save", {
@@ -323,7 +326,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </CopyButton>
           </Button.Group>
         </div>
-        <Fieldset radius="md" className="col-span-2">
+        <Fieldset className="col-span-2">
           <h2>{t(locale, "details")}</h2>
           <div className="grid grid-cols-2 gap-4">
             <Select
@@ -371,7 +374,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             />
           </div>
         </Fieldset>
-        <Fieldset radius="md" mih={400}>
+        <Fieldset>
           <h2>{t(locale, "participatingDealers")}</h2>
           <div className="flex flex-col gap-2">
             <DealerSelect
@@ -382,7 +385,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               }}
               disabled={!edit}
             />
-
+            {loading && (
+              <div className="flex justify-center">
+                <MantineLoader />
+              </div>
+            )}
             {selectedDealers.length > 0 &&
               selectedDealers
                 .sort((a, b) =>
@@ -443,7 +450,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 })}
           </div>
         </Fieldset>
-        <Fieldset radius="md">
+        <Fieldset>
           <h2>{t(locale, "offeredProducts")}</h2>
           <div className="flex flex-col gap-2">
             <div
@@ -460,7 +467,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 value={productSearch}
                 onChange={(e) => setProductSearch(e.currentTarget.value)}
                 readOnly={!edit}
-                className="flex-grow"
+                className="flex-1"
               />
               <Button
                 type="button"

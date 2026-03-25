@@ -34,12 +34,15 @@ import {
   IconPlus,
   IconUser,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getInitialValues, validateForm, type FormValues } from "../[id]/form";
 
 export default function NewPersonPage() {
+  const { data: session } = useSession();
   const { source } = useOffice();
+
   const [active, setActive] = useState(0);
 
   const router = useRouter();
@@ -59,7 +62,7 @@ export default function NewPersonPage() {
     setActive((current) => (current > 0 ? current - 1 : current));
 
   return (
-    <Paper mx="auto" p="xl" radius="md" mt="xl" w="100%" maw={800}>
+    <Paper mx="auto" p="xl" mt="xl" w="100%" maw={800}>
       <form
         className="flex flex-col gap-4"
         onSubmit={form.onSubmit(async (values: FormValues) => {
@@ -75,6 +78,7 @@ export default function NewPersonPage() {
             zustaendig: formattedCompetences,
             b2bdltyp: formattedB2bDlTyp,
             source,
+            user: session?.user?.name,
           };
 
           try {

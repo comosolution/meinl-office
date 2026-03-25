@@ -42,6 +42,7 @@ import {
   IconShoppingCartPin,
   IconUsersGroup,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -56,7 +57,9 @@ export default function Page({
   params: Promise<{ kdnr: string }>;
 }) {
   const { kdnr } = React.use(params);
+  const { data: session } = useSession();
   const { source, locale } = useOffice();
+
   const [company, setCompany] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
@@ -287,7 +290,11 @@ export default function Page({
           onSubmit={form.onSubmit(async (values) => {
             const response = await fetch("/api/company/save", {
               method: "POST",
-              body: JSON.stringify({ ...values, source }),
+              body: JSON.stringify({
+                ...values,
+                source,
+                user: session?.user?.name,
+              }),
             });
             if (response.ok) {
               getCompany();
@@ -298,7 +305,7 @@ export default function Page({
           <Tabs.Panel value="info" className="py-4">
             <div className="grid grid-cols-2 gap-4">
               {actions}
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>{t(locale, "company")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -323,7 +330,7 @@ export default function Page({
                   />
                 </div>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>{t(locale, "address")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -348,7 +355,7 @@ export default function Page({
                   />
                 </div>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>{t(locale, "communication")}</h2>
                 <TextInput
                   label={t(locale, "phone") ?? "Telefon"}
@@ -361,7 +368,7 @@ export default function Page({
                   readOnly
                 />
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>{t(locale, "socialMedia")}</h2>
                 <TextInput
                   label="Facebook"
@@ -397,7 +404,7 @@ export default function Page({
                 disabled={!edit}
               />
 
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>{t(locale, "details")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
@@ -439,7 +446,7 @@ export default function Page({
               {company.latitude !== null && company.longitude !== null && (
                 <Map company={company} />
               )}
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>{t(locale, "brands")}</h2>
                 <div className="flex flex-col gap-4">
                   {form.values.brands
@@ -482,7 +489,7 @@ export default function Page({
                     ))}
                 </div>
               </Fieldset>
-              <Fieldset radius="md">
+              <Fieldset>
                 <h2>Kampagnen</h2>
                 <Table highlightOnHover>
                   <Table.Thead>

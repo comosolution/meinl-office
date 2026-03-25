@@ -35,12 +35,12 @@ import Search from "./search";
 
 export default function Sidebar() {
   const { data: session } = useSession();
+  const { source, setSource, service, setService, locale, setLocale } =
+    useOffice();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const { source, setSource, kundenart, setKundenart, locale, setLocale } =
-    useOffice();
   const { setColorScheme, colorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
@@ -85,16 +85,12 @@ export default function Sidebar() {
     document.body.classList.toggle("dark", colorScheme === "dark");
   }, [colorScheme]);
 
-  const KundenartSwitch = () => {
+  const ServiceSwitch = () => {
     return (
       <SegmentedControl
-        value={kundenart}
-        onChange={setKundenart}
-        data={[
-          { label: t(locale, "all"), value: "all" },
-          { label: "B2B", value: "b2b" },
-          { label: "B2C", value: "b2c" },
-        ]}
+        value={service}
+        onChange={setService}
+        data={[{ label: t(locale, "all"), value: "" }, "B2B", "B2C"]}
         orientation={isCollapsed ? "vertical" : "horizontal"}
         fullWidth
       />
@@ -125,12 +121,10 @@ export default function Sidebar() {
   };
 
   const LanguageSwitch = () => {
-    const name = locale === "de" ? "Deutsch" : "English";
-
     return (
       <NavLink
-        label={name}
-        title={name}
+        label={t(locale, "language")}
+        title={t(locale, "language")}
         leftSection={
           <div className="w-5">
             <ReactCountryFlag countryCode={locale === "de" ? "DE" : "US"} svg />
@@ -218,7 +212,7 @@ export default function Sidebar() {
           )}
         </ActionIcon>
       </div>
-      <KundenartSwitch />
+      <ServiceSwitch />
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">
           <Search collapsed={isCollapsed} />

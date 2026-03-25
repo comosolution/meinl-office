@@ -7,15 +7,10 @@ import Loader from "../components/loader";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Company } from "../lib/interfaces";
-import {
-  fetchResults,
-  filterByKundenart,
-  getAvatarColor,
-  safeLocaleCompare,
-} from "../lib/utils";
+import { fetchResults, getAvatarColor, safeLocaleCompare } from "../lib/utils";
 
 export default function Page() {
-  const { locale, source, kundenart } = useOffice();
+  const { locale, source, service } = useOffice();
   const router = useRouter();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [page, setPage] = useState(1);
@@ -24,11 +19,8 @@ export default function Page() {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetchResults<Company>(source, "companies");
-    const filteredCompanies = filterByKundenart(res, kundenart);
-    setCompanies(
-      filteredCompanies.sort((a, b) => safeLocaleCompare(a.name1, b.name1)),
-    );
+    const res = await fetchResults<Company>(source, service, "companies");
+    setCompanies(res.sort((a, b) => safeLocaleCompare(a.name1, b.name1)));
     setLoading(false);
   };
 
@@ -48,7 +40,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchData();
-  }, [search, source, kundenart]);
+  }, [source, service]);
 
   useEffect(() => {
     setPage(1);
