@@ -4,7 +4,7 @@ import { useOffice } from "@/app/context/officeContext";
 import { useDebounce } from "@/app/lib/hooks";
 import { Dealer } from "@/app/lib/interfaces";
 import { fetchResults } from "@/app/lib/utils";
-import { Select, SelectProps } from "@mantine/core";
+import { Loader, Select, SelectProps } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 export function CustomerSelect({
@@ -78,7 +78,7 @@ export function CustomerSelect({
             ? "Lade..."
             : "Keine Ergebnisse"
       }
-      rightSection={loading ? "…" : null}
+      rightSection={loading ? <Loader size="xs" /> : null}
       {...props}
     />
   );

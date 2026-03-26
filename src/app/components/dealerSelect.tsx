@@ -8,17 +8,15 @@ import { IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { t } from "../lib/i18n";
 
-interface DealerSelectProps {
-  value: Dealer[];
-  onChange: (value: Dealer[]) => void;
-  disabled?: boolean;
-}
-
 export default function DealerSelect({
   value,
   onChange,
   disabled,
-}: DealerSelectProps) {
+}: {
+  value: Dealer[];
+  onChange: (value: Dealer[]) => void;
+  disabled?: boolean;
+}) {
   const { source, locale, service } = useOffice();
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Dealer[]>([]);
@@ -87,13 +85,13 @@ export default function DealerSelect({
           {results.map((d) => (
             <div
               key={`${d.kdnr}-${d.id}`}
-              className="px-3 py-2 cursor-pointer hover:bg-(--main) hover:text-white"
+              className="px-3 py-2 cursor-pointer hover:bg-(--main) hover:text-white group"
               onClick={() => selectDealer(d)}
             >
               <p>
                 <b>{d.name1}</b> {d.name2}
               </p>
-              <p className="text-xs text-white/60">
+              <p className="text-xs dimmed group-hover:text-white/60">
                 {d.kdnr} – {d.plz} {d.ort} {d.land}
               </p>
             </div>

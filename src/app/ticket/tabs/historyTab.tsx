@@ -84,7 +84,7 @@ export default function HistoryTab({
       <h2>{t(locale, "history")}</h2>
       <form onSubmit={handleSubmit} className="flex items-center gap-2">
         <TextInput
-          placeholder="Kommentar eingeben"
+          placeholder={t(locale, "comment")}
           {...form.getInputProps("comment")}
           className="flex-1"
         />
@@ -134,7 +134,7 @@ export default function HistoryTab({
               .reverse()}
           </Timeline>
         ) : (
-          <p className="text-center text-xs dimmed">Keine Notizen vorhanden</p>
+          <p className="text-center text-xs dimmed">{t(locale, "noNotes")}</p>
         )}
       </div>
     </div>

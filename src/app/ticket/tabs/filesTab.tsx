@@ -76,7 +76,7 @@ export default function FilesTab({
       <h2>{t(locale, "files")}</h2>
       <form onSubmit={handleSubmit} className="flex items-center gap-2">
         <FileInput
-          placeholder="Bilder oder PDFs auswählen"
+          placeholder={t(locale, "uploadFiles")}
           multiple
           leftSection={<IconPaperclip size={16} />}
           leftSectionPointerEvents="none"
@@ -92,7 +92,7 @@ export default function FilesTab({
           disabled={!form.isValid() || isSubmitting}
           loading={isSubmitting}
         >
-          Hochladen
+          {t(locale, "upload")}
         </Button>
       </form>
       {files && files.length > 0 ? (
@@ -148,7 +148,7 @@ export default function FilesTab({
                         }
                       }}
                     >
-                      Herunterladen
+                      {t(locale, "download")}
                     </Button>
                   </div>
                 </div>
@@ -157,7 +157,9 @@ export default function FilesTab({
             .reverse()}
         </div>
       ) : (
-        <p className="text-center text-xs dimmed">Keine Dateien vorhanden</p>
+        <p className="text-center text-xs dimmed py-4">
+          {t(locale, "noFiles")}
+        </p>
       )}
     </div>
   );

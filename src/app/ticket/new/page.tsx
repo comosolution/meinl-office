@@ -1,5 +1,6 @@
 "use client";
 import { CustomerSelect } from "@/app/components/customerSelect";
+import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
@@ -369,14 +370,17 @@ export default function Page() {
             icon={<IconInfoCircle size={18} />}
           >
             <Stack>
-              <div className="grid grid-cols-3 gap-2">
-                <TextInput
+              <div className="grid grid-cols-5 gap-2">
+                <ProductSelect
                   label={t(locale, "articleNumber")}
-                  {...form.getInputProps("artnr_ku")}
+                  value={form.values.artnr_ku}
+                  onChange={(val) => form.setFieldValue("artnr_ku", val ?? "")}
                   withAsterisk
+                  className="col-span-2"
                 />
                 <TextInput
-                  label="Seriennummer"
+                  label={t(locale, "serialNumber")}
+                  className="col-span-2"
                   {...form.getInputProps("sernr_ku")}
                 />
                 <NumberInput
@@ -394,8 +398,8 @@ export default function Page() {
                 withAsterisk
               />
               <FileInput
-                label="Dateien"
-                placeholder="Bilder oder PDFs hochladen (optional)"
+                label={t(locale, "files")}
+                placeholder={t(locale, "uploadFiles")}
                 multiple
                 clearable
                 accept="image/*,.pdf"

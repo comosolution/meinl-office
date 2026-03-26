@@ -134,6 +134,10 @@ export type TranslationKey =
   | "editTicket"
   | "save"
   | "files"
+  | "uploadFiles"
+  | "upload"
+  | "download"
+  | "comment"
   | "ticketId"
   | "createdOn"
   | "created"
@@ -317,6 +321,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     editTicket: "Ticket bearbeiten",
     save: "Speichern",
     files: "Dateien",
+    uploadFiles: "Bilder oder PDFs auswählen",
+    upload: "Hochladen",
+    download: "Herunterladen",
+    comment: "Notiz",
     ticketId: "Ticket ID",
     createdOn: "Erstellt am",
     created: "Erstellt",
@@ -500,6 +508,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     editTicket: "Edit ticket",
     save: "Save",
     files: "Files",
+    uploadFiles: "Select images or PDFs",
+    upload: "Upload",
+    download: "Download",
+    comment: "Note",
     ticketId: "Ticket ID",
     createdOn: "Created on",
     created: "Created",
