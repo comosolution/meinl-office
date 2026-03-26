@@ -183,6 +183,9 @@ export type TranslationKey =
   | "years5"
   | "allCustomers"
   | "allArticles"
+  | "contactPhone"
+  | "contactMobile"
+  | "contactEmail"
   | "cookieDeprecated"
   | "reset";
 
@@ -370,6 +373,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     years5: "5 Jahre",
     allCustomers: "Alle Kunden",
     allArticles: "Alle Artikel",
+    contactPhone: "Festnetz anrufen",
+    contactMobile: "Mobil anrufen",
+    contactEmail: "Mail senden",
     cookieDeprecated:
       "Diese Übersetzung ist aus Kompatibilitätsgründen eingestellt.",
     reset: "Zurücksetzen",
@@ -557,6 +563,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     years5: "5 years",
     allCustomers: "All customers",
     allArticles: "All articles",
+    contactPhone: "Call landline",
+    contactMobile: "Call mobile phone",
+    contactEmail: "Send email",
     cookieDeprecated: "This translation is set for compatibility.",
     reset: "Reset",
   },

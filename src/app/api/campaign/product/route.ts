@@ -18,9 +18,7 @@ export async function POST(request: Request) {
   }
 
   if (res.status === 204) {
-    return Response.json("Kein Produkt gefunden.", {
-      status: 404,
-    });
+    return Response.json([], { status: res.status });
   }
 
   const data = await res.json();

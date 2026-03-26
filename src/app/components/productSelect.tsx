@@ -1,44 +1,41 @@
 "use client";
 import { useDebounce } from "@/app/lib/hooks";
 import { Loader, Select, SelectProps } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOffice } from "../context/officeContext";
-
-interface Product {
-  artnr: string;
-  abez1: string;
-  agew: number;
-  astat: string;
-  awagr1: string;
-  awagr2: string;
-  awagr3: string;
-  awagr4: string;
-  awagr5: string;
-  brand: string;
-}
+import { Product } from "../lib/interfaces";
 
 export function ProductSelect({
   value,
   onChange,
-  label,
+  onProductSelect,
   ...props
 }: Omit<SelectProps, "data"> & {
   value: string | null;
   onChange: (value: string | null) => void;
   label?: string;
+  onProductSelect?: (product: Product) => void;
 }) {
   const { source } = useOffice();
 
   const [query, setQuery] = useState("");
+  const [products, setProducts] = useState<Product[]>([]);
   const [options, setOptions] = useState<{ label: string; value: string }[]>(
     [],
   );
   const [loading, setLoading] = useState(false);
+  const selectingRef = useRef(false);
 
   const debouncedQuery = useDebounce(query, 500);
 
   useEffect(() => {
     const getData = async () => {
+      if (selectingRef.current) {
+        selectingRef.current = false;
+        setOptions([]);
+        return;
+      }
+
       if (debouncedQuery.trim().length < 2) {
         setOptions([]);
         return;
@@ -60,6 +57,7 @@ export function ProductSelect({
         }
 
         const products: Product[] = await res.json();
+        setProducts(products);
         const productOptions = products.map((p) => ({
           label: `${p.artnr} (${p.abez1.trim()})`,
           value: p.artnr,
@@ -79,11 +77,17 @@ export function ProductSelect({
 
   return (
     <Select
-      label={label}
       searchable
       clearable
       value={value}
-      onChange={onChange}
+      onChange={(val) => {
+        selectingRef.current = true;
+        onChange(val);
+        if (val && onProductSelect) {
+          const product = products.find((p) => p.artnr === val);
+          if (product) onProductSelect(product);
+        }
+      }}
       onSearchChange={setQuery}
       data={options}
       nothingFoundMessage={

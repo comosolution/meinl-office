@@ -1,11 +1,12 @@
 "use client";
 import DealerSelect from "@/app/components/dealerSelect";
 import Loader from "@/app/components/loader";
+import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_DEALERS_URL } from "@/app/lib/constants";
 import { brands } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
-import { Campaign, Dealer, Product } from "@/app/lib/interfaces";
+import { Campaign, CampaignProduct, Dealer } from "@/app/lib/interfaces";
 import {
   fetchResults,
   notEmptyValidation,
@@ -26,7 +27,6 @@ import {
 } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
 import {
   IconCalendarEvent,
   IconCalendarWeek,
@@ -37,7 +37,6 @@ import {
   IconEdit,
   IconExclamationCircle,
   IconExternalLink,
-  IconSearch,
   IconTrash,
   IconX,
 } from "@tabler/icons-react";
@@ -59,8 +58,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [dealerSearch, setDealerSearch] = useState("");
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [selectedDealers, setSelectedDealers] = useState<Dealer[]>([]);
-  const [productSearch, setProductSearch] = useState("");
-  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<CampaignProduct[]>(
+    [],
+  );
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -136,29 +136,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     form.setFieldValue("dealers", newSelected);
   };
 
-  const selectProduct = async () => {
-    const response = await fetch("/api/campaign/product", {
-      method: "POST",
-      body: JSON.stringify({ artnr: productSearch, source }),
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      notifications.show({
-        id: `error-${productSearch}`,
-        title: `${t(locale, "error")} ${response.status}`,
-        message: data,
-        autoClose: false,
-      });
-      return;
-    }
-
-    const newSelected = [...selectedProducts, data];
-    setSelectedProducts(newSelected);
-    form.setFieldValue("products", newSelected);
-    setProductSearch("");
-  };
-
   const removeProduct = (artnr: string) => {
     const newSelected = selectedProducts.filter((p) => p.artnr !== artnr);
     setSelectedProducts(newSelected);
@@ -213,7 +190,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         onSubmit={form.onSubmit(async (values) => {
           const payload = {
             ...values,
-            products: values.products?.map((p: Product) => p.artnr) || [],
+            products:
+              values.products?.map((p: CampaignProduct) => p.artnr) || [],
             source,
             user: session?.user?.name,
           };
@@ -453,33 +431,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Fieldset>
           <h2>{t(locale, "offeredProducts")}</h2>
           <div className="flex flex-col gap-2">
-            <div
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  selectProduct();
-                }
+            <ProductSelect
+              value={null}
+              onChange={() => {}}
+              onProductSelect={(product) => {
+                const mappedProduct: CampaignProduct = {
+                  artnr: product.artnr,
+                  artbez: product.abez1,
+                };
+                const newSelected = [...selectedProducts, mappedProduct];
+                setSelectedProducts(newSelected);
+                form.setFieldValue("products", newSelected);
               }}
-              className="flex gap-2"
-            >
-              <TextInput
-                placeholder={t(locale, "searchByArticleNumber")}
-                value={productSearch}
-                onChange={(e) => setProductSearch(e.currentTarget.value)}
-                readOnly={!edit}
-                className="flex-1"
-              />
-              <Button
-                type="button"
-                variant="light"
-                color="dark"
-                leftSection={<IconSearch size={16} />}
-                disabled={productSearch.length < 1 || !edit}
-                onClick={selectProduct}
-              >
-                {t(locale, "search")}
-              </Button>
-            </div>
+              readOnly={!edit}
+              placeholder={t(locale, "searchByArticleNumber")}
+            />
             {selectedProducts.length > 0 &&
               selectedProducts.map((product) => {
                 return (

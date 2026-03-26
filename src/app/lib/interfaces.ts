@@ -117,12 +117,25 @@ export interface Campaign {
   start: string | null | Date;
   end: string | null | Date;
   dealers: Dealer[];
-  products: Product[];
+  products: CampaignProduct[];
+}
+
+export interface CampaignProduct {
+  artnr: string;
+  artbez: string;
 }
 
 export interface Product {
   artnr: string;
-  artbez: string;
+  abez1: string;
+  agew: number;
+  astat: string;
+  awagr1: string;
+  awagr2: string;
+  awagr3: string;
+  awagr4: string;
+  awagr5: string;
+  brand: string;
 }
 
 export interface Brand {

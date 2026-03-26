@@ -85,13 +85,13 @@ export default function DealerSelect({
           {results.map((d) => (
             <div
               key={`${d.kdnr}-${d.id}`}
-              className="px-3 py-2 cursor-pointer hover:bg-(--main) hover:text-white group"
+              className="group px-3 py-2 cursor-pointer hover:bg-(--main) hover:text-white"
               onClick={() => selectDealer(d)}
             >
               <p>
                 <b>{d.name1}</b> {d.name2}
               </p>
-              <p className="text-xs dimmed group-hover:text-white/60">
+              <p className="text-xs group-hover:text-white/60">
                 {d.kdnr} – {d.plz} {d.ort} {d.land}
               </p>
             </div>
