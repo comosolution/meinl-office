@@ -97,9 +97,10 @@ export type TranslationKey =
   | "postalCode"
   | "city"
   | "extra"
-  | "matchcode"
-  | "extra"
   | "kdnr"
+  | "matchcode"
+  | "matchcodeStartsWith"
+  | "kdnrStartsWith"
   | "ka"
   | "latitude"
   | "longitude"
@@ -178,7 +179,8 @@ export type TranslationKey =
   | "years5"
   | "allCustomers"
   | "allArticles"
-  | "cookieDeprecated";
+  | "cookieDeprecated"
+  | "reset";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -191,8 +193,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     all: "Alle",
     allCompanies: "Alle Firmen",
     allPeople: "Alle Personen",
-    searchCompanies: "Firmen durchsuchen ...",
-    searchPeople: "Personen durchsuchen ...",
+    searchCompanies: "Firma suchen ...",
+    searchPeople: "Person suchen ...",
     createPerson: "Person anlegen",
     dashboard: "Dashboard",
     search: "Suche",
@@ -270,6 +272,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     extra: "Zusatz",
     matchcode: "Matchcode",
     kdnr: "Kdnr",
+    matchcodeStartsWith: "Matchcode beginnt mit",
+    kdnrStartsWith: "Kdnr beginnt mit",
     ka: "KA",
     latitude: "Breitengrad",
     longitude: "Längengrad",
@@ -360,6 +364,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     allArticles: "Alle Artikel",
     cookieDeprecated:
       "Diese Übersetzung ist aus Kompatibilitätsgründen eingestellt.",
+    reset: "Zurücksetzen",
   },
   en: {
     homeTitle: "Welcome",
@@ -440,6 +445,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     extra: "Extra",
     matchcode: "Matchcode",
     kdnr: "Kdnr",
+    matchcodeStartsWith: "Matchcode starts with",
+    kdnrStartsWith: "Kdnr starts with",
     ka: "KA",
     latitude: "Latitude",
     longitude: "Longitude",
@@ -539,6 +546,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     allCustomers: "All customers",
     allArticles: "All articles",
     cookieDeprecated: "This translation is set for compatibility.",
+    reset: "Reset",
   },
 };
 

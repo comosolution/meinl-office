@@ -48,13 +48,15 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
             debouncedQuery,
             signal,
           ),
-          fetchResults<Person>(
-            source,
-            service,
-            "persons",
-            debouncedQuery,
-            signal,
-          ),
+          service === "B2C"
+            ? []
+            : fetchResults<Person>(
+                source,
+                service,
+                "persons",
+                debouncedQuery,
+                signal,
+              ),
         ]);
 
         setCompanies(allCompanies);

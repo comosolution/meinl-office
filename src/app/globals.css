@@ -141,6 +141,11 @@ img.inverted {
   border-color: var(--subtle);
 }
 
+.mantine-TextInput-input[data-variant="unstyled"] {
+  background-color: transparent;
+  border-color: transparent;
+}
+
 .mantine-Table-th {
   background-color: transparent;
   font-weight: bold;

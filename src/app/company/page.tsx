@@ -1,8 +1,8 @@
 "use client";
-import { Avatar, Pagination, Table, TextInput } from "@mantine/core";
-import { IconBuildings, IconSearch } from "@tabler/icons-react";
+import { Avatar, Pagination, Select, Table, TextInput } from "@mantine/core";
+import { IconBuildings, IconChevronUp, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Loader from "../components/loader";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
@@ -16,6 +16,14 @@ export default function Page() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState<keyof Company>("name1");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [filters, setFilters] = useState({
+    country: "",
+    kundenart: "",
+    matchcode: "",
+    kdnr: "",
+  });
 
   const fetchData = async () => {
     setLoading(true);
@@ -24,66 +32,211 @@ export default function Page() {
     setLoading(false);
   };
 
-  const filteredData = companies.filter((c) => {
-    const keywords = search.trim().toLowerCase().split(" ");
-    return keywords.every((keyword) =>
-      [
-        c.kdnr.toString() || "",
-        c.name1 || "",
-        c.name2 || "",
-        c.plz || "",
-        c.ort || "",
-        c.matchcode || "",
-      ].some((value) => value.toLowerCase().includes(keyword)),
-    );
-  });
+  const filteredData = useMemo(() => {
+    const keywords = search.trim().toLowerCase().split(" ").filter(Boolean);
+
+    return companies.filter((c) => {
+      const searchMatch =
+        keywords.length === 0 ||
+        keywords.every((keyword) =>
+          [
+            String(c.kdnr) || "",
+            c.name1 || "",
+            c.name2 || "",
+            c.plz || "",
+            c.ort || "",
+            c.matchcode || "",
+          ].some((value) => value.toLowerCase().includes(keyword)),
+        );
+
+      const countryMatch =
+        !filters.country ||
+        (c.land || "").toLowerCase() === filters.country.toLowerCase();
+      const kundenartMatch =
+        !filters.kundenart ||
+        (c.kundenartText || "").toLowerCase() ===
+          filters.kundenart.toLowerCase();
+      const matchcodeMatch =
+        !filters.matchcode ||
+        (c.matchcode || "")
+          .toLowerCase()
+          .startsWith(filters.matchcode.toLowerCase());
+      const kdnrMatch =
+        !filters.kdnr ||
+        (String(c.kdnr) || "")
+          .toLowerCase()
+          .startsWith(filters.kdnr.toLowerCase());
+
+      return (
+        searchMatch &&
+        countryMatch &&
+        kundenartMatch &&
+        matchcodeMatch &&
+        kdnrMatch
+      );
+    });
+  }, [companies, search, filters]);
+
+  const sortedData = useMemo(() => {
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: "base",
+    });
+    return [...filteredData].sort((a, b) => {
+      const aVal = a[sortBy];
+      const bVal = b[sortBy];
+
+      if (typeof aVal === "number" && typeof bVal === "number") {
+        return sortDirection === "asc" ? aVal - bVal : bVal - aVal;
+      }
+
+      const aStr = aVal != null ? String(aVal) : "";
+      const bStr = bVal != null ? String(bVal) : "";
+
+      return sortDirection === "asc"
+        ? collator.compare(aStr, bStr)
+        : collator.compare(bStr, aStr);
+    });
+  }, [filteredData, sortBy, sortDirection]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search, filters]);
+
+  const countryOptions = useMemo(() => {
+    return Array.from(
+      new Set(companies.map((c) => c.land || "").filter(Boolean)),
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((value) => ({ label: value, value }));
+  }, [companies]);
+
+  const kundenartOptions = useMemo(() => {
+    return Array.from(
+      new Set(companies.map((c) => c.kundenartText || "").filter(Boolean)),
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((value) => ({ label: value, value }));
+  }, [companies]);
 
   useEffect(() => {
     fetchData();
   }, [source, service]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [search]);
-
   const pageLimit = 25;
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentPageData = filteredData.slice(startIndex, endIndex);
+  const currentPageData = sortedData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredData.length / pageSize);
+
+  const columns = [
+    { label: "", key: "avatar", sortable: false },
+    { label: t(locale, "name"), key: "name1", sortable: true },
+    { label: t(locale, "extra"), key: "name2", sortable: true },
+    { label: t(locale, "matchcode"), key: "matchcode", sortable: true },
+    { label: t(locale, "kdnr"), key: "kdnr", sortable: true },
+    { label: t(locale, "city"), key: "ort", sortable: true },
+    { label: t(locale, "country"), key: "land", sortable: true },
+    { label: t(locale, "ka"), key: "kundenartText", sortable: true },
+  ] as const;
 
   if (loading) return <Loader />;
 
   return (
-    <main className="flex flex-col gap-8 px-8 py-4">
+    <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>{t(locale, "allCompanies")}</h1>
-        <div className="flex gap-2">
-          <TextInput
-            placeholder={t(locale, "searchCompanies")}
-            leftSection={<IconSearch size={16} />}
-            rightSection={<p className="text-xs">{filteredData.length}</p>}
-            value={search}
-            onChange={(e) => setSearch(e.currentTarget.value)}
-          />
-          {/* <Button leftSection={<IconPlus size={16} />}>
-            Firma anlegen
-          </Button> */}
-        </div>
+        <TextInput
+          variant="unstyled"
+          placeholder={t(locale, "searchCompanies")}
+          leftSection={<IconSearch size={16} />}
+          value={search}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+          className="justify-self-end"
+        />
       </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+        <TextInput
+          label={t(locale, "matchcodeStartsWith")}
+          placeholder="A..."
+          value={filters.matchcode}
+          onChange={(e) => {
+            const value = e.currentTarget.value;
+            setFilters((prev) => ({
+              ...prev,
+              matchcode: value,
+            }));
+          }}
+        />
+        <TextInput
+          label={t(locale, "kdnrStartsWith")}
+          placeholder="123"
+          value={filters.kdnr}
+          onChange={(e) => {
+            const value = e.currentTarget.value;
+            setFilters((prev) => ({ ...prev, kdnr: value }));
+          }}
+        />
+        <Select
+          label={t(locale, "country")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={countryOptions}
+          value={filters.country}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, country: value || "" }))
+          }
+          checkIconPosition="right"
+        />
+        <Select
+          label={t(locale, "ka")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={kundenartOptions}
+          value={filters.kundenart}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, kundenart: value || "" }))
+          }
+          checkIconPosition="right"
+        />
+      </div>
 
       <Table stickyHeader highlightOnHover>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th />
-            <Table.Th>{t(locale, "companyLabel")}</Table.Th>
-            <Table.Th>{t(locale, "extra")}</Table.Th>
-            <Table.Th>{t(locale, "matchcode")}</Table.Th>
-            <Table.Th>{t(locale, "kdnr")}</Table.Th>
-            <Table.Th>{t(locale, "city")}</Table.Th>
-            <Table.Th>{t(locale, "country")}</Table.Th>
-            <Table.Th>{t(locale, "ka")}</Table.Th>
+            {columns.map((col) => (
+              <Table.Th
+                key={col.key}
+                className={col.sortable ? "cursor-pointer select-none" : ""}
+                onClick={() => {
+                  if (!col.sortable) return;
+                  if (sortBy === col.key) {
+                    setSortDirection((prev) =>
+                      prev === "asc" ? "desc" : "asc",
+                    );
+                  } else {
+                    setSortBy(col.key as keyof Company);
+                    setSortDirection("asc");
+                  }
+                }}
+              >
+                <div className="flex items-center gap-1">
+                  {col.label}
+                  {sortBy === col.key && col.sortable && (
+                    <IconChevronUp
+                      size={16}
+                      className={`transition-all ${
+                        sortDirection === "asc" ? "rotate-0" : "rotate-180"
+                      }`}
+                    />
+                  )}
+                </div>
+              </Table.Th>
+            ))}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>

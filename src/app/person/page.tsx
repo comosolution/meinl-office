@@ -55,11 +55,11 @@ export default function Page() {
     <main className="flex flex-col gap-8 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>{t(locale, "allPeople")}</h1>
-        <div className="flex gap-2">
+        <div className="flex justify-self-end">
           <TextInput
+            variant="unstyled"
             placeholder={t(locale, "searchPeople")}
             leftSection={<IconSearch size={16} />}
-            rightSection={<p className="text-xs">{filteredData.length}</p>}
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
