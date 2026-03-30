@@ -50,7 +50,7 @@ import { getInitialValues } from "./form";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
-  const { source, locale, service } = useOffice();
+  const { source, locale } = useOffice();
 
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
@@ -115,7 +115,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     setLoading(true);
     const res = await fetchResults<Dealer>(
       source,
-      service,
+      "B2B",
       "dealers",
       dealerSearch,
     );

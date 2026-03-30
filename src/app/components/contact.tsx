@@ -42,7 +42,7 @@ export default function Contact({
   }
 
   return (
-    <Button.Group>
+    <>
       {buttons.map((b, i) => (
         <Tooltip key={i} label={b.value} withArrow>
           <Button
@@ -55,6 +55,6 @@ export default function Contact({
           </Button>
         </Tooltip>
       ))}
-    </Button.Group>
+    </>
   );
 }

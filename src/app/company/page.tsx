@@ -159,6 +159,15 @@ export default function Page() {
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
         <TextInput
+          label={t(locale, "kdnrStartsWith")}
+          placeholder="123"
+          value={filters.kdnr}
+          onChange={(e) => {
+            const value = e.currentTarget.value;
+            setFilters((prev) => ({ ...prev, kdnr: value }));
+          }}
+        />
+        <TextInput
           label={t(locale, "matchcodeStartsWith")}
           placeholder="A..."
           value={filters.matchcode}
@@ -168,15 +177,6 @@ export default function Page() {
               ...prev,
               matchcode: value,
             }));
-          }}
-        />
-        <TextInput
-          label={t(locale, "kdnrStartsWith")}
-          placeholder="123"
-          value={filters.kdnr}
-          onChange={(e) => {
-            const value = e.currentTarget.value;
-            setFilters((prev) => ({ ...prev, kdnr: value }));
           }}
         />
         <Select

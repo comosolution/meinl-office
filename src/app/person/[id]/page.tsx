@@ -2,7 +2,10 @@
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
-import { MEINL_OFFICE_PERSON_HISTORY_KEY } from "@/app/lib/constants";
+import {
+  MEINL_AE_URL,
+  MEINL_OFFICE_PERSON_HISTORY_KEY,
+} from "@/app/lib/constants";
 import {
   b2bAccess,
   competences,
@@ -34,6 +37,7 @@ import {
   IconBalloon,
   IconChevronLeft,
   IconChevronRight,
+  IconCirclePlus,
   IconDeviceFloppy,
   IconEdit,
   IconIdBadge2,
@@ -110,8 +114,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       return;
     }
 
-    const companies = await response.json();
-    setPerson(companies);
+    const persons = await response.json();
+    setPerson(persons);
   };
 
   const updateHistory = () => {
@@ -202,11 +206,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             {person.name1}
           </Button>
         </Button.Group>
-        <Contact
-          email={person.email}
-          phone={person.phone}
-          mobile={person.mobil}
-        />
+        <Button.Group>
+          <Contact
+            email={person.email}
+            phone={person.phone}
+            mobile={person.mobil}
+          />
+          <Button
+            component="a"
+            href={`${MEINL_AE_URL}?kdnr=${person.kdnr}`}
+            target="_blank"
+            leftSection={<IconCirclePlus size={16} />}
+          >
+            Neuer Auftrag
+          </Button>
+        </Button.Group>
       </div>
       <header className="flex items-center gap-4 py-4">
         <Avatar

@@ -25,6 +25,7 @@ export const getInitialValues = (company: Company) => {
     instagram: company.instagram || "",
     matchcode: company.matchcode || "",
     dealerloc: company.dealerloc || false,
+    expCenter: company.expCenter || false,
     distributor: company.distributor || false,
     brands: company.brands || [],
     latitude: company.latitude || 0,

@@ -15,7 +15,7 @@ export function CustomerSelect({
   value: string | null;
   onChange: (value: string | null) => void;
 }) {
-  const { source, service } = useOffice();
+  const { source } = useOffice();
 
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<{ label: string; value: string }[]>(
@@ -37,7 +37,7 @@ export function CustomerSelect({
       try {
         const allCompanies = await fetchResults<Dealer>(
           source,
-          service,
+          "B2B",
           "companies",
           debouncedQuery,
         );
@@ -59,7 +59,7 @@ export function CustomerSelect({
     };
 
     getData();
-  }, [debouncedQuery, source, service]);
+  }, [debouncedQuery, source]);
 
   return (
     <Select

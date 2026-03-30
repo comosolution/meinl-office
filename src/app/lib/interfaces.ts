@@ -41,6 +41,7 @@ export interface Company {
   instagram: string;
   matchcode: string;
   dealerloc: boolean;
+  expCenter: boolean;
   distributor: boolean;
   brands: Brand[];
   latitude: number;

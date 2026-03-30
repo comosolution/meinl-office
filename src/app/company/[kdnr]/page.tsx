@@ -198,7 +198,9 @@ export default function Page({
         >
           {t(locale, "allCompanies")}
         </Button>
-        <Contact email={company.mailadr} phone={company.telefon} />
+        <Button.Group>
+          <Contact email={company.mailadr} phone={company.telefon} />
+        </Button.Group>
       </div>
 
       <header className="flex items-center gap-4 py-4">
@@ -442,6 +444,13 @@ export default function Page({
                     readOnly
                   />
                 </div>
+                <Checkbox
+                  size="md"
+                  className="mt-4"
+                  label={`${company.name1} ${t(locale, "isExperienceCenter")}.`}
+                  {...form.getInputProps("expCenter", { type: "checkbox" })}
+                  disabled={!edit}
+                />
               </Fieldset>
               {company.latitude !== null && company.longitude !== null && (
                 <Map company={company} />

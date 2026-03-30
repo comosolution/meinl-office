@@ -246,8 +246,8 @@ export default function Sidebar() {
             shadow="md"
             width={200}
             trigger="click-hover"
-            position={isCollapsed ? "right-end" : "top"}
-            offset={isCollapsed ? -4 : 2}
+            position="right-end"
+            offset={0}
             loop={false}
             trapFocus={false}
             menuItemTabIndex={0}

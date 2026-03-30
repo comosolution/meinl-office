@@ -17,7 +17,7 @@ export default function DealerSelect({
   onChange: (value: Dealer[]) => void;
   disabled?: boolean;
 }) {
-  const { source, locale, service } = useOffice();
+  const { source, locale } = useOffice();
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ export default function DealerSelect({
       setLoading(true);
       const res = await fetchResults<Dealer>(
         source,
-        service,
+        "B2B",
         "dealers",
         debouncedSearch,
       );

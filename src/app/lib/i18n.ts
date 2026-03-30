@@ -80,6 +80,7 @@ export type TranslationKey =
   | "department"
   | "managedBy"
   | "showInDealerLocator"
+  | "isExperienceCenter"
   | "noDealers"
   | "noEmployees"
   | "noNotes"
@@ -260,6 +261,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     nameLabel: "Name",
     dealerFor: "Händler für",
     showInDealerLocator: "im DealerLocator anzeigen",
+    isExperienceCenter: "ist ein SE Experience Center",
     noDealers: "Keine Händler erfasst.",
     noEmployees: "Keine Mitarbeiter erfasst.",
     noNotes: "Keine Notizen vorhanden",
@@ -439,7 +441,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     idLabel: "ID",
     nameLabel: "Name",
     dealerFor: "Dealer for",
-    showInDealerLocator: "show in DealerLocator",
+    showInDealerLocator: "is available in DealerLocator",
+    isExperienceCenter: "is a SE Experience Center",
     noDealers: "No dealers found.",
     noEmployees: "No employees found.",
     noNotes: "No notes available",
