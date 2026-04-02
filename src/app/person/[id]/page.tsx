@@ -4,6 +4,7 @@ import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import {
   MEINL_AE_URL,
+  MEINL_AE_USA_URL,
   MEINL_OFFICE_PERSON_HISTORY_KEY,
 } from "@/app/lib/constants";
 import {
@@ -35,9 +36,9 @@ import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import {
   IconBalloon,
+  IconBasketPlus,
   IconChevronLeft,
   IconChevronRight,
-  IconCirclePlus,
   IconDeviceFloppy,
   IconEdit,
   IconIdBadge2,
@@ -214,11 +215,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           />
           <Button
             component="a"
-            href={`${MEINL_AE_URL}?kdnr=${person.kdnr}`}
+            href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${person.kdnr}`}
             target="_blank"
-            leftSection={<IconCirclePlus size={16} />}
+            leftSection={<IconBasketPlus size={16} />}
           >
-            Neuer Auftrag
+            {t(locale, "newOrder")}
           </Button>
         </Button.Group>
       </div>

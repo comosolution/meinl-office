@@ -1,5 +1,6 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import {
+  IconBasket,
   IconBuildings,
   IconNews,
   IconPlus,
@@ -8,10 +9,11 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { useOffice } from "../context/officeContext";
+import { MEINL_AE_URL, MEINL_AE_USA_URL } from "../lib/constants";
 import { t } from "../lib/i18n";
 
 export default function FAB() {
-  const { locale } = useOffice();
+  const { locale, source } = useOffice();
 
   const data = [
     {
@@ -35,6 +37,11 @@ export default function FAB() {
       href: "/ticket/new",
       icon: <IconTicket size={16} />,
     },
+    {
+      label: t(locale, "newOrder"),
+      href: `${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}`,
+      icon: <IconBasket size={16} />,
+    },
   ];
 
   return (
@@ -48,7 +55,7 @@ export default function FAB() {
         transitionProps={{ transition: "rotate-left", duration: 150 }}
       >
         <Menu.Target>
-          <ActionIcon size="xl" radius="xl">
+          <ActionIcon color="yellow" size="xl" radius="xl">
             <IconPlus />
           </ActionIcon>
         </Menu.Target>

@@ -10,6 +10,7 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import {
+  IconBasket,
   IconBuildings,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
@@ -28,7 +29,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
-import { MEINL_OFFICE_SIDEBAR_KEY } from "../lib/constants";
+import {
+  MEINL_AE_URL,
+  MEINL_AE_USA_URL,
+  MEINL_OFFICE_SIDEBAR_KEY,
+} from "../lib/constants";
 import { t } from "../lib/i18n";
 import { navLink } from "../lib/styles";
 import Search from "./search";
@@ -74,6 +79,11 @@ export default function Sidebar() {
       name: t(locale, "tickets"),
       href: "/ticket",
       icon: <IconTicket size={20} />,
+    },
+    {
+      name: t(locale, "orders"),
+      href: `${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}`,
+      icon: <IconBasket size={20} />,
     },
   ];
 

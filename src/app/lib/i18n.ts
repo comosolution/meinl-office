@@ -159,6 +159,7 @@ export type TranslationKey =
   | "newPerson"
   | "newCampaign"
   | "newTicket"
+  | "newOrder"
   | "showAllTickets"
   | "createReturn"
   | "pleaseEnterTitle"
@@ -350,6 +351,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     newPerson: "Neue Person",
     newCampaign: "Neue Kampagne",
     newTicket: "Neues RMA Ticket",
+    newOrder: "Neuer Auftrag",
     showAllTickets: "Alle Tickets anzeigen",
     createReturn: "Retoure beantragen",
     pleaseEnterTitle: "Bitte Titel angeben.",
@@ -368,7 +370,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     byCustomer: "Nach Kunde",
     byArticleNumber: "Nach Artikelnummer",
     total: "Insgesamt",
-    orders: "Bestellungen",
+    orders: "Aufträge",
     history: "Historie",
     days90: "90 Tage",
     months12: "12 Monate",
@@ -541,6 +543,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     newPerson: "New person",
     newCampaign: "New campaign",
     newTicket: "New RMA ticket",
+    newOrder: "New order",
     showAllTickets: "Show all tickets",
     createReturn: "Request return",
     pleaseEnterTitle: "Please enter title.",
