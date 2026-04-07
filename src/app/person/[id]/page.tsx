@@ -329,12 +329,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     readOnly={!edit}
                   />
                   <TextInput
-                    label={t(locale, "mobile") ?? "Mobil"}
+                    label={t(locale, "mobile")}
                     {...form.getInputProps("mobil")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label={t(locale, "fax") ?? "Fax"}
+                    label={t(locale, "fax")}
                     {...form.getInputProps("fax")}
                     readOnly={!edit}
                   />

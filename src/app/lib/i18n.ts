@@ -2,16 +2,16 @@ export type Locale = "de" | "en";
 
 export type TranslationKey =
   | "homeTitle"
-  | "userName"
-  | "userEmail"
   | "companies"
   | "dealers"
   | "people"
+  | "recentlyVisited"
   | "all"
   | "allCompanies"
   | "allPeople"
   | "searchCompanies"
   | "searchPeople"
+  | "searchCompaniesOrPeople"
   | "createPerson"
   | "dashboard"
   | "search"
@@ -23,7 +23,6 @@ export type TranslationKey =
   | "language"
   | "companyLabel"
   | "personLabel"
-  | "paginationTotal"
   | "backToStart"
   | "discard"
   | "saveChanges"
@@ -102,7 +101,6 @@ export type TranslationKey =
   | "matchcode"
   | "matchcodeStartsWith"
   | "kdnrStartsWith"
-  | "ka"
   | "latitude"
   | "longitude"
   | "phone"
@@ -174,6 +172,7 @@ export type TranslationKey =
   | "modified"
   | "filter"
   | "results"
+  | "resultsPerPage"
   | "export"
   | "byCustomer"
   | "byArticleNumber"
@@ -189,21 +188,30 @@ export type TranslationKey =
   | "contactMobile"
   | "contactEmail"
   | "cookieDeprecated"
-  | "reset";
+  | "reset"
+  | "uploadLogoText"
+  | "uploadLogoDescription"
+  | "uploadSuccess"
+  | "uploadError"
+  | "uploadReject"
+  | "deleteLogoError"
+  | "confirmDelete"
+  | "cancel"
+  | "deleteImage";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
     homeTitle: "Willkommen",
-    userName: "Max Mustermann",
-    userEmail: "max.mustermann@meinl.de",
     companies: "Firmen",
     dealers: "Händler",
     people: "Personen",
+    recentlyVisited: "Kürzlich besuchte",
     all: "Alle",
     allCompanies: "Alle Firmen",
     allPeople: "Alle Personen",
     searchCompanies: "Firma suchen ...",
     searchPeople: "Person suchen ...",
+    searchCompaniesOrPeople: "Firma oder Person suchen ...",
     createPerson: "Person anlegen",
     dashboard: "Dashboard",
     search: "Suche",
@@ -215,7 +223,6 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     language: "Sprache",
     companyLabel: "Firma",
     personLabel: "Person",
-    paginationTotal: "Gesamt",
     backToStart: "Zurück zur Startseite",
     discard: "Verwerfen",
     saveChanges: "Änderungen speichern",
@@ -272,7 +279,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     downloadReturnLabel: "Label herunterladen",
     selectPickupDate: "Abholtermin wählen",
     date: "Datum",
-    customerType: "Kundentyp",
+    customerType: "Kundenart",
     websiteUrl: "Website URL",
     streetPostbox: "Straße / Postfach",
     customerNumber: "Kundennummer",
@@ -284,7 +291,6 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     kdnr: "Kdnr",
     matchcodeStartsWith: "Matchcode beginnt mit",
     kdnrStartsWith: "Kdnr beginnt mit",
-    ka: "KA",
     latitude: "Breitengrad",
     longitude: "Längengrad",
     phone: "Telefon",
@@ -366,6 +372,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     modified: "Bearbeitet",
     filter: "Filtern ...",
     results: "Ergebnisse",
+    resultsPerPage: "Ergebnisse pro Seite",
     export: "Exportieren",
     byCustomer: "Nach Kunde",
     byArticleNumber: "Nach Artikelnummer",
@@ -383,48 +390,56 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     cookieDeprecated:
       "Diese Übersetzung ist aus Kompatibilitätsgründen eingestellt.",
     reset: "Zurücksetzen",
+    uploadLogoText: "Logo per Drag&Drop oder Klick hinzufügen",
+    uploadLogoDescription:
+      "Eine Bilddatei – maximal 5 MB. Bevorzugt auf weißem / transparentem Hintergrund.",
+    uploadSuccess: "Logo erfolgreich hochgeladen!",
+    uploadError: "Fehler beim Hochladen!",
+    uploadReject: "Die Datei wurde nicht akzeptiert.",
+    deleteLogoError: "Fehler beim Löschen",
+    confirmDelete: "Löschen bestätigen",
+    deleteImage: "Bild löschen",
   },
   en: {
     homeTitle: "Welcome",
-    userName: "John Doe",
-    userEmail: "john.doe@meinl.de",
     companies: "Companies",
     dealers: "Dealers",
     people: "People",
+    recentlyVisited: "Recently Visited",
     all: "All",
     allCompanies: "All Companies",
     allPeople: "All People",
     searchCompanies: "Search companies ...",
     searchPeople: "Search people ...",
-    createPerson: "Add person",
+    searchCompaniesOrPeople: "Search companies or people ...",
+    createPerson: "Add Person",
     dashboard: "Dashboard",
     search: "Search",
     startPage: "Home",
     campaigns: "Campaigns",
     tickets: "RMA Tickets",
-    logout: "Sign out",
+    logout: "Sign Out",
     source: "Source",
     language: "Language",
     companyLabel: "Company",
     personLabel: "Person",
-    paginationTotal: "Total",
     backToStart: "Back to start",
     discard: "Discard",
-    saveChanges: "Save changes",
-    editData: "Edit data",
-    companyDetails: "Company details",
-    companyLogo: "Company logo",
+    saveChanges: "Save Changes",
+    editData: "Edit Data",
+    companyDetails: "Company Details",
+    companyLogo: "Company Logo",
     dealerLocator: "DealerLocator",
     dealer: "Dealer",
     employees: "Employees",
     details: "Details",
-    addCampaign: "Add campaign",
-    searchByName: "Search by name or kdnr ...",
+    addCampaign: "Add Campaign",
+    searchByName: "Search by name or CID ...",
     allCampaigns: "All Campaigns",
     ticketOverview: "Overview",
     ticketStats: "Analytics",
-    createTicket: "Create ticket",
-    allTickets: "All tickets",
+    createTicket: "Create Ticket",
+    allTickets: "All Tickets",
     cancel: "Cancel",
     delete: "Delete",
     deleteConfirm: "Delete campaign permanently",
@@ -438,7 +453,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     brand: "Brand",
     start: "Start",
     end: "End",
-    searchByContact: "Search by name or kdnr ...",
+    searchByContact: "Search by name or CID ...",
     back: "Back",
     idLabel: "ID",
     nameLabel: "Name",
@@ -450,76 +465,75 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     noNotes: "No notes available",
     noFiles: "No files available",
     ticketNotFound: "No ticket found",
-    addReturnLabel: "Create return",
-    downloadReturnLabel: "Download label",
-    selectPickupDate: "Select pickup date",
+    addReturnLabel: "Create Return",
+    downloadReturnLabel: "Download Return Label",
+    selectPickupDate: "Select Pickup Date",
     date: "Date",
-    customerType: "Customer type",
+    customerType: "Customer Type",
     websiteUrl: "Website URL",
     streetPostbox: "Street / PO Box",
     customerNumber: "Customer number",
     country: "Country",
-    postalCode: "Postal code",
+    postalCode: "Postal Code",
     city: "City",
     extra: "Extra",
     matchcode: "Matchcode",
-    kdnr: "Kdnr",
+    kdnr: "CID",
     matchcodeStartsWith: "Matchcode starts with",
-    kdnrStartsWith: "Kdnr starts with",
-    ka: "KA",
+    kdnrStartsWith: "CID starts with",
     latitude: "Latitude",
     longitude: "Longitude",
     phone: "Phone",
     email: "Email",
     salutation: "Salutation",
     title: "Title",
-    lastName: "Last name",
-    firstName: "First name",
+    lastName: "Last Name",
+    firstName: "First Name",
     mobile: "Mobile",
     fax: "Fax",
     employee: "Employee",
-    personalData: "Personal data",
+    personalData: "Personal Data",
     privateSection: "Private",
     responsibilities: "Responsibilities",
-    officeAddress: "Office address",
-    personalAddress: "Private address",
+    officeAddress: "Office Address",
+    personalAddress: "Private Address",
     position: "Position",
     department: "Department",
     managedBy: "Managed by",
-    copyLink: "Copy link",
+    copyLink: "Copy Link",
     customer: "Customer",
-    shippingAddress: "Shipping address",
-    contactPerson: "Contact person",
+    shippingAddress: "Shipping Address",
+    contactPerson: "Contact Person",
     person: "Person",
-    articleNumber: "Article number",
+    articleNumber: "Article Number",
     quantity: "Quantity",
     descriptionLabel: "Description",
     next: "Next",
     previous: "Previous",
     selectCustomer: "Enter customer number or name",
     hobbies: "Hobbies",
-    musicGenre: "Music genre",
+    musicGenre: "Music Genre",
     instrument: "Instrument",
-    dateOfBirth: "Date of birth",
-    maritalStatus: "Marital status",
-    tShirtSize: "T-shirt size",
+    dateOfBirth: "Date of Birth",
+    maritalStatus: "Marital Status",
+    tShirtSize: "T-shirt Size",
     street: "Street",
-    poBox: "P.O. box",
+    poBox: "P.O. Box",
     additional: "Additional",
     name: "Name",
     name1: "Name 1",
     name2: "Name 2",
     name3: "Name 3",
-    serialNumber: "Serial number",
-    orderType: "Order type",
+    serialNumber: "Serial Number",
+    orderType: "Order Type",
     streetAndNumber: "Street & No.",
     zip: "ZIP",
     additionalShipping: "Additional",
     status: "Status",
-    editTicket: "Edit ticket",
+    editTicket: "Edit Ticket",
     save: "Save",
     files: "Files",
-    uploadFiles: "Select images or PDFs",
+    uploadFiles: "Select Images or PDFs",
     upload: "Upload",
     download: "Download",
     comment: "Note",
@@ -527,37 +541,38 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     createdOn: "Created on",
     created: "Created",
     rmaFrom: "RMA from",
-    downloadLaufzettel: "Download tracking sheet",
+    downloadLaufzettel: "Download Tracking Sheet",
     edit: "Edit",
     customerX: "Customer {kdnr}",
     tabDetails: "Details",
     tabFiles: "Files",
     tabHistory: "History",
-    articleNumberKu: "Article number (ext)",
-    articleNumberMei: "Article number (int)",
-    serialNumberKu: "Serial number (ext)",
-    serialNumberMei: "Serial number (int)",
+    articleNumberKu: "Article Number (ext)",
+    articleNumberMei: "Article Number (int)",
+    serialNumberKu: "Serial Number (ext)",
+    serialNumberMei: "Serial Number (int)",
     description: "Description",
-    newStatus: "New status",
-    newCompany: "New company",
-    newPerson: "New person",
-    newCampaign: "New campaign",
-    newTicket: "New RMA ticket",
-    newOrder: "New order",
-    showAllTickets: "Show all tickets",
-    createReturn: "Request return",
+    newStatus: "New Status",
+    newCompany: "New Company",
+    newPerson: "New Person",
+    newCampaign: "New Campaign",
+    newTicket: "New RMA Ticket",
+    newOrder: "New Order",
+    showAllTickets: "Show All Tickets",
+    createReturn: "Request Return",
     pleaseEnterTitle: "Please enter title.",
     error: "Error",
-    openLink: "Open link",
+    openLink: "Open Link",
     linkCopied: "Link copied",
-    participatingDealers: "Participating dealers",
-    searchByNameOrKdnr: "Search by name or kdnr ...",
+    participatingDealers: "Participating Dealers",
+    searchByNameOrKdnr: "Search by name or CID ...",
     notActivatedForDealerLocator: "is not activated for the DealerLocator.",
-    offeredProducts: "Offered products",
+    offeredProducts: "Offered Products",
     searchByArticleNumber: "Search by article number ...",
     modified: "Modified",
     filter: "Filter ...",
-    results: "results",
+    results: "Results",
+    resultsPerPage: "Results per Page",
     export: "Export",
     byCustomer: "By customer",
     byArticleNumber: "By article number",
@@ -569,11 +584,20 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     years5: "5 years",
     allCustomers: "All customers",
     allArticles: "All articles",
-    contactPhone: "Call landline",
-    contactMobile: "Call mobile phone",
-    contactEmail: "Send email",
+    contactPhone: "Call Landline",
+    contactMobile: "Call Mobile Phone",
+    contactEmail: "Send Email",
     cookieDeprecated: "This translation is set for compatibility.",
     reset: "Reset",
+    uploadLogoText: "Add logo by drag & drop or click",
+    uploadLogoDescription:
+      "An image file - maximum 5 MB. Preferably on white / transparent background.",
+    uploadSuccess: "Logo uploaded successfully!",
+    uploadError: "Error uploading!",
+    uploadReject: "The file was not accepted.",
+    deleteLogoError: "Error deleting",
+    confirmDelete: "Confirm Delete",
+    deleteImage: "Delete Image",
   },
 };
 

@@ -5,11 +5,11 @@ import {
   Badge,
   Menu,
   NavLink,
-  SegmentedControl,
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
 import {
+  IconAddressBook,
   IconBasket,
   IconBuildings,
   IconLayoutDashboard,
@@ -74,16 +74,19 @@ export default function Sidebar() {
       name: t(locale, "campaigns"),
       href: "/campaign",
       icon: <IconNews size={20} />,
+      hidden: source !== "OFFGUT",
     },
     {
       name: t(locale, "tickets"),
       href: "/ticket",
       icon: <IconTicket size={20} />,
+      hidden: source !== "OFFGUT",
     },
     {
       name: t(locale, "orders"),
       href: `${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}`,
       icon: <IconBasket size={20} />,
+      external: true,
     },
   ];
 
@@ -94,18 +97,6 @@ export default function Sidebar() {
   useEffect(() => {
     document.body.classList.toggle("dark", colorScheme === "dark");
   }, [colorScheme]);
-
-  const ServiceSwitch = () => {
-    return (
-      <SegmentedControl
-        value={service}
-        onChange={setService}
-        data={[{ label: t(locale, "all"), value: "" }, "B2B", "B2C"]}
-        orientation={isCollapsed ? "vertical" : "horizontal"}
-        fullWidth
-      />
-    );
-  };
 
   const SourceSwitch = () => {
     const name = source === "OFFGUT" ? "Deutschland" : "USA";
@@ -147,6 +138,21 @@ export default function Sidebar() {
           setLocale(locale === "de" ? "en" : "de");
         }}
       />
+    );
+  };
+
+  const ServiceSwitch = () => {
+    if (source !== "OFFGUT") {
+      return null;
+    }
+
+    return (
+      <Menu.Item
+        leftSection={<IconAddressBook size={14} />}
+        onClick={() => setService(service === "B2B" ? "B2C" : "B2B")}
+      >
+        {service}
+      </Menu.Item>
     );
   };
 
@@ -222,36 +228,38 @@ export default function Sidebar() {
           )}
         </ActionIcon>
       </div>
-      <ServiceSwitch />
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">
           <Search collapsed={isCollapsed} />
-          {nav.map((entry, index) => {
-            const active =
-              (path.includes(entry.href) && entry.href !== "/") ||
-              (path === "/" && entry.href === "/");
+          {nav
+            .filter((entry) => !entry.hidden)
+            .map((entry, index) => {
+              const active =
+                (path.includes(entry.href) && entry.href !== "/") ||
+                (path === "/" && entry.href === "/");
 
-            return (
-              <NavLink
-                key={index}
-                label={entry.name}
-                title={entry.name}
-                active={active}
-                color="red"
-                variant={active ? "filled" : "subtle"}
-                leftSection={entry.icon}
-                component={Link}
-                href={entry.href}
-                styles={{
-                  root: navLink(isCollapsed),
-                }}
-              />
-            );
-          })}
+              return (
+                <NavLink
+                  key={index}
+                  label={entry.name}
+                  title={entry.name}
+                  active={active}
+                  color="red"
+                  variant={active ? "filled" : "subtle"}
+                  leftSection={entry.icon}
+                  component={Link}
+                  href={entry.href}
+                  target={entry.external ? "_blank" : undefined}
+                  styles={{
+                    root: navLink(isCollapsed),
+                  }}
+                />
+              );
+            })}
         </div>
         <div className="flex flex-col">
-          <LanguageSwitch />
           <SourceSwitch />
+          <LanguageSwitch />
           <Menu
             shadow="md"
             width={200}
@@ -281,6 +289,7 @@ export default function Sidebar() {
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Label>{session?.user?.email}</Menu.Label>
+              <ServiceSwitch />
               <ThemeSwitch />
               <Menu.Item
                 leftSection={<IconLogout size={14} />}

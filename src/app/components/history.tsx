@@ -3,6 +3,7 @@ import { IconEyeOff, IconTrash } from "@tabler/icons-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 
 export default function HistoryList<T>({
   title,
@@ -44,7 +45,7 @@ export default function HistoryList<T>({
     <Paper p="lg" bg="transparent" withBorder>
       <div className="h-full flex flex-col gap-4 justify-between">
         <h2 className="text-center">
-          {locale === "de" ? "Kürzlich besuchte" : "Recently visited"} {title}
+          {t(locale, "recentlyVisited")} {title}
         </h2>
         {filteredHistory.length > 0 ? (
           <>

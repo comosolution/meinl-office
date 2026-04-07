@@ -5,7 +5,11 @@ import Map from "@/app/components/map";
 import LogoPreview from "@/app/components/preview";
 import FileUploader from "@/app/components/upload";
 import { useOffice } from "@/app/context/officeContext";
-import { MEINL_OFFICE_COMPANY_HISTORY_KEY } from "@/app/lib/constants";
+import {
+  MEINL_AE_URL,
+  MEINL_AE_USA_URL,
+  MEINL_OFFICE_COMPANY_HISTORY_KEY,
+} from "@/app/lib/constants";
 import { customerTypes } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
@@ -25,6 +29,7 @@ import {
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import {
+  IconBasketPlus,
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandYoutube,
@@ -200,6 +205,14 @@ export default function Page({
         </Button>
         <Button.Group>
           <Contact email={company.mailadr} phone={company.telefon} />
+          <Button
+            component="a"
+            href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${company.kdnr}`}
+            target="_blank"
+            leftSection={<IconBasketPlus size={16} />}
+          >
+            {t(locale, "newOrder")}
+          </Button>
         </Button.Group>
       </div>
 
@@ -360,12 +373,17 @@ export default function Page({
               <Fieldset>
                 <h2>{t(locale, "communication")}</h2>
                 <TextInput
-                  label={t(locale, "phone") ?? "Telefon"}
+                  label={t(locale, "phone")}
                   {...form.getInputProps("telefon")}
                   readOnly
                 />
                 <TextInput
-                  label={t(locale, "email") ?? "E-Mail"}
+                  label={t(locale, "fax")}
+                  {...form.getInputProps("fax")}
+                  readOnly
+                />
+                <TextInput
+                  label={t(locale, "email")}
                   {...form.getInputProps("mailadr")}
                   readOnly
                 />
@@ -498,33 +516,35 @@ export default function Page({
                     ))}
                 </div>
               </Fieldset>
-              <Fieldset>
-                <h2>Kampagnen</h2>
-                <Table highlightOnHover>
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>{t(locale, "idLabel")}</Table.Th>
-                      <Table.Th>{t(locale, "nameLabel")}</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {company.campagnen
-                      .sort((a, b) => a.id - b.id)
-                      .map((campaign, index) => (
-                        <Table.Tr
-                          key={index}
-                          className="cursor-pointer"
-                          onClick={() =>
-                            router.push(`/campaign/${campaign.id}`)
-                          }
-                        >
-                          <Table.Td>{campaign.id}</Table.Td>
-                          <Table.Td>{campaign.title}</Table.Td>
-                        </Table.Tr>
-                      ))}
-                  </Table.Tbody>
-                </Table>
-              </Fieldset>
+              {source === "OFFGUT" && (
+                <Fieldset>
+                  <h2>Kampagnen</h2>
+                  <Table highlightOnHover>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>{t(locale, "idLabel")}</Table.Th>
+                        <Table.Th>{t(locale, "nameLabel")}</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {company.campagnen
+                        .sort((a, b) => a.id - b.id)
+                        .map((campaign, index) => (
+                          <Table.Tr
+                            key={index}
+                            className="cursor-pointer"
+                            onClick={() =>
+                              router.push(`/campaign/${campaign.id}`)
+                            }
+                          >
+                            <Table.Td>{campaign.id}</Table.Td>
+                            <Table.Td>{campaign.title}</Table.Td>
+                          </Table.Tr>
+                        ))}
+                    </Table.Tbody>
+                  </Table>
+                </Fieldset>
+              )}
             </div>
           </Tabs.Panel>
         </form>

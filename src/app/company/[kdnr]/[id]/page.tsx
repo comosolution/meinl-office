@@ -5,7 +5,11 @@ import Map from "@/app/components/map";
 import LogoPreview from "@/app/components/preview";
 import FileUploader from "@/app/components/upload";
 import { useOffice } from "@/app/context/officeContext";
-import { MEINL_OFFICE_DEALER_HISTORY_KEY } from "@/app/lib/constants";
+import {
+  MEINL_AE_URL,
+  MEINL_AE_USA_URL,
+  MEINL_OFFICE_DEALER_HISTORY_KEY,
+} from "@/app/lib/constants";
 import { t } from "@/app/lib/i18n";
 import { Company, DealerInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor, parseUrl } from "@/app/lib/utils";
@@ -23,6 +27,7 @@ import {
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import {
+  IconBasketPlus,
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandYoutube,
@@ -208,6 +213,14 @@ export default function Page({
         </Button.Group>
         <Button.Group>
           <Contact email={company.mailadr} phone={company.telefon} />
+          <Button
+            component="a"
+            href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${company.kdnr}`}
+            target="_blank"
+            leftSection={<IconBasketPlus size={16} />}
+          >
+            {t(locale, "newOrder")}
+          </Button>
         </Button.Group>
       </div>
 
@@ -342,6 +355,11 @@ export default function Page({
                 <TextInput
                   label={t(locale, "phone")}
                   {...form.getInputProps("telefon")}
+                  readOnly
+                />
+                <TextInput
+                  label={t(locale, "fax")}
+                  {...form.getInputProps("fax")}
                   readOnly
                 />
                 <TextInput

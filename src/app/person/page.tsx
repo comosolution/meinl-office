@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import EmployeeHead from "../components/employeeHead";
 import EmployeeRow from "../components/employeeRow";
 import Loader from "../components/loader";
+import PageLimit from "../components/pageLimit";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Person } from "../lib/interfaces";
@@ -15,6 +16,7 @@ export default function Page() {
   const { locale, source, service } = useOffice();
   const [persons, setPersons] = useState<Person[]>([]);
   const [page, setPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState<string | null>("25");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +44,6 @@ export default function Page() {
     setPage(1);
   }, [search]);
 
-  const pageLimit = 25;
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -52,7 +53,7 @@ export default function Page() {
   if (loading) return <Loader />;
 
   return (
-    <main className="flex flex-col gap-8 px-8 py-4">
+    <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>{t(locale, "allPeople")}</h1>
         <div className="flex justify-self-end">
@@ -72,6 +73,12 @@ export default function Page() {
           </Button>
         </div>
       </header>
+
+      <PageLimit
+        pageLimit={pageLimit}
+        setPageLimit={setPageLimit}
+        results={filteredData.length}
+      />
 
       <Table stickyHeader highlightOnHover>
         <EmployeeHead withCompany />

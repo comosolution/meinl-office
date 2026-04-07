@@ -13,7 +13,7 @@ import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
 import { parseDb2Date } from "../lib/utils";
 
-export default function Home() {
+export default function Page() {
   const { locale } = useOffice();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState("table");

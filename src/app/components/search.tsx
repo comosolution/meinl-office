@@ -1,5 +1,10 @@
 import { Avatar, Kbd, NavLink } from "@mantine/core";
-import { Spotlight, spotlight, SpotlightActionData } from "@mantine/spotlight";
+import {
+  Spotlight,
+  spotlight,
+  SpotlightActionData,
+  SpotlightActionGroupData,
+} from "@mantine/spotlight";
 import {
   IconBuildings,
   IconBuildingWarehouse,
@@ -126,7 +131,16 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       a.label!.localeCompare(b.label!, "de", { sensitivity: "base" }),
     );
 
-  const actions: SpotlightActionData[] = [...companyActions, ...personActions];
+  const actions: SpotlightActionGroupData[] = [
+    {
+      group: t(locale, "companies"),
+      actions: companyActions,
+    },
+    {
+      group: t(locale, "people"),
+      actions: personActions,
+    },
+  ];
 
   return (
     <>
@@ -163,7 +177,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         searchProps={{
           leftSection: <IconSearch size={20} stroke={1.5} />,
           rightSection: <p className="text-xs">{actions.length}</p>,
-          placeholder: "Firma oder Mitarbeiter suchen ...",
+          placeholder: t(locale, "searchCompaniesOrPeople"),
         }}
       />
     </>

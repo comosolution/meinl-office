@@ -2,6 +2,7 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { IconPhoto } from "@tabler/icons-react";
 import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 import { Company } from "../lib/interfaces";
 
 export default function FileUploader({
@@ -11,7 +12,7 @@ export default function FileUploader({
   company: Company;
   onSuccess?: () => void;
 }) {
-  const { source } = useOffice();
+  const { source, locale } = useOffice();
 
   const uploadFile = async (file: File) => {
     const formData = new FormData();
@@ -30,8 +31,8 @@ export default function FileUploader({
       if (!res.ok) throw new Error(data.error || "Fehler beim Hochladen!");
 
       notifications.show({
-        title: "Erfolg",
-        message: "Logo erfolgreich hochgeladen!",
+        title: t(locale, "uploadSuccess"),
+        message: t(locale, "uploadSuccess"),
         color: "black",
       });
 
@@ -40,8 +41,8 @@ export default function FileUploader({
       }
     } catch {
       notifications.show({
-        title: "Fehler",
-        message: "Fehler beim Hochladen!",
+        title: t(locale, "error"),
+        message: t(locale, "uploadError"),
         color: "red",
       });
     }
@@ -52,8 +53,8 @@ export default function FileUploader({
       onDrop={async (files) => uploadFile(files[0])}
       onReject={() =>
         notifications.show({
-          title: "Fehler",
-          message: "Die Datei wurde nicht akzeptiert.",
+          title: t(locale, "error"),
+          message: t(locale, "uploadReject"),
           color: "red",
         })
       }
@@ -67,11 +68,8 @@ export default function FileUploader({
       >
         <IconPhoto size={96} color="var(--mantine-color-dimmed)" stroke={2} />
         <div>
-          <p>Logo per Drag&Drop oder Klick hinzufügen</p>
-          <p className="text-xs dimmed">
-            Eine Bilddatei – maximal 5 MB <br /> Bevorzugt auf weißem /
-            transparentem Hintergrund
-          </p>
+          <p>{t(locale, "uploadLogoText")}</p>
+          <p className="text-xs dimmed">{t(locale, "uploadLogoDescription")}</p>
         </div>
       </div>
     </Dropzone>

@@ -1,19 +1,28 @@
 "use client";
-import { Avatar, Pagination, Select, Table, TextInput } from "@mantine/core";
+import {
+  Avatar,
+  Pagination,
+  SegmentedControl,
+  Select,
+  Table,
+  TextInput,
+} from "@mantine/core";
 import { IconBuildings, IconChevronUp, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import Loader from "../components/loader";
+import PageLimit from "../components/pageLimit";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Company } from "../lib/interfaces";
 import { fetchResults, getAvatarColor, safeLocaleCompare } from "../lib/utils";
 
 export default function Page() {
-  const { locale, source, service } = useOffice();
+  const { locale, source, service, setService } = useOffice();
   const router = useRouter();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [page, setPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState<string | null>("25");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState<keyof Company>("name1");
@@ -123,7 +132,6 @@ export default function Page() {
     fetchData();
   }, [source, service]);
 
-  const pageLimit = 25;
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -138,7 +146,7 @@ export default function Page() {
     { label: t(locale, "kdnr"), key: "kdnr", sortable: true },
     { label: t(locale, "city"), key: "ort", sortable: true },
     { label: t(locale, "country"), key: "land", sortable: true },
-    { label: t(locale, "ka"), key: "kundenartText", sortable: true },
+    { label: t(locale, "customerType"), key: "kundenartText", sortable: true },
   ] as const;
 
   if (loading) return <Loader />;
@@ -147,6 +155,13 @@ export default function Page() {
     <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>{t(locale, "allCompanies")}</h1>
+        {source === "OFFGUT" && (
+          <SegmentedControl
+            data={["B2B", "B2C"]}
+            value={service}
+            onChange={(value) => setService(value as "B2B" | "B2C")}
+          />
+        )}
         <TextInput
           variant="unstyled"
           placeholder={t(locale, "searchCompanies")}
@@ -192,7 +207,7 @@ export default function Page() {
           checkIconPosition="right"
         />
         <Select
-          label={t(locale, "ka")}
+          label={t(locale, "customerType")}
           searchable
           clearable
           placeholder={t(locale, "filter")}
@@ -204,6 +219,12 @@ export default function Page() {
           checkIconPosition="right"
         />
       </div>
+
+      <PageLimit
+        pageLimit={pageLimit}
+        setPageLimit={setPageLimit}
+        results={filteredData.length}
+      />
 
       <Table stickyHeader highlightOnHover>
         <Table.Thead>

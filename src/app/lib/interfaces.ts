@@ -33,6 +33,7 @@ export interface Company {
   strasse: string;
   land: string;
   telefon: string;
+  fax: string;
   mailadr: string;
   www: string;
   logo: string;

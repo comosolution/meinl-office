@@ -55,6 +55,12 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     localStorage.setItem(MEINL_OFFICE_SOURCE_KEY, source);
+    if (source === "OFFUSA" && service !== "B2B") {
+      setService("B2B");
+    }
+    if (source === "OFFUSA" && locale !== "en") {
+      setLocale("en");
+    }
   }, [source]);
 
   useEffect(() => {

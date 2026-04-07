@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, Button, Table, Tooltip } from "@mantine/core";
+import { Avatar, Button, Pagination, Table, Tooltip } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { format, formatDistance } from "date-fns";
 import { de, enUS } from "date-fns/locale";
@@ -15,6 +15,7 @@ import { Campaign } from "../lib/interfaces";
 export default function Page() {
   const router = useRouter();
   const { source, locale } = useOffice();
+  const [page, setPage] = useState(1);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -56,6 +57,13 @@ export default function Page() {
     }
   };
 
+  const pageLimit = 25;
+  const pageSize = pageLimit ? +pageLimit : 25;
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentPageData = campaigns.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(campaigns.length / pageSize);
+
   if (loading) return <Loader />;
 
   return (
@@ -85,7 +93,7 @@ export default function Page() {
         </Table.Thead>
         <Table.Tbody>
           {campaigns &&
-            campaigns
+            currentPageData
               .sort((a, b) => a.id - b.id)
               .map((campaign, index) => (
                 <Table.Tr
@@ -122,6 +130,12 @@ export default function Page() {
               ))}
         </Table.Tbody>
       </Table>
+      <Pagination
+        value={page}
+        onChange={setPage}
+        total={totalPages}
+        className="flex justify-center"
+      />
     </main>
   );
 }

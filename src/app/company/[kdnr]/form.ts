@@ -17,6 +17,7 @@ export const getInitialValues = (company: Company) => {
     strasse: company.strasse || "",
     land: company.land || "",
     telefon: company.telefon || "",
+    fax: company.fax || "",
     mailadr: company.mailadr || "",
     www: company.www || "",
     logo: company.logo || "",

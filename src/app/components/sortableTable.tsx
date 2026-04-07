@@ -10,6 +10,7 @@ import { useOffice } from "../context/officeContext";
 import { LONG_DATE_FORMAT } from "../lib/constants";
 import { t } from "../lib/i18n";
 import { exportXLSX } from "../lib/utils";
+import PageLimit from "./pageLimit";
 
 export default function SortableTable({
   tickets,
@@ -21,6 +22,7 @@ export default function SortableTable({
   const router = useRouter();
   const { locale } = useOffice();
   const [page, setPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState<string | null>("25");
   const [sortBy, setSortBy] = useState<TicketKey>("created");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [filters, setFilters] = useState({
@@ -30,7 +32,7 @@ export default function SortableTable({
     artnr: "",
   });
 
-  const filteredTickets = useMemo(() => {
+  const filteredData = useMemo(() => {
     return tickets.filter((ticket) => {
       const matchesKdnr = filters.kdnr ? ticket.kdnr === filters.kdnr : true;
       const matchesKdnrName = filters.kdnr_name
@@ -60,30 +62,30 @@ export default function SortableTable({
   };
 
   const kdnrOptions = useMemo(
-    () => getFilterOptions(filteredTickets, "kdnr"),
-    [filteredTickets],
+    () => getFilterOptions(filteredData, "kdnr"),
+    [filteredData],
   );
   const kdnrNameOptions = useMemo(
-    () => getFilterOptions(filteredTickets, "kdnr_name"),
-    [filteredTickets],
+    () => getFilterOptions(filteredData, "kdnr_name"),
+    [filteredData],
   );
   const statusOptions = useMemo(
     () =>
       Array.from(
-        new Set(filteredTickets.map((t) => t.status_int.nr).filter(Boolean)),
+        new Set(filteredData.map((t) => t.status_int.nr).filter(Boolean)),
       )
         .sort((a, b) => String(a).localeCompare(String(b)))
         .map((value) => value),
-    [filteredTickets],
+    [filteredData],
   );
   const artnrOptions = useMemo(() => {
     const artnrSet = new Set(
-      filteredTickets.map((t) => t.artnr_mei || t.artnr_ku).filter(Boolean),
+      filteredData.map((t) => t.artnr_mei || t.artnr_ku).filter(Boolean),
     );
     return Array.from(artnrSet)
       .sort((a, b) => String(a).localeCompare(String(b)))
       .map((value) => ({ label: String(value), value: String(value) }));
-  }, [filteredTickets]);
+  }, [filteredData]);
 
   const columns: {
     label: string;
@@ -134,9 +136,9 @@ export default function SortableTable({
   };
 
   const sortedTickets = useMemo(() => {
-    if (!sortBy) return filteredTickets;
+    if (!sortBy) return filteredData;
 
-    return [...filteredTickets].sort((a, b) => {
+    return [...filteredData].sort((a, b) => {
       let aVal: string | Status = a[sortBy as keyof TicketSummary];
       let bVal: string | Status = b[sortBy as keyof TicketSummary];
 
@@ -158,13 +160,13 @@ export default function SortableTable({
         ? String(aVal).localeCompare(String(bVal))
         : String(bVal).localeCompare(String(aVal));
     });
-  }, [filteredTickets, sortBy, sortDirection]);
+  }, [filteredData, sortBy, sortDirection]);
 
-  const pageSize = 25;
+  const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentPageData = sortedTickets.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredTickets.length / pageSize);
+  const totalPages = Math.ceil(filteredData.length / pageSize);
 
   return (
     <div className="flex flex-col gap-4">
@@ -218,22 +220,25 @@ export default function SortableTable({
           }
           checkIconPosition="right"
         />
-        <div>
-          <label className="text-[12px] dimmed">
-            {filteredTickets.length} {t(locale, "results")}
-          </label>
-          <Button
-            variant="light"
-            onClick={() => {
-              exportXLSX(JSON.stringify(sortedTickets));
-            }}
-            fullWidth
-            leftSection={<IconTableExport size={16} />}
-          >
-            {t(locale, "export")}
-          </Button>
-        </div>
+
+        <Button
+          variant="light"
+          onClick={() => {
+            exportXLSX(JSON.stringify(sortedTickets));
+          }}
+          fullWidth
+          leftSection={<IconTableExport size={16} />}
+        >
+          {t(locale, "export")}
+        </Button>
       </div>
+
+      <PageLimit
+        pageLimit={pageLimit}
+        setPageLimit={setPageLimit}
+        results={filteredData.length}
+      />
+
       <Table stickyHeader highlightOnHover layout="fixed">
         <Table.Thead>
           <Table.Tr>

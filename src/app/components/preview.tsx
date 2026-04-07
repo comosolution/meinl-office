@@ -3,6 +3,7 @@ import { IconCheck, IconTrash, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 import { Company } from "../lib/interfaces";
 
 export default function LogoPreview({
@@ -12,7 +13,7 @@ export default function LogoPreview({
   company: Company;
   onDelete: () => void;
 }) {
-  const { source } = useOffice();
+  const { source, locale } = useOffice();
   const [hovered, setHovered] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -27,7 +28,7 @@ export default function LogoPreview({
         },
       );
 
-      if (!res.ok) throw new Error("Fehler beim Löschen");
+      if (!res.ok) throw new Error(t(locale, "deleteLogoError"));
 
       onDelete();
       setConfirmDelete(false);
@@ -67,14 +68,14 @@ export default function LogoPreview({
                 onClick={handleDelete}
                 leftSection={<IconCheck size={16} />}
               >
-                Löschen bestätigen
+                {t(locale, "confirmDelete")}
               </Button>
               <Button
                 color="dark"
                 onClick={() => setConfirmDelete(false)}
                 leftSection={<IconX size={16} />}
               >
-                Abbrechen
+                {t(locale, "cancel")}
               </Button>
             </Button.Group>
           ) : (
@@ -83,7 +84,7 @@ export default function LogoPreview({
               onClick={() => setConfirmDelete(true)}
               leftSection={<IconTrash size={16} />}
             >
-              Bild löschen
+              {t(locale, "deleteImage")}
             </Button>
           )}
         </div>
