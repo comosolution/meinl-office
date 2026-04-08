@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, Button, Pagination, Table, Tooltip } from "@mantine/core";
+import { Avatar, Button, Table, Tooltip } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { format, formatDistance } from "date-fns";
 import { de, enUS } from "date-fns/locale";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "../components/loader";
+import PageLimit from "../components/pageLimit";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Campaign } from "../lib/interfaces";
@@ -16,6 +17,7 @@ export default function Page() {
   const router = useRouter();
   const { source, locale } = useOffice();
   const [page, setPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState<string | null>("25");
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -57,17 +59,15 @@ export default function Page() {
     }
   };
 
-  const pageLimit = 25;
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentPageData = campaigns.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(campaigns.length / pageSize);
 
   if (loading) return <Loader />;
 
   return (
-    <main className="flex flex-col gap-8 px-8 py-4">
+    <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>{t(locale, "campaigns")}</h1>
         <div className="flex gap-1">
@@ -80,7 +80,16 @@ export default function Page() {
           </Button>
         </div>
       </header>
-      <Table stickyHeader highlightOnHover>
+
+      <PageLimit
+        value={page}
+        onChange={setPage}
+        pageLimit={pageLimit}
+        setPageLimit={setPageLimit}
+        results={campaigns.length}
+      />
+
+      <Table highlightOnHover>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>ID</Table.Th>
@@ -130,12 +139,6 @@ export default function Page() {
               ))}
         </Table.Tbody>
       </Table>
-      <Pagination
-        value={page}
-        onChange={setPage}
-        total={totalPages}
-        className="flex justify-center"
-      />
     </main>
   );
 }

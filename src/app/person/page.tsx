@@ -1,5 +1,5 @@
 "use client";
-import { Button, Pagination, Table, TextInput } from "@mantine/core";
+import { Button, Table, TextInput } from "@mantine/core";
 import { IconPlus, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -48,7 +48,6 @@ export default function Page() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentPageData = filteredData.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredData.length / pageSize);
 
   if (loading) return <Loader />;
 
@@ -75,12 +74,14 @@ export default function Page() {
       </header>
 
       <PageLimit
+        value={page}
+        onChange={setPage}
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         results={filteredData.length}
       />
 
-      <Table stickyHeader highlightOnHover>
+      <Table highlightOnHover>
         <EmployeeHead withCompany />
         <Table.Tbody>
           {persons &&
@@ -89,12 +90,6 @@ export default function Page() {
             ))}
         </Table.Tbody>
       </Table>
-      <Pagination
-        value={page}
-        onChange={setPage}
-        total={totalPages}
-        className="flex justify-center"
-      />
     </main>
   );
 }

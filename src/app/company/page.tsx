@@ -1,7 +1,6 @@
 "use client";
 import {
   Avatar,
-  Pagination,
   SegmentedControl,
   Select,
   Table,
@@ -136,7 +135,6 @@ export default function Page() {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentPageData = sortedData.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const columns = [
     { label: "", key: "avatar", sortable: false },
@@ -221,12 +219,14 @@ export default function Page() {
       </div>
 
       <PageLimit
+        value={page}
+        onChange={setPage}
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         results={filteredData.length}
       />
 
-      <Table stickyHeader highlightOnHover>
+      <Table highlightOnHover>
         <Table.Thead>
           <Table.Tr>
             {columns.map((col) => (
@@ -291,12 +291,6 @@ export default function Page() {
           ))}
         </Table.Tbody>
       </Table>
-      <Pagination
-        value={page}
-        onChange={setPage}
-        total={totalPages}
-        className="flex justify-center"
-      />
     </main>
   );
 }

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Status, TicketSummary } from "@/app/lib/interfaces";
-import { Button, Pagination, Select, Table } from "@mantine/core";
+import { Button, Select, Table } from "@mantine/core";
 import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -166,7 +166,6 @@ export default function SortableTable({
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentPageData = sortedTickets.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredData.length / pageSize);
 
   return (
     <div className="flex flex-col gap-4">
@@ -234,12 +233,14 @@ export default function SortableTable({
       </div>
 
       <PageLimit
+        value={page}
+        onChange={setPage}
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         results={filteredData.length}
       />
 
-      <Table stickyHeader highlightOnHover layout="fixed">
+      <Table highlightOnHover layout="fixed">
         <Table.Thead>
           <Table.Tr>
             {columns.map(({ label, key }) => (
@@ -279,12 +280,6 @@ export default function SortableTable({
           ))}
         </Table.Tbody>
       </Table>
-      <Pagination
-        value={page}
-        onChange={setPage}
-        total={totalPages}
-        className="flex justify-center"
-      />
     </div>
   );
 }

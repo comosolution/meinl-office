@@ -92,6 +92,7 @@ export default function Page() {
           {t(locale, "createTicket")}
         </Button>
       </header>
+
       {value === "table" ? (
         <SortableTable tickets={tickets} />
       ) : (
