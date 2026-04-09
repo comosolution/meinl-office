@@ -201,7 +201,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`bg-(--background-subtle) h-screen ${
+      className={`bg-(--background-subtle) h-screen border-r border-(--border-color) ${
         isCollapsed ? "w-16" : "w-[260px]"
       } sticky top-0 z-50 flex flex-col gap-2 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
     >

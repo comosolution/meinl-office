@@ -38,8 +38,11 @@ export default function Pagination({
   const totalPages = Math.ceil(results / (parseInt(pageLimit || "25") || 25));
 
   return (
-    <div className="sticky top-0 z-50 flex justify-between items-center gap-2 backdrop-blur py-2">
-      <div className="flex items-center gap-2">
+    <div className="sticky top-0 z-30 grid grid-cols-3 items-center gap-2 backdrop-blur py-2">
+      <p className="text-xs">
+        {results} {t(locale, "results")}
+      </p>
+      <div className="flex justify-center">
         <MantinePagination.Root
           value={page}
           onChange={setPage}
@@ -53,12 +56,8 @@ export default function Pagination({
             <MantinePagination.Next />
           </div>
         </MantinePagination.Root>
-        <p className="text-xs dimmed">
-          {results} {t(locale, "results")}
-        </p>
       </div>
-      <div className="flex items-baseline gap-1">
-        <p className="text-xs">{t(locale, "resultsPerPage")}:</p>
+      <div className="flex justify-end items-baseline gap-1">
         <Select
           size="xs"
           data={["25", "100", "1000", "10000"]}
@@ -68,6 +67,7 @@ export default function Pagination({
           allowDeselect={false}
           checkIconPosition="right"
         />
+        <p className="text-xs">{t(locale, "resultsPerPage")}</p>
       </div>
     </div>
   );
