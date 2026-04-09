@@ -197,7 +197,7 @@ export const formatDateToString = (date: Date | string | null): string => {
 };
 
 export const getAvatarColor = (input: string | number) => {
-  return +input < 60 ? "red" : "yellow";
+  return +input > 59 ? "yellow" : "red";
 };
 
 export const fetchResults = async <T>(

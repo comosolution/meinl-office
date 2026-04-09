@@ -31,6 +31,8 @@ export default function Page() {
     kundenart: "",
     matchcode: "",
     kdnr: "",
+    branche: "",
+    vertreter: "",
   });
 
   const fetchData = async () => {
@@ -74,13 +76,21 @@ export default function Page() {
         (String(c.kdnr) || "")
           .toLowerCase()
           .startsWith(filters.kdnr.toLowerCase());
+      const brancheMatch =
+        !filters.branche ||
+        (c.branche || "").toLowerCase() === filters.branche.toLowerCase();
+      const vertreterMatch =
+        !filters.vertreter ||
+        (c.vertreter || "").toLowerCase() === filters.vertreter.toLowerCase();
 
       return (
         searchMatch &&
         countryMatch &&
         kundenartMatch &&
         matchcodeMatch &&
-        kdnrMatch
+        kdnrMatch &&
+        brancheMatch &&
+        vertreterMatch
       );
     });
   }, [companies, search, filters]);
@@ -122,6 +132,22 @@ export default function Page() {
   const kundenartOptions = useMemo(() => {
     return Array.from(
       new Set(companies.map((c) => c.kundenartText || "").filter(Boolean)),
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((value) => ({ label: value, value }));
+  }, [companies]);
+
+  const brancheOptions = useMemo(() => {
+    return Array.from(
+      new Set(companies.map((c) => c.branche || "").filter(Boolean)),
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((value) => ({ label: value, value }));
+  }, [companies]);
+
+  const vertreterOptions = useMemo(() => {
+    return Array.from(
+      new Set(companies.map((c) => c.vertreter || "").filter(Boolean)),
     )
       .sort((a, b) => a.localeCompare(b))
       .map((value) => ({ label: value, value }));
@@ -172,7 +198,9 @@ export default function Page() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+      <div
+        className={`grid grid-cols-1 ${source === "OFFGUT" ? "md:grid-cols-4" : "md:grid-cols-6"} gap-2`}
+      >
         <TextInput
           label={t(locale, "kdnrStartsWith")}
           placeholder="123"
@@ -218,6 +246,34 @@ export default function Page() {
           }
           checkIconPosition="right"
         />
+        {source === "OFFUSA" && (
+          <>
+            <Select
+              label={t(locale, "deputy")}
+              searchable
+              clearable
+              placeholder={t(locale, "filter")}
+              data={brancheOptions}
+              value={filters.branche}
+              onChange={(value) =>
+                setFilters((prev) => ({ ...prev, branche: value || "" }))
+              }
+              checkIconPosition="right"
+            />
+            <Select
+              label={t(locale, "deputy")}
+              searchable
+              clearable
+              placeholder={t(locale, "filter")}
+              data={vertreterOptions}
+              value={filters.branche}
+              onChange={(value) =>
+                setFilters((prev) => ({ ...prev, vertreter: value || "" }))
+              }
+              checkIconPosition="right"
+            />
+          </>
+        )}
       </div>
 
       <Pagination

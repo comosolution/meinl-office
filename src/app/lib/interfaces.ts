@@ -44,6 +44,8 @@ export interface Company {
   dealerloc: boolean;
   expCenter: boolean;
   distributor: boolean;
+  branche: string;
+  vertreter: string;
   brands: Brand[];
   latitude: number;
   longitude: number;

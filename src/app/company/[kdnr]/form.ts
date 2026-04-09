@@ -28,6 +28,8 @@ export const getInitialValues = (company: Company) => {
     dealerloc: company.dealerloc || false,
     expCenter: company.expCenter || false,
     distributor: company.distributor || false,
+    branche: company.branche || "",
+    vertreter: company.vertreter || "",
     brands: company.brands || [],
     latitude: company.latitude || 0,
     longitude: company.longitude || 0,
