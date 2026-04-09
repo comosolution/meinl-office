@@ -176,7 +176,11 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
         shortcut={["mod + K", "mod + P", "/"]}
         searchProps={{
           leftSection: <IconSearch size={20} stroke={1.5} />,
-          rightSection: <p className="text-xs">{actions.length}</p>,
+          rightSection: (
+            <p className="text-xs">
+              {companyActions.length + personActions.length}
+            </p>
+          ),
           placeholder: t(locale, "searchCompaniesOrPeople"),
         }}
       />

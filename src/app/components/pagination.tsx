@@ -57,8 +57,8 @@ export default function Pagination({
           {results} {t(locale, "results")}
         </p>
       </div>
-
-      <div className="flex items-baseline gap-2">
+      <div className="flex items-baseline gap-1">
+        <p className="text-xs">{t(locale, "resultsPerPage")}:</p>
         <Select
           size="xs"
           data={["25", "100", "1000", "10000"]}
@@ -68,7 +68,6 @@ export default function Pagination({
           allowDeselect={false}
           checkIconPosition="right"
         />
-        <p className="text-xs">{t(locale, "resultsPerPage")}</p>
       </div>
     </div>
   );

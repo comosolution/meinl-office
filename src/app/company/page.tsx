@@ -247,7 +247,7 @@ export default function Page() {
                   }
                 }}
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 whitespace-nowrap">
                   {col.label}
                   {sortBy === col.key && col.sortable && (
                     <IconChevronUp

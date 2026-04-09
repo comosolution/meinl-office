@@ -351,32 +351,32 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Büroanschrift</h2>
+                <h2>{t(locale, "officeAddress")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Land"
+                    label={t(locale, "country")}
                     {...form.getInputProps("land")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Straße"
+                    label={t(locale, "street")}
                     {...form.getInputProps("strasse")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="PLZ"
+                    label={t(locale, "postalCode")}
                     {...form.getInputProps("plz")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Ort"
+                    label={t(locale, "city")}
                     {...form.getInputProps("ort")}
                     readOnly={!edit}
                   />
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Zuständigkeiten</h2>
+                <h2>{t(locale, "responsibilities")}</h2>
                 <Checkbox.Group {...form.getInputProps("zustaendig")}>
                   <div className="grid grid-cols-2 gap-2">
                     {competences.map((c, i) => (
@@ -455,42 +455,42 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <div className="grid grid-cols-2 gap-4">
               {actions}
               <Fieldset>
-                <h2>Privatanschrift</h2>
+                <h2>{t(locale, "personalAddress")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <TextInput
-                    label="Land"
+                    label={t(locale, "country")}
                     {...form.getInputProps("landpr")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Straße"
+                    label={t(locale, "street")}
                     {...form.getInputProps("strassepr")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="PLZ"
+                    label={t(locale, "postalCode")}
                     {...form.getInputProps("plzpr")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Ort"
+                    label={t(locale, "city")}
                     {...form.getInputProps("ortpr")}
                     readOnly={!edit}
                   />
                 </div>
               </Fieldset>
               <Fieldset>
-                <h2>Details</h2>
+                <h2>{t(locale, "details")}</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <DateInput
-                    label="Geburtsdatum"
+                    label={t(locale, "dateOfBirth")}
                     locale="de"
                     valueFormat="DD.MM.YYYY"
                     {...form.getInputProps("gebdat")}
                     readOnly={!edit}
                   />
                   <Select
-                    label="Familienstand"
+                    label={t(locale, "maritalStatus")}
                     data={familyStatus}
                     {...form.getInputProps("famstand")}
                     checkIconPosition="right"
@@ -498,23 +498,23 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     aria-readonly={!edit}
                   />
                   <TextInput
-                    label="Hobbies"
+                    label={t(locale, "hobbies")}
                     {...form.getInputProps("hobbies")}
                     readOnly={!edit}
                   />
                   <Autocomplete
-                    label="T-Shirt"
+                    label={t(locale, "tShirtSize")}
                     data={sizes}
                     {...form.getInputProps("tshirt")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Musikrichtung"
+                    label={t(locale, "musicGenre")}
                     {...form.getInputProps("musikri")}
                     readOnly={!edit}
                   />
                   <TextInput
-                    label="Instrument"
+                    label={t(locale, "instrument")}
                     {...form.getInputProps("instrument")}
                     readOnly={!edit}
                   />

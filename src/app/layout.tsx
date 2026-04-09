@@ -29,7 +29,7 @@ const theme = createTheme({
   fontFamily: "Titillium Web",
   primaryColor: "red",
   colors: {
-    red: [
+    /*  red: [
       "#ffe8ec",
       "#ffd1d7",
       "#fba1ac",
@@ -40,6 +40,18 @@ const theme = createTheme({
       "#d50626",
       "#bf0021",
       "#a7001a",
+    ], */
+    red: [
+      "#fdedf1",
+      "#f4d7de",
+      "#ecaaba",
+      "#e67b94",
+      "#e05574",
+      "#dd3e60",
+      "#dd3256",
+      "#c42647",
+      "#af1f3e",
+      "#8c1230",
     ],
     yellow: [
       "#fff4e4",

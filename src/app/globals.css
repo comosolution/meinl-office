@@ -8,6 +8,7 @@
   --hover: var(--mantine-color-gray-light);
   --border-color: var(--mantine-color-gray-4);
   --main: #ef233c;
+  --dark: #8c1230;
   --transition: 300ms all ease-in-out;
   --defaultPadding: 12px;
   --filter-inverted: invert(1) brightness(0.9) contrast(1.2);

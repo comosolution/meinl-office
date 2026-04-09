@@ -93,7 +93,7 @@ export default function SortableTable({
     render?: (ticket: TicketSummary) => React.ReactNode;
   }[] = [
     {
-      label: "Nr",
+      label: "ID",
       key: "nr",
     },
     {
@@ -249,7 +249,7 @@ export default function SortableTable({
                 onClick={() => handleSort(key)}
                 className="cursor-pointer select-none"
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 whitespace-nowrap">
                   {label}
                   {sortBy === key && (
                     <IconChevronUp
