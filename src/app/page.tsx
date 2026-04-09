@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, Button, SegmentedControl } from "@mantine/core";
+import { Avatar, Button } from "@mantine/core";
 import {
   IconBuildings,
   IconBuildingWarehouse,
@@ -24,36 +24,12 @@ import { getAvatarColor } from "./lib/utils";
 
 export default function Page() {
   const { data: session } = useSession();
-  const { source, setSource, locale } = useOffice();
+  const { locale } = useOffice();
 
   return (
     <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 p-4">
         <h1>{t(locale, "homeTitle")}</h1>
-        <SegmentedControl
-          value={source}
-          onChange={(value) => setSource(value as "OFFGUT" | "OFFUSA")}
-          data={[
-            {
-              label: (
-                <div className="flex items-center gap-1">
-                  <span>🇩🇪</span>
-                  <p>Deutschland</p>
-                </div>
-              ),
-              value: "OFFGUT",
-            },
-            {
-              label: (
-                <div className="flex items-center gap-1">
-                  <span>🇺🇸</span>
-                  <p>USA</p>
-                </div>
-              ),
-              value: "OFFUSA",
-            },
-          ]}
-        />
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
             <h3>{session?.user?.name}</h3>

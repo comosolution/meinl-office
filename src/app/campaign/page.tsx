@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "../components/loader";
-import PageLimit from "../components/pageLimit";
+import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Campaign } from "../lib/interfaces";
@@ -17,7 +17,7 @@ export default function Page() {
   const router = useRouter();
   const { source, locale } = useOffice();
   const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState<string | null>("25");
+  const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -81,9 +81,9 @@ export default function Page() {
         </div>
       </header>
 
-      <PageLimit
-        value={page}
-        onChange={setPage}
+      <Pagination
+        page={page}
+        setPage={setPage}
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         results={campaigns.length}

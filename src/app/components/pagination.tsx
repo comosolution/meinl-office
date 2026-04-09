@@ -1,43 +1,58 @@
-import { Pagination, Select } from "@mantine/core";
+import { Pagination as MantinePagination, Select } from "@mantine/core";
 import { useEffect } from "react";
 import { useOffice } from "../context/officeContext";
+import { MEINL_OFFICE_LIMIT_KEY } from "../lib/constants";
 import { t } from "../lib/i18n";
 
-export default function PageLimit({
-  value,
-  onChange,
+export default function Pagination({
+  page,
+  setPage,
   pageLimit,
   setPageLimit,
   results,
 }: {
-  value: number;
-  onChange: (page: number) => void;
+  page: number;
+  setPage: (page: number) => void;
   pageLimit: string | null;
-  setPageLimit: (value: string | null) => void;
+  setPageLimit: (page: string | null) => void;
   results: number;
 }) {
   const { locale } = useOffice();
 
   useEffect(() => {
-    onChange(1);
+    const savedLimit = localStorage.getItem(MEINL_OFFICE_LIMIT_KEY);
+    if (savedLimit !== null) {
+      setPageLimit(savedLimit);
+    } else {
+      setPageLimit("25");
+    }
+  }, []);
+
+  useEffect(() => {
+    setPage(1);
+    if (pageLimit !== null) {
+      localStorage.setItem(MEINL_OFFICE_LIMIT_KEY, pageLimit);
+    }
   }, [pageLimit]);
 
   const totalPages = Math.ceil(results / (parseInt(pageLimit || "25") || 25));
 
-  if (totalPages < 2) return null;
-
   return (
     <div className="sticky top-0 z-50 flex justify-between items-center gap-2 backdrop-blur py-2">
       <div className="flex items-center gap-2">
-        <Pagination.Root value={value} onChange={onChange} total={totalPages}>
+        <MantinePagination.Root
+          value={page}
+          onChange={setPage}
+          total={totalPages}
+        >
           <div className="flex items-center gap-2">
-            <Pagination.Previous />
+            <MantinePagination.Previous />
             <p className="text-xs">
-              {t(locale, "page")} {value} {t(locale, "of")} {totalPages}
+              {t(locale, "page")} {page} {t(locale, "of")} {totalPages}
             </p>
-            <Pagination.Next />
+            <MantinePagination.Next />
           </div>
-        </Pagination.Root>
+        </MantinePagination.Root>
         <p className="text-xs dimmed">
           {results} {t(locale, "results")}
         </p>

@@ -10,7 +10,7 @@ import { useOffice } from "../context/officeContext";
 import { LONG_DATE_FORMAT } from "../lib/constants";
 import { t } from "../lib/i18n";
 import { exportXLSX } from "../lib/utils";
-import PageLimit from "./pageLimit";
+import Pagination from "./pagination";
 
 export default function SortableTable({
   tickets,
@@ -22,7 +22,7 @@ export default function SortableTable({
   const router = useRouter();
   const { locale } = useOffice();
   const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState<string | null>("25");
+  const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<TicketKey>("created");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [filters, setFilters] = useState({
@@ -232,9 +232,9 @@ export default function SortableTable({
         </Button>
       </div>
 
-      <PageLimit
-        value={page}
-        onChange={setPage}
+      <Pagination
+        page={page}
+        setPage={setPage}
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         results={filteredData.length}

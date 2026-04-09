@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import EmployeeHead from "../components/employeeHead";
 import EmployeeRow from "../components/employeeRow";
 import Loader from "../components/loader";
-import PageLimit from "../components/pageLimit";
+import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Person } from "../lib/interfaces";
@@ -16,7 +16,7 @@ export default function Page() {
   const { locale, source, service } = useOffice();
   const [persons, setPersons] = useState<Person[]>([]);
   const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState<string | null>("25");
+  const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -73,9 +73,9 @@ export default function Page() {
         </div>
       </header>
 
-      <PageLimit
-        value={page}
-        onChange={setPage}
+      <Pagination
+        page={page}
+        setPage={setPage}
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         results={filteredData.length}

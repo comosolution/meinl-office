@@ -60,37 +60,39 @@ export default function Page() {
     <main className="flex flex-col gap-4 p-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>{t(locale, "allTickets")}</h1>
-        <SegmentedControl
-          value={value}
-          onChange={setValue}
-          data={[
-            {
-              label: (
-                <div className="flex items-center gap-1">
-                  <IconTable size={16} />
-                  <p>{t(locale, "ticketOverview")}</p>
-                </div>
-              ),
-              value: "table",
-            },
-            {
-              label: (
-                <div className="flex items-center gap-1">
-                  <IconDashboard size={16} />
-                  <p>{t(locale, "ticketStats")}</p>
-                </div>
-              ),
-              value: "dashboard",
-            },
-          ]}
-        />
-        <Button
-          component={Link}
-          href="/ticket/new"
-          leftSection={<IconPlus size={16} />}
-        >
-          {t(locale, "createTicket")}
-        </Button>
+        <div className="flex items-center gap-2">
+          <SegmentedControl
+            value={value}
+            onChange={setValue}
+            data={[
+              {
+                label: (
+                  <div className="flex items-center gap-1">
+                    <IconTable size={16} />
+                    <p>{t(locale, "ticketOverview")}</p>
+                  </div>
+                ),
+                value: "table",
+              },
+              {
+                label: (
+                  <div className="flex items-center gap-1">
+                    <IconDashboard size={16} />
+                    <p>{t(locale, "ticketStats")}</p>
+                  </div>
+                ),
+                value: "dashboard",
+              },
+            ]}
+          />
+          <Button
+            component={Link}
+            href="/ticket/new"
+            leftSection={<IconPlus size={16} />}
+          >
+            {t(locale, "createTicket")}
+          </Button>
+        </div>
       </header>
 
       {value === "table" ? (

@@ -1,4 +1,4 @@
-import PageLimit from "@/app/components/pageLimit";
+import Pagination from "@/app/components/pagination";
 import { Company } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import { Avatar, Checkbox, Table, Tabs } from "@mantine/core";
@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function DistributorTab({ company }: { company: Company }) {
   const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState<string | null>("25");
+  const [pageLimit, setPageLimit] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -26,9 +26,9 @@ export default function DistributorTab({ company }: { company: Company }) {
       <div className="flex flex-col gap-2">
         {company.haendler.length > 0 ? (
           <div className="flex flex-col gap-4">
-            <PageLimit
-              value={page}
-              onChange={setPage}
+            <Pagination
+              page={page}
+              setPage={setPage}
               pageLimit={pageLimit}
               setPageLimit={setPageLimit}
               results={sortedDistributors.length}

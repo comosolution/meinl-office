@@ -280,11 +280,11 @@ export default function Sidebar() {
                 leftSection={
                   <Avatar
                     color="red"
+                    variant="filled"
                     size={20}
                     name={session?.user?.name ?? ""}
                   />
                 }
-                className="mb-2"
               />
             </Menu.Target>
             <Menu.Dropdown>

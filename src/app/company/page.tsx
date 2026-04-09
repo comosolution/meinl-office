@@ -10,7 +10,7 @@ import { IconBuildings, IconChevronUp, IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import Loader from "../components/loader";
-import PageLimit from "../components/pageLimit";
+import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Company } from "../lib/interfaces";
@@ -21,7 +21,7 @@ export default function Page() {
   const router = useRouter();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState<string | null>("25");
+  const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState<keyof Company>("name1");
@@ -153,21 +153,23 @@ export default function Page() {
     <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>{t(locale, "allCompanies")}</h1>
-        {source === "OFFGUT" && (
-          <SegmentedControl
-            data={["B2B", "B2C"]}
-            value={service}
-            onChange={(value) => setService(value as "B2B" | "B2C")}
+        <div className="flex items-center gap-2">
+          <TextInput
+            variant="unstyled"
+            placeholder={t(locale, "searchCompanies")}
+            leftSection={<IconSearch size={16} />}
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+            className="justify-self-end"
           />
-        )}
-        <TextInput
-          variant="unstyled"
-          placeholder={t(locale, "searchCompanies")}
-          leftSection={<IconSearch size={16} />}
-          value={search}
-          onChange={(e) => setSearch(e.currentTarget.value)}
-          className="justify-self-end"
-        />
+          {source === "OFFGUT" && (
+            <SegmentedControl
+              data={["B2B", "B2C"]}
+              value={service}
+              onChange={(value) => setService(value as "B2B" | "B2C")}
+            />
+          )}
+        </div>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
@@ -218,9 +220,9 @@ export default function Page() {
         />
       </div>
 
-      <PageLimit
-        value={page}
-        onChange={setPage}
+      <Pagination
+        page={page}
+        setPage={setPage}
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         results={filteredData.length}
