@@ -210,6 +210,7 @@ export type TranslationKey =
   | "discount"
   | "information"
   | "newNote"
+  | "editNote"
   | "subject"
   | "body"
   | "newAddress";
@@ -426,6 +427,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     discount: "Rabatt",
     information: "Informationen",
     newNote: "Neue Notiz",
+    editNote: "Notiz bearbeiten",
     subject: "Betreff",
     body: "Inhalt",
     newAddress: "Neue Adresse",
@@ -640,6 +642,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     discount: "Discount",
     information: "Infos",
     newNote: "New Note",
+    editNote: "Edit Note",
     subject: "Subject",
     body: "Content",
     newAddress: "New Address",

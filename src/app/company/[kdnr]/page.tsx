@@ -638,7 +638,13 @@ export default function Page({
 
         <DistributorTab company={company} />
         <EmployeesTab company={company} />
-        <NotesTab company={company} />
+        <NotesTab
+          company={company}
+          onCompanySave={async () => {
+            await getCompany();
+            setActiveTab("notes");
+          }}
+        />
       </Tabs>
     </main>
   );

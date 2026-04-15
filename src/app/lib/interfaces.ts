@@ -261,8 +261,10 @@ export interface Discount {
 }
 
 export interface Note {
-  datum: string;
-  creator: string;
+  unid: string;
+  created: string;
+  modified: string;
+  user: string;
   subject: string;
   body: string;
 }

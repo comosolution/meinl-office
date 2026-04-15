@@ -13,7 +13,8 @@ export default function Login() {
           <p className="text-2xl tracking-tighter text-(--main)">Office</p>
         </div>
         <Button
-          color="black"
+          color="gray"
+          variant="light"
           onClick={() => signIn("azure-ad")}
           leftSection={<IconBrandWindows size={16} />}
           fullWidth
