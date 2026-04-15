@@ -17,13 +17,13 @@ import { useState } from "react";
 export default function NotesTab({ company }: { company: Company }) {
   const { locale } = useOffice();
 
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<string | null>("0");
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <>
       <Tabs.Panel value="notes" className="py-4">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           <div className="flex justify-end">
             <Button
               color="dark"
@@ -35,12 +35,7 @@ export default function NotesTab({ company }: { company: Company }) {
             </Button>
           </div>
           {company.notes && company.notes.length > 0 ? (
-            <Accordion
-              variant="filled"
-              defaultValue={"0"}
-              value={value}
-              onChange={setValue}
-            >
+            <Accordion variant="filled" value={value} onChange={setValue}>
               {company.notes
                 .sort((a, b) => dayjs(b.datum).diff(dayjs(a.datum)))
                 .map((note, index) => (
