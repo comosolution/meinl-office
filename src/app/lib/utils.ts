@@ -1,4 +1,3 @@
-import clsx, { ClassValue } from "clsx";
 import {
   format,
   isAfter,
@@ -8,7 +7,6 @@ import {
   subMonths,
   subYears,
 } from "date-fns";
-import { twMerge } from "tailwind-merge";
 import * as XLSX from "xlsx";
 import { Order, TicketSummary } from "./interfaces";
 
@@ -152,10 +150,6 @@ export const getTop10Items = (tickets: TicketSummary[]) => {
 
   return sorted;
 };
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
 export const safeLocaleCompare = (a?: string | null, b?: string | null) => {
   if (!a && !b) return 0;

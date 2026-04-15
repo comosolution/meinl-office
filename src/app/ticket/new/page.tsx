@@ -289,10 +289,10 @@ export default function Page() {
               {form.values.kdnr && (
                 <>
                   <Select
-                    label="Versandadresse"
+                    label={t(locale, "shippingAddress")}
                     data={[
                       ...addresses,
-                      { label: "Neue Adresse", value: "0000" },
+                      { label: t(locale, "newAddress"), value: "0000" },
                     ]}
                     checkIconPosition="right"
                     searchable
@@ -317,28 +317,28 @@ export default function Page() {
                         {...form.getInputProps("vaname3")}
                       />
                       <TextInput
-                        label="Straße & Nr."
+                        label={t(locale, "streetAndNumber")}
                         className="col-span-2"
                         {...form.getInputProps("vastrasse")}
                         withAsterisk
                       />
                       <TextInput
-                        label="PLZ"
+                        label={t(locale, "postalCode")}
                         {...form.getInputProps("vaplz")}
                         withAsterisk
                       />
                       <TextInput
-                        label="Ort"
+                        label={t(locale, "city")}
                         {...form.getInputProps("vaort")}
                         withAsterisk
                       />
                       <TextInput
-                        label="Land"
+                        label={t(locale, "country")}
                         {...form.getInputProps("valand")}
                         withAsterisk
                       />
                       <TextInput
-                        label="Zusatz"
+                        label={t(locale, "extra")}
                         {...form.getInputProps("zusatz")}
                       />
                     </div>

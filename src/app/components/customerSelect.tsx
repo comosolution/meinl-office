@@ -70,9 +70,9 @@ export function CustomerSelect({
       onSearchChange={setQuery}
       data={options}
       renderOption={({ option }) => {
-        const isRed = (option as CustomerOption).kundenart === 30;
+        const highlighted = (option as CustomerOption).kundenart === 30;
         return (
-          <Text size="sm" c={isRed ? "red" : undefined}>
+          <Text size="sm" c={highlighted ? "yellow" : undefined}>
             {option.label}
           </Text>
         );
