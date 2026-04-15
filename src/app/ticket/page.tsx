@@ -1,8 +1,13 @@
 "use client";
-import { Button, SegmentedControl } from "@mantine/core";
-import { IconDashboard, IconPlus, IconTable } from "@tabler/icons-react";
+import { Button, SegmentedControl, TextInput } from "@mantine/core";
+import {
+  IconDashboard,
+  IconPlus,
+  IconSearch,
+  IconTable,
+} from "@tabler/icons-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import LineGraph from "../components/lineGraph";
 import Loader from "../components/loader";
 import SortableTable from "../components/sortableTable";
@@ -16,6 +21,7 @@ import { parseDb2Date } from "../lib/utils";
 export default function Page() {
   const { locale } = useOffice();
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const [value, setValue] = useState("table");
   const [tickets, setTickets] = useState<TicketSummary[]>([]);
   const [orders, setOrders] = useState<Order[]>(orderData as Order[]);
@@ -44,6 +50,28 @@ export default function Page() {
     }
   };
 
+  const filteredTickets = useMemo(() => {
+    const keywords = search.trim().toLowerCase().split(" ").filter(Boolean);
+
+    return tickets.filter((t) => {
+      const searchMatch =
+        keywords.length === 0 ||
+        keywords.every((keyword) =>
+          [
+            t.nr || "",
+            String(t.kdnr) || "",
+            t.kdnr_full || "",
+            t.kdnr_name || "",
+            t.artnr_ku || "",
+            t.artnr_mei || "",
+            t.created || "",
+            t.createdby || "",
+          ].some((value) => value.toLowerCase().includes(keyword)),
+        );
+      return searchMatch;
+    });
+  }, [tickets, search]);
+
   useEffect(() => {
     fetchTickets();
   }, []);
@@ -61,6 +89,15 @@ export default function Page() {
       <header className="flex justify-between items-center gap-2 py-4">
         <h1>{t(locale, "allTickets")}</h1>
         <div className="flex items-center gap-2">
+          {value === "table" && (
+            <TextInput
+              variant="unstyled"
+              placeholder={t(locale, "searchTickets")}
+              leftSection={<IconSearch size={16} />}
+              value={search}
+              onChange={(e) => setSearch(e.currentTarget.value)}
+            />
+          )}
           <SegmentedControl
             value={value}
             onChange={setValue}
@@ -96,7 +133,7 @@ export default function Page() {
       </header>
 
       {value === "table" ? (
-        <SortableTable tickets={tickets} />
+        <SortableTable tickets={filteredTickets} />
       ) : (
         <div className="flex flex-col gap-4">
           <LineGraph tickets={tickets} orders={orders} />

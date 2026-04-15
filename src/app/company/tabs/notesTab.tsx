@@ -12,10 +12,12 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconDeviceFloppy, IconPlus } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 export default function NotesTab({ company }: { company: Company }) {
   const { locale } = useOffice();
 
+  const [value, setValue] = useState<string | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -33,7 +35,12 @@ export default function NotesTab({ company }: { company: Company }) {
             </Button>
           </div>
           {company.notes && company.notes.length > 0 ? (
-            <Accordion variant="filled" defaultValue={"0"}>
+            <Accordion
+              variant="filled"
+              defaultValue={"0"}
+              value={value}
+              onChange={setValue}
+            >
               {company.notes
                 .sort((a, b) => dayjs(b.datum).diff(dayjs(a.datum)))
                 .map((note, index) => (
@@ -44,13 +51,15 @@ export default function NotesTab({ company }: { company: Company }) {
                           {dayjs(note.datum).format("DD.MM.YYYY")} –{" "}
                           {note.creator}
                         </p>
-                        <h2>{note.subject}</h2>
+                        <h2
+                          className={`${value === `${index}` ? "" : "line-clamp-1"}`}
+                        >
+                          {note.subject}
+                        </h2>
                       </div>
                     </Accordion.Control>
                     <Accordion.Panel>
-                      <div className="flex flex-col border-t border-t-black/20 pt-4">
-                        <p>{note.body}</p>
-                      </div>
+                      <p>{note.body}</p>
                     </Accordion.Panel>
                   </Accordion.Item>
                 ))}

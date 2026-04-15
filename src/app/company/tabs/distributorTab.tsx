@@ -1,4 +1,6 @@
 import Pagination from "@/app/components/pagination";
+import { useOffice } from "@/app/context/officeContext";
+import { t } from "@/app/lib/i18n";
 import { Company } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import { Avatar, Checkbox, Table, Tabs } from "@mantine/core";
@@ -7,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function DistributorTab({ company }: { company: Company }) {
+  const { locale } = useOffice();
+
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
 
@@ -79,7 +83,7 @@ export default function DistributorTab({ company }: { company: Company }) {
             </Table>
           </div>
         ) : (
-          <p className="dimmed text-center p-4">Keine Händler erfasst.</p>
+          <p className="dimmed text-center p-4">{t(locale, "noDealers")}</p>
         )}
       </div>
     </Tabs.Panel>

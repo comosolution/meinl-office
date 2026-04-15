@@ -302,7 +302,15 @@ export default function Page({
           >
             {t(locale, "employees")}
           </Tabs.Tab>
-          <Tabs.Tab value="notes" leftSection={<IconNote size={16} />}>
+          <Tabs.Tab
+            value="notes"
+            leftSection={<IconNote size={16} />}
+            rightSection={
+              <Badge size="xs" color="gray">
+                {company.notes.length}
+              </Badge>
+            }
+          >
             {t(locale, "notes")}
           </Tabs.Tab>
         </Tabs.List>

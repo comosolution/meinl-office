@@ -62,7 +62,7 @@ export function CustomerSelect({
   return (
     <Select
       label="Firma"
-      placeholder="Name oder Kdnr eingeben"
+      placeholder="Name, Kdnr oder Matchcode eingeben"
       searchable
       clearable
       value={value}

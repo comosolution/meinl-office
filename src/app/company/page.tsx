@@ -19,6 +19,7 @@ import { fetchResults, getAvatarColor, safeLocaleCompare } from "../lib/utils";
 export default function Page() {
   const { locale, source, service, setService } = useOffice();
   const router = useRouter();
+
   const [companies, setCompanies] = useState<Company[]>([]);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
@@ -186,7 +187,6 @@ export default function Page() {
             leftSection={<IconSearch size={16} />}
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
-            className="justify-self-end"
           />
           {source === "OFFGUT" && (
             <SegmentedControl

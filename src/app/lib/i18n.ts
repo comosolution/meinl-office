@@ -12,6 +12,7 @@ export type TranslationKey =
   | "searchCompanies"
   | "searchPeople"
   | "searchCompaniesOrPeople"
+  | "searchTickets"
   | "createPerson"
   | "dashboard"
   | "search"
@@ -225,6 +226,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     searchCompanies: "Firma suchen ...",
     searchPeople: "Person suchen ...",
     searchCompaniesOrPeople: "Firma oder Person suchen ...",
+    searchTickets: "Ticket suchen ...",
     createPerson: "Person anlegen",
     dashboard: "Dashboard",
     search: "Suche",
@@ -438,6 +440,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     searchCompanies: "Search companies ...",
     searchPeople: "Search people ...",
     searchCompaniesOrPeople: "Search companies or people ...",
+    searchTickets: "Search tickets ...",
     createPerson: "Add Person",
     dashboard: "Dashboard",
     search: "Search",

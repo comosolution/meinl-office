@@ -592,6 +592,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 variant="transparent"
                 leftSection={<IconEdit size={16} />}
                 onClick={() => setEditing(true)}
+                disabled={Number(ticket.status_int.nr) > 500}
               >
                 {t(locale, "editTicket")}
               </Button>
