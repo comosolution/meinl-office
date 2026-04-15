@@ -1,11 +1,16 @@
 "use client";
-
 import { useOffice } from "@/app/context/officeContext";
 import { useDebounce } from "@/app/lib/hooks";
-import { Dealer } from "@/app/lib/interfaces";
+import { Company } from "@/app/lib/interfaces";
 import { fetchResults } from "@/app/lib/utils";
-import { Loader, Select, SelectProps } from "@mantine/core";
+import { Loader, Select, SelectProps, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
+
+type CustomerOption = {
+  label: string;
+  value: string;
+  kundenart: number;
+};
 
 export function CustomerSelect({
   value,
@@ -16,13 +21,9 @@ export function CustomerSelect({
   onChange: (value: string | null) => void;
 }) {
   const { source } = useOffice();
-
   const [query, setQuery] = useState("");
-  const [options, setOptions] = useState<{ label: string; value: string }[]>(
-    [],
-  );
+  const [options, setOptions] = useState<CustomerOption[]>([]);
   const [loading, setLoading] = useState(false);
-
   const debouncedQuery = useDebounce(query, 400);
 
   useEffect(() => {
@@ -31,25 +32,23 @@ export function CustomerSelect({
         setOptions([]);
         return;
       }
-
       setLoading(true);
-
       try {
-        const allCompanies = await fetchResults<Dealer>(
+        const allCompanies = await fetchResults<Company>(
           source,
           "B2B",
           "companies",
           debouncedQuery,
         );
-
-        const mapped = allCompanies
-          .filter((c) => c.name1)
-          .slice(0, 20)
-          .map((c) => ({
-            label: `${c.name1} (${c.kdnr})`,
-            value: c.kdnr.toString(),
-          }));
-
+        const mapped: CustomerOption[] =
+          allCompanies
+            ?.filter((c) => c.name1)
+            .slice(0, 20)
+            .map((c) => ({
+              label: `${c.name1} (${c.kdnr} – ${c.matchcode})`,
+              value: c.kdnr.toString(),
+              kundenart: c.kundenart,
+            })) ?? [];
         setOptions(mapped);
       } catch (err) {
         console.error("Customer search failed", err);
@@ -57,7 +56,6 @@ export function CustomerSelect({
         setLoading(false);
       }
     };
-
     getData();
   }, [debouncedQuery, source]);
 
@@ -71,6 +69,14 @@ export function CustomerSelect({
       onChange={onChange}
       onSearchChange={setQuery}
       data={options}
+      renderOption={({ option }) => {
+        const isRed = (option as CustomerOption).kundenart === 30;
+        return (
+          <Text size="sm" c={isRed ? "red" : undefined}>
+            {option.label}
+          </Text>
+        );
+      }}
       nothingFoundMessage={
         query.length < 2
           ? "Bitte mindestens 2 Zeichen eingeben"
@@ -78,6 +84,7 @@ export function CustomerSelect({
             ? "Lade..."
             : "Keine Ergebnisse"
       }
+      checkIconPosition="right"
       rightSection={loading ? <Loader size="xs" /> : null}
       {...props}
     />

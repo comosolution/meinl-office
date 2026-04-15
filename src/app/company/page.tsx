@@ -249,7 +249,7 @@ export default function Page() {
         {source === "OFFUSA" && (
           <>
             <Select
-              label={t(locale, "deputy")}
+              label={t(locale, "branch")}
               searchable
               clearable
               placeholder={t(locale, "filter")}

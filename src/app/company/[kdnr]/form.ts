@@ -37,6 +37,12 @@ export const getInitialValues = (company: Company) => {
     campagnen: company.campagnen || [],
     haendler: company.haendler || [],
     versandadressen: company.versandadressen || [],
+    salesVolume: company.salesVolume ? company.salesVolume : undefined,
+    discount: company.discount ? company.discount : undefined,
+    zahlart: company.zahlart || "",
+    kommentar: company.kommentar || "",
+    kommentardb2: company.kommentardb2 || "",
+    notes: company.notes || [],
   };
 };
 

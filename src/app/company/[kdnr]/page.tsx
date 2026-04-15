@@ -40,9 +40,11 @@ import {
   IconChevronRight,
   IconCircleCheck,
   IconCircleX,
+  IconCreditCard,
   IconDeviceFloppy,
   IconEdit,
   IconExternalLink,
+  IconNote,
   IconPhoto,
   IconShoppingCartPin,
   IconUsersGroup,
@@ -54,6 +56,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import DistributorTab from "../tabs/distributorTab";
 import EmployeesTab from "../tabs/employeesTab";
+import NotesTab from "../tabs/notesTab";
 import { getInitialValues, validateForm } from "./form";
 
 export default function Page({
@@ -66,7 +69,7 @@ export default function Page({
   const { source, locale } = useOffice();
 
   const [company, setCompany] = useState<Company>();
-  const [activeTab, setActiveTab] = useState<string | null>("info");
+  const [activeTab, setActiveTab] = useState<string | null>("company");
   const [edit, setEdit] = useState(false);
 
   const router = useRouter();
@@ -250,8 +253,14 @@ export default function Page({
 
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
-          <Tabs.Tab value="info" leftSection={<IconBuildingEstate size={16} />}>
-            {t(locale, "companyDetails")}
+          <Tabs.Tab
+            value="company"
+            leftSection={<IconBuildingEstate size={16} />}
+          >
+            {t(locale, "companyInfo")}
+          </Tabs.Tab>
+          <Tabs.Tab value="details" leftSection={<IconCreditCard size={16} />}>
+            {t(locale, "details")}
           </Tabs.Tab>
           <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
             {t(locale, "companyLogo")}
@@ -293,12 +302,9 @@ export default function Page({
           >
             {t(locale, "employees")}
           </Tabs.Tab>
-          {/* <Tabs.Tab value="history" leftSection={<IconHistory size={16} />}>
-            Historie
+          <Tabs.Tab value="notes" leftSection={<IconNote size={16} />}>
+            {t(locale, "notes")}
           </Tabs.Tab>
-          <Tabs.Tab value="settings" leftSection={<IconSettings size={16} />}>
-            Einstellungen
-          </Tabs.Tab> */}
         </Tabs.List>
 
         <form
@@ -317,7 +323,7 @@ export default function Page({
             }
           })}
         >
-          <Tabs.Panel value="info" className="py-4">
+          <Tabs.Panel value="company" className="py-4">
             <div className="grid grid-cols-2 gap-4">
               {actions}
               <Fieldset>
@@ -409,6 +415,72 @@ export default function Page({
                   readOnly={!edit}
                 />
               </Fieldset>
+            </div>
+          </Tabs.Panel>
+
+          <Tabs.Panel value="details" className="py-4">
+            <div className="grid grid-cols-2 gap-4">
+              {actions}
+              <Fieldset>
+                <h2>{t(locale, "details")}</h2>
+                <TextInput
+                  label={t(locale, "paymentMethod")}
+                  {...form.getInputProps("zahlart")}
+                  readOnly
+                />
+              </Fieldset>
+              <Fieldset>
+                <h2>{t(locale, "information")}</h2>
+                <TextInput
+                  label={t(locale, "comment")}
+                  {...form.getInputProps("kommentar")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label={t(locale, "comment") + " DB2"}
+                  {...form.getInputProps("kommentardb2")}
+                  readOnly
+                />
+              </Fieldset>
+              {source === "OFFUSA" && company.salesVolume && (
+                <Fieldset>
+                  <h2>{t(locale, "salesVolume")}</h2>
+                  <Table variant="vertical">
+                    <Table.Tbody>
+                      {[
+                        company.salesVolume.openEntriesUSD,
+                        company.salesVolume.LJ,
+                        company.salesVolume.VJ,
+                        company.salesVolume.VVJ,
+                      ].map((entry, index) => (
+                        <Table.Tr key={index}>
+                          <Table.Th w={160}>{entry.label}</Table.Th>
+                          <Table.Td>{Number(entry.value).toFixed(2)}</Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Fieldset>
+              )}
+              {source === "OFFUSA" && company.discount && (
+                <Fieldset>
+                  <h2>{t(locale, "discount")}</h2>
+                  <Table variant="vertical">
+                    <Table.Tbody>
+                      {[
+                        company.discount.days,
+                        company.discount.percent,
+                        company.discount.netDays,
+                      ].map((entry, index) => (
+                        <Table.Tr key={index}>
+                          <Table.Th w={160}>{entry.label}</Table.Th>
+                          <Table.Td>{entry.value}</Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Fieldset>
+              )}
             </div>
           </Tabs.Panel>
 
@@ -558,6 +630,7 @@ export default function Page({
 
         <DistributorTab company={company} />
         <EmployeesTab company={company} />
+        <NotesTab company={company} />
       </Tabs>
     </main>
   );

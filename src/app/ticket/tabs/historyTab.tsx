@@ -84,7 +84,7 @@ export default function HistoryTab({
       <h2>{t(locale, "history")}</h2>
       <form onSubmit={handleSubmit} className="flex items-center gap-2">
         <TextInput
-          placeholder={t(locale, "comment")}
+          placeholder={t(locale, "note")}
           {...form.getInputProps("comment")}
           className="flex-1"
         />

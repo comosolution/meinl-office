@@ -1,5 +1,6 @@
 export interface Dealer {
   id: number;
+  matchcode: string;
   kdnr: string;
   kundenart: number;
   name1: string;
@@ -53,6 +54,12 @@ export interface Company {
   campagnen: Campaign[];
   haendler: Company[];
   versandadressen: Versandadresse[];
+  salesVolume?: SalesVolume;
+  discount?: Discount;
+  zahlart: string;
+  kommentar: string;
+  kommentardb2: string;
+  notes: Note[];
 }
 
 export interface CompanyInStorage {
@@ -217,6 +224,47 @@ export interface Versandadresse {
   vaort: string;
   valand: string;
   zusatz: string | null;
+}
+
+export interface SalesVolume {
+  openEntriesUSD: {
+    label: string;
+    value: number;
+  };
+  LJ: {
+    label: string;
+    value: number;
+  };
+  VJ: {
+    label: string;
+    value: number;
+  };
+  VVJ: {
+    label: string;
+    value: number;
+  };
+}
+
+export interface Discount {
+  days: {
+    label: string;
+    value: number;
+  };
+  percent: {
+    label: string;
+    value: number;
+  };
+  netDays: {
+    label: string;
+    value: number;
+  };
+}
+
+export interface Note {
+  datum: string;
+  creator: string;
+  subject: string;
+  body: string;
 }
 
 export interface Attachment {

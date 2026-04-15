@@ -27,7 +27,7 @@ export type TranslationKey =
   | "discard"
   | "saveChanges"
   | "editData"
-  | "companyDetails"
+  | "companyInfo"
   | "companyLogo"
   | "dealerLocator"
   | "dealer"
@@ -139,6 +139,8 @@ export type TranslationKey =
   | "upload"
   | "download"
   | "comment"
+  | "note"
+  | "notes"
   | "ticketId"
   | "createdOn"
   | "created"
@@ -201,7 +203,14 @@ export type TranslationKey =
   | "deleteLogoError"
   | "confirmDelete"
   | "cancel"
-  | "deleteImage";
+  | "deleteImage"
+  | "paymentMethod"
+  | "salesVolume"
+  | "discount"
+  | "information"
+  | "newNote"
+  | "subject"
+  | "body";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -231,7 +240,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     discard: "Verwerfen",
     saveChanges: "Änderungen speichern",
     editData: "Daten bearbeiten",
-    companyDetails: "Firmendaten",
+    companyInfo: "Firmendaten",
     companyLogo: "Firmenlogo",
     dealerLocator: "DealerLocator",
     dealer: "Händler",
@@ -342,7 +351,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     uploadFiles: "Bilder oder PDFs auswählen",
     upload: "Hochladen",
     download: "Herunterladen",
-    comment: "Notiz",
+    comment: "Kommentar",
+    note: "Notiz",
+    notes: "Notizen",
     ticketId: "Ticket ID",
     createdOn: "Erstellt am",
     created: "Erstellt",
@@ -407,6 +418,13 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     deleteLogoError: "Fehler beim Löschen",
     confirmDelete: "Löschen bestätigen",
     deleteImage: "Bild löschen",
+    paymentMethod: "Zahlart",
+    salesVolume: "Umsatzvolumen",
+    discount: "Rabatt",
+    information: "Informationen",
+    newNote: "Neue Notiz",
+    subject: "Betreff",
+    body: "Inhalt",
   },
   en: {
     homeTitle: "Welcome",
@@ -435,7 +453,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     discard: "Discard",
     saveChanges: "Save Changes",
     editData: "Edit Data",
-    companyDetails: "Company Details",
+    companyInfo: "Company Info",
     companyLogo: "Company Logo",
     dealerLocator: "DealerLocator",
     dealer: "Dealer",
@@ -546,7 +564,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     uploadFiles: "Select Images or PDFs",
     upload: "Upload",
     download: "Download",
-    comment: "Note",
+    comment: "Comment",
+    note: "Note",
+    notes: "Notes",
     ticketId: "Ticket ID",
     createdOn: "Created on",
     created: "Created",
@@ -610,6 +630,13 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     deleteLogoError: "Error deleting",
     confirmDelete: "Confirm Delete",
     deleteImage: "Delete Image",
+    paymentMethod: "Method of Payment",
+    salesVolume: "Sales Volume",
+    discount: "Discount",
+    information: "Infos",
+    newNote: "New Note",
+    subject: "Subject",
+    body: "Content",
   },
 };
 
