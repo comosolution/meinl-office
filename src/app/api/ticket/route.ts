@@ -3,7 +3,6 @@ import { RMA_WEB_API } from "@/app/lib/constants";
 export async function GET() {
   const user = process.env.API_USER;
   const pass = process.env.API_PASSWORD;
-  const locale = process.env.LOCALE || "de-de";
 
   if (!user || !pass) {
     return Response.json(
@@ -15,7 +14,7 @@ export async function GET() {
   const auth = Buffer.from(`${user}:${pass}`).toString("base64");
 
   try {
-    const response = await fetch(`${RMA_WEB_API}/all/${locale}`, {
+    const response = await fetch(`${RMA_WEB_API}/all/de-de`, {
       headers: {
         Authorization: `Basic ${auth}`,
       },

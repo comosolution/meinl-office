@@ -6,6 +6,7 @@ import {
   ActionIcon,
   Button,
   Modal,
+  SegmentedControl,
   Tabs,
   Textarea,
   TextInput,
@@ -28,6 +29,7 @@ export default function NotesTab({
   const { locale, source } = useOffice();
 
   const [value, setValue] = useState<string | null>("0");
+  const [sort, setSort] = useState<"created" | "modified">("created");
   const [opened, { open, close }] = useDisclosure(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [subject, setSubject] = useState("");
@@ -88,10 +90,19 @@ export default function NotesTab({
     <>
       <Tabs.Panel value="notes" className="py-4">
         <div className="flex flex-col gap-2">
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            <div className="flex items-center gap-1">
+              <p className="text-sm">{t(locale, "sortBy")}</p>
+              <SegmentedControl
+                value={sort}
+                onChange={(val) => setSort(val as "created" | "modified")}
+                data={[
+                  { value: "created", label: t(locale, "created") },
+                  { value: "modified", label: t(locale, "modified") },
+                ]}
+              />
+            </div>
             <Button
-              color="dark"
-              variant="transparent"
               leftSection={<IconPlus size={16} />}
               onClick={() => handleOpen()}
             >
@@ -106,15 +117,20 @@ export default function NotesTab({
               chevronPosition="left"
             >
               {company.notes
-                .sort((a, b) => dayjs(b.created).diff(dayjs(a.created)))
+                .sort((a, b) =>
+                  sort === "created"
+                    ? dayjs(b.created).diff(dayjs(a.created))
+                    : dayjs(b.modified).diff(dayjs(a.modified)),
+                )
                 .map((note, index) => (
                   <Accordion.Item value={`${index}`} key={index}>
                     <div className="flex items-center justify-between pr-2">
                       <Accordion.Control>
                         <div className="flex flex-col">
                           <p className="text-sm dimmed">
-                            {dayjs(note.created).format("DD.MM.YYYY")} –{" "}
-                            {note.user}
+                            {t(locale, "createdAt")}{" "}
+                            {dayjs(note.created).format("DD.MM.YYYY HH:mm")}{" "}
+                            {t(locale, "by")} {note.user}
                           </p>
                           <h2
                             className={`${value === `${index}` ? "" : "line-clamp-1"}`}
@@ -133,7 +149,7 @@ export default function NotesTab({
                       </ActionIcon>
                     </div>
                     <Accordion.Panel>
-                      <p>{note.body}</p>
+                      <p className="px-8 whitespace-pre-wrap">{note.body}</p>
                     </Accordion.Panel>
                   </Accordion.Item>
                 ))}
@@ -143,7 +159,12 @@ export default function NotesTab({
           )}
         </div>
       </Tabs.Panel>
-      <Modal opened={opened} onClose={handleClose} withCloseButton={false}>
+      <Modal
+        size="xl"
+        opened={opened}
+        onClose={handleClose}
+        withCloseButton={false}
+      >
         <div className="flex flex-col gap-2">
           <h2 className="text-center">
             {t(locale, editingNote ? "editNote" : "newNote")}
@@ -155,9 +176,10 @@ export default function NotesTab({
           />
           <Textarea
             label={t(locale, "body")}
-            rows={5}
+            rows={16}
             value={body}
             onChange={(e) => setBody(e.currentTarget.value)}
+            resize="vertical"
           />
           <div className="flex justify-between">
             <Button color="dark" variant="transparent" onClick={handleClose}>
@@ -165,7 +187,7 @@ export default function NotesTab({
             </Button>
             <Button
               onClick={handleSubmit}
-              leftSection={<IconDeviceFloppy size={16} />}
+              leftSection={<IconDeviceFloppy size={20} />}
             >
               {t(locale, "save")}
             </Button>

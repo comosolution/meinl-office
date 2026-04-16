@@ -28,6 +28,7 @@ export default function SortableTable({
   const [filters, setFilters] = useState({
     kdnr: kdnr ? kdnr : "",
     kdnr_name: "",
+    kundenart: "all",
     status_int: "",
     artnr: "",
   });
@@ -38,15 +39,26 @@ export default function SortableTable({
       const matchesKdnrName = filters.kdnr_name
         ? ticket.kdnr_name === filters.kdnr_name
         : true;
+      const matchesKundenart =
+        filters.kundenart === "all"
+          ? true
+          : filters.kundenart === "withoutExport"
+            ? ticket.kundenart !== "30"
+            : ticket.kundenart === "30";
       const matchesStatus = filters.status_int
         ? ticket.status_int.nr === filters.status_int
         : true;
-
       const ticketArtNr = ticket.artnr_mei || ticket.artnr_ku;
       const matchesArtNr = filters.artnr ? ticketArtNr === filters.artnr : true;
 
       setPage(1);
-      return matchesKdnr && matchesKdnrName && matchesStatus && matchesArtNr;
+      return (
+        matchesKdnr &&
+        matchesKdnrName &&
+        matchesKundenart &&
+        matchesStatus &&
+        matchesArtNr
+      );
     });
   }, [tickets, filters]);
 
@@ -102,17 +114,21 @@ export default function SortableTable({
       render: (ticket) => ticket.status_int.text,
     },
     {
-      label: t(locale, "nameLabel"),
-      key: "kdnr_name",
-    },
-    {
       label: t(locale, "customerNumber"),
       key: "kdnr_full",
+    },
+    {
+      label: t(locale, "nameLabel"),
+      key: "kdnr_name",
     },
     {
       label: t(locale, "articleNumber"),
       key: "artnr",
       render: (ticket) => ticket.artnr_mei || ticket.artnr_ku,
+    },
+    {
+      label: t(locale, "customerType"),
+      key: "kundenart",
     },
     {
       label: t(locale, "created"),
@@ -169,7 +185,19 @@ export default function SortableTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-5 items-end gap-2">
+      <div className="grid grid-cols-6 items-end gap-2">
+        <Select
+          label={t(locale, "status")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={statusOptions}
+          value={filters.status_int}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, status_int: value || "" }))
+          }
+          checkIconPosition="right"
+        />
         <Select
           label={t(locale, "customerNumber")}
           searchable
@@ -196,18 +224,6 @@ export default function SortableTable({
           checkIconPosition="right"
         />
         <Select
-          label={t(locale, "status")}
-          searchable
-          clearable
-          placeholder={t(locale, "filter")}
-          data={statusOptions}
-          value={filters.status_int}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, status_int: value || "" }))
-          }
-          checkIconPosition="right"
-        />
-        <Select
           label={t(locale, "articleNumber")}
           searchable
           clearable
@@ -219,7 +235,20 @@ export default function SortableTable({
           }
           checkIconPosition="right"
         />
-
+        <Select
+          label={t(locale, "customerType")}
+          allowDeselect={false}
+          data={[
+            { label: t(locale, "all"), value: "all" },
+            { label: t(locale, "withoutExport"), value: "withoutExport" },
+            { label: t(locale, "onlyExport"), value: "export" },
+          ]}
+          value={filters.kundenart}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, kundenart: value || "" }))
+          }
+          checkIconPosition="right"
+        />
         <Button
           variant="light"
           onClick={() => {

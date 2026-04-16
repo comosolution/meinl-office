@@ -220,7 +220,7 @@ export default function Sidebar() {
           )}
         </Link>
         <DevIndicator />
-        <ActionIcon color="dark" variant="transparent" onClick={toggleSidebar}>
+        <ActionIcon color="gray" variant="transparent" onClick={toggleSidebar}>
           {isCollapsed ? (
             <IconLayoutSidebarLeftExpand size={20} />
           ) : (

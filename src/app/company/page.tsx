@@ -203,12 +203,13 @@ export default function Page() {
       >
         <TextInput
           label={t(locale, "kdnrStartsWith")}
-          placeholder="123"
+          placeholder="1..."
           value={filters.kdnr}
           onChange={(e) => {
             const value = e.currentTarget.value;
             setFilters((prev) => ({ ...prev, kdnr: value }));
           }}
+          autoFocus
         />
         <TextInput
           label={t(locale, "matchcodeStartsWith")}

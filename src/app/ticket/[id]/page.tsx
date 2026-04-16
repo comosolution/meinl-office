@@ -2,6 +2,10 @@
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { LONG_DATE_FORMAT } from "@/app/lib/constants";
+import {
+  normalizeAlpha2CountryCode,
+  normalizeAlpha3CountryCode,
+} from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
 import { states } from "@/app/lib/rma";
@@ -33,9 +37,11 @@ import {
   IconEdit,
   IconError404,
   IconNews,
+  IconQrcode,
   IconTruckReturn,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
+import dayjs from "dayjs";
 import JsBarcode from "jsbarcode";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -220,9 +226,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const handleCreateDhlReturn = async () => {
     if (!ticket || !ticket.versandadresse) return;
 
-    const { vastrasse, vaplz, vaort, vaname } = ticket.versandadresse;
+    const { vastrasse, vaplz, vaort, valand, vaname } = ticket.versandadresse;
 
-    if (!vastrasse || !vaplz || !vaort || !vaname) {
+    if (!vastrasse || !vaplz || !vaort || !valand || !vaname) {
       notifications.show({
         title: "Fehlende Versandadresse",
         message: "Die Versandadresse des Tickets ist unvollständig.",
@@ -235,7 +241,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const addressHouse = addressParts[1] || "1";
 
     const body = {
-      receiverId: "deu",
+      receiverId: normalizeAlpha3CountryCode(valand)?.toLowerCase() || "deu",
       shipper: {
         name1: vaname,
         addressStreet: addressStreet,
@@ -337,10 +343,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     const body = {
       ShipmentReference: [`${id}`],
-      PickupDate: glsPickupDate!.split("T")[0],
+      PickupDate: dayjs(glsPickupDate).format("YYYY-MM-DD"),
       Address: {
         Name1: vaname,
-        CountryCode: valand || "D",
+        CountryCode: normalizeAlpha2CountryCode(valand) || "DE",
         ZIPCode: vaplz,
         City: vaort,
         Street: vastrasse,
@@ -522,29 +528,29 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Button>
           </div>
           <div className="flex gap-1">
-            {ticket.tracking ? (
+            {ticket.tracking && ticket.tracking.versender === "DHL" && (
               <Button
-                leftSection={<IconTruckReturn size={16} />}
+                leftSection={<IconQrcode size={16} />}
                 onClick={handleDownload}
               >
                 {t(locale, "downloadReturnLabel")}
               </Button>
-            ) : (
-              <Menu shadow="md" width={160} trigger="click-hover">
-                <Menu.Target>
-                  <Button
-                    variant="light"
-                    leftSection={<IconTruckReturn size={16} />}
-                  >
-                    {t(locale, "createReturn")}
-                  </Button>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Item onClick={handleCreateDhlReturn}>DHL</Menu.Item>
-                  <Menu.Item onClick={open}>GLS</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
             )}
+            <Menu shadow="md" width={160} trigger="click-hover">
+              <Menu.Target>
+                <Button
+                  variant="light"
+                  leftSection={<IconTruckReturn size={16} />}
+                >
+                  {t(locale, "createReturn")}
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item onClick={handleCreateDhlReturn}>DHL</Menu.Item>
+                <Menu.Item onClick={open}>GLS</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+
             <Button
               variant="light"
               leftSection={<IconNews size={16} />}
@@ -563,7 +569,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <b>{ticket.kdnr_name}</b>{" "}
                 <span className="dimmed">({ticket.kdnr_full})</span>
               </Link>{" "}
-              – {t(locale, "createdOn")}{" "}
+              – {t(locale, "createdAt")}{" "}
               {format(ticket.created, LONG_DATE_FORMAT)}
             </p>
             <Badge variant="light">{ticket.status_int.text}</Badge>

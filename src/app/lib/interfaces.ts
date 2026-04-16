@@ -162,6 +162,7 @@ export interface TicketSummary {
   status_ext: Status;
   kdnr: string;
   kdnr_full: string;
+  kundenart: string;
   created: string;
   modified: string;
   updatedby: string;

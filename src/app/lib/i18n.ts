@@ -181,6 +181,8 @@ export type TranslationKey =
   | "results"
   | "resultsPerPage"
   | "export"
+  | "withoutExport"
+  | "onlyExport"
   | "byCustomer"
   | "byArticleNumber"
   | "total"
@@ -213,6 +215,10 @@ export type TranslationKey =
   | "editNote"
   | "subject"
   | "body"
+  | "createdAt"
+  | "modifiedAt"
+  | "sortBy"
+  | "by"
   | "newAddress";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
@@ -397,6 +403,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     results: "Ergebnisse",
     resultsPerPage: "Ergebnisse pro Seite",
     export: "Exportieren",
+    withoutExport: "Ohne Export",
+    onlyExport: "Nur Export",
     byCustomer: "Nach Kunde",
     byArticleNumber: "Nach Artikelnummer",
     total: "Insgesamt",
@@ -430,6 +438,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     editNote: "Notiz bearbeiten",
     subject: "Betreff",
     body: "Inhalt",
+    createdAt: "Erstellt am",
+    modifiedAt: "Bearbeitet am",
+    sortBy: "Sortieren nach",
+    by: "von",
     newAddress: "Neue Adresse",
   },
   en: {
@@ -505,7 +517,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     customerType: "Customer Type",
     websiteUrl: "Website URL",
     streetPostbox: "Street / PO Box",
-    customerNumber: "Customer number",
+    customerNumber: "Customer Number",
     country: "Country",
     postalCode: "Postal Code",
     city: "City",
@@ -613,6 +625,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     results: "Results",
     resultsPerPage: "Results per Page",
     export: "Export",
+    withoutExport: "Without Export",
+    onlyExport: "Only Export",
     byCustomer: "By customer",
     byArticleNumber: "By article number",
     total: "Total",
@@ -645,6 +659,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     editNote: "Edit Note",
     subject: "Subject",
     body: "Content",
+    createdAt: "Created at",
+    modifiedAt: "Modified at",
+    sortBy: "Sort by",
+    by: "by",
     newAddress: "New Address",
   },
 };

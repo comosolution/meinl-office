@@ -306,9 +306,11 @@ export default function Page({
             value="notes"
             leftSection={<IconNote size={16} />}
             rightSection={
-              <Badge size="xs" color="gray">
-                {company.notes.length}
-              </Badge>
+              company.notes ? (
+                <Badge size="xs" color="gray">
+                  {company.notes.length}
+                </Badge>
+              ) : undefined
             }
           >
             {t(locale, "notes")}
