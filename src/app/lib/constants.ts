@@ -28,5 +28,5 @@ export const MEINL_OFFICE_DEALER_HISTORY_KEY = "meinl.office.dealer.recent";
 export const MEINL_OFFICE_PERSON_HISTORY_KEY = "meinl.office.person.recent";
 
 export const SHORT_DATE_FORMAT = "dd.MM.yyyy";
-export const LONG_DATE_FORMAT = "dd.MM.yyyy hh:mm:ss";
+export const LONG_DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";
 export const MEINL_RMA_SIDEBAR_KEY = "meinl.rma.sidebar.collapsed";

@@ -204,6 +204,7 @@ export interface Ticket {
   person: Person | null;
   versandadresse: Versandadresse;
   tracking: Tracking | null;
+  trackingHistory: TrackingHistory[] | null;
   files: Attachment[] | null;
   fileinfo: FileInfo[];
   history: HistoryEntry[];
@@ -282,6 +283,11 @@ export interface Tracking {
   versender: string;
   sendungnr: string;
   label: string;
+}
+
+export interface TrackingHistory {
+  versender: string;
+  anzahl: number;
 }
 
 export interface FileInfo {

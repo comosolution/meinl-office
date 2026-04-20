@@ -27,7 +27,7 @@ export async function GET(
 
     if (!response.ok) {
       return Response.json(
-        { error: "Failed to fetch ticket details from MEINL API" },
+        { error: (await response.text()) || "Failed to fetch ticket details" },
         { status: response.status },
       );
     }

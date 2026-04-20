@@ -457,7 +457,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const qrDataURL = await QRCode.toDataURL(url);
     doc.addImage(qrDataURL, "PNG", 130, finalY + 20, 50, 50);
 
-    doc.save(`laufzettel_${id}.pdf`);
+    doc.save(`Laufzettel_${id}.pdf`);
   };
 
   useEffect(() => {
@@ -546,8 +546,30 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item onClick={handleCreateDhlReturn}>DHL</Menu.Item>
-                <Menu.Item onClick={open}>GLS</Menu.Item>
+                {[
+                  {
+                    id: "DHL",
+                    onClick: handleCreateDhlReturn,
+                  },
+                  {
+                    id: "GLS",
+                    onClick: open,
+                  },
+                ].map((i) => (
+                  <Menu.Item
+                    key={i.id}
+                    onClick={i.onClick}
+                    rightSection={
+                      <p className="text-xs dimmed">
+                        {ticket.trackingHistory?.find(
+                          (h) => h.versender === i.id,
+                        )?.anzahl || 0}
+                      </p>
+                    }
+                  >
+                    {i.id}
+                  </Menu.Item>
+                ))}
               </Menu.Dropdown>
             </Menu>
 
@@ -564,7 +586,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <h1>{id}</h1>
           <div className="flex items-center gap-2">
             <p>
-              {t(locale, "rmaFrom")}{" "}
+              RMA {t(locale, "by")}{" "}
               <Link href={`/company/${ticket.kdnr}`} className="link">
                 <b>{ticket.kdnr_name}</b>{" "}
                 <span className="dimmed">({ticket.kdnr_full})</span>

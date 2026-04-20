@@ -145,7 +145,6 @@ export type TranslationKey =
   | "ticketId"
   | "createdOn"
   | "created"
-  | "rmaFrom"
   | "downloadLaufzettel"
   | "edit"
   | "customerX"
@@ -367,7 +366,6 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     ticketId: "Ticket ID",
     createdOn: "Erstellt am",
     created: "Erstellt",
-    rmaFrom: "RMA von",
     downloadLaufzettel: "Laufzettel herunterladen",
     edit: "Bearbeiten",
     customerX: "Kunde {kdnr}",
@@ -589,7 +587,6 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     ticketId: "Ticket ID",
     createdOn: "Created on",
     created: "Created",
-    rmaFrom: "RMA from",
     downloadLaufzettel: "Download Tracking Sheet",
     edit: "Edit",
     customerX: "Customer {kdnr}",
