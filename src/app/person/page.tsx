@@ -1,40 +1,96 @@
 "use client";
-import { Button, Table, TextInput } from "@mantine/core";
-import { IconPlus, IconSearch } from "@tabler/icons-react";
+import { Avatar, Button, Select, Table, TextInput } from "@mantine/core";
+import { IconChevronUp, IconPlus, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import EmployeeHead from "../components/employeeHead";
-import EmployeeRow from "../components/employeeRow";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import Loader from "../components/loader";
 import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Person } from "../lib/interfaces";
-import { fetchResults, safeLocaleCompare } from "../lib/utils";
+import { fetchResults, getAvatarColor } from "../lib/utils";
 
 export default function Page() {
   const { locale, source, service } = useOffice();
+
   const [persons, setPersons] = useState<Person[]>([]);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState<keyof Person>("nachname");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [filters, setFilters] = useState({
+    b2bnr: "",
+    company: "",
+    position: "",
+  });
+
+  const router = useRouter();
 
   const fetchData = async () => {
     setLoading(true);
     const res = await fetchResults<Person>(source, service, "persons");
-    setPersons(res.sort((a, b) => safeLocaleCompare(a.nachname, b.nachname)));
+    setPersons(res);
     setLoading(false);
   };
 
-  const filteredData = persons.filter((e) => {
-    const keywords = search.trim().toLowerCase().split(" ");
-    return keywords.every((keyword) =>
-      [e.kdnr.toString() || "", e.vorname || "", e.nachname || ""].some(
-        (value) => value.toLowerCase().includes(keyword),
-      ),
-    );
-  });
+  const filteredData = useMemo(() => {
+    const keywords = search.trim().toLowerCase().split(" ").filter(Boolean);
+
+    return persons.filter((p) => {
+      const searchMatch =
+        keywords.length === 0 ||
+        keywords.every((keyword) =>
+          [
+            p.kdnr.toString() || "",
+            p.vorname || "",
+            p.nachname || "",
+            p.name1 || "",
+            p.jobpos || "",
+            p.email || "",
+            p.phone || "",
+            p.b2bnr || "",
+          ].some((value) => value.toLowerCase().includes(keyword)),
+        );
+
+      const b2bnrMatch =
+        !filters.b2bnr ||
+        (p.b2bnr || "").toLowerCase().startsWith(filters.b2bnr.toLowerCase());
+      const companyMatch =
+        !filters.company ||
+        (p.name1 || "").toLowerCase() === filters.company.toLowerCase();
+      const positionMatch =
+        !filters.position ||
+        (p.jobpos || "").toLowerCase().trim() ===
+          filters.position.toLowerCase().trim();
+
+      return searchMatch && b2bnrMatch && companyMatch && positionMatch;
+    });
+  }, [persons, search, filters]);
+
+  const sortedData = useMemo(() => {
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: "base",
+    });
+    return [...filteredData].sort((a, b) => {
+      const aVal = a[sortBy];
+      const bVal = b[sortBy];
+
+      if (typeof aVal === "number" && typeof bVal === "number") {
+        return sortDirection === "asc" ? aVal - bVal : bVal - aVal;
+      }
+
+      const aStr = aVal != null ? String(aVal) : "";
+      const bStr = bVal != null ? String(bVal) : "";
+
+      return sortDirection === "asc"
+        ? collator.compare(aStr, bStr)
+        : collator.compare(bStr, aStr);
+    });
+  }, [filteredData, sortBy, sortDirection]);
 
   useEffect(() => {
     fetchData();
@@ -42,12 +98,36 @@ export default function Page() {
 
   useEffect(() => {
     setPage(1);
-  }, [search]);
+  }, [search, filters]);
+
+  const companyOptions = useMemo(() => {
+    return Array.from(
+      new Set(persons.map((p) => p.name1 || "").filter(Boolean)),
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((value) => ({ label: value, value }));
+  }, [persons]);
+
+  const positionOptions = useMemo(() => {
+    return Array.from(
+      new Set(persons.map((p) => p.jobpos.trim() || "").filter(Boolean)),
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((value) => ({ label: value.trim(), value: value.trim() }));
+  }, [persons]);
 
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentPageData = filteredData.slice(startIndex, endIndex);
+  const currentPageData = sortedData.slice(startIndex, endIndex);
+
+  const columns = [
+    { label: "", key: "avatar", sortable: false },
+    { label: t(locale, "name"), key: "nachname", sortable: true },
+    { label: t(locale, "company"), key: "name1", sortable: true },
+    { label: t(locale, "position"), key: "jobpos", sortable: true },
+    { label: t(locale, "b2b"), key: "b2bnr", sortable: true },
+  ] as const;
 
   if (loading) return <Loader />;
 
@@ -73,6 +153,43 @@ export default function Page() {
         </div>
       </header>
 
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <TextInput
+          label={t(locale, "b2bnrStartsWith")}
+          placeholder="1..."
+          value={filters.b2bnr}
+          onChange={(e) => {
+            const value = e.currentTarget.value;
+            setFilters((prev) => ({ ...prev, b2bnr: value }));
+          }}
+          autoFocus
+        />
+        <Select
+          label={t(locale, "company")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={companyOptions}
+          value={filters.company}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, company: value || "" }))
+          }
+          checkIconPosition="right"
+        />
+        <Select
+          label={t(locale, "position")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={positionOptions}
+          value={filters.position}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, position: value || "" }))
+          }
+          checkIconPosition="right"
+        />
+      </div>
+
       <Pagination
         page={page}
         setPage={setPage}
@@ -82,12 +199,63 @@ export default function Page() {
       />
 
       <Table highlightOnHover>
-        <EmployeeHead withCompany />
-        <Table.Tbody>
-          {persons &&
-            currentPageData.map((employee, i) => (
-              <EmployeeRow key={i} employee={employee} withCompany />
+        <Table.Thead>
+          <Table.Tr>
+            {columns.map((col) => (
+              <Table.Th
+                key={col.key}
+                className={col.sortable ? "cursor-pointer select-none" : ""}
+                onClick={() => {
+                  if (!col.sortable) return;
+                  if (sortBy === col.key) {
+                    setSortDirection((prev) =>
+                      prev === "asc" ? "desc" : "asc",
+                    );
+                  } else {
+                    setSortBy(col.key as keyof Person);
+                    setSortDirection("asc");
+                  }
+                }}
+              >
+                <div className="flex items-center gap-1 whitespace-nowrap">
+                  {col.label}
+                  {sortBy === col.key && col.sortable && (
+                    <IconChevronUp
+                      size={16}
+                      className={`transition-all ${
+                        sortDirection === "asc" ? "rotate-0" : "rotate-180"
+                      }`}
+                    />
+                  )}
+                </div>
+              </Table.Th>
             ))}
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {currentPageData.map((employee, i) => (
+            <Table.Tr
+              key={i}
+              className="cursor-pointer"
+              onClick={() => router.push(`/person/${employee.b2bnr}`)}
+            >
+              <Table.Td>
+                <Avatar
+                  size={24}
+                  color={getAvatarColor(employee.kundenart)}
+                  name={`${employee.nachname} ${employee.vorname}`}
+                />
+              </Table.Td>
+              <Table.Td>
+                <b>
+                  {employee.nachname}, {employee.vorname}
+                </b>
+              </Table.Td>
+              <Table.Td>{employee.name1}</Table.Td>
+              <Table.Td>{employee.jobpos}</Table.Td>
+              <Table.Td>{employee.b2bnr}</Table.Td>
+            </Table.Tr>
+          ))}
         </Table.Tbody>
       </Table>
     </main>

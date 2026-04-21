@@ -38,7 +38,6 @@ import {
   IconBalloon,
   IconBasketPlus,
   IconChevronLeft,
-  IconChevronRight,
   IconDeviceFloppy,
   IconEdit,
   IconIdBadge2,
@@ -48,7 +47,6 @@ import {
 } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FormValues, getInitialValues, validateForm } from "./form";
 
@@ -67,10 +65,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     validate: (values: FormValues) => validateForm(values),
   });
 
-  const router = useRouter();
-
   useEffect(() => {
-    getCustomer();
+    getPerson();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -81,36 +77,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [person]);
 
-  const getCustomer = async () => {
+  const getPerson = async () => {
     const response = await fetch("/api/person", {
       method: "POST",
-      body: JSON.stringify({ id, source }),
+      body: JSON.stringify({ b2bnr: id, source }),
     });
 
     if (!response.ok) {
       notifications.show({
         id: `error-${id}`,
-        title: `Fehler ${response.status}`,
-        message: (
-          <>
-            <p>{await response.text()}</p>
-            <Button
-              size="xs"
-              variant="light"
-              mt={8}
-              rightSection={<IconChevronRight size={12} />}
-              onClick={() => {
-                router.push("/");
-                notifications.hide(`error-${id}`);
-              }}
-              fullWidth
-            >
-              {t(locale, "backToStart")}
-            </Button>
-          </>
-        ),
+        title: `${t(locale, "error")} ${response.status}`,
+        message: (await response.text()) || "",
         autoClose: false,
-        withCloseButton: false,
       });
       return;
     }
@@ -123,7 +101,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (!person) return;
 
     const newEntry: PersonInStorage = {
-      id: person.id.toString(),
+      id: person.b2bnr,
       kdnr: person.kdnr,
       kundenart: person.kundenart,
       vorname: person.vorname,
@@ -137,7 +115,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     );
 
     const filteredHistory = history.filter(
-      (item: PersonInStorage) => item.kdnr !== newEntry.kdnr,
+      (item: PersonInStorage) => item.id !== newEntry.id,
     );
 
     const updatedHistory = [newEntry, ...filteredHistory];
@@ -275,7 +253,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               }),
             });
             if (response.ok) {
-              getCustomer();
+              getPerson();
               setEdit(false);
             }
           })}

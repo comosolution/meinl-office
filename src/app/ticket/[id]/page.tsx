@@ -605,7 +605,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <div className="flex items-center gap-2">
             <p>
               RMA {t(locale, "by")}{" "}
-              <Link href={`/company/${ticket.kdnr}`} className="link">
+              <Link href={`/person/${ticket.kdnr_full}`} className="link">
                 <b>{ticket.kdnr_name}</b>{" "}
                 <span className="dimmed">({ticket.kdnr_full})</span>
               </Link>{" "}

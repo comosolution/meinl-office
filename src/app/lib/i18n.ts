@@ -105,6 +105,7 @@ export type TranslationKey =
   | "matchcode"
   | "matchcodeStartsWith"
   | "kdnrStartsWith"
+  | "b2bnrStartsWith"
   | "latitude"
   | "longitude"
   | "phone"
@@ -327,6 +328,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     deputy: "Vertreter",
     matchcodeStartsWith: "Matchcode beginnt mit",
     kdnrStartsWith: "Kdnr beginnt mit",
+    b2bnrStartsWith: "B2B-Nr. beginnt mit",
     latitude: "Breitengrad",
     longitude: "Längengrad",
     phone: "Telefon",
@@ -548,6 +550,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     deputy: "Deputy",
     matchcodeStartsWith: "Matchcode starts with",
     kdnrStartsWith: "CID starts with",
+    b2bnrStartsWith: "B2B-No starts with",
     latitude: "Latitude",
     longitude: "Longitude",
     phone: "Phone",

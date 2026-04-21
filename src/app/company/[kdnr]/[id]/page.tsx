@@ -34,7 +34,6 @@ import {
   IconBuildingEstate,
   IconBuildingWarehouse,
   IconChevronLeft,
-  IconChevronRight,
   IconCircleCheck,
   IconCircleX,
   IconDeviceFloppy,
@@ -93,27 +92,9 @@ export default function Page({
     if (!response.ok) {
       notifications.show({
         id: `error-${kdnr}`,
-        title: `Fehler ${response.status}`,
-        message: (
-          <>
-            <p>{await response.json()}</p>
-            <Button
-              size="xs"
-              variant="light"
-              mt={8}
-              rightSection={<IconChevronRight size={12} />}
-              onClick={() => {
-                router.push("/");
-                notifications.hide(`error-${kdnr}`);
-              }}
-              fullWidth
-            >
-              {t(locale, "backToStart")}
-            </Button>
-          </>
-        ),
+        title: `${t(locale, "error")} ${response.status}`,
+        message: (await response.text()) || "",
         autoClose: false,
-        withCloseButton: false,
       });
       return;
     }
