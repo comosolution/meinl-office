@@ -75,7 +75,7 @@ export default function NewPersonPage() {
             ...values,
             id: 0,
             kdnr: Number(values.kdnr),
-            geburtsdatum: formattedDob,
+            gebdat: formattedDob,
             zustaendig: formattedCompetences,
             b2bdltyp: formattedB2bDlTyp,
             source,

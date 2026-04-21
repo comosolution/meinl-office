@@ -29,7 +29,7 @@ export const getInitialValues = (person: Person) => {
     jobpos: person.jobpos || "",
     abteilung: person.abteilung || "",
     betreutvon: person.betreutvon || "",
-    gebdat: parseDateString(person.gebdat) || "",
+    gebdat: parseDateString(person.gebdat) || null,
     famstand: person.famstand || "",
     tshirt: person.tshirt || "",
     hobbies: person.hobbies || "",
@@ -47,7 +47,7 @@ export const getInitialValues = (person: Person) => {
 };
 
 export type FormValues = Omit<Person, "gebdat" | "zustaendig"> & {
-  gebdat: Date | string;
+  gebdat: Date | null;
   zustaendig: string[];
   b2bdltyp: string[];
 };

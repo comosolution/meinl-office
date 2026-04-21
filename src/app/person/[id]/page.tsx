@@ -160,6 +160,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     </div>
   );
 
+  const dateParser = (value: string) => {
+    if (!value) return null;
+    const parts = value.split('.');
+    if (parts.length === 3) {
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const year = parseInt(parts[2], 10);
+      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+        return new Date(year, month, day);
+      }
+    }
+    return null;
+  };
+
   if (!person) return <Loader />;
 
   return (
@@ -245,7 +259,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               method: "POST",
               body: JSON.stringify({
                 ...values,
-                geburtsdatum: formattedDob,
+                gebdat: formattedDob,
                 zustaendig: formattedCompetences,
                 b2bdltyp: formattedB2bDlTyp,
                 source,
@@ -464,6 +478,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     label={t(locale, "dateOfBirth")}
                     locale="de"
                     valueFormat="DD.MM.YYYY"
+                    dateParser={dateParser}
                     {...form.getInputProps("gebdat")}
                     readOnly={!edit}
                   />
