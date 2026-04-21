@@ -49,6 +49,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import QRCode from "qrcode";
 import React, { useEffect, useState } from "react";
+import countryOptions from "../../data/countries.json";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -59,7 +60,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [newState, setNewState] = useState<string | null>(null);
-  const [glsPickupDate, setGlsPickupDate] = useState<string | null>(
+  const [pickupDateGls, setPickupDateGls] = useState<string | null>(
     new Date().toDateString(),
   );
 
@@ -71,6 +72,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       artnr_ku: "",
       sernr_mei: "",
       sernr_ku: "",
+      nr_kunde: "",
       descr: "",
       menge: 1,
       auftr_art: "",
@@ -97,6 +99,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           ...data,
           created: parseDb2Date(data.created),
           modified: parseDb2Date(data.modified),
+          versandadresse: {
+            ...data.versandadresse,
+            valand:
+              normalizeAlpha2CountryCode(data.versandadresse.valand) ||
+              data.versandadresse.valand,
+          },
         };
 
         setTicket(transformed);
@@ -107,6 +115,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           artnr_ku: transformed.artnr_ku || "",
           sernr_mei: transformed.sernr_mei || "",
           sernr_ku: transformed.sernr_ku || "",
+          nr_kunde: transformed.nr_kunde || "",
           descr: transformed.descr || "",
           menge: transformed.menge || 1,
           auftr_art: transformed.auftr_art || "",
@@ -145,6 +154,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         artnr_mei: values.artnr_mei || ticket!.artnr_mei,
         sernr_ku: values.sernr_ku || ticket!.sernr_ku,
         sernr_mei: values.sernr_mei || ticket!.sernr_mei,
+        nr_kunde: values.nr_kunde || ticket!.nr_kunde,
         descr: values.descr || ticket!.descr,
         menge: values.menge || ticket!.menge,
         auftr_art: values.auftr_art || ticket!.auftr_art,
@@ -179,6 +189,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         artnr_ku: ticket.artnr_ku || "",
         sernr_mei: ticket.sernr_mei || "",
         sernr_ku: ticket.sernr_ku || "",
+        nr_kunde: ticket.nr_kunde || "",
         descr: ticket.descr || "",
         menge: ticket.menge || 1,
         auftr_art: ticket.auftr_art || "",
@@ -343,7 +354,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     const body = {
       ShipmentReference: [`${id}`],
-      PickupDate: dayjs(glsPickupDate).format("YYYY-MM-DD"),
+      PickupDate: dayjs(pickupDateGls).format("YYYY-MM-DD"),
       Address: {
         Name1: vaname,
         CountryCode: normalizeAlpha2CountryCode(valand) || "DE",
@@ -390,6 +401,23 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             message: `Die GLS Retoure mit Sendungsnummer ${shipmentNo} wurde erfolgreich erstellt.`,
             autoClose: 3000,
             color: "dark",
+          });
+
+          const payload = {
+            ticketnr: id,
+            createdby: session?.user?.name || ticket.createdby,
+            comment: `GLS Pickup am ${dayjs(pickupDateGls).format("DD.MM.YYYY")} (${shipmentNo})`,
+            source: "OF",
+            tracknr: shipmentNo,
+            public: 1,
+          };
+
+          await fetch(`/api/history`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
           });
 
           updateTicketStatus("110", "810");
@@ -696,6 +724,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   className="flex-1"
                 />
               </div>
+              <TextInput
+                label={t(locale, "customerReferenceNumber")}
+                {...form.getInputProps("nr_kunde")}
+                readOnly={!editing}
+              />
               <Textarea
                 label={t(locale, "description")}
                 rows={4}
@@ -703,22 +736,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 {...form.getInputProps("descr")}
                 readOnly={!editing}
               />
-
-              <div className="flex items-end gap-2">
-                <NumberInput
-                  label={t(locale, "quantity")}
-                  min={1}
-                  {...form.getInputProps("menge")}
-                  readOnly={!editing}
-                  className="flex-1"
-                />
-                <TextInput
-                  label={t(locale, "orderType")}
-                  {...form.getInputProps("auftr_art")}
-                  readOnly={!editing}
-                  className="flex-1"
-                />
-              </div>
+              <NumberInput
+                label={t(locale, "quantity")}
+                min={1}
+                {...form.getInputProps("menge")}
+                readOnly={!editing}
+                className="flex-1"
+              />
             </div>
           </Fieldset>
           <Fieldset>
@@ -757,9 +781,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   {...form.getInputProps("versandadresse.vaort")}
                   readOnly={!editing}
                 />
-                <TextInput
+                <Select
                   label={t(locale, "country")}
+                  data={countryOptions}
+                  searchable
+                  checkIconPosition="right"
                   {...form.getInputProps("versandadresse.valand")}
+                  withAsterisk
                   readOnly={!editing}
                 />
                 <TextInput
@@ -805,8 +833,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <div className="flex flex-col justify-center items-center gap-4 pt-4">
           <DatePicker
             locale="de"
-            value={glsPickupDate}
-            onChange={setGlsPickupDate}
+            value={pickupDateGls}
+            onChange={setPickupDateGls}
             minDate={new Date()}
             excludeDate={(date) =>
               new Date(date).getDay() === 6 || new Date(date).getDay() === 0
@@ -814,7 +842,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           />
           <Button
             onClick={() => {
-              if (glsPickupDate) {
+              if (pickupDateGls) {
                 close();
                 handleCreateGlsReturn();
               }

@@ -8,6 +8,7 @@ import {
   Timeline,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import { IconLock, IconLockOpen, IconPlus } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -70,6 +71,10 @@ export default function HistoryTab({
           onCommentAdded(newComment);
         }
       } else {
+        notifications.show({
+          title: t(locale, "error"),
+          message: t(locale, "noteError"),
+        });
         console.error("Failed to add comment");
       }
     } catch (error) {

@@ -59,7 +59,7 @@ export function ProductSelect({
         const products: Product[] = await res.json();
         setProducts(products);
         const productOptions = products.map((p) => ({
-          label: `${p.artnr} (${p.abez1.trim()})`,
+          label: `${p.artnr.trim()} (${p.abez1.trim().replace(/\s+/g, " ")})`,
           value: p.artnr,
         }));
 

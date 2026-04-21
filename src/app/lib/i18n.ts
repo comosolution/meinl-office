@@ -142,6 +142,7 @@ export type TranslationKey =
   | "comment"
   | "note"
   | "notes"
+  | "noteError"
   | "ticketId"
   | "createdOn"
   | "created"
@@ -155,6 +156,7 @@ export type TranslationKey =
   | "articleNumberMei"
   | "serialNumberKu"
   | "serialNumberMei"
+  | "customerReferenceNumber"
   | "description"
   | "newStatus"
   | "newCompany"
@@ -363,6 +365,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     comment: "Kommentar",
     note: "Notiz",
     notes: "Notizen",
+    noteError: "Fehler beim Hinzufügen der Notiz",
     ticketId: "Ticket ID",
     createdOn: "Erstellt am",
     created: "Erstellt",
@@ -372,10 +375,11 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     tabDetails: "Details",
     tabFiles: "Dateien",
     tabHistory: "Historie",
-    articleNumberKu: "Artikelnummer (ext)",
-    articleNumberMei: "Artikelnummer (int)",
-    serialNumberKu: "Seriennummer (ext)",
-    serialNumberMei: "Seriennummer (int)",
+    articleNumberKu: "Artikelnummer (Kunde)",
+    articleNumberMei: "Artikelnummer (Meinl)",
+    serialNumberKu: "Seriennummer (Kunde)",
+    serialNumberMei: "Seriennummer (Meinl)",
+    customerReferenceNumber: "Kundenseite Referenznummer",
     description: "Beschreibung",
     newStatus: "Neuer Status",
     newCompany: "Neue Firma",
@@ -584,6 +588,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     comment: "Comment",
     note: "Note",
     notes: "Notes",
+    noteError: "Failed to add note",
     ticketId: "Ticket ID",
     createdOn: "Created on",
     created: "Created",
@@ -593,10 +598,11 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     tabDetails: "Details",
     tabFiles: "Files",
     tabHistory: "History",
-    articleNumberKu: "Article Number (ext)",
-    articleNumberMei: "Article Number (int)",
-    serialNumberKu: "Serial Number (ext)",
-    serialNumberMei: "Serial Number (int)",
+    articleNumberKu: "Article Number (Customer)",
+    articleNumberMei: "Article Number (Meinl)",
+    serialNumberKu: "Serial Number (Customer)",
+    serialNumberMei: "Serial Number (Meinl)",
+    customerReferenceNumber: "Customer Reference Number",
     description: "Description",
     newStatus: "New Status",
     newCompany: "New Company",

@@ -327,6 +327,7 @@ export interface TicketFormValues {
   kdnr_name: string;
   artnr_ku: string;
   sernr_ku?: string;
+  nr_kunde?: string;
   descr: string;
   files: File[];
   menge: number;

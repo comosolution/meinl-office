@@ -2,6 +2,7 @@
 import { CustomerSelect } from "@/app/components/customerSelect";
 import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
+import { normalizeAlpha2CountryCode } from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
 import {
@@ -28,6 +29,7 @@ import {
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import countryOptions from "../../data/countries.json";
 
 export default function Page() {
   const { data: session } = useSession();
@@ -47,6 +49,7 @@ export default function Page() {
       kdnr_name: "",
       artnr_ku: "",
       sernr_ku: "",
+      nr_kunde: "",
       descr: "",
       files: [],
       menge: 1,
@@ -136,6 +139,8 @@ export default function Page() {
         updatedby: session?.user?.name,
         createdby: session?.user?.name,
         artnr_ku: values.artnr_ku,
+        sernr_ku: values.sernr_ku,
+        nr_kunde: values.nr_kunde,
         descr: values.descr,
         menge: values.menge,
         source: "OF",
@@ -239,7 +244,10 @@ export default function Page() {
       form.setFieldValue("vastrasse", address.vastrasse ?? "");
       form.setFieldValue("vaplz", address.vaplz ?? "");
       form.setFieldValue("vaort", address.vaort ?? "");
-      form.setFieldValue("valand", address.valand ?? "");
+      form.setFieldValue(
+        "valand",
+        normalizeAlpha2CountryCode(address.valand) ?? "",
+      );
       form.setFieldValue("zusatz", address.zusatz ?? "");
     }
   }, [form.values.vanr, company]);
@@ -332,8 +340,11 @@ export default function Page() {
                         {...form.getInputProps("vaort")}
                         withAsterisk
                       />
-                      <TextInput
+                      <Select
                         label={t(locale, "country")}
+                        data={countryOptions}
+                        searchable
+                        checkIconPosition="right"
                         {...form.getInputProps("valand")}
                         withAsterisk
                       />
@@ -390,7 +401,10 @@ export default function Page() {
                   withAsterisk
                 />
               </div>
-
+              <TextInput
+                label={t(locale, "customerReferenceNumber")}
+                {...form.getInputProps("nr_kunde")}
+              />
               <Textarea
                 label={t(locale, "descriptionLabel")}
                 rows={4}

@@ -73,23 +73,31 @@ export default function SortableTable({
       }));
   };
 
+  const statusOptions = useMemo(() => {
+    const statusMap: { [key: string]: Status } = {};
+    filteredData.forEach((t) => {
+      if (t.status_int && t.status_int.nr) {
+        statusMap[String(t.status_int.nr)] = t.status_int;
+      }
+    });
+    return Object.values(statusMap)
+      .sort((a, b) => String(a.nr).localeCompare(String(b.nr)))
+      .map((s) => ({
+        label: `${s.text} (${s.nr})`,
+        value: String(s.nr),
+      }));
+  }, [filteredData]);
+
   const kdnrOptions = useMemo(
     () => getFilterOptions(filteredData, "kdnr"),
     [filteredData],
   );
+
   const kdnrNameOptions = useMemo(
     () => getFilterOptions(filteredData, "kdnr_name"),
     [filteredData],
   );
-  const statusOptions = useMemo(
-    () =>
-      Array.from(
-        new Set(filteredData.map((t) => t.status_int.nr).filter(Boolean)),
-      )
-        .sort((a, b) => String(a).localeCompare(String(b)))
-        .map((value) => value),
-    [filteredData],
-  );
+
   const artnrOptions = useMemo(() => {
     const artnrSet = new Set(
       filteredData.map((t) => t.artnr_mei || t.artnr_ku).filter(Boolean),
@@ -125,10 +133,6 @@ export default function SortableTable({
       label: t(locale, "articleNumber"),
       key: "artnr",
       render: (ticket) => ticket.artnr_mei || ticket.artnr_ku,
-    },
-    {
-      label: t(locale, "customerType"),
-      key: "kundenart",
     },
     {
       label: t(locale, "created"),
