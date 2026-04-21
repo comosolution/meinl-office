@@ -18,6 +18,7 @@ export default function EmployeeHead({
         <Table.Th>{t(locale, "position")}</Table.Th>
         <Table.Th>{t(locale, "email")}</Table.Th>
         <Table.Th>{t(locale, "phone")}</Table.Th>
+        <Table.Th>{t(locale, "b2b")}</Table.Th>
       </Table.Tr>
     </Table.Thead>
   );

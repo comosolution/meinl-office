@@ -93,7 +93,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         title: `Fehler ${response.status}`,
         message: (
           <>
-            <p>{await response.json()}</p>
+            <p>{await response.text()}</p>
             <Button
               size="xs"
               variant="light"

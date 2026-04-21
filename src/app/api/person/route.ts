@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     });
 
     if (res.status === 204) {
-      return Response.json([]);
+      return new Response("Failed to fetch person", { status: 404 });
     }
 
     if (!res.ok) {

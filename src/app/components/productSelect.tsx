@@ -3,6 +3,7 @@ import { useDebounce } from "@/app/lib/hooks";
 import { Loader, Select, SelectProps } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
 import { Product } from "../lib/interfaces";
 
 export function ProductSelect({
@@ -16,7 +17,7 @@ export function ProductSelect({
   label?: string;
   onProductSelect?: (product: Product) => void;
 }) {
-  const { source } = useOffice();
+  const { locale, source } = useOffice();
 
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
@@ -91,8 +92,13 @@ export function ProductSelect({
       onSearchChange={setQuery}
       data={options}
       nothingFoundMessage={
-        query.length < 2 ? null : loading ? "Lade..." : "Keine Ergebnisse"
+        query.length < 2
+          ? t(locale, "enterAtLeast2Chars")
+          : loading
+            ? t(locale, "loading")
+            : t(locale, "noResults")
       }
+      checkIconPosition="right"
       rightSection={loading ? <Loader size="xs" /> : null}
       {...props}
     />

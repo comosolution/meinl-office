@@ -89,6 +89,7 @@ export type TranslationKey =
   | "addReturnLabel"
   | "downloadReturnLabel"
   | "selectPickupDate"
+  | "confirmPickup"
   | "date"
   | "customerType"
   | "websiteUrl"
@@ -220,7 +221,15 @@ export type TranslationKey =
   | "modifiedAt"
   | "sortBy"
   | "by"
-  | "newAddress";
+  | "newAddress"
+  | "b2b"
+  | "b2bAccess"
+  | "availableDownloads"
+  | "noDownloads"
+  | "enterNameKdnrOrMatchcode"
+  | "enterAtLeast2Chars"
+  | "loading"
+  | "noResults";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -302,6 +311,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     addReturnLabel: "Retoure beantragen",
     downloadReturnLabel: "Label herunterladen",
     selectPickupDate: "Abholtermin wählen",
+    confirmPickup: "Termin buchen",
     date: "Datum",
     customerType: "Kundenart",
     websiteUrl: "Website URL",
@@ -445,6 +455,13 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     sortBy: "Sortieren nach",
     by: "von",
     newAddress: "Neue Adresse",
+    b2b: "B2B",
+    b2bAccess: "B2B-Zugriff",
+    availableDownloads: "Verfügbare Downloads",
+    noDownloads: "Keine Downloads",
+    enterNameKdnrOrMatchcode: "Name, Kdnr oder Matchcode eingeben",
+    enterAtLeast2Chars: "Bitte mindestens 2 Zeichen eingeben",
+    loading: "Lade...",
   },
   en: {
     homeTitle: "Welcome",
@@ -515,6 +532,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     addReturnLabel: "Create Return",
     downloadReturnLabel: "Download Return Label",
     selectPickupDate: "Select Pickup Date",
+    confirmPickup: "Confirm Pickup",
     date: "Date",
     customerType: "Customer Type",
     websiteUrl: "Website URL",
@@ -667,6 +685,13 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     sortBy: "Sort by",
     by: "by",
     newAddress: "New Address",
+    b2b: "B2B",
+    b2bAccess: "B2B Access",
+    availableDownloads: "Available Downloads",
+    noDownloads: "No Downloads",
+    enterNameKdnrOrMatchcode: "Enter name, CID or matchcode",
+    enterAtLeast2Chars: "Please enter at least 2 characters",
+    loading: "Loading...",
   },
 };
 

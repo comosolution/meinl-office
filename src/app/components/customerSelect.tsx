@@ -5,6 +5,7 @@ import { Company } from "@/app/lib/interfaces";
 import { fetchResults } from "@/app/lib/utils";
 import { Loader, Select, SelectProps, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
+import { t } from "../lib/i18n";
 
 type CustomerOption = {
   label: string;
@@ -20,7 +21,7 @@ export function CustomerSelect({
   value: string | null;
   onChange: (value: string | null) => void;
 }) {
-  const { source } = useOffice();
+  const { locale, source } = useOffice();
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<CustomerOption[]>([]);
   const [loading, setLoading] = useState(false);
@@ -61,8 +62,8 @@ export function CustomerSelect({
 
   return (
     <Select
-      label="Firma"
-      placeholder="Name, Kdnr oder Matchcode eingeben"
+      label={t(locale, "company")}
+      placeholder={t(locale, "enterNameKdnrOrMatchcode")}
       searchable
       clearable
       value={value}
@@ -79,10 +80,10 @@ export function CustomerSelect({
       }}
       nothingFoundMessage={
         query.length < 2
-          ? "Bitte mindestens 2 Zeichen eingeben"
+          ? t(locale, "enterAtLeast2Chars")
           : loading
-            ? "Lade..."
-            : "Keine Ergebnisse"
+            ? t(locale, "loading")
+            : t(locale, "noResults")
       }
       checkIconPosition="right"
       rightSection={loading ? <Loader size="xs" /> : null}

@@ -10,6 +10,7 @@ import {
   sizes,
   titles,
 } from "@/app/lib/data";
+import { t } from "@/app/lib/i18n";
 import { formatDateToString } from "@/app/lib/utils";
 import {
   Autocomplete,
@@ -41,7 +42,7 @@ import { getInitialValues, validateForm, type FormValues } from "../[id]/form";
 
 export default function NewPersonPage() {
   const { data: session } = useSession();
-  const { source } = useOffice();
+  const { locale, source } = useOffice();
 
   const [active, setActive] = useState(0);
 
@@ -99,9 +100,12 @@ export default function NewPersonPage() {
           }
         })}
       >
-        <h1>Neue Person</h1>
+        <h1>{t(locale, "newPerson")}</h1>
         <Stepper active={active} allowNextStepsSelect={false}>
-          <Stepper.Step label="Firma" icon={<IconBuildings size={18} />}>
+          <Stepper.Step
+            label={t(locale, "company")}
+            icon={<IconBuildings size={18} />}
+          >
             <Stack>
               <CustomerSelect
                 withAsterisk
@@ -109,62 +113,81 @@ export default function NewPersonPage() {
                 onChange={(val) =>
                   form.setFieldValue("kdnr", val ? Number(val) : "")
                 }
+                autoFocus
               />
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="Person" icon={<IconUser size={18} />}>
+          <Stepper.Step
+            label={t(locale, "person")}
+            icon={<IconUser size={18} />}
+          >
             <Stack>
-              <h2>Persönliche Daten</h2>
+              <h2>{t(locale, "personalData")}</h2>
               <div className="grid grid-cols-2 gap-4">
                 <Autocomplete
-                  label="Anrede"
+                  label={t(locale, "salutation")}
                   data={genders}
                   {...form.getInputProps("anrede")}
                   withAsterisk
                 />
                 <Autocomplete
-                  label="Titel"
+                  label={t(locale, "title")}
                   data={titles}
                   {...form.getInputProps("titel")}
                 />
                 <TextInput
-                  label="Nachname"
+                  label={t(locale, "lastName")}
                   {...form.getInputProps("nachname")}
                   withAsterisk
                 />
                 <TextInput
-                  label="Vorname"
+                  label={t(locale, "firstName")}
                   {...form.getInputProps("vorname")}
                   withAsterisk
                 />
-                <TextInput label="Position" {...form.getInputProps("jobpos")} />
                 <TextInput
-                  label="Abteilung"
+                  label={t(locale, "position")}
+                  {...form.getInputProps("jobpos")}
+                />
+                <TextInput
+                  label={t(locale, "department")}
                   {...form.getInputProps("abteilung")}
                 />
               </div>
-              <h2>Kommunikation</h2>
+              <h2>{t(locale, "communication")}</h2>
               <div className="grid grid-cols-2 gap-4">
-                <TextInput label="Telefon" {...form.getInputProps("phone")} />
-                <TextInput label="Mobil" {...form.getInputProps("mobil")} />
-                <TextInput label="Fax" {...form.getInputProps("fax")} />
                 <TextInput
-                  label="E-Mail"
+                  label={t(locale, "phone")}
+                  {...form.getInputProps("phone")}
+                />
+                <TextInput
+                  label={t(locale, "mobile")}
+                  {...form.getInputProps("mobil")}
+                />
+                <TextInput
+                  label={t(locale, "fax")}
+                  {...form.getInputProps("fax")}
+                />
+                <TextInput
+                  label={t(locale, "email")}
                   {...form.getInputProps("email")}
                   withAsterisk
                 />
                 <TextInput
-                  label="Betreut von"
+                  label={t(locale, "managedBy")}
                   {...form.getInputProps("betreutvon")}
                 />
               </div>
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="B2B" icon={<IconIdBadge2 size={18} />}>
+          <Stepper.Step
+            label={t(locale, "b2b")}
+            icon={<IconIdBadge2 size={18} />}
+          >
             <Stack>
-              <h2>B2B-Zugriff</h2>
+              <h2>{t(locale, "b2bAccess")}</h2>
               <Radio.Group {...form.getInputProps("b2bzugriff")}>
                 <div className="flex flex-col gap-2">
                   {b2bAccess(source).map((b, i) => (
@@ -172,9 +195,9 @@ export default function NewPersonPage() {
                   ))}
                 </div>
               </Radio.Group>
-              <h2>Verfügbare Downloads</h2>
+              <h2>{t(locale, "availableDownloads")}</h2>
               <Checkbox
-                label="Keine Downloads"
+                label={t(locale, "noDownloads")}
                 {...form.getInputProps("b2bdldis", { type: "checkbox" })}
               />
               {!form.values.b2bdldis && (
@@ -192,11 +215,11 @@ export default function NewPersonPage() {
           </Stepper.Step>
 
           <Stepper.Step
-            label="Zuständigkeiten"
+            label={t(locale, "responsibilities")}
             icon={<IconChecklist size={18} />}
           >
             <Stack>
-              <h2>Zuständigkeiten</h2>
+              <h2>{t(locale, "responsibilities")}</h2>
               <Checkbox.Group {...form.getInputProps("zustaendig")}>
                 <div className="grid grid-cols-2 gap-2">
                   {competences.map((c, i) => (
@@ -207,46 +230,61 @@ export default function NewPersonPage() {
             </Stack>
           </Stepper.Step>
 
-          <Stepper.Step label="Privat" icon={<IconBalloon size={18} />}>
+          <Stepper.Step
+            label={t(locale, "privateSection")}
+            icon={<IconBalloon size={18} />}
+          >
             <Stack>
-              <h2>Privatanschrift</h2>
+              <h2>{t(locale, "personalAddress")}</h2>
               <div className="grid grid-cols-2 gap-4">
-                <TextInput label="Land" {...form.getInputProps("landpr")} />
                 <TextInput
-                  label="Straße"
+                  label={t(locale, "country")}
+                  {...form.getInputProps("landpr")}
+                />
+                <TextInput
+                  label={t(locale, "street")}
                   {...form.getInputProps("strassepr")}
                 />
-                <TextInput label="PLZ" {...form.getInputProps("plzpr")} />
-                <TextInput label="Ort" {...form.getInputProps("ortpr")} />
+                <TextInput
+                  label={t(locale, "postalCode")}
+                  {...form.getInputProps("plzpr")}
+                />
+                <TextInput
+                  label={t(locale, "city")}
+                  {...form.getInputProps("ortpr")}
+                />
               </div>
-              <h2>Details</h2>
+              <h2>{t(locale, "details")}</h2>
               <div className="grid grid-cols-2 gap-4">
                 <DateInput
-                  label="Geburtsdatum"
+                  label={t(locale, "dateOfBirth")}
                   locale="de"
                   valueFormat="DD.MM.YYYY"
                   defaultLevel="decade"
                   {...form.getInputProps("gebdat")}
                 />
                 <Select
-                  label="Familienstand"
+                  label={t(locale, "maritalStatus")}
                   data={familyStatus}
                   {...form.getInputProps("famstand")}
                   checkIconPosition="right"
                   aria-readonly={false}
                 />
-                <TextInput label="Hobbies" {...form.getInputProps("hobbies")} />
+                <TextInput
+                  label={t(locale, "hobbies")}
+                  {...form.getInputProps("hobbies")}
+                />
                 <Autocomplete
-                  label="T-Shirt"
+                  label={t(locale, "tShirtSize")}
                   data={sizes}
                   {...form.getInputProps("tshirt")}
                 />
                 <TextInput
-                  label="Musikrichtung"
+                  label={t(locale, "musicGenre")}
                   {...form.getInputProps("musikri")}
                 />
                 <TextInput
-                  label="Instrument"
+                  label={t(locale, "instrument")}
                   {...form.getInputProps("instrument")}
                 />
               </div>
@@ -259,7 +297,7 @@ export default function NewPersonPage() {
             <div />
           ) : (
             <Button type="button" variant="transparent" onClick={prevStep}>
-              Zurück
+              {t(locale, "back")}
             </Button>
           )}
           {active < STEPS - 1 ? (
@@ -269,7 +307,7 @@ export default function NewPersonPage() {
               rightSection={<IconChevronRight size={16} />}
               onClick={nextStep}
             >
-              Weiter
+              {t(locale, "next")}
             </Button>
           ) : (
             <Button
@@ -277,7 +315,7 @@ export default function NewPersonPage() {
               disabled={!form.isValid()}
               leftSection={<IconPlus size={16} />}
             >
-              Person anlegen
+              {t(locale, "createPerson")}
             </Button>
           )}
         </Group>

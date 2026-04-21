@@ -34,6 +34,7 @@ export default function EmployeeRow({
       <Table.Td>{employee.jobpos}</Table.Td>
       <Table.Td>{employee.email}</Table.Td>
       <Table.Td>{employee.phone}</Table.Td>
+      <Table.Td>{employee.b2bnr}</Table.Td>
     </Table.Tr>
   );
 }

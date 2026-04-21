@@ -14,11 +14,12 @@ import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
   ActionIcon,
+  Alert,
   Badge,
   Button,
+  Drawer,
   Fieldset,
   Menu,
-  Modal,
   NumberInput,
   Paper,
   Select,
@@ -36,6 +37,7 @@ import {
   IconDeviceFloppy,
   IconEdit,
   IconError404,
+  IconMapPin,
   IconNews,
   IconQrcode,
   IconTruckReturn,
@@ -60,9 +62,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [newState, setNewState] = useState<string | null>(null);
-  const [pickupDateGls, setPickupDateGls] = useState<string | null>(
-    new Date().toDateString(),
-  );
+  const [pickupDateGls, setPickupDateGls] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -328,30 +330,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       return;
     }
 
-    const persons = await fetchResults<Person>(
-      source,
-      service,
-      "persons",
-      ticket.kdnr_full,
-    );
-    const contact = persons.find((p) => p.b2bnr === ticket.kdnr_full);
-
-    if (!contact) {
-      notifications.show({
-        title: "Kontakt nicht gefunden",
-        message: `Der Kontakt mit der B2B-Nr ${ticket.kdnr_full} wurde nicht gefunden.`,
-      });
-      return;
-    }
-
-    if (!contact.email || !contact.phone) {
-      notifications.show({
-        title: "Fehlende Kontaktdaten",
-        message: `Der Kontakt mit der B2B-Nr ${ticket.kdnr_full} ist unvollständig.`,
-      });
-      return;
-    }
-
     const body = {
       ShipmentReference: [`${id}`],
       PickupDate: dayjs(pickupDateGls).format("YYYY-MM-DD"),
@@ -362,8 +340,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         City: vaort,
         Street: vastrasse,
         ContactPerson: ticket.kdnr_name,
-        eMail: contact.email,
-        FixedLinePhonenumber: contact.phone,
+        eMail: email,
+        FixedLinePhonenumber: phone,
       },
     };
 
@@ -574,33 +552,45 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                {[
-                  {
-                    id: "DHL",
-                    onClick: handleCreateDhlReturn,
-                  },
-                  {
-                    id: "GLS",
-                    onClick: open,
-                  },
-                ].map((i) => (
-                  <Menu.Item
-                    key={i.id}
-                    onClick={i.onClick}
-                    rightSection={
-                      <p className="text-xs dimmed">
-                        {ticket.trackingHistory?.find(
-                          (h) => h.versender === i.id,
-                        )?.anzahl || 0}
-                      </p>
-                    }
-                  >
-                    {i.id}
-                  </Menu.Item>
-                ))}
+                <Menu.Item
+                  onClick={handleCreateDhlReturn}
+                  rightSection={
+                    <p className="text-xs dimmed">
+                      {ticket.trackingHistory?.find(
+                        (h) => h.versender === "DHL",
+                      )?.anzahl || 0}
+                    </p>
+                  }
+                >
+                  DHL
+                </Menu.Item>
+                <Menu.Item
+                  onClick={async () => {
+                    const persons = await fetchResults<Person>(
+                      source,
+                      service,
+                      "persons",
+                      ticket.kdnr_full,
+                    );
+                    const contact = persons.find(
+                      (p) => p.b2bnr === ticket.kdnr_full,
+                    );
+                    setEmail(contact?.email || "");
+                    setPhone(contact?.phone || "");
+                    open();
+                  }}
+                  rightSection={
+                    <p className="text-xs dimmed">
+                      {ticket.trackingHistory?.find(
+                        (h) => h.versender === "GLS",
+                      )?.anzahl || 0}
+                    </p>
+                  }
+                >
+                  GLS
+                </Menu.Item>
               </Menu.Dropdown>
             </Menu>
-
             <Button
               variant="light"
               leftSection={<IconNews size={16} />}
@@ -787,7 +777,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   searchable
                   checkIconPosition="right"
                   {...form.getInputProps("versandadresse.valand")}
-                  withAsterisk
                   readOnly={!editing}
                 />
                 <TextInput
@@ -824,36 +813,66 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Paper>
         </div>
       </main>
-      <Modal
+      <Drawer
         size="xs"
+        position="right"
         opened={opened}
         onClose={close}
-        title={t(locale, "selectPickupDate")}
+        withCloseButton={false}
       >
-        <div className="flex flex-col justify-center items-center gap-4 pt-4">
+        <div className="flex flex-col gap-2">
+          <h2>{t(locale, "selectPickupDate")}</h2>
           <DatePicker
-            locale="de"
+            locale={locale}
             value={pickupDateGls}
             onChange={setPickupDateGls}
-            minDate={new Date()}
+            minDate={dayjs().add(1, "day").toDate()}
             excludeDate={(date) =>
               new Date(date).getDay() === 6 || new Date(date).getDay() === 0
             }
+            className="place-self-center"
           />
-          <Button
-            onClick={() => {
-              if (pickupDateGls) {
-                close();
-                handleCreateGlsReturn();
-              }
-            }}
-            leftSection={<IconCalendarCheck size={16} />}
-            fullWidth
+          <Alert
+            color="dark"
+            title={t(locale, "address")}
+            icon={<IconMapPin size={16} />}
           >
-            Abholtermin buchen
-          </Button>
+            {ticket.versandadresse.vaname}
+            <br />
+            {ticket.versandadresse.vastrasse}
+            <br />
+            {ticket.versandadresse.vaplz} {ticket.versandadresse.vaort},{" "}
+            {ticket.versandadresse.valand}
+          </Alert>
+          <TextInput
+            label={t(locale, "email")}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextInput
+            label={t(locale, "phone")}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          <div className="flex justify-between gap-2">
+            <Button color="dark" variant="transparent" onClick={close}>
+              {t(locale, "cancel")}
+            </Button>
+            <Button
+              onClick={() => {
+                if (pickupDateGls) {
+                  close();
+                  handleCreateGlsReturn();
+                }
+              }}
+              leftSection={<IconCalendarCheck size={16} />}
+              disabled={!pickupDateGls || !email || !phone}
+            >
+              {t(locale, "confirmPickup")}
+            </Button>
+          </div>
         </div>
-      </Modal>
+      </Drawer>
     </>
   );
 }
