@@ -2,7 +2,10 @@
 import { CustomerSelect } from "@/app/components/customerSelect";
 import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
-import { normalizeAlpha2CountryCode } from "@/app/lib/countryCodes";
+import {
+  countryCodes,
+  normalizeAlpha2CountryCode,
+} from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
 import {
@@ -29,7 +32,6 @@ import {
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import countryOptions from "../../data/countries.json";
 
 export default function Page() {
   const { data: session } = useSession();
@@ -342,7 +344,7 @@ export default function Page() {
                       />
                       <Select
                         label={t(locale, "country")}
-                        data={countryOptions}
+                        data={countryCodes}
                         searchable
                         checkIconPosition="right"
                         {...form.getInputProps("valand")}
