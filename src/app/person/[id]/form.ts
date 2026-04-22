@@ -15,7 +15,7 @@ export const getInitialValues = (person: Person) => {
     plz: person.plz || "",
     ort: person.ort || "",
     strasse: person.strasse || "",
-    land: person.land || "",
+    land: normalizeAlpha2CountryCode(person.land || "DE") || "",
     plzpr: person.plzpr || "",
     ortpr: person.ortpr || "",
     strassepr: person.strassepr || "",

@@ -220,6 +220,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       status_ext: {
         nr: ext,
       },
+      files: null,
       user: session?.user?.name,
     };
 
