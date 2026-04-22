@@ -513,26 +513,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     <>
       <main className="flex flex-col gap-8 p-4">
         <div className="flex justify-between">
-          <div className="flex gap-1">
-            <Button
-              variant="light"
-              color="gray"
-              component={Link}
-              href="/ticket"
-              leftSection={<IconChevronLeft size={16} />}
-            >
-              {t(locale, "allTickets")}
-            </Button>
-            <Button
-              variant="transparent"
-              color="gray"
-              component={Link}
-              href={`/company/${ticket.kdnr}`}
-              leftSection={<IconChevronLeft size={16} />}
-            >
-              {t(locale, "customerX").replace("{kdnr}", ticket.kdnr)}
-            </Button>
-          </div>
+          <Button
+            variant="light"
+            color="gray"
+            component={Link}
+            href="/ticket"
+            leftSection={<IconChevronLeft size={16} />}
+          >
+            {t(locale, "allTickets")}
+          </Button>
           <div className="flex gap-1">
             {ticket.tracking && ticket.tracking.versender === "DHL" && (
               <Button

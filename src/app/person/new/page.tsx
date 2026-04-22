@@ -11,7 +11,8 @@ import {
   titles,
 } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
-import { formatDateToString } from "@/app/lib/utils";
+import { Person } from "@/app/lib/interfaces";
+import { dateParser, formatDateToString } from "@/app/lib/utils";
 import {
   Autocomplete,
   Button,
@@ -38,6 +39,7 @@ import {
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import countryOptions from "../../data/countries.json";
 import { getInitialValues, validateForm, type FormValues } from "../[id]/form";
 
 export default function NewPersonPage() {
@@ -51,7 +53,7 @@ export default function NewPersonPage() {
 
   const form = useForm<FormValues>({
     validateInputOnChange: true,
-    initialValues: { ...getInitialValues({} as any), id: 0 },
+    initialValues: { ...getInitialValues({} as Person), id: 0 },
     validate: (values: FormValues) => validateForm(values, active),
   });
 
@@ -237,8 +239,11 @@ export default function NewPersonPage() {
             <Stack>
               <h2>{t(locale, "personalAddress")}</h2>
               <div className="grid grid-cols-2 gap-4">
-                <TextInput
+                <Select
                   label={t(locale, "country")}
+                  data={countryOptions}
+                  searchable
+                  checkIconPosition="right"
                   {...form.getInputProps("landpr")}
                 />
                 <TextInput
@@ -261,6 +266,7 @@ export default function NewPersonPage() {
                   locale="de"
                   valueFormat="DD.MM.YYYY"
                   defaultLevel="decade"
+                  dateParser={dateParser}
                   {...form.getInputProps("gebdat")}
                 />
                 <Select

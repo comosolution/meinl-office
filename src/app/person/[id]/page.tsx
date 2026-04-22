@@ -18,7 +18,11 @@ import {
 } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Person, PersonInStorage } from "@/app/lib/interfaces";
-import { formatDateToString, getAvatarColor } from "@/app/lib/utils";
+import {
+  dateParser,
+  formatDateToString,
+  getAvatarColor,
+} from "@/app/lib/utils";
 import {
   Autocomplete,
   Avatar,
@@ -48,6 +52,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import countryOptions from "../../data/countries.json";
 import { FormValues, getInitialValues, validateForm } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -159,20 +164,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       )}
     </div>
   );
-
-  const dateParser = (value: string) => {
-    if (!value) return null;
-    const parts = value.split('.');
-    if (parts.length === 3) {
-      const day = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1;
-      const year = parseInt(parts[2], 10);
-      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-        return new Date(year, month, day);
-      }
-    }
-    return null;
-  };
 
   if (!person) return <Loader />;
 
@@ -345,8 +336,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Fieldset>
                 <h2>{t(locale, "officeAddress")}</h2>
                 <div className="grid grid-cols-2 gap-4">
-                  <TextInput
+                  <Select
                     label={t(locale, "country")}
+                    data={countryOptions}
+                    searchable
+                    checkIconPosition="right"
                     {...form.getInputProps("land")}
                     readOnly={!edit}
                   />
@@ -449,8 +443,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Fieldset>
                 <h2>{t(locale, "personalAddress")}</h2>
                 <div className="grid grid-cols-2 gap-4">
-                  <TextInput
+                  <Select
                     label={t(locale, "country")}
+                    data={countryOptions}
+                    searchable
+                    checkIconPosition="right"
                     {...form.getInputProps("landpr")}
                     readOnly={!edit}
                   />

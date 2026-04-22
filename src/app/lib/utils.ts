@@ -174,6 +174,20 @@ export const parseDateString = (dob: string) => {
   return new Date(year, month, day);
 };
 
+export const dateParser = (value: string) => {
+  if (!value) return null;
+  const parts = value.split(".");
+  if (parts.length === 3) {
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const year = parseInt(parts[2], 10);
+    if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+      return new Date(year, month, day);
+    }
+  }
+  return null;
+};
+
 export const formatDateToString = (date: Date | string | null): string => {
   if (!date) return "";
 

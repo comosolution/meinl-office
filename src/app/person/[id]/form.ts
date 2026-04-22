@@ -1,3 +1,4 @@
+import { normalizeAlpha2CountryCode } from "@/app/lib/countryCodes";
 import { Person } from "../../lib/interfaces";
 import { parseDateString } from "../../lib/utils";
 
@@ -18,7 +19,7 @@ export const getInitialValues = (person: Person) => {
     plzpr: person.plzpr || "",
     ortpr: person.ortpr || "",
     strassepr: person.strassepr || "",
-    landpr: person.landpr || "D",
+    landpr: normalizeAlpha2CountryCode(person.landpr || "DE") || "DE",
     email: person.email || "",
     phone: person.phone || "",
     fax: person.fax || "",

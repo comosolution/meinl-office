@@ -28,7 +28,7 @@ export default function StatsTable({
           <Table.Tr>
             <Table.Th />
             <Table.Th>
-              {title.includes("Kunde")
+              {title.includes("Kunde") || title.includes("customer")
                 ? t(locale, "customerNumber")
                 : t(locale, "articleNumber")}
             </Table.Th>
@@ -36,17 +36,17 @@ export default function StatsTable({
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {entries.map((entry, index) => (
+          {entries.map((e, i) => (
             <Table.Tr
-              key={entry.key}
+              key={e.key}
               onClick={() => {
-                if (entry.href) router.push(entry.href);
+                if (e.href) router.push(e.href);
               }}
-              className={entry.href ? "cursor-pointer" : ""}
+              className={e.href ? "cursor-pointer" : ""}
             >
-              <Table.Td>{index + 1}</Table.Td>
-              <Table.Td>{entry.label}</Table.Td>
-              <Table.Td>{entry.count}</Table.Td>
+              <Table.Td>{i + 1}</Table.Td>
+              <Table.Td>{e.label}</Table.Td>
+              <Table.Td>{e.count}</Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>

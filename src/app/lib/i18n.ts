@@ -150,7 +150,6 @@ export type TranslationKey =
   | "created"
   | "downloadLaufzettel"
   | "edit"
-  | "customerX"
   | "tabDetails"
   | "tabFiles"
   | "tabHistory"
@@ -383,7 +382,6 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     created: "Erstellt",
     downloadLaufzettel: "Laufzettel herunterladen",
     edit: "Bearbeiten",
-    customerX: "Kunde {kdnr}",
     tabDetails: "Details",
     tabFiles: "Dateien",
     tabHistory: "Historie",
@@ -615,7 +613,6 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     created: "Created",
     downloadLaufzettel: "Download Tracking Sheet",
     edit: "Edit",
-    customerX: "Customer {kdnr}",
     tabDetails: "Details",
     tabFiles: "Files",
     tabHistory: "History",
