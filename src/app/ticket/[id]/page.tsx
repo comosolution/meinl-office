@@ -3,6 +3,7 @@ import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
 import { LONG_DATE_FORMAT } from "@/app/lib/constants";
 import {
+  countryCodes,
   normalizeAlpha2CountryCode,
   normalizeAlpha3CountryCode,
 } from "@/app/lib/countryCodes";
@@ -51,7 +52,6 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import QRCode from "qrcode";
 import React, { useEffect, useState } from "react";
-import countryOptions from "../../data/countries.json";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -762,7 +762,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 />
                 <Select
                   label={t(locale, "country")}
-                  data={countryOptions}
+                  data={countryCodes}
                   searchable
                   checkIconPosition="right"
                   {...form.getInputProps("versandadresse.valand")}

@@ -7,6 +7,7 @@ import {
   MEINL_AE_USA_URL,
   MEINL_OFFICE_PERSON_HISTORY_KEY,
 } from "@/app/lib/constants";
+import { countryCodes } from "@/app/lib/countryCodes";
 import {
   b2bAccess,
   competences,
@@ -52,7 +53,6 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import countryOptions from "../../data/countries.json";
 import { FormValues, getInitialValues, validateForm } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -338,7 +338,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <div className="grid grid-cols-2 gap-4">
                   <Select
                     label={t(locale, "country")}
-                    data={countryOptions}
+                    data={countryCodes}
                     searchable
                     checkIconPosition="right"
                     {...form.getInputProps("land")}
@@ -445,7 +445,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <div className="grid grid-cols-2 gap-4">
                   <Select
                     label={t(locale, "country")}
-                    data={countryOptions}
+                    data={countryCodes}
                     searchable
                     checkIconPosition="right"
                     {...form.getInputProps("landpr")}

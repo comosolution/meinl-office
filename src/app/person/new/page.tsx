@@ -1,6 +1,7 @@
 "use client";
 import { CustomerSelect } from "@/app/components/customerSelect";
 import { useOffice } from "@/app/context/officeContext";
+import { countryCodes } from "@/app/lib/countryCodes";
 import {
   b2bAccess,
   competences,
@@ -39,7 +40,6 @@ import {
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import countryOptions from "../../data/countries.json";
 import { getInitialValues, validateForm, type FormValues } from "../[id]/form";
 
 export default function NewPersonPage() {
@@ -241,7 +241,7 @@ export default function NewPersonPage() {
               <div className="grid grid-cols-2 gap-4">
                 <Select
                   label={t(locale, "country")}
-                  data={countryOptions}
+                  data={countryCodes}
                   searchable
                   checkIconPosition="right"
                   {...form.getInputProps("landpr")}

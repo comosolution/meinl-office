@@ -12,8 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import Loader from "../components/loader";
 import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
-import countries from "../data/countries.json";
-import { normalizeAlpha2CountryCode } from "../lib/countryCodes";
+import { countryCodes, normalizeAlpha2CountryCode } from "../lib/countryCodes";
 import { t } from "../lib/i18n";
 import { Company } from "../lib/interfaces";
 import { fetchResults, getAvatarColor, safeLocaleCompare } from "../lib/utils";
@@ -135,8 +134,9 @@ export default function Page() {
     )
       .map((value) => ({
         label:
-          countries.find((c) => c.value === normalizeAlpha2CountryCode(value))
-            ?.label || value,
+          countryCodes.find(
+            (c) => c.value === normalizeAlpha2CountryCode(value),
+          )?.label || value,
         value,
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
