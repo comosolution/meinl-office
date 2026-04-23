@@ -1,5 +1,6 @@
 import Pagination from "@/app/components/pagination";
 import { useOffice } from "@/app/context/officeContext";
+import { b2bAccess } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Company } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
@@ -8,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function EmployeesTab({ company }: { company: Company }) {
-  const { locale } = useOffice();
+  const { locale, source } = useOffice();
 
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
@@ -40,30 +41,35 @@ export default function EmployeesTab({ company }: { company: Company }) {
                   <Table.Th>{t(locale, "position")}</Table.Th>
                   <Table.Th>{t(locale, "email")}</Table.Th>
                   <Table.Th>{t(locale, "b2b")}</Table.Th>
+                  <Table.Th>{t(locale, "b2bAccess")}</Table.Th>
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
-                {currentPageData.map((employee, i) => (
+                {currentPageData.map((e, i) => (
                   <Table.Tr
                     key={i}
                     className="cursor-pointer"
-                    onClick={() => router.push(`/person/${employee.b2bnr}`)}
+                    onClick={() => router.push(`/person/${e.b2bnr}`)}
                   >
                     <Table.Td>
                       <Avatar
                         size={24}
-                        color={getAvatarColor(employee.kundenart)}
-                        name={`${employee.nachname} ${employee.vorname}`}
+                        color={getAvatarColor(e.kundenart)}
+                        name={`${e.nachname} ${e.vorname}`}
                       />
                     </Table.Td>
                     <Table.Td>
                       <b>
-                        {employee.nachname}, {employee.vorname}
+                        {e.nachname}, {e.vorname}
                       </b>
                     </Table.Td>
-                    <Table.Td>{employee.jobpos}</Table.Td>
-                    <Table.Td>{employee.email}</Table.Td>
-                    <Table.Td>{employee.b2bnr}</Table.Td>
+                    <Table.Td>{e.jobpos}</Table.Td>
+                    <Table.Td>{e.email}</Table.Td>
+                    <Table.Td>{e.b2bnr}</Table.Td>
+                    <Table.Td>
+                      {b2bAccess(source).find((a) => a.value === e.b2bzugriff)
+                        ?.label || e.b2bzugriff}
+                    </Table.Td>
                   </Table.Tr>
                 ))}
               </Table.Tbody>

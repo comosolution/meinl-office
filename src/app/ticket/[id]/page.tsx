@@ -34,6 +34,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import {
   IconCalendarCheck,
+  IconCheck,
   IconChevronLeft,
   IconChevronRight,
   IconDeviceFloppy,
@@ -68,7 +69,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  const [opened, { open, close }] = useDisclosure(false);
+  const [openedDhl, { open: openDhl, close: closeDhl }] = useDisclosure(false);
+  const [openedGls, { open: openGls, close: closeGls }] = useDisclosure(false);
 
   const form = useForm<Partial<Ticket>>({
     initialValues: {
@@ -588,7 +590,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item
-                  onClick={handleCreateDhlReturn}
+                  onClick={openDhl}
                   rightSection={
                     <p className="text-xs dimmed">
                       {ticket.trackingHistory?.find(
@@ -600,7 +602,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   DHL
                 </Menu.Item>
                 <Menu.Item
-                  onClick={open}
+                  onClick={openGls}
                   rightSection={
                     <p className="text-xs dimmed">
                       {ticket.trackingHistory?.find(
@@ -839,8 +841,51 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <Drawer
         size="xs"
         position="right"
-        opened={opened}
-        onClose={close}
+        opened={openedDhl}
+        onClose={closeDhl}
+        withCloseButton={false}
+      >
+        <div className="flex flex-col gap-2">
+          <h2>{t(locale, "createReturn")}</h2>
+          <Alert
+            color="dark"
+            title={t(locale, "address")}
+            icon={<IconMapPin size={16} />}
+          >
+            {ticket.versandadresse.vaname}
+            <br />
+            {ticket.versandadresse.vastrasse}
+            <br />
+            {ticket.versandadresse.vaplz} {ticket.versandadresse.vaort},{" "}
+            {ticket.versandadresse.valand}
+          </Alert>
+          <TextInput
+            label={t(locale, "email")}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <div className="flex justify-between gap-2">
+            <Button color="dark" variant="transparent" onClick={closeDhl}>
+              {t(locale, "cancel")}
+            </Button>
+            <Button
+              onClick={() => {
+                closeDhl();
+                handleCreateDhlReturn();
+              }}
+              leftSection={<IconCheck size={16} />}
+              disabled={!email}
+            >
+              {t(locale, "createReturn")}
+            </Button>
+          </div>
+        </div>
+      </Drawer>
+      <Drawer
+        size="xs"
+        position="right"
+        opened={openedGls}
+        onClose={closeGls}
         withCloseButton={false}
       >
         <div className="flex flex-col gap-2">
@@ -878,13 +923,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             onChange={(e) => setPhone(e.target.value)}
           />
           <div className="flex justify-between gap-2">
-            <Button color="dark" variant="transparent" onClick={close}>
+            <Button color="dark" variant="transparent" onClick={closeGls}>
               {t(locale, "cancel")}
             </Button>
             <Button
               onClick={() => {
                 if (pickupDateGls) {
-                  close();
+                  closeGls();
                   handleCreateGlsReturn();
                 }
               }}

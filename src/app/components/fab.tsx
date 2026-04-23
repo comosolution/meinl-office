@@ -32,11 +32,13 @@ export default function FAB() {
       label: t(locale, "newCampaign"),
       href: "/campaign/new",
       icon: <IconNews size={16} />,
+      hidden: source !== "OFFGUT",
     },
     {
       label: t(locale, "newTicket"),
       href: "/ticket/new",
       icon: <IconTicket size={16} />,
+      hidden: source !== "OFFGUT",
     },
     {
       label: t(locale, "newOrder"),
@@ -62,21 +64,25 @@ export default function FAB() {
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
-          {data.map((d, i) => (
-            <Menu.Item
-              key={i}
-              leftSection={d.icon}
-              rightSection={
-                d.external ? <IconExternalLink size={14} color="gray" /> : null
-              }
-              component={Link}
-              href={d.href}
-              target={d.external ? "_blank" : undefined}
-              disabled={d.disabled}
-            >
-              {d.label}
-            </Menu.Item>
-          ))}
+          {data
+            .filter((e) => !e.hidden)
+            .map((e, i) => (
+              <Menu.Item
+                key={i}
+                leftSection={e.icon}
+                rightSection={
+                  e.external ? (
+                    <IconExternalLink size={14} color="gray" />
+                  ) : null
+                }
+                component={Link}
+                href={e.href}
+                target={e.external ? "_blank" : undefined}
+                disabled={e.disabled}
+              >
+                {e.label}
+              </Menu.Item>
+            ))}
         </Menu.Dropdown>
       </Menu>
     </div>

@@ -232,24 +232,24 @@ export default function Sidebar() {
         <div className="flex flex-col">
           <Search collapsed={isCollapsed} />
           {nav
-            .filter((entry) => !entry.hidden)
-            .map((entry, index) => {
+            .filter((e) => !e.hidden)
+            .map((e, i) => {
               const active =
-                (path.includes(entry.href) && entry.href !== "/") ||
-                (path === "/" && entry.href === "/");
+                (path.includes(e.href) && e.href !== "/") ||
+                (path === "/" && e.href === "/");
 
               return (
                 <NavLink
-                  key={index}
-                  label={entry.name}
-                  title={entry.name}
+                  key={i}
+                  label={e.name}
+                  title={e.name}
                   active={active}
                   color="red"
                   variant={active ? "filled" : "subtle"}
-                  leftSection={entry.icon}
+                  leftSection={e.icon}
                   component={Link}
-                  href={entry.href}
-                  target={entry.external ? "_blank" : undefined}
+                  href={e.href}
+                  target={e.external ? "_blank" : undefined}
                   styles={{
                     root: navLink(isCollapsed),
                   }}

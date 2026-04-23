@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import Loader from "../components/loader";
 import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
+import { b2bAccess } from "../lib/data";
 import { t } from "../lib/i18n";
 import { Person } from "../lib/interfaces";
 import { fetchResults, getAvatarColor } from "../lib/utils";
@@ -25,6 +26,7 @@ export default function Page() {
     b2bnr: "",
     company: "",
     position: "",
+    b2bzugriff: "",
   });
 
   const router = useRouter();
@@ -65,8 +67,16 @@ export default function Page() {
         !filters.position ||
         (p.jobpos || "").toLowerCase().trim() ===
           filters.position.toLowerCase().trim();
+      const b2bzugriffMatch =
+        !filters.b2bzugriff || (p.b2bzugriff || "") === filters.b2bzugriff;
 
-      return searchMatch && b2bnrMatch && companyMatch && positionMatch;
+      return (
+        searchMatch &&
+        b2bnrMatch &&
+        companyMatch &&
+        positionMatch &&
+        b2bzugriffMatch
+      );
     });
   }, [persons, search, filters]);
 
@@ -127,6 +137,7 @@ export default function Page() {
     { label: t(locale, "company"), key: "name1", sortable: true },
     { label: t(locale, "position"), key: "jobpos", sortable: true },
     { label: t(locale, "b2b"), key: "b2bnr", sortable: true },
+    { label: t(locale, "b2bAccess"), key: "b2bzugriff", sortable: true },
   ] as const;
 
   if (loading) return <Loader />;
@@ -153,7 +164,7 @@ export default function Page() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
         <TextInput
           label={t(locale, "b2bnrStartsWith")}
           placeholder="1..."
@@ -185,6 +196,18 @@ export default function Page() {
           value={filters.position}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, position: value || "" }))
+          }
+          checkIconPosition="right"
+        />
+        <Select
+          label={t(locale, "b2bAccess")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={b2bAccess(source)}
+          value={filters.b2bzugriff}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, b2bzugriff: value || "" }))
           }
           checkIconPosition="right"
         />
@@ -233,27 +256,31 @@ export default function Page() {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {currentPageData.map((employee, i) => (
+          {currentPageData.map((e, i) => (
             <Table.Tr
               key={i}
               className="cursor-pointer"
-              onClick={() => router.push(`/person/${employee.b2bnr}`)}
+              onClick={() => router.push(`/person/${e.b2bnr}`)}
             >
               <Table.Td>
                 <Avatar
                   size={24}
-                  color={getAvatarColor(employee.kundenart)}
-                  name={`${employee.nachname} ${employee.vorname}`}
+                  color={getAvatarColor(e.kundenart)}
+                  name={`${e.nachname} ${e.vorname}`}
                 />
               </Table.Td>
               <Table.Td>
                 <b>
-                  {employee.nachname}, {employee.vorname}
+                  {e.nachname}, {e.vorname}
                 </b>
               </Table.Td>
-              <Table.Td>{employee.name1}</Table.Td>
-              <Table.Td>{employee.jobpos}</Table.Td>
-              <Table.Td>{employee.b2bnr}</Table.Td>
+              <Table.Td>{e.name1}</Table.Td>
+              <Table.Td>{e.jobpos}</Table.Td>
+              <Table.Td>{e.b2bnr}</Table.Td>
+              <Table.Td>
+                {b2bAccess(source).find((a) => a.value === e.b2bzugriff)
+                  ?.label || e.b2bzugriff}
+              </Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>
