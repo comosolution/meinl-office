@@ -9,6 +9,7 @@ import {
 } from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
+import { sendResendMail } from "@/app/lib/resend";
 import { states } from "@/app/lib/rma";
 import { fetchResults, parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
@@ -59,6 +60,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { locale, source, service } = useOffice();
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [owner, setOwner] = useState<Person | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [newState, setNewState] = useState<string | null>(null);
@@ -141,6 +143,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const getOwner = async () => {
+    if (!ticket) return;
+
+    const persons = await fetchResults<Person>(
+      source,
+      service,
+      "persons",
+      ticket.kdnr_full,
+    );
+    const contact = persons.find((p) => p.b2bnr === ticket.kdnr_full);
+
+    setOwner(contact || null);
+    setEmail(contact?.email || "");
+    setPhone(contact?.phone || "");
   };
 
   const handleSubmit = form.onSubmit(async (values) => {
@@ -303,6 +321,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             color: "dark",
           });
 
+          await sendResendMail({
+            receiver: email,
+            subject: `Meinl RMA ${id} - DHL Rücksendung`,
+            content: `Ihre DHL Rücksendung wurde erfolgreich erstellt.\n\nSendungsnummer: ${shipmentNo}\n\nBitte beachten Sie das angehängte Rückgabeetikett.`,
+            attachment: {
+              filename: `DHL-Retoure-${shipmentNo}.pdf`,
+              type: "application/pdf",
+              data: pdfData,
+            },
+          });
+
           updateTicketStatus("110", "810");
         } else {
           console.error(
@@ -375,9 +404,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         });
 
         if (uploadRes.ok) {
+          const pickupDateFormatted = dayjs(pickupDateGls).format("DD.MM.YYYY");
+
           notifications.show({
             title: "Retoure erstellt",
-            message: `Die GLS Retoure mit Sendungsnummer ${shipmentNo} wurde erfolgreich erstellt.`,
+            message: `GLS Pickup ${shipmentNo} am ${pickupDateFormatted} wurde erfolgreich beantragt.`,
             autoClose: 3000,
             color: "dark",
           });
@@ -385,7 +416,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           const payload = {
             ticketnr: id,
             createdby: session?.user?.name || ticket.createdby,
-            comment: `GLS Pickup am ${dayjs(pickupDateGls).format("DD.MM.YYYY")} (${shipmentNo})`,
+            comment: `GLS Pickup am ${pickupDateFormatted} (${shipmentNo})`,
             source: "OF",
             tracknr: shipmentNo,
             public: 1,
@@ -397,6 +428,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),
+          });
+
+          await sendResendMail({
+            receiver: email,
+            subject: `Meinl RMA ${id} - GLS Pickup`,
+            content: `Ihre GLS Abholung wurde erfolgreich angemeldet.\n\nSendungsnummer: ${shipmentNo}\nAbholdatum: ${pickupDateFormatted}\n\nBitte halten Sie das Paket zum vereinbarten Datum bereit.`,
           });
 
           updateTicketStatus("110", "810");
@@ -483,9 +520,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [newState]);
 
   useEffect(() => {
-    getTicket();
+    if (!ticket) {
+      getTicket();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    if (!owner) {
+      getOwner();
+    }
+  }, [ticket]);
 
   if (loading) {
     return <Loader />;
@@ -555,20 +600,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   DHL
                 </Menu.Item>
                 <Menu.Item
-                  onClick={async () => {
-                    const persons = await fetchResults<Person>(
-                      source,
-                      service,
-                      "persons",
-                      ticket.kdnr_full,
-                    );
-                    const contact = persons.find(
-                      (p) => p.b2bnr === ticket.kdnr_full,
-                    );
-                    setEmail(contact?.email || "");
-                    setPhone(contact?.phone || "");
-                    open();
-                  }}
+                  onClick={open}
                   rightSection={
                     <p className="text-xs dimmed">
                       {ticket.trackingHistory?.find(
@@ -784,6 +816,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <HistoryTab
                 ticketnr={id}
                 createdby={session.user.name}
+                email={email}
                 history={ticket.history}
                 onCommentAdded={async () => {
                   await getTicket();

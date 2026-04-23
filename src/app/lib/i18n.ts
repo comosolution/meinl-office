@@ -142,6 +142,9 @@ export type TranslationKey =
   | "upload"
   | "download"
   | "comment"
+  | "public"
+  | "private"
+  | "sendMail"
   | "note"
   | "notes"
   | "noteError"
@@ -374,6 +377,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     upload: "Hochladen",
     download: "Herunterladen",
     comment: "Kommentar",
+    public: "Öffentlich",
+    private: "Privat",
+    sendMail: "Kommentar zusätzlich per Mail senden",
     note: "Notiz",
     notes: "Notizen",
     noteError: "Fehler beim Hinzufügen der Notiz",
@@ -605,6 +611,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     upload: "Upload",
     download: "Download",
     comment: "Comment",
+    public: "Public",
+    private: "Private",
+    sendMail: "Also send comment by email",
     note: "Note",
     notes: "Notes",
     noteError: "Failed to add note",

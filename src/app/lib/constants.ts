@@ -12,11 +12,21 @@ export const MEINL_AE_URL = "https://apidev.meinl.de/aeblazorbeta";
 export const MEINL_AE_USA_URL = "https://apidev.meinl.de/us/aeblazorbetaus";
 
 export const DHL_API_TOKEN =
-  "https://api-sandbox.dhl.com/parcel/de/account/auth/ropc/v1/token";
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+    ? "https://api-sandbox.dhl.com/parcel/de/account/auth/ropc/v1/token"
+    : "https://api-eu.dhl.com/parcel/de/account/auth/ropc/v1/token";
 export const DHL_API_RETURN_LABEL =
-  "https://api-sandbox.dhl.com/parcel/de/shipping/returns/v1/orders?labelType=SHIPMENT_LABEL";
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+    ? "https://api-sandbox.dhl.com/parcel/de/shipping/returns/v1/orders?labelType=SHIPMENT_LABEL"
+    : "https://api-eu.dhl.com/parcel/de/shipping/returns/v1/orders?labelType=SHIPMENT_LABEL";
+export const GLS_API_TOKEN =
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+    ? "https://api-sandbox.gls-group.net/oauth2/v2/token"
+    : "https://api.gls-group.net/oauth2/v2/token";
 export const GLS_API =
-  "https://shipit-wbm-test01.gls-group.eu:8443/backend/rs/shipments";
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+    ? "https://shipit-wbm-test01.gls-group.eu:8443/backend/rs/shipments"
+    : "https://api.gls-group.net/shipit-farm/v1/backend/rs/shipments";
 
 export const MEINL_OFFICE_SIDEBAR_KEY = "meinl.office.sidebar.collapsed";
 export const MEINL_OFFICE_SOURCE_KEY = "meinl.office.source";
