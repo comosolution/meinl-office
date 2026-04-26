@@ -279,7 +279,7 @@ export default function Sidebar() {
                 }}
                 leftSection={
                   <Avatar
-                    color="red"
+                    color="yellow"
                     variant="filled"
                     size={20}
                     name={session?.user?.name ?? ""}

@@ -48,11 +48,11 @@ import {
   IconBasketPlus,
   IconChevronLeft,
   IconDeviceFloppy,
-  IconDice,
   IconEdit,
   IconIdBadge2,
   IconLockQuestion,
   IconUser,
+  IconWand,
 } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -140,7 +140,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const generatePassword = (length = 8) => {
     const charset =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-+#$%&()=?@";
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-+#$%&()=?";
     return Array.from(
       { length },
       () => charset[Math.floor(Math.random() * charset.length)],
@@ -167,7 +167,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
       if (!response.ok) {
         notifications.show({
-          id: `password-save-error-${person.b2bnr}`,
           title: `${t(locale, "error")} ${response.status}`,
           message: (await response.text()) || "",
           autoClose: false,
@@ -176,9 +175,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }
 
       notifications.show({
-        id: `password-save-success-${person.b2bnr}`,
-        title: "Erfolgreich",
-        message: "Passwort wurde gespeichert.",
+        title: t(locale, "success"),
+        message: t(locale, "passwordSaved"),
       });
 
       await getPerson();
@@ -578,7 +576,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </form>
         </Tabs>
       </main>
-      <Modal size="md" opened={opened} onClose={close} withCloseButton={false}>
+      <Modal
+        size="md"
+        opened={opened}
+        onClose={close}
+        withCloseButton={false}
+        centered
+      >
         <div className="flex flex-col gap-4">
           <h2>{t(locale, "generatePassword")}</h2>
           <TextInput
@@ -592,11 +596,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 withArrow
               >
                 <ActionIcon
-                  color="dark"
                   variant="light"
                   onClick={() => setGeneratedPassword(generatePassword(16))}
                 >
-                  <IconDice size={16} />
+                  <IconWand size={16} />
                 </ActionIcon>
               </Tooltip>
             }

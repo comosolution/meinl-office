@@ -229,6 +229,8 @@ export type TranslationKey =
   | "b2bAccess"
   | "generatePassword"
   | "generateRandomPassword"
+  | "passwordSaved"
+  | "success"
   | "availableDownloads"
   | "noDownloads"
   | "enterNameKdnrOrMatchcode"
@@ -467,6 +469,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     b2bAccess: "B2B-Zugriff",
     generatePassword: "Neues Passwort festlegen",
     generateRandomPassword: "Zufälliges Passwort generieren",
+    passwordSaved: "Passwort erfolgreich gespeichert",
+    success: "Erfolg",
     availableDownloads: "Verfügbare Downloads",
     noDownloads: "Keine Downloads",
     enterNameKdnrOrMatchcode: "Name, Kdnr oder Matchcode eingeben",
@@ -702,6 +706,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     b2bAccess: "B2B Access",
     generatePassword: "Set New Password",
     generateRandomPassword: "Generate random password",
+    passwordSaved: "Password saved successfully",
+    success: "Success",
     availableDownloads: "Available Downloads",
     noDownloads: "No Downloads",
     enterNameKdnrOrMatchcode: "Enter name, CID or matchcode",

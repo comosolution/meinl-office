@@ -279,7 +279,7 @@ export default function Page() {
               clearable
               placeholder={t(locale, "filter")}
               data={vertreterOptions}
-              value={filters.branche}
+              value={filters.vertreter}
               onChange={(value) =>
                 setFilters((prev) => ({ ...prev, vertreter: value || "" }))
               }
