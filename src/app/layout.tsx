@@ -2,10 +2,8 @@ import "@mantine/core/styles.css";
 //
 import "@mantine/charts/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
-import { DatesProvider } from "@mantine/dates";
 import "@mantine/dates/styles.css";
 import "@mantine/dropzone/styles.css";
-import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import "@mantine/spotlight/styles.css";
 import "dayjs/locale/de";
@@ -29,18 +27,6 @@ const theme = createTheme({
   fontFamily: "Titillium Web",
   primaryColor: "red",
   colors: {
-    /*  red: [
-      "#ffe8ec",
-      "#ffd1d7",
-      "#fba1ac",
-      "#f66e7f",
-      "#f14359",
-      "#ef2840",
-      "#ef1733",
-      "#d50626",
-      "#bf0021",
-      "#a7001a",
-    ], */
     red: [
       "#fdedf1",
       "#f4d7de",
@@ -76,17 +62,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <head>
-        <meta name="theme-color" content="#ef233c" />
-      </head>
       <body className={`${titillium.className}`}>
         <MantineProvider theme={theme}>
-          <DatesProvider settings={{ locale: "de" }}>
-            <OfficeProvider>
-              <App>{children}</App>
-              <Notifications position="top-center" />
-            </OfficeProvider>
-          </DatesProvider>
+          <OfficeProvider>
+            <App>{children}</App>
+          </OfficeProvider>
         </MantineProvider>
       </body>
     </html>

@@ -1,8 +1,9 @@
 export type Locale = "de" | "en";
 
 export type TranslationKey =
-  | "homeTitle"
+  | "welcome"
   | "welcomeSub"
+  | "welcomeAction"
   | "light"
   | "dark"
   | "companies"
@@ -243,8 +244,9 @@ export type TranslationKey =
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
-    homeTitle: "Willkommen",
-    welcomeSub: "Wähle Sprache, Standort & Theme um fortzufahren.",
+    welcome: "Willkommen",
+    welcomeSub: "Wähle Sprache, Standort und Theme um fortzufahren.",
+    welcomeAction: "Los geht's",
     companies: "Firmen",
     dealers: "Händler",
     people: "Personen",
@@ -484,8 +486,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     dark: "Dunkel",
   },
   en: {
-    homeTitle: "Welcome",
-    welcomeSub: "Select a language, location & theme to continue.",
+    welcome: "Welcome",
+    welcomeSub: "Select a language, location, and theme to continue.",
+    welcomeAction: "Let's get started",
     companies: "Companies",
     dealers: "Dealers",
     people: "People",

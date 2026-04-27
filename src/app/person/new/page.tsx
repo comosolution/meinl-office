@@ -263,7 +263,7 @@ export default function NewPersonPage() {
               <div className="grid grid-cols-2 gap-4">
                 <DateInput
                   label={t(locale, "dateOfBirth")}
-                  locale="de"
+                  locale={locale}
                   valueFormat="DD.MM.YYYY"
                   defaultLevel="decade"
                   dateParser={dateParser}

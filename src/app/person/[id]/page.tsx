@@ -500,7 +500,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <div className="grid grid-cols-2 gap-4">
                     <DateInput
                       label={t(locale, "dateOfBirth")}
-                      locale="de"
+                      locale={locale}
                       valueFormat="DD.MM.YYYY"
                       dateParser={dateParser}
                       {...form.getInputProps("gebdat")}
@@ -545,7 +545,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <Modal
         size="md"
         opened={opened}
-        onClose={close}
+        onClose={() => {
+          setB2bPassword("");
+          close();
+        }}
         withCloseButton={false}
         centered
       >

@@ -13,7 +13,7 @@ export default function Title() {
 
   return (
     <h1>
-      {t(locale, "homeTitle")}
+      {t(locale, "welcome")}
       {userName ? `, ${userName}` : null}!
     </h1>
   );
