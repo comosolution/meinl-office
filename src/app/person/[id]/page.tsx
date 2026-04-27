@@ -67,8 +67,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [person, setPerson] = useState<Person>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
   const [edit, setEdit] = useState(false);
-  const [generatedPassword, setGeneratedPassword] = useState("");
-  const [savingPassword, setSavingPassword] = useState(false);
+  const [b2bPassword, setB2bPassword] = useState("");
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -145,44 +144,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       { length },
       () => charset[Math.floor(Math.random() * charset.length)],
     ).join("");
-  };
-
-  const saveGeneratedPassword = async () => {
-    if (!person || !generatedPassword) return;
-
-    setSavingPassword(true);
-    try {
-      const response = await fetch("/api/person/save", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...person,
-          b2bpwd: generatedPassword,
-          source,
-          user: session?.user?.name,
-        }),
-      });
-
-      if (!response.ok) {
-        notifications.show({
-          title: `${t(locale, "error")} ${response.status}`,
-          message: (await response.text()) || "",
-          autoClose: false,
-        });
-        return;
-      }
-
-      notifications.show({
-        title: t(locale, "success"),
-        message: t(locale, "passwordSaved"),
-      });
-
-      close();
-    } finally {
-      setSavingPassword(false);
-    }
   };
 
   const actions = (
@@ -302,19 +263,26 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               const formattedCompetences = values.zustaendig.join(",");
               const formattedB2bDlTyp = values.b2bdltyp.join(",");
 
+              const payload = {
+                ...values,
+                gebdat: formattedDob,
+                zustaendig: formattedCompetences,
+                b2bdltyp: formattedB2bDlTyp,
+                b2bpwd:
+                  b2bPassword && b2bPassword.trim().length > 0
+                    ? b2bPassword.trim()
+                    : null,
+                source,
+                user: session?.user?.name,
+              };
+
               const response = await fetch("/api/person/save", {
                 method: "POST",
-                body: JSON.stringify({
-                  ...values,
-                  gebdat: formattedDob,
-                  zustaendig: formattedCompetences,
-                  b2bdltyp: formattedB2bDlTyp,
-                  source,
-                  user: session?.user?.name,
-                }),
+                body: JSON.stringify(payload),
               });
               if (response.ok) {
                 getPerson();
+                setB2bPassword("");
                 setEdit(false);
               }
             })}
@@ -442,10 +410,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <div className="flex justify-between items-baseline gap-2">
                     <h2>B2B-Zugriff</h2>
                     <Button
-                      color="dark"
                       variant="light"
                       leftSection={<IconLockQuestion size={16} />}
-                      disabled={form.values.b2bzugriff === "0"}
+                      disabled={form.values.b2bzugriff === "0" || !edit}
                       onClick={open}
                     >
                       {t(locale, "generatePassword")}
@@ -586,8 +553,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <h2>{t(locale, "generatePassword")}</h2>
           <TextInput
             placeholder="********"
-            value={generatedPassword}
-            onChange={(e) => setGeneratedPassword(e.target.value)}
+            value={b2bPassword}
+            onChange={(e) => setB2bPassword(e.target.value)}
             rightSection={
               <Tooltip
                 label={t(locale, "generateRandomPassword")}
@@ -596,7 +563,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               >
                 <ActionIcon
                   variant="light"
-                  onClick={() => setGeneratedPassword(generatePassword(16))}
+                  onClick={() => setB2bPassword(generatePassword(16))}
                 >
                   <IconWand size={16} />
                 </ActionIcon>
@@ -608,16 +575,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               color="dark"
               variant="transparent"
               onClick={() => {
-                setGeneratedPassword("");
+                setB2bPassword("");
                 close();
               }}
             >
               {t(locale, "cancel")}
             </Button>
             <Button
-              onClick={saveGeneratedPassword}
+              onClick={close}
               leftSection={<IconDeviceFloppy size={16} />}
-              disabled={!generatedPassword || savingPassword}
+              disabled={!b2bPassword}
             >
               {t(locale, "save")}
             </Button>
