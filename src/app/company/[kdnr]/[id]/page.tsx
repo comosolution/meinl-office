@@ -149,7 +149,6 @@ export default function Page({
           <Button
             type="submit"
             color="dark"
-            variant="light"
             leftSection={<IconDeviceFloppy size={16} />}
             disabled={!form.isValid()}
           >

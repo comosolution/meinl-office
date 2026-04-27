@@ -1,7 +1,7 @@
 "use client";
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
-import { LONG_DATE_FORMAT } from "@/app/lib/constants";
+import { DATE_FORMAT } from "@/app/lib/constants";
 import {
   countryCodes,
   normalizeAlpha2CountryCode,
@@ -474,7 +474,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     autoTable(doc, {
       body: [
         ["Ticket ID", id],
-        ["Erstellt am", format(ticket.created, LONG_DATE_FORMAT)],
+        ["Erstellt am", format(ticket.created, DATE_FORMAT)],
         ["Kunde", `${ticket.kdnr_full} – ${ticket.kdnr_name}` || ""],
         ["Artikelnummer", ticket.artnr_mei || ticket.artnr_ku || ""],
         ["Seriennummer", ticket.sernr_mei || ticket.sernr_ku || ""],
@@ -633,8 +633,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <b>{ticket.kdnr_name}</b>{" "}
                 <span className="dimmed">({ticket.kdnr_full})</span>
               </Link>{" "}
-              – {t(locale, "createdAt")}{" "}
-              {format(ticket.created, LONG_DATE_FORMAT)}
+              – {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}
             </p>
             <Badge variant="light">{ticket.status_int.text}</Badge>
           </div>

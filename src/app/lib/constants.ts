@@ -38,5 +38,4 @@ export const MEINL_OFFICE_COMPANY_HISTORY_KEY = "meinl.office.company.recent";
 export const MEINL_OFFICE_DEALER_HISTORY_KEY = "meinl.office.dealer.recent";
 export const MEINL_OFFICE_PERSON_HISTORY_KEY = "meinl.office.person.recent";
 
-export const SHORT_DATE_FORMAT = "dd.MM.yyyy";
-export const LONG_DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";
+export const DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";

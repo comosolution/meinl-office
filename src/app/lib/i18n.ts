@@ -389,7 +389,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     comment: "Kommentar",
     public: "Öffentlich",
     private: "Privat",
-    sendMail: "Kommentar zusätzlich per Mail senden",
+    sendMail: "Zusätzlich per Mail senden",
     note: "Notiz",
     notes: "Notizen",
     noteError: "Fehler beim Hinzufügen der Notiz",

@@ -6,7 +6,7 @@ import { useForm } from "@mantine/form";
 import { IconDownload, IconPaperclip, IconUpload } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
-import { LONG_DATE_FORMAT } from "../../lib/constants";
+import { DATE_FORMAT } from "../../lib/constants";
 import { Attachment } from "../../lib/interfaces";
 import { fileToBase64, parseDb2Date } from "../../lib/utils";
 
@@ -108,7 +108,7 @@ export default function FilesTab({
                   <div className="flex flex-col items-end gap-1">
                     <p className="text-sm dimmed">
                       {entry.created
-                        ? format(parseDb2Date(entry.created), LONG_DATE_FORMAT)
+                        ? format(parseDb2Date(entry.created), DATE_FORMAT)
                         : ""}
                     </p>
                     <Button

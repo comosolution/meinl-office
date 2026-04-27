@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
-import { LONG_DATE_FORMAT } from "../lib/constants";
+import { DATE_FORMAT } from "../lib/constants";
 import { t } from "../lib/i18n";
 import { exportXLSX } from "../lib/utils";
 import Pagination from "./pagination";
@@ -137,12 +137,12 @@ export default function SortableTable({
     {
       label: t(locale, "created"),
       key: "created",
-      render: (ticket) => format(new Date(ticket.created), LONG_DATE_FORMAT),
+      render: (ticket) => format(new Date(ticket.created), DATE_FORMAT),
     },
     {
       label: t(locale, "modified"),
       key: "modified",
-      render: (ticket) => format(new Date(ticket.modified), LONG_DATE_FORMAT),
+      render: (ticket) => format(new Date(ticket.modified), DATE_FORMAT),
     },
   ];
 

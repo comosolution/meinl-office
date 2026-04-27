@@ -21,17 +21,11 @@ export default function WelcomeModal({
   onComplete?: () => void;
 }) {
   const { locale, setLocale, source, setSource } = useOffice();
-
-  const [selectedSource, setSelectedSource] = useState<"OFFGUT" | "OFFUSA">(
-    source,
-  );
-  const [selectedTheme, setSelectedTheme] = useState<"light" | "dark">("light");
-
   const { setColorScheme } = useMantineColorScheme();
 
+  const [selectedTheme, setSelectedTheme] = useState<"light" | "dark">("light");
+
   const handleSave = () => {
-    setSource(selectedSource);
-    setColorScheme(selectedTheme);
     localStorage.setItem(MEINL_OFFICE_WELCOME_KEY, "true");
     if (onComplete) {
       onComplete();
@@ -77,10 +71,8 @@ export default function WelcomeModal({
             <SegmentedControl
               size="lg"
               fullWidth
-              value={selectedSource}
-              onChange={(value) =>
-                setSelectedSource(value as "OFFGUT" | "OFFUSA")
-              }
+              value={source}
+              onChange={(value) => setSource(value as "OFFGUT" | "OFFUSA")}
               data={[
                 {
                   label: (

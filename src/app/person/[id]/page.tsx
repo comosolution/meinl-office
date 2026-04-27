@@ -161,7 +161,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Button
             type="submit"
             color="dark"
-            variant="light"
             leftSection={<IconDeviceFloppy size={16} />}
             disabled={!form.isValid()}
           >

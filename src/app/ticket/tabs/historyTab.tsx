@@ -14,7 +14,7 @@ import { notifications } from "@mantine/notifications";
 import { IconLock, IconLockOpen, IconPlus } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
-import { LONG_DATE_FORMAT } from "../../lib/constants";
+import { DATE_FORMAT } from "../../lib/constants";
 import { parseDb2Date } from "../../lib/utils";
 
 export default function HistoryTab({
@@ -158,7 +158,7 @@ export default function HistoryTab({
                     <div className="flex justify-between">
                       <p className="text-sm">{entry.createdBy}</p>
                       <p className="text-sm dimmed">
-                        {format(parseDb2Date(entry.created), LONG_DATE_FORMAT)}
+                        {format(parseDb2Date(entry.created), DATE_FORMAT)}
                       </p>
                     </div>
                   }
