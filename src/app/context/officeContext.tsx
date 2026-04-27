@@ -50,6 +50,9 @@ export const OfficeProvider = ({ children }: { children: ReactNode }) => {
       | null;
     if (savedLocale === "de" || savedLocale === "en") {
       setLocale(savedLocale);
+    } else {
+      const browserLang = navigator.language?.split("-")[0];
+      setLocale(browserLang === "en" ? "en" : "de");
     }
   }, []);
 

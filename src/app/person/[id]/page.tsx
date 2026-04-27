@@ -179,7 +179,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         message: t(locale, "passwordSaved"),
       });
 
-      await getPerson();
       close();
     } finally {
       setSavingPassword(false);

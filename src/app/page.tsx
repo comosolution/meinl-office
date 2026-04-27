@@ -8,6 +8,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import HistoryList from "./components/history";
+import Title from "./components/title";
 import { useOffice } from "./context/officeContext";
 import {
   MEINL_OFFICE_COMPANY_HISTORY_KEY,
@@ -29,7 +30,7 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 p-4">
-        <h1>{t(locale, "homeTitle")}</h1>
+        <Title />
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
             <h3>{session?.user?.name}</h3>

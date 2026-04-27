@@ -2,6 +2,9 @@ export type Locale = "de" | "en";
 
 export type TranslationKey =
   | "homeTitle"
+  | "welcomeSub"
+  | "light"
+  | "dark"
   | "companies"
   | "dealers"
   | "people"
@@ -241,6 +244,7 @@ export type TranslationKey =
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
     homeTitle: "Willkommen",
+    welcomeSub: "Wähle Sprache, Standort & Theme um fortzufahren.",
     companies: "Firmen",
     dealers: "Händler",
     people: "Personen",
@@ -476,9 +480,12 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     enterNameKdnrOrMatchcode: "Name, Kdnr oder Matchcode eingeben",
     enterAtLeast2Chars: "Bitte mindestens 2 Zeichen eingeben",
     loading: "Lade...",
+    light: "Hell",
+    dark: "Dunkel",
   },
   en: {
     homeTitle: "Welcome",
+    welcomeSub: "Select a language, location & theme to continue.",
     companies: "Companies",
     dealers: "Dealers",
     people: "People",
@@ -713,6 +720,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     enterNameKdnrOrMatchcode: "Enter name, CID or matchcode",
     enterAtLeast2Chars: "Please enter at least 2 characters",
     loading: "Loading...",
+    light: "Light",
+    dark: "Dark",
   },
 };
 

@@ -33,6 +33,7 @@ export const MEINL_OFFICE_SOURCE_KEY = "meinl.office.source";
 export const MEINL_OFFICE_SERVICE_KEY = "meinl.office.service";
 export const MEINL_OFFICE_LOCALE_KEY = "meinl.office.locale";
 export const MEINL_OFFICE_LIMIT_KEY = "meinl.office.limit";
+export const MEINL_OFFICE_WELCOME_KEY = "meinl.office.welcome";
 export const MEINL_OFFICE_COMPANY_HISTORY_KEY = "meinl.office.company.recent";
 export const MEINL_OFFICE_DEALER_HISTORY_KEY = "meinl.office.dealer.recent";
 export const MEINL_OFFICE_PERSON_HISTORY_KEY = "meinl.office.person.recent";
