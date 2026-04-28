@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Personal & Private Data
   - B2B Access: Manage access, downloads and set a new password
 - **Campaigns**: List view, detail view, and new campaign creation pages for brand campaigns
-- **RMA Tickets**: List view, detail view, and new ticket creation pages, plus analytics
+- **RMA Tickets**: List view, detail view, and new ticket creation pages, plus first draft of analytics
   - Status Management, Comments and Attachments
   - Tracking Sheet Generation: PDF creation with barcode and QR code
   - Return Tracking: DHL Return and GLS PickUp handling

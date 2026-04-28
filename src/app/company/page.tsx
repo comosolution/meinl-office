@@ -34,7 +34,6 @@ export default function Page() {
     matchcode: "",
     kdnr: "",
     branche: "",
-    vertreter: "",
   });
 
   const fetchData = async () => {
@@ -82,9 +81,6 @@ export default function Page() {
       const brancheMatch =
         !filters.branche ||
         (c.branche || "").toLowerCase() === filters.branche.toLowerCase();
-      const vertreterMatch =
-        !filters.vertreter ||
-        (c.vertreter || "").toLowerCase() === filters.vertreter.toLowerCase();
 
       return (
         searchMatch &&
@@ -92,8 +88,7 @@ export default function Page() {
         kundenartMatch &&
         matchcodeMatch &&
         kdnrMatch &&
-        brancheMatch &&
-        vertreterMatch
+        brancheMatch
       );
     });
   }, [companies, search, filters]);
@@ -158,14 +153,6 @@ export default function Page() {
       .map((value) => ({ label: value, value }));
   }, [companies]);
 
-  const vertreterOptions = useMemo(() => {
-    return Array.from(
-      new Set(companies.map((c) => c.vertreter || "").filter(Boolean)),
-    )
-      .sort((a, b) => a.localeCompare(b))
-      .map((value) => ({ label: value, value }));
-  }, [companies]);
-
   useEffect(() => {
     fetchData();
   }, [source, service]);
@@ -211,7 +198,7 @@ export default function Page() {
       </header>
 
       <div
-        className={`grid grid-cols-1 ${source === "OFFGUT" ? "md:grid-cols-4" : "md:grid-cols-6"} gap-2`}
+        className={`grid grid-cols-1 ${source === "OFFGUT" ? "md:grid-cols-4" : "md:grid-cols-5"} gap-2`}
       >
         <TextInput
           label={t(locale, "kdnrStartsWith")}
@@ -260,32 +247,18 @@ export default function Page() {
           checkIconPosition="right"
         />
         {source === "OFFUSA" && (
-          <>
-            <Select
-              label={t(locale, "branch")}
-              searchable
-              clearable
-              placeholder={t(locale, "filter")}
-              data={brancheOptions}
-              value={filters.branche}
-              onChange={(value) =>
-                setFilters((prev) => ({ ...prev, branche: value || "" }))
-              }
-              checkIconPosition="right"
-            />
-            <Select
-              label={t(locale, "deputy")}
-              searchable
-              clearable
-              placeholder={t(locale, "filter")}
-              data={vertreterOptions}
-              value={filters.vertreter}
-              onChange={(value) =>
-                setFilters((prev) => ({ ...prev, vertreter: value || "" }))
-              }
-              checkIconPosition="right"
-            />
-          </>
+          <Select
+            label={t(locale, "branch")}
+            searchable
+            clearable
+            placeholder={t(locale, "filter")}
+            data={brancheOptions}
+            value={filters.branche}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, branche: value || "" }))
+            }
+            checkIconPosition="right"
+          />
         )}
       </div>
 

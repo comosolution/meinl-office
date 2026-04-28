@@ -1,4 +1,4 @@
-export const defaultBorder = "1px solid rgba(0, 0, 0, 0.2)";
+export const defaultBorder = "1px solid var(--subtle)";
 export const navLink = (isCollapsed: boolean) => {
   return {
     display: "flex",

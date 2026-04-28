@@ -46,6 +46,7 @@ import { notifications } from "@mantine/notifications";
 import {
   IconBalloon,
   IconBasketPlus,
+  IconCheck,
   IconChevronLeft,
   IconDeviceFloppy,
   IconEdit,
@@ -407,7 +408,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 {actions}
                 <Fieldset>
                   <div className="flex justify-between items-baseline gap-2">
-                    <h2>B2B-Zugriff</h2>
+                    <h2>{t(locale, "b2bAccess")}</h2>
                     <Button
                       variant="light"
                       leftSection={<IconLockQuestion size={16} />}
@@ -432,9 +433,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </Radio.Group>
                 </Fieldset>
                 <Fieldset>
-                  <h2>Verfügbare Downloads</h2>
+                  <h2>{t(locale, "availableDownloads")}</h2>
                   <Checkbox
-                    label="Keine Downloads"
+                    label={t(locale, "noDownloads")}
                     {...form.getInputProps("b2bdldis", { type: "checkbox" })}
                     disabled={!edit}
                   />
@@ -585,10 +586,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Button>
             <Button
               onClick={close}
-              leftSection={<IconDeviceFloppy size={16} />}
+              leftSection={<IconCheck size={16} />}
               disabled={!b2bPassword}
             >
-              {t(locale, "save")}
+              {t(locale, "apply")}
             </Button>
           </div>
         </div>
