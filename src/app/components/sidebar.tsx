@@ -12,6 +12,7 @@ import {
   IconAddressBook,
   IconBasket,
   IconBuildings,
+  IconHistory,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
@@ -291,6 +292,13 @@ export default function Sidebar() {
               <Menu.Label>{session?.user?.email}</Menu.Label>
               <ServiceSwitch />
               <ThemeSwitch />
+              <Menu.Item
+                leftSection={<IconHistory size={14} />}
+                component={Link}
+                href="/settings/changelog"
+              >
+                {t(locale, "changelog")}
+              </Menu.Item>
               <Menu.Item
                 leftSection={<IconLogout size={14} />}
                 onClick={() => signOut()}

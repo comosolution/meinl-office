@@ -23,6 +23,7 @@ export type TranslationKey =
   | "startPage"
   | "campaigns"
   | "tickets"
+  | "changelog"
   | "logout"
   | "source"
   | "language"
@@ -264,6 +265,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     startPage: "Startseite",
     campaigns: "Kampagnen",
     tickets: "RMA Tickets",
+    changelog: "Changelog",
     logout: "Ausloggen",
     source: "Quelle",
     language: "Sprache",
@@ -506,6 +508,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     startPage: "Home",
     campaigns: "Campaigns",
     tickets: "RMA Tickets",
+    changelog: "Changelog",
     logout: "Sign Out",
     source: "Source",
     language: "Language",

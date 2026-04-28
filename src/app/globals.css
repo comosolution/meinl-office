@@ -45,13 +45,15 @@ h3 {
   font-weight: bold;
 }
 
-a.link {
+a.link,
+article a {
   padding-bottom: 2px;
   border-bottom: 1px solid var(--mantine-color-dimmed);
   transition: var(--transition);
 }
 
-a.link:hover {
+a.link:hover,
+article a:hover {
   border-bottom: 1px solid var(--main);
 }
 
@@ -158,4 +160,14 @@ img.inverted {
 
 .mantine-Dropzone-root {
   background-color: transparent;
+}
+
+article h3 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+article li {
+  list-style-type: disc;
+  margin-left: 1.2rem;
 }
