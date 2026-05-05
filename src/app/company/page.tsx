@@ -7,6 +7,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { IconBuildings, IconChevronUp, IconSearch } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import Loader from "../components/loader";
@@ -19,6 +20,7 @@ import { fetchResults, getAvatarColor, safeLocaleCompare } from "../lib/utils";
 
 export default function Page() {
   const { locale, source, service, setService } = useOffice();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -39,7 +41,12 @@ export default function Page() {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetchResults<Company>(source, service, "companies");
+    const res = await fetchResults<Company>(
+      source,
+      service,
+      "companies",
+      session?.user?.name ?? "",
+    );
     setCompanies(res.sort((a, b) => safeLocaleCompare(a.name1, b.name1)));
     setLoading(false);
   };

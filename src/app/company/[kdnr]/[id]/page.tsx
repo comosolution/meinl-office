@@ -135,7 +135,7 @@ export default function Page({
   const actions = (
     <div className="col-span-2 flex justify-end gap-2">
       {edit ? (
-        <Button.Group>
+        <div className="flex gap-2">
           <Button
             color="dark"
             variant="transparent"
@@ -154,7 +154,7 @@ export default function Page({
           >
             {t(locale, "saveChanges")}
           </Button>
-        </Button.Group>
+        </div>
       ) : (
         <Button
           color="dark"
@@ -171,7 +171,7 @@ export default function Page({
   return (
     <main className="flex flex-col gap-4 p-4">
       <div className="flex justify-between items-baseline gap-2">
-        <Button.Group>
+        <div className="flex gap-2">
           <Button
             variant="light"
             color="gray"
@@ -190,8 +190,8 @@ export default function Page({
           >
             {company.name1}
           </Button>
-        </Button.Group>
-        <Button.Group>
+        </div>
+        <div className="flex gap-2">
           <Contact email={company.mailadr} phone={company.telefon} />
           <Button
             component="a"
@@ -201,7 +201,7 @@ export default function Page({
           >
             {t(locale, "newOrder")}
           </Button>
-        </Button.Group>
+        </div>
       </div>
 
       <header className="flex items-center gap-4 py-4">

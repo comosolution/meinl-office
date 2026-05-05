@@ -62,7 +62,7 @@ export default function LogoPreview({
           }`}
         >
           {confirmDelete ? (
-            <Button.Group>
+            <div className="flex gap-2">
               <Button
                 color="red"
                 onClick={handleDelete}
@@ -77,7 +77,7 @@ export default function LogoPreview({
               >
                 {t(locale, "cancel")}
               </Button>
-            </Button.Group>
+            </div>
           ) : (
             <Button
               color="red"

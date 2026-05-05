@@ -10,6 +10,7 @@ import {
   IconBuildingWarehouse,
   IconSearch,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -22,6 +23,8 @@ import { fetchResults, getAvatarColor } from "../lib/utils";
 export default function Search({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
   const { source, locale, service } = useOffice();
+  const { data: session } = useSession();
+
   const [query, setQuery] = useState("");
   const [companies, setCompanies] = useState<Dealer[]>([]);
   const [persons, setPersons] = useState<Person[]>([]);
@@ -50,6 +53,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
             source,
             service,
             "dealers",
+            session?.user?.name ?? "",
             debouncedQuery,
             signal,
           ),
@@ -59,6 +63,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
                 source,
                 service,
                 "persons",
+                session?.user?.name ?? "",
                 debouncedQuery,
                 signal,
               ),

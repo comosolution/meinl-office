@@ -155,6 +155,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       source,
       service,
       "persons",
+      session?.user?.name ?? "",
       ticket.kdnr_full,
     );
     const contact = persons.find((p) => p.b2bnr === ticket.kdnr_full);

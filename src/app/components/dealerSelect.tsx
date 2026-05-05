@@ -5,6 +5,7 @@ import { Dealer } from "@/app/lib/interfaces";
 import { fetchResults, safeLocaleCompare } from "@/app/lib/utils";
 import { ActionIcon, Loader, TextInput } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { t } from "../lib/i18n";
 
@@ -18,6 +19,8 @@ export default function DealerSelect({
   disabled?: boolean;
 }) {
   const { source, locale } = useOffice();
+  const { data: session } = useSession();
+
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(false);
@@ -37,6 +40,7 @@ export default function DealerSelect({
         source,
         "B2B",
         "dealers",
+        session?.user?.name ?? "",
         debouncedSearch,
       );
       if (!cancelled) {

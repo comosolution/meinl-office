@@ -150,7 +150,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const actions = (
     <div className="col-span-2 flex justify-end gap-2">
       {edit ? (
-        <Button.Group>
+        <div className="flex gap-2">
           <Button
             color="dark"
             variant="transparent"
@@ -167,7 +167,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           >
             {t(locale, "saveChanges")}
           </Button>
-        </Button.Group>
+        </div>
       ) : (
         <Button
           color="dark"
@@ -187,7 +187,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     <>
       <main className="flex flex-col gap-4 p-4">
         <div className="flex justify-between items-baseline gap-2">
-          <Button.Group>
+          <div className="flex gap-2">
             <Button
               color="gray"
               variant="light"
@@ -206,8 +206,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             >
               {person.name1}
             </Button>
-          </Button.Group>
-          <Button.Group>
+          </div>
+          <div className="flex gap-2">
             <Contact
               email={person.email}
               phone={person.phone}
@@ -221,7 +221,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             >
               {t(locale, "newOrder")}
             </Button>
-          </Button.Group>
+          </div>
         </div>
         <header className="flex items-center gap-4 py-4">
           <Avatar
@@ -440,12 +440,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     disabled={!edit}
                   />
                   {!form.values.b2bdldis && (
-                    <Paper
-                      py="md"
-                      shadow="xl"
-                      bg="var(--background)"
-                      withBorder
-                    >
+                    <Paper py="md" shadow="xl" bg="var(--background)">
                       <Checkbox.Group {...form.getInputProps("b2bdltyp")}>
                         <div className="flex flex-col gap-2">
                           {downloads(source).map((d, i) => (

@@ -52,7 +52,7 @@ const theme = createTheme({
       "#8e5717",
     ],
   },
-  defaultRadius: "0",
+  defaultRadius: "md",
 });
 
 export default function RootLayout({

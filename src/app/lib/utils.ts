@@ -212,6 +212,7 @@ export const fetchResults = async <T>(
   source: string,
   service: string,
   type: "companies" | "persons" | "dealers",
+  user: string,
   query?: string,
   signal?: AbortSignal,
 ): Promise<T[]> => {
@@ -222,6 +223,7 @@ export const fetchResults = async <T>(
       search: query || " ",
       source,
       service,
+      user,
     }),
     signal,
   });

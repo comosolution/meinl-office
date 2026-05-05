@@ -210,7 +210,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       >
         <div className="col-span-2 flex justify-end gap-2">
           {edit ? (
-            <Button.Group>
+            <div className="flex gap-2">
               <Button
                 type="submit"
                 color="dark"
@@ -229,7 +229,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               >
                 {t(locale, "discard")}
               </Button>
-            </Button.Group>
+            </div>
           ) : (
             <Button
               color="dark"
@@ -241,7 +241,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Button>
           )}
           {del ? (
-            <Button.Group>
+            <div className="flex gap-2">
               <Button
                 onClick={handleDelete}
                 leftSection={<IconTrash size={16} />}
@@ -256,7 +256,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               >
                 {t(locale, "cancel")}
               </Button>
-            </Button.Group>
+            </div>
           ) : (
             <Button
               variant="transparent"
@@ -288,7 +288,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </ActionIcon>
             }
           />
-          <Button.Group>
+          <div className="flex gap-2">
             <CopyButton value={dealerLocLink}>
               {({ copied, copy }) => (
                 <Button
@@ -302,7 +302,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Button>
               )}
             </CopyButton>
-          </Button.Group>
+          </div>
         </div>
         <Fieldset className="col-span-2">
           <h2>{t(locale, "details")}</h2>
@@ -399,7 +399,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             – {dealer.plz} {dealer.ort} {dealer.land}
                           </p>
                         </div>
-                        <ActionIcon.Group>
+                        <div className="flex gap-2">
                           {!dealer.dealerloc && (
                             <Tooltip
                               label={`${dealer.name1} ${t(locale, "notActivatedForDealerLocator")}`}
@@ -413,6 +413,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                           )}
                           <ActionIcon
                             color="red"
+                            variant="light"
                             onClick={(e) => {
                               e.preventDefault();
                               removeCompany(dealer);
@@ -421,7 +422,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                           >
                             <IconX size={16} />
                           </ActionIcon>
-                        </ActionIcon.Group>
+                        </div>
                       </div>
                     </Card>
                   );
@@ -462,6 +463,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       </div>
                       <ActionIcon
                         color="red"
+                        variant="light"
                         onClick={(e) => {
                           e.preventDefault();
                           removeProduct(product.artnr);
