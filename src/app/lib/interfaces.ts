@@ -340,6 +340,9 @@ export interface TicketFormValues {
   vaort: string;
   valand: string;
   zusatz?: string;
+  newPersonFirstName?: string;
+  newPersonLastName?: string;
+  newPersonEmail?: string;
 }
 
 export interface FileUpload {

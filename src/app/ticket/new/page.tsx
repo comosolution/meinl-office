@@ -21,6 +21,7 @@ import {
   Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import {
   IconBuildings,
   IconChevronRight,
@@ -64,6 +65,9 @@ export default function Page() {
       vaort: "",
       valand: "",
       zusatz: "",
+      newPersonFirstName: "",
+      newPersonLastName: "",
+      newPersonEmail: "",
     },
     validate: (values: TicketFormValues) => {
       if (active === 0) {
@@ -81,9 +85,19 @@ export default function Page() {
           kdnr_full: values.kdnr_full
             ? null
             : `${t(locale, "contactPerson")} ${t(locale, "invalidRequired")}`,
-          kdnr_name: values.kdnr_name
-            ? null
-            : `${t(locale, "contactPerson")} ${t(locale, "invalidRequired")}`,
+          ...(values.kdnr_full === "NEW"
+            ? {
+                newPersonFirstName: values.newPersonFirstName
+                  ? null
+                  : `${t(locale, "firstName")} ${t(locale, "invalidRequired")}`,
+                newPersonLastName: values.newPersonLastName
+                  ? null
+                  : `${t(locale, "lastName")} ${t(locale, "invalidRequired")}`,
+                newPersonEmail: values.newPersonEmail
+                  ? null
+                  : `${t(locale, "email")} ${t(locale, "invalidRequired")}`,
+              }
+            : {}),
         };
       }
       if (active === 2) {
@@ -112,7 +126,40 @@ export default function Page() {
     setActive((current) => (current > 0 ? current - 1 : current));
 
   const handleSubmit = async (values: TicketFormValues) => {
+    let b2bnr;
+
     try {
+      if (form.values.kdnr_full === "NEW") {
+        const payload = {
+          id: 0,
+          kdnr: Number(values.kdnr),
+          vorname: values.newPersonFirstName,
+          nachname: values.newPersonLastName,
+          email: values.newPersonEmail,
+          b2bpwd: null,
+          b2bzugriff: 0,
+          b2bdltyp: null,
+          b2bdldis: false,
+          source,
+          user: session?.user?.name,
+        };
+
+        const res = await fetch("/api/person/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        b2bnr = await res.text();
+
+        if (!res.ok) {
+          notifications.show({
+            title: t(locale, "error"),
+            message: `Fehler beim Erstellen von ${values.newPersonFirstName} ${values.newPersonLastName}`,
+          });
+          return;
+        }
+      }
+
       const filesData = await Promise.all(
         values.files.map(
           (file) =>
@@ -136,8 +183,11 @@ export default function Page() {
       const payload = {
         nr: "",
         kdnr: values.kdnr,
-        kdnr_name: values.kdnr_name,
-        kdnr_full: values.kdnr_full,
+        kdnr_name:
+          values.kdnr_full === "NEW"
+            ? `${values.newPersonFirstName} ${values.newPersonLastName}`.trim()
+            : values.kdnr_name,
+        kdnr_full: values.kdnr_full === "NEW" ? b2bnr : values.kdnr_full,
         updatedby: session?.user?.name,
         createdby: session?.user?.name,
         artnr_ku: values.artnr_ku,
@@ -370,11 +420,36 @@ export default function Page() {
                 label={t(locale, "contactPerson")}
                 searchable
                 clearable
-                data={personOptions}
+                data={[
+                  ...personOptions,
+                  { label: t(locale, "newPerson"), value: "NEW" },
+                ]}
                 checkIconPosition="right"
                 {...form.getInputProps("kdnr_full")}
                 withAsterisk
               />
+              {form.values.kdnr_full === "NEW" && (
+                <Paper p="lg" bg="var(--background)" shadow="xl">
+                  <div className="grid grid-cols-2 gap-2">
+                    <TextInput
+                      label={t(locale, "lastName")}
+                      withAsterisk
+                      {...form.getInputProps("newPersonLastName")}
+                    />
+                    <TextInput
+                      label={t(locale, "firstName")}
+                      withAsterisk
+                      {...form.getInputProps("newPersonFirstName")}
+                    />
+                    <TextInput
+                      label={t(locale, "email")}
+                      className="col-span-2"
+                      withAsterisk
+                      {...form.getInputProps("newPersonEmail")}
+                    />
+                  </div>
+                </Paper>
+              )}
             </Stack>
           </Stepper.Step>
 

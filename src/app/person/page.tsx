@@ -120,7 +120,7 @@ export default function Page() {
 
   const positionOptions = useMemo(() => {
     return Array.from(
-      new Set(persons.map((p) => p.jobpos.trim() || "").filter(Boolean)),
+      new Set(persons.map((p) => p.jobpos?.trim() || "").filter(Boolean)),
     )
       .sort((a, b) => a.localeCompare(b))
       .map((value) => ({ label: value.trim(), value: value.trim() }));
