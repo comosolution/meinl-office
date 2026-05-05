@@ -9,8 +9,8 @@ import {
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
 import {
+  ActionIcon,
   Button,
-  FileInput,
   Group,
   NumberInput,
   Paper,
@@ -20,15 +20,18 @@ import {
   TextInput,
   Textarea,
 } from "@mantine/core";
+import { Dropzone, IMAGE_MIME_TYPE, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import {
   IconBuildings,
   IconChevronRight,
+  IconFileTypePdf,
   IconInfoCircle,
   IconPaperclip,
   IconPlus,
   IconUser,
+  IconX,
 } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -488,17 +491,83 @@ export default function Page() {
                 {...form.getInputProps("descr")}
                 withAsterisk
               />
-              <FileInput
-                label={t(locale, "files")}
-                placeholder={t(locale, "uploadFiles")}
-                multiple
-                clearable
-                accept="image/*,.pdf"
-                leftSection={<IconPaperclip size={16} />}
-                leftSectionPointerEvents="none"
-                value={form.values.files}
-                onChange={(files) => form.setFieldValue("files", files ?? [])}
-              />
+              <div>
+                <Dropzone
+                  onDrop={(files) =>
+                    form.setFieldValue("files", [
+                      ...form.values.files,
+                      ...files,
+                    ])
+                  }
+                  accept={[...IMAGE_MIME_TYPE, ...PDF_MIME_TYPE]}
+                  multiple
+                >
+                  <div
+                    className="flex items-center gap-2 py-3 px-2"
+                    style={{ pointerEvents: "none" }}
+                  >
+                    <IconPaperclip
+                      size={24}
+                      color="var(--mantine-color-dimmed)"
+                    />
+                    <p className="text-sm dimmed">{t(locale, "uploadFiles")}</p>
+                  </div>
+                </Dropzone>
+                {form.values.files.length > 0 && (
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    {form.values.files.map((file, i) => {
+                      const isImage = file.type.startsWith("image/");
+                      return (
+                        <Paper
+                          key={i}
+                          p="sm"
+                          bg="var(--background)"
+                          shadow="xl"
+                        >
+                          <div className="flex items-center gap-4">
+                            {isImage ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={URL.createObjectURL(file)}
+                                alt={file.name}
+                                style={{
+                                  width: 64,
+                                  height: 64,
+                                  objectFit: "cover",
+                                  display: "block",
+                                }}
+                              />
+                            ) : (
+                              <div
+                                className="flex items-center justify-center"
+                                style={{ width: 80, height: 64 }}
+                              >
+                                <IconFileTypePdf
+                                  size={36}
+                                  color="var(--mantine-color-red-6)"
+                                />
+                              </div>
+                            )}
+                            <h3 className="flex-1">{file.name}</h3>
+                            <ActionIcon
+                              variant="light"
+                              color="red"
+                              onClick={() =>
+                                form.setFieldValue(
+                                  "files",
+                                  form.values.files.filter((_, j) => j !== i),
+                                )
+                              }
+                            >
+                              <IconX size={16} />
+                            </ActionIcon>
+                          </div>
+                        </Paper>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </Stack>
           </Stepper.Step>
         </Stepper>
