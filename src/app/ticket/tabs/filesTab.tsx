@@ -1,9 +1,10 @@
 "use client";
+import { FileDropzone } from "@/app/components/fileDropzone";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
-import { Button, FileInput, Paper } from "@mantine/core";
+import { Button, Paper } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconDownload, IconPaperclip, IconUpload } from "@tabler/icons-react";
+import { IconDownload, IconUpload } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
 import { DATE_FORMAT } from "../../lib/constants";
@@ -26,16 +27,16 @@ export default function FilesTab({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [downloading, setDownloading] = useState<string | null>(null);
 
-  const form = useForm<{ files: File[] | null }>({
-    initialValues: { files: null },
+  const form = useForm<{ files: File[] }>({
+    initialValues: { files: [] },
     validate: {
       files: (value) =>
-        !value || value.length === 0 ? "Mindestens eine Datei anhängen" : null,
+        value.length === 0 ? "Mindestens eine Datei anhängen" : null,
     },
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
-    if (!values.files || values.files.length === 0) return;
+    if (values.files.length === 0) return;
     setIsSubmitting(true);
     try {
       for (const file of [...values.files]) {
@@ -74,17 +75,10 @@ export default function FilesTab({
   return (
     <div className="flex flex-col gap-4">
       <h2>{t(locale, "files")}</h2>
-      <form onSubmit={handleSubmit} className="flex items-center gap-2">
-        <FileInput
-          placeholder={t(locale, "uploadFiles")}
-          multiple
-          leftSection={<IconPaperclip size={16} />}
-          leftSectionPointerEvents="none"
-          className="flex-1"
-          value={form.values.files as File[]}
-          onChange={(v: File | File[] | null) =>
-            form.setFieldValue("files", (v as File[]) || null)
-          }
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <FileDropzone
+          files={form.values.files}
+          onChange={(files) => form.setFieldValue("files", files)}
         />
         <Button
           type="submit"
