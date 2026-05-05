@@ -259,11 +259,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   const handleCreateDhlReturn = async () => {
-    if (!ticket || !ticket.versandadresse) return;
+    if (!ticket) return;
 
-    const { vastrasse, vaplz, vaort, valand, vaname } = ticket.versandadresse;
+    const address = getReturnAddress();
+    const { name, street, zip, city, country } = address;
 
-    if (!vastrasse || !vaplz || !vaort || !valand || !vaname) {
+    if (!street || !zip || !city || !country || !name) {
       notifications.show({
         title: "Fehlende Versandadresse",
         message: "Die Versandadresse des Tickets ist unvollständig.",
@@ -271,18 +272,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       return;
     }
 
-    const addressParts = vastrasse.trim().split(/\s+(?=\S*$)/);
-    const addressStreet = addressParts[0] || vastrasse;
+    const addressParts = street.trim().split(/\s+(?=\S*$)/);
+    const addressStreet = addressParts[0] || street;
     const addressHouse = addressParts[1] || "1";
 
     const body = {
-      receiverId: normalizeAlpha3CountryCode(valand)?.toLowerCase() || "deu",
+      receiverId: normalizeAlpha3CountryCode(country)?.toLowerCase() || "deu",
       shipper: {
-        name1: vaname,
+        name1: name,
         addressStreet: addressStreet,
         addressHouse: addressHouse,
-        postalCode: vaplz,
-        city: vaort,
+        postalCode: zip,
+        city: city,
       },
       customerReference: id,
     };
@@ -351,11 +352,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   const handleCreateGlsReturn = async () => {
-    if (!ticket || !ticket.versandadresse) return;
+    if (!ticket) return;
 
-    const { valand, vastrasse, vaplz, vaort, vaname } = ticket.versandadresse;
+    const address = getReturnAddress();
+    const { name, street, zip, city, country } = address;
 
-    if (!vastrasse || !vaplz || !vaort || !vaname) {
+    if (!street || !zip || !city || !name) {
       notifications.show({
         title: "Fehlende Versandadresse",
         message: "Die Versandadresse des Tickets ist unvollständig.",
@@ -367,11 +369,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       ShipmentReference: [`${id}`],
       PickupDate: dayjs(pickupDateGls).format("YYYY-MM-DD"),
       Address: {
-        Name1: vaname,
-        CountryCode: normalizeAlpha2CountryCode(valand) || "DE",
-        ZIPCode: vaplz,
-        City: vaort,
-        Street: vastrasse,
+        Name1: name,
+        CountryCode: normalizeAlpha2CountryCode(country) || "DE",
+        ZIPCode: zip,
+        City: city,
+        Street: street,
         ContactPerson: ticket.kdnr_name,
         eMail: email,
         FixedLinePhonenumber: phone,
@@ -463,6 +465,63 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const getReturnAddress = () => {
+    const ticketAddress = {
+      name: ticket?.versandadresse.vaname ?? "",
+      street: ticket?.versandadresse.vastrasse ?? "",
+      zip: ticket?.versandadresse.vaplz ?? "",
+      city: ticket?.versandadresse.vaort ?? "",
+      country: ticket?.versandadresse.valand ?? "",
+    };
+
+    if (!owner) return ticketAddress;
+
+    const ownerAddress = {
+      name: owner.name1 ?? `${owner.vorname ?? ""} ${owner.nachname ?? ""}`,
+      street: owner.strasse ?? owner.street ?? "",
+      zip: owner.plz ?? owner.zip ?? owner.postalCode ?? "",
+      city: owner.ort ?? owner.city ?? "",
+      country: owner.land ?? owner.country ?? "",
+    };
+
+    const hasTicketAddress =
+      !!ticketAddress.name ||
+      !!ticketAddress.street ||
+      !!ticketAddress.zip ||
+      !!ticketAddress.city ||
+      !!ticketAddress.country;
+    return hasTicketAddress ? ticketAddress : ownerAddress;
+  };
+
+  const ReturnAddress = () => {
+    const address = getReturnAddress();
+
+    return (
+      <>
+        {address.name ? (
+          <>
+            {address.name}
+            <br />
+          </>
+        ) : null}
+        {address.street ? (
+          <>
+            {address.street}
+            <br />
+          </>
+        ) : null}
+        {address.zip || address.city || address.country ? (
+          <>
+            {address.zip} {address.city}
+            {address.country
+              ? `, ${normalizeAlpha2CountryCode(address.country)}`
+              : ""}
+          </>
+        ) : null}
+      </>
+    );
   };
 
   const handleGenerateLaufzettel = async () => {
@@ -862,12 +921,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             title={t(locale, "address")}
             icon={<IconMapPin size={16} />}
           >
-            {ticket.versandadresse.vaname}
-            <br />
-            {ticket.versandadresse.vastrasse}
-            <br />
-            {ticket.versandadresse.vaplz} {ticket.versandadresse.vaort},{" "}
-            {ticket.versandadresse.valand}
+            <ReturnAddress />
           </Alert>
           <TextInput
             label={t(locale, "email")}
@@ -915,12 +969,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             title={t(locale, "address")}
             icon={<IconMapPin size={16} />}
           >
-            {ticket.versandadresse.vaname}
-            <br />
-            {ticket.versandadresse.vastrasse}
-            <br />
-            {ticket.versandadresse.vaplz} {ticket.versandadresse.vaort},{" "}
-            {ticket.versandadresse.valand}
+            <ReturnAddress />
           </Alert>
           <TextInput
             label={t(locale, "email")}
