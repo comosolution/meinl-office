@@ -11,6 +11,8 @@ export const MEINL_DEALERS_URL =
 export const MEINL_AE_URL = "https://apidev.meinl.de/aeblazorbeta";
 export const MEINL_AE_USA_URL = "https://apidev.meinl.de/us/aeblazorbetaus";
 
+export const DHL_TRACKING_URL =
+  "https://www.dhl.com/de-de/home/tracking.html?submit=1&tracking-id=";
 export const DHL_API_TOKEN =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
     ? "https://api-sandbox.dhl.com/parcel/de/account/auth/ropc/v1/token"

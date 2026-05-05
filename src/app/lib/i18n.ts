@@ -93,6 +93,7 @@ export type TranslationKey =
   | "ticketNotFound"
   | "addReturnLabel"
   | "downloadReturnLabel"
+  | "trackShipment"
   | "selectPickupDate"
   | "confirmPickup"
   | "date"
@@ -326,6 +327,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     ticketNotFound: "Kein Ticket gefunden",
     addReturnLabel: "Retoure beantragen",
     downloadReturnLabel: "Label herunterladen",
+    trackShipment: "Sendung verfolgen",
     selectPickupDate: "Abholtermin wählen",
     confirmPickup: "Termin buchen",
     date: "Datum",
@@ -560,6 +562,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     ticketNotFound: "No ticket found",
     addReturnLabel: "Create Return",
     downloadReturnLabel: "Download Return Label",
+    trackShipment: "Track & Trace",
     selectPickupDate: "Select Pickup Date",
     confirmPickup: "Confirm Pickup",
     date: "Date",

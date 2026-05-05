@@ -1,7 +1,7 @@
 "use client";
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
-import { DATE_FORMAT } from "@/app/lib/constants";
+import { DATE_FORMAT, DHL_TRACKING_URL } from "@/app/lib/constants";
 import {
   countryCodes,
   normalizeAlpha2CountryCode,
@@ -43,6 +43,7 @@ import {
   IconMapPin,
   IconNews,
   IconQrcode,
+  IconReport,
   IconTruckReturn,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -572,12 +573,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Button>
           <div className="flex gap-1">
             {ticket.tracking && ticket.tracking.versender === "DHL" && (
-              <Button
-                leftSection={<IconQrcode size={16} />}
-                onClick={handleDownload}
-              >
-                {t(locale, "downloadReturnLabel")}
-              </Button>
+              <>
+                <Button
+                  leftSection={<IconReport size={16} />}
+                  component="a"
+                  target="_blank"
+                  href={`${DHL_TRACKING_URL}${ticket.tracking.sendungnr}`}
+                >
+                  {t(locale, "trackShipment")}
+                </Button>
+                <Button
+                  leftSection={<IconQrcode size={16} />}
+                  onClick={handleDownload}
+                >
+                  {t(locale, "downloadReturnLabel")}
+                </Button>
+              </>
             )}
             <Menu shadow="md" width={160} trigger="click-hover">
               <Menu.Target>
