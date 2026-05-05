@@ -34,6 +34,7 @@ export default function Page() {
     matchcode: "",
     kdnr: "",
     branche: "",
+    city: "",
   });
 
   const fetchData = async () => {
@@ -81,6 +82,9 @@ export default function Page() {
       const brancheMatch =
         !filters.branche ||
         (c.branche || "").toLowerCase() === filters.branche.toLowerCase();
+      const cityMatch =
+        !filters.city ||
+        (c.ort || "").toLowerCase() === filters.city.toLowerCase();
 
       return (
         searchMatch &&
@@ -88,7 +92,8 @@ export default function Page() {
         kundenartMatch &&
         matchcodeMatch &&
         kdnrMatch &&
-        brancheMatch
+        brancheMatch &&
+        cityMatch
       );
     });
   }, [companies, search, filters]);
@@ -153,6 +158,14 @@ export default function Page() {
       .map((value) => ({ label: value, value }));
   }, [companies]);
 
+  const cityOptions = useMemo(() => {
+    return Array.from(
+      new Set(companies.map((c) => c.ort || "").filter(Boolean)),
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((value) => ({ label: value, value }));
+  }, [companies]);
+
   useEffect(() => {
     fetchData();
   }, [source, service]);
@@ -198,7 +211,7 @@ export default function Page() {
       </header>
 
       <div
-        className={`grid grid-cols-1 ${source === "OFFGUT" ? "md:grid-cols-4" : "md:grid-cols-5"} gap-2`}
+        className={`grid grid-cols-1 ${source === "OFFGUT" ? "md:grid-cols-5" : "md:grid-cols-6"} gap-2`}
       >
         <TextInput
           label={t(locale, "kdnrStartsWith")}
@@ -221,6 +234,18 @@ export default function Page() {
               matchcode: value,
             }));
           }}
+        />
+        <Select
+          label={t(locale, "city")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={cityOptions}
+          value={filters.city}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, city: value || "" }))
+          }
+          checkIconPosition="right"
         />
         <Select
           label={t(locale, "country")}
