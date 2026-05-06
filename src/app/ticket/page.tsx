@@ -1,9 +1,10 @@
 "use client";
 import { Button, SegmentedControl, TextInput } from "@mantine/core";
 import {
-  IconDashboard,
   IconPlus,
+  IconReportAnalytics,
   IconSearch,
+  IconStar,
   IconTable,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -22,7 +23,7 @@ export default function Page() {
   const { locale } = useOffice();
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [value, setValue] = useState("table");
+  const [value, setValue] = useState("all");
   const [tickets, setTickets] = useState<TicketSummary[]>([]);
   const [orders, setOrders] = useState<Order[]>(orderData as Order[]);
 
@@ -87,9 +88,43 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-4 p-4">
       <header className="flex justify-between items-center gap-2 py-4">
-        <h1>{t(locale, "allTickets")}</h1>
         <div className="flex items-center gap-2">
-          {value === "table" && (
+          <SegmentedControl
+            size="lg"
+            value={value}
+            onChange={setValue}
+            data={[
+              {
+                label: t(locale, "allTickets"),
+                value: "all",
+                icon: IconTable,
+              },
+              {
+                label: t(locale, "newTickets"),
+                value: "new",
+                icon: IconStar,
+              },
+              {
+                label: t(locale, "ticketStats"),
+                value: "dashboard",
+                icon: IconReportAnalytics,
+              },
+            ].map((d) => {
+              return {
+                label: (
+                  <div className="flex items-center gap-2">
+                    <d.icon size={24} stroke={1.5} />
+                    <h2>{d.label}</h2>
+                  </div>
+                ),
+                value: d.value,
+              };
+            })}
+          />
+        </div>
+
+        <div className="flex items-center">
+          {value !== "dashboard" && (
             <TextInput
               variant="unstyled"
               placeholder={t(locale, "searchTickets")}
@@ -98,30 +133,6 @@ export default function Page() {
               onChange={(e) => setSearch(e.currentTarget.value)}
             />
           )}
-          <SegmentedControl
-            value={value}
-            onChange={setValue}
-            data={[
-              {
-                label: (
-                  <div className="flex items-center gap-1">
-                    <IconTable size={16} />
-                    <p>{t(locale, "ticketOverview")}</p>
-                  </div>
-                ),
-                value: "table",
-              },
-              {
-                label: (
-                  <div className="flex items-center gap-1">
-                    <IconDashboard size={16} />
-                    <p>{t(locale, "ticketStats")}</p>
-                  </div>
-                ),
-                value: "dashboard",
-              },
-            ]}
-          />
           <Button
             component={Link}
             href="/ticket/new"
@@ -132,8 +143,14 @@ export default function Page() {
         </div>
       </header>
 
-      {value === "table" ? (
-        <SortableTable tickets={filteredTickets} />
+      {value !== "dashboard" ? (
+        <SortableTable
+          tickets={
+            value === "all"
+              ? filteredTickets
+              : filteredTickets.filter((t) => String(t.status_int.nr) === "100")
+          }
+        />
       ) : (
         <div className="flex flex-col gap-4">
           <LineGraph tickets={tickets} orders={orders} />

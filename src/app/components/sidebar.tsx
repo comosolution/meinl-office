@@ -203,7 +203,7 @@ export default function Sidebar() {
   return (
     <aside
       className={`bg-(--background-subtle) h-screen ${
-        isCollapsed ? "w-16" : "w-[260px]"
+        isCollapsed ? "w-16" : "w-60"
       } sticky top-0 z-50 flex flex-col gap-2 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
     >
       <div
@@ -280,7 +280,6 @@ export default function Sidebar() {
                 }}
                 leftSection={
                   <Avatar
-                    color="yellow"
                     variant="filled"
                     size={20}
                     name={session?.user?.name ?? ""}

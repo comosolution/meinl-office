@@ -59,7 +59,7 @@ export default function FAB() {
         transitionProps={{ transition: "rotate-left", duration: 150 }}
       >
         <Menu.Target>
-          <ActionIcon color="yellow" size="xl" radius="xl">
+          <ActionIcon color="dark" size="xl" radius="xl">
             <IconPlus />
           </ActionIcon>
         </Menu.Target>

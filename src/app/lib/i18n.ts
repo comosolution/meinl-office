@@ -46,6 +46,7 @@ export type TranslationKey =
   | "ticketStats"
   | "createTicket"
   | "allTickets"
+  | "newTickets"
   | "cancel"
   | "delete"
   | "allCampaigns"
@@ -306,6 +307,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     selectCustomer: "Kundennummer oder Name eingeben",
     company: "Unternehmen",
     allTickets: "Alle Tickets",
+    newTickets: "Neue Tickets",
     address: "Anschrift",
     communication: "Kommunikation",
     socialMedia: "Social Media",
@@ -535,6 +537,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     ticketStats: "Analytics",
     createTicket: "Create Ticket",
     allTickets: "All Tickets",
+    newTickets: "New Tickets",
     cancel: "Cancel",
     delete: "Delete",
     deleteConfirm: "Delete campaign permanently",
