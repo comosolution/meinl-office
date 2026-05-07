@@ -1,7 +1,7 @@
 "use client";
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
-import { DATE_FORMAT, DHL_TRACKING_URL } from "@/app/lib/constants";
+import { DATE_FORMAT } from "@/app/lib/constants";
 import {
   countryCodes,
   normalizeAlpha2CountryCode,
@@ -638,7 +638,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   leftSection={<IconReport size={16} />}
                   component="a"
                   target="_blank"
-                  href={`${DHL_TRACKING_URL}${ticket.tracking.sendungnr}`}
+                  href={`https://www.dhl.com/de-${locale}/home/tracking.html?submit=1&tracking-id=${ticket.tracking.sendungnr}`}
                 >
                   {t(locale, "trackShipment")}
                 </Button>

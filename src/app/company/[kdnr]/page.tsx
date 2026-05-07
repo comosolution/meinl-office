@@ -13,7 +13,7 @@ import {
 import { customerTypes } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
-import { getAvatarColor, parseUrl } from "@/app/lib/utils";
+import { getAvatarColor, isPreview, parseUrl } from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -188,14 +188,16 @@ export default function Page({
         </Button>
         <div className="flex gap-2">
           <Contact email={company.mailadr} phone={company.telefon} />
-          <Button
-            component="a"
-            href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${company.kdnr}`}
-            target="_blank"
-            leftSection={<IconBasketPlus size={16} />}
-          >
-            {t(locale, "newOrder")}
-          </Button>
+          {isPreview && (
+            <Button
+              component="a"
+              href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${company.kdnr}`}
+              target="_blank"
+              leftSection={<IconBasketPlus size={16} />}
+            >
+              {t(locale, "newOrder")}
+            </Button>
+          )}
         </div>
       </div>
 

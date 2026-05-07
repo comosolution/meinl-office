@@ -14,7 +14,6 @@ import Loader from "../components/loader";
 import SortableTable from "../components/sortableTable";
 import StatsOverview from "../components/statsOverview";
 import { useOffice } from "../context/officeContext";
-import orderData from "../data/orders.json";
 import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
 import { parseDb2Date } from "../lib/utils";
@@ -25,7 +24,7 @@ export default function Page() {
   const [search, setSearch] = useState("");
   const [value, setValue] = useState("all");
   const [tickets, setTickets] = useState<TicketSummary[]>([]);
-  const [orders, setOrders] = useState<Order[]>(orderData as Order[]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   const fetchTickets = async () => {
     try {

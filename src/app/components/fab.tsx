@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useOffice } from "../context/officeContext";
 import { MEINL_AE_URL, MEINL_AE_USA_URL } from "../lib/constants";
 import { t } from "../lib/i18n";
+import { isPreview } from "../lib/utils";
 
 export default function FAB() {
   const { locale, source } = useOffice();
@@ -44,6 +45,7 @@ export default function FAB() {
       label: t(locale, "newOrder"),
       href: `${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}`,
       icon: <IconBasket size={16} />,
+      hidden: !isPreview,
       external: true,
     },
   ];

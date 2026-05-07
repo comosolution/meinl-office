@@ -37,6 +37,7 @@ import {
 } from "../lib/constants";
 import { t } from "../lib/i18n";
 import { navLink } from "../lib/styles";
+import { isPreview } from "../lib/utils";
 import Search from "./search";
 
 export default function Sidebar() {
@@ -87,6 +88,7 @@ export default function Sidebar() {
       name: t(locale, "orders"),
       href: `${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}`,
       icon: <IconBasket size={20} />,
+      hidden: !isPreview,
       external: true,
     },
   ];
@@ -102,7 +104,7 @@ export default function Sidebar() {
   const SourceSwitch = () => {
     const name = source === "OFFGUT" ? "Deutschland" : "USA";
 
-    return (
+    return isPreview ? (
       <NavLink
         label={name}
         title={name}
@@ -119,7 +121,7 @@ export default function Sidebar() {
           router.push("/");
         }}
       />
-    );
+    ) : null;
   };
 
   const LanguageSwitch = () => {
@@ -179,7 +181,7 @@ export default function Sidebar() {
   };
 
   const DevIndicator = () => {
-    return process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ? (
+    return isPreview ? (
       <Badge size="xs" variant="light" color="dark">
         DEV
       </Badge>

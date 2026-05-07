@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { MEINL_OFFICE_WELCOME_KEY } from "../lib/constants";
+import { isPreview } from "../lib/utils";
 import FAB from "./fab";
 import Loader from "./loader";
 import Login from "./login";
@@ -49,7 +50,9 @@ export default function PageWrapper({
       <Sidebar />
       <main className="w-full flex flex-col">{children}</main>
       <FAB />
-      {showWelcome && <WelcomeModal onComplete={handleWelcomeComplete} />}
+      {showWelcome && isPreview && (
+        <WelcomeModal onComplete={handleWelcomeComplete} />
+      )}
     </div>
   );
 }

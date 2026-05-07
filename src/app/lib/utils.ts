@@ -10,6 +10,8 @@ import {
 import * as XLSX from "xlsx";
 import { Order, TicketSummary } from "./interfaces";
 
+export const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
+
 export function parseDb2Date(db2Date: string): string {
   const parts = db2Date.split("-");
   if (parts.length !== 4) return db2Date;

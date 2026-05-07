@@ -23,6 +23,7 @@ import {
   dateParser,
   formatDateToString,
   getAvatarColor,
+  isPreview,
 } from "@/app/lib/utils";
 import {
   ActionIcon,
@@ -147,7 +148,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     ).join("");
   };
 
-  const actions = (
+  const actions = isPreview ? (
     <div className="col-span-2 flex justify-end gap-2">
       {edit ? (
         <div className="flex gap-2">
@@ -179,7 +180,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </Button>
       )}
     </div>
-  );
+  ) : null;
 
   if (!person) return <Loader />;
 
@@ -213,14 +214,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               phone={person.phone}
               mobile={person.mobil}
             />
-            <Button
-              component="a"
-              href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${person.kdnr}`}
-              target="_blank"
-              leftSection={<IconBasketPlus size={16} />}
-            >
-              {t(locale, "newOrder")}
-            </Button>
+            {isPreview && (
+              <Button
+                component="a"
+                href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${person.kdnr}`}
+                target="_blank"
+                leftSection={<IconBasketPlus size={16} />}
+              >
+                {t(locale, "newOrder")}
+              </Button>
+            )}
           </div>
         </div>
         <header className="flex items-center gap-4 py-4">
