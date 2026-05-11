@@ -106,6 +106,7 @@ export interface Person {
   b2bzugriff: string;
   b2bdltyp: string;
   b2bdldis: boolean;
+  b2bpwd?: string | null;
 }
 
 export interface PersonInStorage {

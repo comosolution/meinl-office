@@ -235,6 +235,7 @@ export type TranslationKey =
   | "newAddress"
   | "b2b"
   | "b2bAccess"
+  | "b2bPassword"
   | "generatePassword"
   | "generateRandomPassword"
   | "passwordSaved"
@@ -481,6 +482,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     newAddress: "Neue Adresse",
     b2b: "B2B",
     b2bAccess: "B2B-Zugriff",
+    b2bPassword: "B2B-Passwort",
     generatePassword: "Neues Passwort festlegen",
     generateRandomPassword: "Zufälliges Passwort generieren",
     passwordSaved: "Passwort erfolgreich gespeichert",
@@ -726,6 +728,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     newAddress: "New Address",
     b2b: "B2B",
     b2bAccess: "B2B Access",
+    b2bPassword: "B2B Password",
     generatePassword: "Set New Password",
     generateRandomPassword: "Generate random password",
     passwordSaved: "Password saved successfully",

@@ -12,6 +12,15 @@ import { Order, TicketSummary } from "./interfaces";
 
 export const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
 
+export const generatePassword = (length = 8) => {
+  const charset =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-+#$%&()=?";
+  return Array.from(
+    { length },
+    () => charset[Math.floor(Math.random() * charset.length)],
+  ).join("");
+};
+
 export function parseDb2Date(db2Date: string): string {
   const parts = db2Date.split("-");
   if (parts.length !== 4) return db2Date;

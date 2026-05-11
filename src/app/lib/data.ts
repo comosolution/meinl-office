@@ -87,4 +87,6 @@ export const titles = [
   "Prof. Dr.",
 ];
 
-export const genders = ["Frau", "Herr"];
+export const salutations = (source: "OFFGUT" | "OFFUSA") => {
+  return source === "OFFGUT" ? ["Frau", "Herr"] : ["Mr", "Mrs", "Ms"];
+};

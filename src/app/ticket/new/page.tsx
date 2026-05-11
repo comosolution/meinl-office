@@ -393,7 +393,7 @@ export default function Page() {
                       />
                       <Select
                         label={t(locale, "country")}
-                        data={countryCodes}
+                        data={countryCodes(locale)}
                         searchable
                         checkIconPosition="right"
                         {...form.getInputProps("valand")}

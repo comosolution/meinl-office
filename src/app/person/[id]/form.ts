@@ -44,6 +44,7 @@ export const getInitialValues = (person: Person) => {
       ? person.b2bdltyp.split(",").map((b) => b.trim())
       : [],
     b2bdldis: person.b2bdldis || false,
+    b2bpwd: person.b2bpwd || "",
   };
 };
 
@@ -65,6 +66,16 @@ export function validateForm(values: FormValues, active?: number) {
       nachname: values.nachname ? null : "Nachname ist erforderlich",
       vorname: values.vorname ? null : "Vorname ist erforderlich",
       email: values.email ? null : "E-Mail ist erforderlich",
+    };
+  }
+
+  if (active === 2) {
+    return {
+      b2bzugriff: values.b2bzugriff ? null : "B2B-Zugriff ist erforderlich",
+      b2bpwd:
+        values.b2bzugriff !== "0" && String(values.b2bpwd).trim().length < 4
+          ? "Passwort ist erforderlich"
+          : null,
     };
   }
 

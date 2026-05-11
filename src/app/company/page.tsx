@@ -141,7 +141,7 @@ export default function Page() {
     )
       .map((value) => ({
         label:
-          countryCodes.find(
+          countryCodes(locale).find(
             (c) => c.value === normalizeAlpha2CountryCode(value),
           )?.label || value,
         value,

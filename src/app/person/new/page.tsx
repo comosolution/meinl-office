@@ -7,14 +7,19 @@ import {
   competences,
   downloads,
   familyStatus,
-  genders,
+  salutations,
   sizes,
   titles,
 } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Person } from "@/app/lib/interfaces";
-import { dateParser, formatDateToString } from "@/app/lib/utils";
 import {
+  dateParser,
+  formatDateToString,
+  generatePassword,
+} from "@/app/lib/utils";
+import {
+  ActionIcon,
   Autocomplete,
   Button,
   Checkbox,
@@ -25,6 +30,7 @@ import {
   Stack,
   Stepper,
   TextInput,
+  Tooltip,
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -36,6 +42,7 @@ import {
   IconIdBadge2,
   IconPlus,
   IconUser,
+  IconWand,
 } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -80,6 +87,10 @@ export default function NewPersonPage() {
             gebdat: formattedDob,
             zustaendig: formattedCompetences,
             b2bdltyp: formattedB2bDlTyp,
+            b2bpwd:
+              values.b2bzugriff !== "0" && values.b2bzugriff !== ""
+                ? values.b2bpwd
+                : null,
             source,
             user: session?.user?.name,
           };
@@ -129,7 +140,7 @@ export default function NewPersonPage() {
               <div className="grid grid-cols-2 gap-4">
                 <Autocomplete
                   label={t(locale, "salutation")}
-                  data={genders}
+                  data={salutations(source)}
                   {...form.getInputProps("anrede")}
                 />
                 <Autocomplete
@@ -196,6 +207,30 @@ export default function NewPersonPage() {
                   ))}
                 </div>
               </Radio.Group>
+              {form.values.b2bzugriff !== "0" &&
+                form.values.b2bzugriff !== "" && (
+                  <TextInput
+                    label={t(locale, "b2bPassword")}
+                    placeholder="********"
+                    {...form.getInputProps("b2bpwd")}
+                    rightSection={
+                      <Tooltip
+                        label={t(locale, "generateRandomPassword")}
+                        position="left"
+                        withArrow
+                      >
+                        <ActionIcon
+                          variant="light"
+                          onClick={() =>
+                            form.setValues({ b2bpwd: generatePassword(8) })
+                          }
+                        >
+                          <IconWand size={16} />
+                        </ActionIcon>
+                      </Tooltip>
+                    }
+                  />
+                )}
               <h2>{t(locale, "availableDownloads")}</h2>
               <Checkbox
                 label={t(locale, "noDownloads")}
@@ -240,7 +275,7 @@ export default function NewPersonPage() {
               <div className="grid grid-cols-2 gap-4">
                 <Select
                   label={t(locale, "country")}
-                  data={countryCodes}
+                  data={countryCodes(locale)}
                   searchable
                   checkIconPosition="right"
                   {...form.getInputProps("landpr")}

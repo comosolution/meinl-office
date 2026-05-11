@@ -13,7 +13,7 @@ import {
   competences,
   downloads,
   familyStatus,
-  genders,
+  salutations,
   sizes,
   titles,
 } from "@/app/lib/data";
@@ -22,6 +22,7 @@ import { Person, PersonInStorage } from "@/app/lib/interfaces";
 import {
   dateParser,
   formatDateToString,
+  generatePassword,
   getAvatarColor,
   isPreview,
 } from "@/app/lib/utils";
@@ -137,15 +138,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       MEINL_OFFICE_PERSON_HISTORY_KEY,
       JSON.stringify(updatedHistory),
     );
-  };
-
-  const generatePassword = (length = 8) => {
-    const charset =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-+#$%&()=?";
-    return Array.from(
-      { length },
-      () => charset[Math.floor(Math.random() * charset.length)],
-    ).join("");
   };
 
   const actions = isPreview ? (
@@ -297,24 +289,24 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <h2>{t(locale, "person")}</h2>
                   <div className="grid grid-cols-2 gap-4">
                     <Autocomplete
-                      label={t(locale, "salutation") ?? "Anrede"}
-                      data={genders}
+                      label={t(locale, "salutation")}
+                      data={salutations(source)}
                       {...form.getInputProps("anrede")}
                       readOnly={!edit}
                     />
                     <Autocomplete
-                      label={t(locale, "title") ?? "Titel"}
+                      label={t(locale, "title")}
                       data={titles}
                       {...form.getInputProps("titel")}
                       readOnly={!edit}
                     />
                     <TextInput
-                      label={t(locale, "lastName") ?? "Nachname"}
+                      label={t(locale, "lastName")}
                       {...form.getInputProps("nachname")}
                       readOnly={!edit}
                     />
                     <TextInput
-                      label={t(locale, "firstName") ?? "Vorname"}
+                      label={t(locale, "firstName")}
                       {...form.getInputProps("vorname")}
                       readOnly={!edit}
                     />
@@ -365,7 +357,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <div className="grid grid-cols-2 gap-4">
                     <Select
                       label={t(locale, "country")}
-                      data={countryCodes}
+                      data={countryCodes(locale)}
                       searchable
                       checkIconPosition="right"
                       {...form.getInputProps("land")}
@@ -470,7 +462,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <div className="grid grid-cols-2 gap-4">
                     <Select
                       label={t(locale, "country")}
-                      data={countryCodes}
+                      data={countryCodes(locale)}
                       searchable
                       checkIconPosition="right"
                       {...form.getInputProps("landpr")}

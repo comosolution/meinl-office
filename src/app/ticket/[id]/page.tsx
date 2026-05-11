@@ -867,7 +867,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 />
                 <Select
                   label={t(locale, "country")}
-                  data={countryCodes}
+                  data={countryCodes(locale)}
                   searchable
                   checkIconPosition="right"
                   {...form.getInputProps("versandadresse.valand")}
