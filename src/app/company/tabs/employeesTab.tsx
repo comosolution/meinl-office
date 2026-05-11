@@ -67,7 +67,7 @@ export default function EmployeesTab({ company }: { company: Company }) {
                     <Table.Td>{e.email}</Table.Td>
                     <Table.Td>{e.b2bnr}</Table.Td>
                     <Table.Td>
-                      {b2bAccess(source).find((a) => a.value === e.b2bzugriff)
+                      {b2bAccess(locale).find((a) => a.value === e.b2bzugriff)
                         ?.label || e.b2bzugriff}
                     </Table.Td>
                   </Table.Tr>

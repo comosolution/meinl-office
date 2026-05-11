@@ -211,7 +211,7 @@ export default function Page() {
           searchable
           clearable
           placeholder={t(locale, "filter")}
-          data={b2bAccess(source)}
+          data={b2bAccess(locale)}
           value={filters.b2bzugriff}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, b2bzugriff: value || "" }))
@@ -285,7 +285,7 @@ export default function Page() {
               <Table.Td>{e.jobpos}</Table.Td>
               <Table.Td>{e.b2bnr}</Table.Td>
               <Table.Td>
-                {b2bAccess(source).find((a) => a.value === e.b2bzugriff)
+                {b2bAccess(locale).find((a) => a.value === e.b2bzugriff)
                   ?.label || e.b2bzugriff}
               </Table.Td>
             </Table.Tr>

@@ -191,7 +191,7 @@ export default function NewPersonPage() {
               <h2>{t(locale, "b2bAccess")}</h2>
               <Radio.Group {...form.getInputProps("b2bzugriff")}>
                 <div className="flex flex-col gap-2">
-                  {b2bAccess(source).map((b, i) => (
+                  {b2bAccess(locale).map((b, i) => (
                     <Radio key={i} label={b.label} value={b.value} />
                   ))}
                 </div>

@@ -72,7 +72,11 @@ export function CustomerSelect({
       clearable
       value={value}
       onChange={onChange}
-      onSearchChange={setQuery}
+      onSearchChange={(val) => {
+          const selectedLabel = options.find((o) => o.value === value)?.label;
+          if (val === selectedLabel) return;
+          setQuery(val);
+        }}
       data={options}
       renderOption={({ option }) => {
         const highlighted = (option as CustomerOption).kundenart === 30;

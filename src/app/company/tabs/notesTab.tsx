@@ -95,7 +95,10 @@ export default function NotesTab({
               <p className="text-sm">{t(locale, "sortBy")}</p>
               <SegmentedControl
                 value={sort}
-                onChange={(val) => setSort(val as "created" | "modified")}
+                onChange={(val) => {
+                  setSort(val as "created" | "modified");
+                  setValue("0");
+                }}
                 data={[
                   { value: "created", label: t(locale, "created") },
                   { value: "modified", label: t(locale, "modified") },

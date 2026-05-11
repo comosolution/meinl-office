@@ -33,8 +33,8 @@ export const competences = [
   "VIP",
 ];
 
-export const b2bAccess = (source: "OFFGUT" | "OFFUSA") => {
-  return source === "OFFGUT"
+export const b2bAccess = (locale: "de" | "en") => {
+  return locale === "de"
     ? [
         { label: "Voll", value: "1" },
         { label: "Ohne offene Posten", value: "2" },
