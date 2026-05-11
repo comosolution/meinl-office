@@ -24,12 +24,14 @@ import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import {
   IconBuildings,
+  IconChevronLeft,
   IconChevronRight,
   IconInfoCircle,
   IconPlus,
   IconUser,
 } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -326,203 +328,218 @@ export default function Page() {
   );
 
   return (
-    <Paper mx="auto" p="xl" mt="xl" w="100%" maw={800}>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={form.onSubmit(handleSubmit)}
-      >
-        <h1>{t(locale, "createTicket")}</h1>
-        <Stepper active={active} allowNextStepsSelect={false}>
-          <Stepper.Step
-            label={t(locale, "customer")}
-            icon={<IconBuildings size={18} />}
-          >
-            <Stack>
-              <CustomerSelect
-                label={t(locale, "customer")}
-                placeholder={t(locale, "selectCustomer")}
-                withAsterisk
-                value={form.values.kdnr || null}
-                onChange={(val) => form.setFieldValue("kdnr", val ?? "")}
-              />
-              {form.values.kdnr && (
-                <>
-                  <Select
-                    label={t(locale, "shippingAddress")}
-                    data={[
-                      ...addresses,
-                      { label: t(locale, "newAddress"), value: "0000" },
-                    ]}
-                    checkIconPosition="right"
-                    searchable
-                    allowDeselect={false}
-                    {...form.getInputProps("vanr")}
-                    withAsterisk
-                  />
+    <main className="flex flex-col gap-4 p-4">
+      <div className="flex justify-between items-center">
+        <Button
+          variant="transparent"
+          color="gray"
+          component={Link}
+          href="/ticket"
+          leftSection={<IconChevronLeft size={16} />}
+        >
+          {t(locale, "allTickets")}
+        </Button>
+      </div>
+      <Paper mx="auto" p="xl" w="100%" maw={800}>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={form.onSubmit(handleSubmit)}
+        >
+          <h1>{t(locale, "createTicket")}</h1>
+          <Stepper active={active} allowNextStepsSelect={false}>
+            <Stepper.Step
+              label={t(locale, "customer")}
+              icon={<IconBuildings size={18} />}
+            >
+              <Stack>
+                <CustomerSelect
+                  label={t(locale, "customer")}
+                  placeholder={t(locale, "selectCustomer")}
+                  withAsterisk
+                  value={form.values.kdnr || null}
+                  onChange={(val) => form.setFieldValue("kdnr", val ?? "")}
+                />
+                {form.values.kdnr && (
+                  <>
+                    <Select
+                      label={t(locale, "shippingAddress")}
+                      data={[
+                        ...addresses,
+                        { label: t(locale, "newAddress"), value: "0000" },
+                      ]}
+                      checkIconPosition="right"
+                      searchable
+                      allowDeselect={false}
+                      {...form.getInputProps("vanr")}
+                      withAsterisk
+                    />
+                    <Paper p="lg" bg="var(--background)" shadow="xl">
+                      <div className="grid grid-cols-2 gap-2">
+                        <TextInput
+                          label="Name 1"
+                          className="col-span-2"
+                          {...form.getInputProps("vaname")}
+                          withAsterisk
+                        />
+                        <TextInput
+                          label="Name 2"
+                          {...form.getInputProps("vaname2")}
+                        />
+                        <TextInput
+                          label="Name 3"
+                          {...form.getInputProps("vaname3")}
+                        />
+                        <TextInput
+                          label={t(locale, "streetAndNumber")}
+                          className="col-span-2"
+                          {...form.getInputProps("vastrasse")}
+                          withAsterisk
+                        />
+                        <TextInput
+                          label={t(locale, "postalCode")}
+                          {...form.getInputProps("vaplz")}
+                          withAsterisk
+                        />
+                        <TextInput
+                          label={t(locale, "city")}
+                          {...form.getInputProps("vaort")}
+                          withAsterisk
+                        />
+                        <Select
+                          label={t(locale, "country")}
+                          data={countryCodes(locale)}
+                          searchable
+                          checkIconPosition="right"
+                          {...form.getInputProps("valand")}
+                          withAsterisk
+                        />
+                        <TextInput
+                          label={t(locale, "extra")}
+                          {...form.getInputProps("zusatz")}
+                        />
+                      </div>
+                    </Paper>
+                  </>
+                )}
+              </Stack>
+            </Stepper.Step>
+
+            <Stepper.Step
+              label={t(locale, "contactPerson")}
+              icon={<IconUser size={18} />}
+            >
+              <Stack>
+                <Select
+                  label={t(locale, "contactPerson")}
+                  searchable
+                  clearable
+                  data={[
+                    ...personOptions,
+                    { label: t(locale, "newPerson"), value: "NEW" },
+                  ]}
+                  checkIconPosition="right"
+                  {...form.getInputProps("kdnr_full")}
+                  withAsterisk
+                />
+                {form.values.kdnr_full === "NEW" && (
                   <Paper p="lg" bg="var(--background)" shadow="xl">
                     <div className="grid grid-cols-2 gap-2">
                       <TextInput
-                        label="Name 1"
+                        label={t(locale, "lastName")}
+                        withAsterisk
+                        {...form.getInputProps("newPersonLastName")}
+                      />
+                      <TextInput
+                        label={t(locale, "firstName")}
+                        withAsterisk
+                        {...form.getInputProps("newPersonFirstName")}
+                      />
+                      <TextInput
+                        label={t(locale, "email")}
                         className="col-span-2"
-                        {...form.getInputProps("vaname")}
                         withAsterisk
-                      />
-                      <TextInput
-                        label="Name 2"
-                        {...form.getInputProps("vaname2")}
-                      />
-                      <TextInput
-                        label="Name 3"
-                        {...form.getInputProps("vaname3")}
-                      />
-                      <TextInput
-                        label={t(locale, "streetAndNumber")}
-                        className="col-span-2"
-                        {...form.getInputProps("vastrasse")}
-                        withAsterisk
-                      />
-                      <TextInput
-                        label={t(locale, "postalCode")}
-                        {...form.getInputProps("vaplz")}
-                        withAsterisk
-                      />
-                      <TextInput
-                        label={t(locale, "city")}
-                        {...form.getInputProps("vaort")}
-                        withAsterisk
-                      />
-                      <Select
-                        label={t(locale, "country")}
-                        data={countryCodes(locale)}
-                        searchable
-                        checkIconPosition="right"
-                        {...form.getInputProps("valand")}
-                        withAsterisk
-                      />
-                      <TextInput
-                        label={t(locale, "extra")}
-                        {...form.getInputProps("zusatz")}
+                        {...form.getInputProps("newPersonEmail")}
                       />
                     </div>
                   </Paper>
-                </>
-              )}
-            </Stack>
-          </Stepper.Step>
+                )}
+              </Stack>
+            </Stepper.Step>
 
-          <Stepper.Step
-            label={t(locale, "contactPerson")}
-            icon={<IconUser size={18} />}
-          >
-            <Stack>
-              <Select
-                label={t(locale, "contactPerson")}
-                searchable
-                clearable
-                data={[
-                  ...personOptions,
-                  { label: t(locale, "newPerson"), value: "NEW" },
-                ]}
-                checkIconPosition="right"
-                {...form.getInputProps("kdnr_full")}
-                withAsterisk
-              />
-              {form.values.kdnr_full === "NEW" && (
-                <Paper p="lg" bg="var(--background)" shadow="xl">
-                  <div className="grid grid-cols-2 gap-2">
-                    <TextInput
-                      label={t(locale, "lastName")}
-                      withAsterisk
-                      {...form.getInputProps("newPersonLastName")}
-                    />
-                    <TextInput
-                      label={t(locale, "firstName")}
-                      withAsterisk
-                      {...form.getInputProps("newPersonFirstName")}
-                    />
-                    <TextInput
-                      label={t(locale, "email")}
-                      className="col-span-2"
-                      withAsterisk
-                      {...form.getInputProps("newPersonEmail")}
-                    />
-                  </div>
-                </Paper>
-              )}
-            </Stack>
-          </Stepper.Step>
-
-          <Stepper.Step
-            label={t(locale, "details")}
-            icon={<IconInfoCircle size={18} />}
-          >
-            <Stack>
-              <div className="grid grid-cols-5 gap-2">
-                <ProductSelect
-                  label={t(locale, "articleNumber")}
-                  value={form.values.artnr_ku}
-                  onChange={(val) => form.setFieldValue("artnr_ku", val ?? "")}
-                  withAsterisk
-                  className="col-span-2"
-                />
+            <Stepper.Step
+              label={t(locale, "details")}
+              icon={<IconInfoCircle size={18} />}
+            >
+              <Stack>
+                <div className="grid grid-cols-5 gap-2">
+                  <ProductSelect
+                    label={t(locale, "articleNumber")}
+                    value={form.values.artnr_ku}
+                    onChange={(val) =>
+                      form.setFieldValue("artnr_ku", val ?? "")
+                    }
+                    withAsterisk
+                    className="col-span-2"
+                  />
+                  <TextInput
+                    label={t(locale, "serialNumber")}
+                    className="col-span-2"
+                    {...form.getInputProps("sernr_ku")}
+                  />
+                  <NumberInput
+                    label={t(locale, "quantity")}
+                    min={1}
+                    {...form.getInputProps("menge")}
+                    withAsterisk
+                  />
+                </div>
                 <TextInput
-                  label={t(locale, "serialNumber")}
-                  className="col-span-2"
-                  {...form.getInputProps("sernr_ku")}
+                  label={t(locale, "customerReferenceNumber")}
+                  {...form.getInputProps("nr_kunde")}
                 />
-                <NumberInput
-                  label={t(locale, "quantity")}
-                  min={1}
-                  {...form.getInputProps("menge")}
+                <Textarea
+                  label={t(locale, "descriptionLabel")}
+                  rows={4}
+                  {...form.getInputProps("descr")}
                   withAsterisk
                 />
-              </div>
-              <TextInput
-                label={t(locale, "customerReferenceNumber")}
-                {...form.getInputProps("nr_kunde")}
-              />
-              <Textarea
-                label={t(locale, "descriptionLabel")}
-                rows={4}
-                {...form.getInputProps("descr")}
-                withAsterisk
-              />
-              <FileDropzone
-                files={form.values.files}
-                onChange={(files) => form.setFieldValue("files", files)}
-              />
-            </Stack>
-          </Stepper.Step>
-        </Stepper>
+                <FileDropzone
+                  files={form.values.files}
+                  onChange={(files) => form.setFieldValue("files", files)}
+                />
+              </Stack>
+            </Stepper.Step>
+          </Stepper>
 
-        <Group justify="space-between" mt="xl">
-          {active === 0 ? (
-            <div />
-          ) : (
-            <Button type="button" variant="transparent" onClick={prevStep}>
-              {t(locale, "previous")}
-            </Button>
-          )}
-          {active < STEPS - 1 ? (
-            <Button
-              type="button"
-              disabled={!form.isValid()}
-              rightSection={<IconChevronRight size={16} />}
-              onClick={nextStep}
-            >
-              {t(locale, "next")}
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              disabled={!form.isValid()}
-              leftSection={<IconPlus size={16} />}
-            >
-              {t(locale, "createTicket")}
-            </Button>
-          )}
-        </Group>
-      </form>
-    </Paper>
+          <Group justify="space-between" mt="xl">
+            {active === 0 ? (
+              <div />
+            ) : (
+              <Button type="button" variant="transparent" onClick={prevStep}>
+                {t(locale, "previous")}
+              </Button>
+            )}
+            {active < STEPS - 1 ? (
+              <Button
+                type="button"
+                disabled={!form.isValid()}
+                rightSection={<IconChevronRight size={16} />}
+                onClick={nextStep}
+              >
+                {t(locale, "next")}
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                disabled={!form.isValid()}
+                leftSection={<IconPlus size={16} />}
+              >
+                {t(locale, "createTicket")}
+              </Button>
+            )}
+          </Group>
+        </form>
+      </Paper>
+    </main>
   );
 }

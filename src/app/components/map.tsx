@@ -5,7 +5,7 @@ import { mapStyles } from "../lib/map";
 const mapContainerStyle = {
   width: "100%",
   height: "360px",
-  borderRadius: "var(--mantine-radius-md)",
+  borderRadius: "var(--mantine-radius-default)",
 };
 
 const mapOptions = {
