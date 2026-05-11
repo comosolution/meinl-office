@@ -131,7 +131,6 @@ export default function NewPersonPage() {
                   label={t(locale, "salutation")}
                   data={genders}
                   {...form.getInputProps("anrede")}
-                  withAsterisk
                 />
                 <Autocomplete
                   label={t(locale, "title")}

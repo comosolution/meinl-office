@@ -3,7 +3,9 @@ import { isPreview } from "./utils";
 export const MEINL_WEB_API = isPreview
   ? "https://meinlwebapidev.meinl.loc/api"
   : "https://meinlwebapi.meinl.loc/api";
-export const RMA_WEB_API = "https://apidev.meinl.de/MeinlWebApi/api/rma";
+export const RMA_WEB_API = isPreview
+  ? "https://apidev.meinl.de/MeinlWebApi/api/rma"
+  : "https://api.meinl.de/MeinlWebApi/api/rma";
 
 export const MEINL_DEALERS_URL = isPreview
   ? "https://dealerdev.meinl.loc/"

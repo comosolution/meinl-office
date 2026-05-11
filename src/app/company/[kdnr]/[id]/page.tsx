@@ -289,10 +289,16 @@ export default function Page({
                     label={t(locale, "nameLabel")}
                     {...form.getInputProps("name1")}
                     readOnly={!edit}
+                    className="col-span-2"
                   />
                   <TextInput
                     label={t(locale, "nameLabel") + " 2"}
                     {...form.getInputProps("name2")}
+                    readOnly={!edit}
+                  />
+                  <TextInput
+                    label={t(locale, "nameLabel") + " 3"}
+                    {...form.getInputProps("name3")}
                     readOnly={!edit}
                   />
                   <TextInput

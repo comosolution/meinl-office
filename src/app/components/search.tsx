@@ -87,7 +87,7 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
     .map((c, index) => ({
       id: `company-${index}-${c.id}-${c.kdnr}`,
       label: c.name1,
-      description: `${c.plz} ${c.ort} ${c.land} – ${c.kundenart} ${
+      description: `${c.plz} ${c.ort} ${c.land} ${
         c.id === 0 ? "" : `– ${c.brand}`
       }`,
       onClick: () =>

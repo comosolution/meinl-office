@@ -62,7 +62,6 @@ export function validateForm(values: FormValues, active?: number) {
 
   if (active === 1) {
     return {
-      anrede: values.anrede ? null : "Anrede ist erforderlich",
       nachname: values.nachname ? null : "Nachname ist erforderlich",
       vorname: values.vorname ? null : "Vorname ist erforderlich",
       email: values.email ? null : "E-Mail ist erforderlich",

@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   });
 
   if (!res.ok) {
-    return new Response("Failed to update person", { status: res.status });
+    return new Response(await res.text(), { status: res.status });
   }
 
   const resText = await res.text();
