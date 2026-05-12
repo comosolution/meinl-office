@@ -189,7 +189,7 @@ export default function SortableTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-6 items-end gap-2">
+      <div className="grid md:grid-cols-6 items-end gap-2">
         <Select
           label={t(locale, "status")}
           searchable

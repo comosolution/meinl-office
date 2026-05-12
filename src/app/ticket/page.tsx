@@ -1,5 +1,6 @@
 "use client";
 import { Button, SegmentedControl, TextInput } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import {
   IconPlus,
   IconReportAnalytics,
@@ -20,11 +21,14 @@ import { parseDb2Date } from "../lib/utils";
 
 export default function Page() {
   const { locale } = useOffice();
+
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [value, setValue] = useState("all");
   const [tickets, setTickets] = useState<TicketSummary[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+
+  const isMobile = useMediaQuery("(max-width: 620px)");
 
   const fetchTickets = async () => {
     try {
@@ -86,42 +90,39 @@ export default function Page() {
 
   return (
     <main className="flex flex-col gap-4 p-4">
-      <header className="flex justify-between items-center gap-2 py-4">
-        <div className="flex items-center gap-2">
-          <SegmentedControl
-            size="lg"
-            value={value}
-            onChange={setValue}
-            data={[
-              {
-                label: t(locale, "allTickets"),
-                value: "all",
-                icon: IconTable,
-              },
-              {
-                label: t(locale, "newTickets"),
-                value: "new",
-                icon: IconStar,
-              },
-              {
-                label: t(locale, "ticketStats"),
-                value: "dashboard",
-                icon: IconReportAnalytics,
-              },
-            ].map((d) => {
-              return {
-                label: (
-                  <div className="flex items-center gap-2">
-                    <d.icon size={24} stroke={1.5} />
-                    <h2>{d.label}</h2>
-                  </div>
-                ),
-                value: d.value,
-              };
-            })}
-          />
-        </div>
-
+      <header className="flex flex-col md:flex-row justify-between items-center gap-2 py-4">
+        <SegmentedControl
+          size={isMobile ? "sm" : "lg"}
+          value={value}
+          onChange={setValue}
+          data={[
+            {
+              label: t(locale, "allTickets"),
+              value: "all",
+              icon: IconTable,
+            },
+            {
+              label: t(locale, "newTickets"),
+              value: "new",
+              icon: IconStar,
+            },
+            {
+              label: t(locale, "ticketStats"),
+              value: "dashboard",
+              icon: IconReportAnalytics,
+            },
+          ].map((d) => {
+            return {
+              label: (
+                <div className="flex items-center gap-2">
+                  <d.icon size={isMobile ? 20 : 24} stroke={1.5} />
+                  {isMobile ? <p>{d.label}</p> : <h2>{d.label}</h2>}
+                </div>
+              ),
+              value: d.value,
+            };
+          })}
+        />
         <div className="flex items-center">
           {value !== "dashboard" && (
             <TextInput

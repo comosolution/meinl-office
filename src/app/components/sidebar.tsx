@@ -40,7 +40,13 @@ import { navLink } from "../lib/styles";
 import { isPreview } from "../lib/utils";
 import Search from "./search";
 
-export default function Sidebar() {
+export default function Sidebar({
+  asDrawer = false,
+  onClose,
+}: {
+  asDrawer?: boolean;
+  onClose?: () => void;
+}) {
   const { data: session } = useSession();
   const { source, setSource, service, setService, locale, setLocale } =
     useOffice();
@@ -55,6 +61,8 @@ export default function Sidebar() {
 
   const router = useRouter();
   const path = usePathname();
+
+  const collapsed = asDrawer ? false : isCollapsed;
 
   const nav = [
     {
@@ -114,11 +122,12 @@ export default function Sidebar() {
           </div>
         }
         styles={{
-          root: navLink(isCollapsed),
+          root: navLink(collapsed),
         }}
         onClick={() => {
           setSource(source === "OFFGUT" ? "OFFUSA" : "OFFGUT");
           router.push("/");
+          onClose?.();
         }}
       />
     ) : null;
@@ -135,7 +144,7 @@ export default function Sidebar() {
           </div>
         }
         styles={{
-          root: navLink(isCollapsed),
+          root: navLink(collapsed),
         }}
         onClick={() => {
           setLocale(locale === "de" ? "en" : "de");
@@ -202,38 +211,41 @@ export default function Sidebar() {
     });
   };
 
-  return (
-    <aside
-      className={`bg-(--background-subtle) h-screen ${
-        isCollapsed ? "w-16" : "w-60"
-      } sticky top-0 z-50 flex flex-col gap-2 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
-    >
+  const content = (
+    <>
       <div
         className={`flex ${
-          isCollapsed ? "flex-col" : "flex-row justify-between"
+          collapsed ? "flex-col" : "flex-row justify-between"
         } items-center gap-2 px-2`}
       >
         <Link
           href="/"
           className="flex justify-center items-center cursor-pointer hover:opacity-80"
+          onClick={() => onClose?.()}
         >
           <Image src="/logo.svg" alt="Meinl Logo" width={32} height={32} />
-          {!isCollapsed && (
+          {!collapsed && (
             <p className="text-2xl tracking-tighter text-(--main)">Office</p>
           )}
         </Link>
         <DevIndicator />
-        <ActionIcon color="gray" variant="transparent" onClick={toggleSidebar}>
-          {isCollapsed ? (
-            <IconLayoutSidebarLeftExpand size={20} />
-          ) : (
-            <IconLayoutSidebarLeftCollapse size={20} />
-          )}
-        </ActionIcon>
+        {!asDrawer && (
+          <ActionIcon
+            color="gray"
+            variant="transparent"
+            onClick={toggleSidebar}
+          >
+            {collapsed ? (
+              <IconLayoutSidebarLeftExpand size={20} />
+            ) : (
+              <IconLayoutSidebarLeftCollapse size={20} />
+            )}
+          </ActionIcon>
+        )}
       </div>
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">
-          <Search collapsed={isCollapsed} />
+          <Search collapsed={collapsed} />
           {nav
             .filter((e) => !e.hidden)
             .map((e, i) => {
@@ -254,8 +266,9 @@ export default function Sidebar() {
                   href={e.href}
                   target={e.external ? "_blank" : undefined}
                   styles={{
-                    root: navLink(isCollapsed),
+                    root: navLink(collapsed),
                   }}
+                  onClick={() => onClose?.()}
                 />
               );
             })}
@@ -278,7 +291,7 @@ export default function Sidebar() {
                 label={session?.user?.name}
                 title={session?.user?.name ?? ""}
                 styles={{
-                  root: navLink(isCollapsed),
+                  root: navLink(collapsed),
                 }}
                 leftSection={
                   <Avatar
@@ -297,6 +310,7 @@ export default function Sidebar() {
                 leftSection={<IconHistory size={14} />}
                 component={Link}
                 href="/settings/changelog"
+                onClick={() => onClose?.()}
               >
                 {t(locale, "changelog")}
               </Menu.Item>
@@ -310,6 +324,24 @@ export default function Sidebar() {
           </Menu>
         </div>
       </nav>
+    </>
+  );
+
+  if (asDrawer) {
+    return (
+      <div className="bg-(--background-subtle) flex flex-col gap-2 pt-4 overflow-x-hidden">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <aside
+      className={`bg-(--background-subtle) h-screen ${
+        collapsed ? "w-16" : "w-60"
+      } sticky top-0 z-50 hidden md:flex flex-col gap-2 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
+    >
+      {content}
     </aside>
   );
 }

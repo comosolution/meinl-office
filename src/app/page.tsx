@@ -31,7 +31,7 @@ export default function Page() {
     <main className="flex flex-col gap-4 px-8 py-4">
       <header className="flex justify-between items-center gap-2 p-4">
         <Title />
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4">
           <div className="flex flex-col items-end">
             <h3>{session?.user?.name}</h3>
             <p className="dimmed text-xs">{session?.user?.email}</p>

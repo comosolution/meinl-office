@@ -45,9 +45,9 @@ export default function LineGraph({
 
   return (
     <Paper p="md">
-      <div className="flex justify-between items-center gap-2 mb-2">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-2 mb-2">
         <h2>{t(locale, "history")}</h2>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row items-center gap-2">
           <SegmentedControl
             value={period}
             onChange={(value) => setPeriod(value as "90d" | "12m" | "5y")}
