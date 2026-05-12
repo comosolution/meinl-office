@@ -414,7 +414,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     articleNumberMei: "Artikelnummer (Meinl)",
     serialNumberKu: "Seriennummer (Kunde)",
     serialNumberMei: "Seriennummer (Meinl)",
-    customerReferenceNumber: "Kundenseite Referenznummer",
+    customerReferenceNumber: "Kundenseitige Referenznummer",
     description: "Beschreibung",
     newStatus: "Neuer Status",
     newCompany: "Neue Firma",

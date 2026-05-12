@@ -151,7 +151,7 @@ export default function NewPersonPage() {
             >
               <Stack>
                 <h2>{t(locale, "personalData")}</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <Autocomplete
                     label={t(locale, "salutation")}
                     data={salutations(source)}
@@ -182,7 +182,7 @@ export default function NewPersonPage() {
                   />
                 </div>
                 <h2>{t(locale, "communication")}</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <TextInput
                     label={t(locale, "phone")}
                     {...form.getInputProps("phone")}
@@ -271,7 +271,7 @@ export default function NewPersonPage() {
               <Stack>
                 <h2>{t(locale, "responsibilities")}</h2>
                 <Checkbox.Group {...form.getInputProps("zustaendig")}>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid md:grid-cols-2 gap-2">
                     {competences.map((c, i) => (
                       <Checkbox key={i} label={c} value={c} />
                     ))}
@@ -286,7 +286,7 @@ export default function NewPersonPage() {
             >
               <Stack>
                 <h2>{t(locale, "personalAddress")}</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <Select
                     label={t(locale, "country")}
                     data={countryCodes(locale)}
@@ -308,7 +308,7 @@ export default function NewPersonPage() {
                   />
                 </div>
                 <h2>{t(locale, "details")}</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <DateInput
                     label={t(locale, "dateOfBirth")}
                     locale={locale}

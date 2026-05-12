@@ -141,7 +141,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   const actions = isPreview ? (
-    <div className="col-span-2 flex justify-end gap-2">
+    <div className="md:col-span-2 flex justify-end gap-2">
       {edit ? (
         <div className="flex gap-2">
           <Button
@@ -283,11 +283,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             })}
           >
             <Tabs.Panel value="info" className="py-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-4">
                 {actions}
                 <Fieldset>
                   <h2>{t(locale, "person")}</h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-4">
                     <Autocomplete
                       label={t(locale, "salutation")}
                       data={salutations(source)}
@@ -324,7 +324,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Fieldset>
                 <Fieldset>
                   <h2>{t(locale, "communication")}</h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-4">
                     <TextInput
                       label={t(locale, "phone")}
                       {...form.getInputProps("phone")}
@@ -354,7 +354,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Fieldset>
                 <Fieldset>
                   <h2>{t(locale, "officeAddress")}</h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-4">
                     <Select
                       label={t(locale, "country")}
                       data={countryCodes(locale)}
@@ -383,7 +383,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <Fieldset>
                   <h2>{t(locale, "responsibilities")}</h2>
                   <Checkbox.Group {...form.getInputProps("zustaendig")}>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid md:grid-cols-2 gap-2">
                       {competences.map((c, i) => (
                         <Checkbox
                           key={i}
@@ -399,7 +399,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Tabs.Panel>
 
             <Tabs.Panel value="b2b" className="py-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-4">
                 {actions}
                 <Fieldset>
                   <div className="flex justify-between items-baseline gap-2">
@@ -455,11 +455,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Tabs.Panel>
 
             <Tabs.Panel value="private" className="py-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-4">
                 {actions}
                 <Fieldset>
                   <h2>{t(locale, "personalAddress")}</h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-4">
                     <Select
                       label={t(locale, "country")}
                       data={countryCodes(locale)}
@@ -487,7 +487,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Fieldset>
                 <Fieldset>
                   <h2>{t(locale, "details")}</h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-4">
                     <DateInput
                       label={t(locale, "dateOfBirth")}
                       locale={locale}

@@ -90,7 +90,7 @@ export default function Page() {
             label={t(locale, "description")}
             {...form.getInputProps("description")}
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <DateTimePicker
               label={t(locale, "start")}
               valueFormat="DD.MM.YYYY HH:mm"

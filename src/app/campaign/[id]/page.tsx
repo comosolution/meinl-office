@@ -206,9 +206,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             setEdit(false);
           }
         })}
-        className="grid grid-cols-2 gap-4"
+        className="grid md:grid-cols-2 gap-4"
       >
-        <div className="col-span-2 flex justify-end gap-2">
+        <div className="md:col-span-2 flex justify-end gap-2">
           {edit ? (
             <div className="flex gap-2">
               <Button
@@ -270,7 +270,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           )}
         </div>
 
-        <div className="col-span-2 flex gap-2">
+        <div className="md:col-span-2 flex gap-2">
           <TextInput
             className="w-full"
             value={dealerLocLink}
@@ -304,9 +304,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </CopyButton>
           </div>
         </div>
-        <Fieldset className="col-span-2">
+        <Fieldset className="md:col-span-2">
           <h2>{t(locale, "details")}</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <Select
               label={t(locale, "brand")}
               data={brands}
@@ -331,7 +331,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             rows={3}
             resize="vertical"
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <DateTimePicker
               label={t(locale, "start")}
               valueFormat="DD.MM.YYYY HH:mm"

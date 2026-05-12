@@ -832,10 +832,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Fieldset>
             <div className="flex flex-col gap-2">
               <h2>{t(locale, "shippingAddress")}</h2>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid md:grid-cols-2 gap-2">
                 <TextInput
                   label={t(locale, "name1")}
-                  className="col-span-2"
+                  className="md:col-span-2"
                   {...form.getInputProps("versandadresse.vaname")}
                   readOnly={!editing}
                 />
@@ -851,7 +851,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 />
                 <TextInput
                   label={t(locale, "streetAndNumber")}
-                  className="col-span-2"
+                  className="md:col-span-2"
                   {...form.getInputProps("versandadresse.vastrasse")}
                   readOnly={!editing}
                 />

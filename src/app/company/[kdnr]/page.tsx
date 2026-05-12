@@ -139,7 +139,7 @@ export default function Page({
   if (!company) return <Loader />;
 
   const actions = (
-    <div className="col-span-2 flex justify-end gap-2">
+    <div className="md:col-span-2 flex justify-end gap-2">
       {edit ? (
         <div className="flex gap-2">
           <Button
@@ -211,10 +211,9 @@ export default function Page({
         </Avatar>
         <div className="flex flex-col gap-1 w-full">
           <h1>
-            {company.name1}{" "}
-            <span className="font-normal">
-              {company.name2} {company.name3}
-            </span>
+            {company.name1}
+            <span className="font-normal"> {company.name2}</span>
+            <span className="font-normal italic"> {company.name3}</span>
           </h1>
           <p>
             <b>{company.kdnr}</b> – {company.kundenartText} ({company.kundenart}
@@ -316,16 +315,16 @@ export default function Page({
           })}
         >
           <Tabs.Panel value="company" className="py-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               {actions}
               <Fieldset>
                 <h2>{t(locale, "company")}</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <TextInput
                     label={t(locale, "nameLabel")}
                     {...form.getInputProps("name1")}
                     readOnly={!edit}
-                    className="col-span-2"
+                    className="md:col-span-2"
                   />
                   <TextInput
                     label={t(locale, "nameLabel") + " 2"}
@@ -351,7 +350,7 @@ export default function Page({
               </Fieldset>
               <Fieldset>
                 <h2>{t(locale, "address")}</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <TextInput
                     label={t(locale, "country")}
                     {...form.getInputProps("land")}
@@ -417,7 +416,7 @@ export default function Page({
           </Tabs.Panel>
 
           <Tabs.Panel value="details" className="py-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               {actions}
               <Fieldset>
                 <h2>{t(locale, "details")}</h2>
@@ -483,12 +482,12 @@ export default function Page({
           </Tabs.Panel>
 
           <Tabs.Panel value="storelocator" className="py-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               {actions}
 
               <Checkbox
                 size="md"
-                className="col-span-2"
+                className="md:col-span-2"
                 label={`${company.name1} ${t(locale, "showInDealerLocator")}.`}
                 {...form.getInputProps("dealerloc", { type: "checkbox" })}
                 disabled={!edit}
@@ -496,7 +495,7 @@ export default function Page({
 
               <Fieldset>
                 <h2>{t(locale, "details")}</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                   <TextInput
                     label={t(locale, "websiteUrl")}
                     {...form.getInputProps("www")}
@@ -620,7 +619,7 @@ export default function Page({
         </form>
 
         <Tabs.Panel value="logo" className="py-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <LogoPreview company={company} onDelete={() => getCompany()} />
             <FileUploader company={company} onSuccess={() => getCompany()} />
           </div>

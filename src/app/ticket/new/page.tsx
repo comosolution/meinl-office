@@ -374,10 +374,10 @@ export default function Page() {
                       withAsterisk
                     />
                     <Paper p="lg" bg="var(--background)" shadow="xl">
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid md:grid-cols-2 gap-2">
                         <TextInput
                           label="Name 1"
-                          className="col-span-2"
+                          className="md:col-span-2"
                           {...form.getInputProps("vaname")}
                           withAsterisk
                         />
@@ -391,7 +391,7 @@ export default function Page() {
                         />
                         <TextInput
                           label={t(locale, "streetAndNumber")}
-                          className="col-span-2"
+                          className="md:col-span-2"
                           {...form.getInputProps("vastrasse")}
                           withAsterisk
                         />
@@ -443,7 +443,7 @@ export default function Page() {
                 />
                 {form.values.kdnr_full === "NEW" && (
                   <Paper p="lg" bg="var(--background)" shadow="xl">
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid md:grid-cols-2 gap-2">
                       <TextInput
                         label={t(locale, "lastName")}
                         withAsterisk
@@ -456,7 +456,7 @@ export default function Page() {
                       />
                       <TextInput
                         label={t(locale, "email")}
-                        className="col-span-2"
+                        className="md:col-span-2"
                         withAsterisk
                         {...form.getInputProps("newPersonEmail")}
                       />
@@ -471,7 +471,7 @@ export default function Page() {
               icon={<IconInfoCircle size={18} />}
             >
               <Stack>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid md:grid-cols-5 gap-2">
                   <ProductSelect
                     label={t(locale, "articleNumber")}
                     value={form.values.artnr_ku}
@@ -479,11 +479,11 @@ export default function Page() {
                       form.setFieldValue("artnr_ku", val ?? "")
                     }
                     withAsterisk
-                    className="col-span-2"
+                    className="md:col-span-2"
                   />
                   <TextInput
                     label={t(locale, "serialNumber")}
-                    className="col-span-2"
+                    className="md:col-span-2"
                     {...form.getInputProps("sernr_ku")}
                   />
                   <NumberInput
