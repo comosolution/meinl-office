@@ -20,6 +20,7 @@ import {
   Checkbox,
   Fieldset,
   NumberInput,
+  Scroller,
   Table,
   Tabs,
   TextInput,
@@ -101,7 +102,7 @@ export default function Page({
 
     const companies: Company[] = await response.json();
     setCompany(companies[0]);
-    setDistributor(companies[0].haendler.find((h) => h.id === +id));
+    setDistributor(companies[0]?.haendler?.find((h) => h.id === +id));
   };
 
   const updateHistory = () => {
@@ -241,25 +242,30 @@ export default function Page({
 
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
-          <Tabs.Tab value="info" leftSection={<IconBuildingEstate size={16} />}>
-            {t(locale, "dealer")}
-          </Tabs.Tab>
-          <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
-            {t(locale, "companyLogo")}
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="storelocator"
-            leftSection={<IconShoppingCartPin size={16} />}
-            rightSection={
-              distributor.dealerloc ? (
-                <IconCircleCheck size={16} color="gray" />
-              ) : (
-                <IconCircleX size={16} color="gray" />
-              )
-            }
-          >
-            {t(locale, "dealerLocator")}
-          </Tabs.Tab>
+          <Scroller>
+            <Tabs.Tab
+              value="info"
+              leftSection={<IconBuildingEstate size={16} />}
+            >
+              {t(locale, "dealer")}
+            </Tabs.Tab>
+            <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
+              {t(locale, "companyLogo")}
+            </Tabs.Tab>
+            <Tabs.Tab
+              value="storelocator"
+              leftSection={<IconShoppingCartPin size={16} />}
+              rightSection={
+                distributor.dealerloc ? (
+                  <IconCircleCheck size={16} color="gray" />
+                ) : (
+                  <IconCircleX size={16} color="gray" />
+                )
+              }
+            >
+              {t(locale, "dealerLocator")}
+            </Tabs.Tab>
+          </Scroller>
         </Tabs.List>
 
         <form

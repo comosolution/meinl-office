@@ -36,6 +36,7 @@ import {
   Modal,
   Paper,
   Radio,
+  Scroller,
   Select,
   Tabs,
   TextInput,
@@ -240,15 +241,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </header>
         <Tabs value={activeTab} onChange={setActiveTab}>
           <Tabs.List>
-            <Tabs.Tab value="info" leftSection={<IconUser size={16} />}>
-              {t(locale, "personalData")}
-            </Tabs.Tab>
-            <Tabs.Tab value="b2b" leftSection={<IconIdBadge2 size={16} />}>
-              B2B
-            </Tabs.Tab>
-            <Tabs.Tab value="private" leftSection={<IconBalloon size={16} />}>
-              {t(locale, "privateSection")}
-            </Tabs.Tab>
+            <Scroller>
+              <Tabs.Tab value="info" leftSection={<IconUser size={16} />}>
+                {t(locale, "personalData")}
+              </Tabs.Tab>
+              <Tabs.Tab value="b2b" leftSection={<IconIdBadge2 size={16} />}>
+                B2B
+              </Tabs.Tab>
+              <Tabs.Tab value="private" leftSection={<IconBalloon size={16} />}>
+                {t(locale, "privateSection")}
+              </Tabs.Tab>
+            </Scroller>
           </Tabs.List>
 
           <form

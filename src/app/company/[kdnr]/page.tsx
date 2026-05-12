@@ -17,11 +17,11 @@ import { getAvatarColor, isPreview, parseUrl } from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
-  Badge,
   Button,
   Checkbox,
   Fieldset,
   NumberInput,
+  Scroller,
   Table,
   Tabs,
   TextInput,
@@ -234,68 +234,53 @@ export default function Page({
 
       <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
-          <Tabs.Tab
-            value="company"
-            leftSection={<IconBuildingEstate size={16} />}
-          >
-            {t(locale, "companyInfo")}
-          </Tabs.Tab>
-          <Tabs.Tab value="details" leftSection={<IconCreditCard size={16} />}>
-            {t(locale, "details")}
-          </Tabs.Tab>
-          <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
-            {t(locale, "companyLogo")}
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="storelocator"
-            leftSection={<IconShoppingCartPin size={16} />}
-            rightSection={
-              company.dealerloc ? (
-                <IconCircleCheck size={16} color="gray" />
-              ) : (
-                <IconCircleX size={16} color="gray" />
-              )
-            }
-          >
-            {t(locale, "dealerLocator")}
-          </Tabs.Tab>
-          {company.distributor && (
+          <Scroller>
             <Tabs.Tab
-              value="distributor"
-              leftSection={<IconBuildingWarehouse size={16} />}
+              value="company"
+              leftSection={<IconBuildingEstate size={16} />}
+            >
+              {t(locale, "companyInfo")}
+            </Tabs.Tab>
+            <Tabs.Tab
+              value="details"
+              leftSection={<IconCreditCard size={16} />}
+            >
+              {t(locale, "details")}
+            </Tabs.Tab>
+            <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
+              {t(locale, "companyLogo")}
+            </Tabs.Tab>
+            <Tabs.Tab
+              value="storelocator"
+              leftSection={<IconShoppingCartPin size={16} />}
               rightSection={
-                <Badge size="xs" color="gray">
-                  {company.haendler.length}
-                </Badge>
+                company.dealerloc ? (
+                  <IconCircleCheck size={16} color="gray" />
+                ) : (
+                  <IconCircleX size={16} color="gray" />
+                )
               }
             >
-              {t(locale, "dealer")}
+              {t(locale, "dealerLocator")}
             </Tabs.Tab>
-          )}
-          <Tabs.Tab
-            value="employees"
-            leftSection={<IconUsersGroup size={16} />}
-            rightSection={
-              <Badge size="xs" color="gray">
-                {company.personen.length}
-              </Badge>
-            }
-          >
-            {t(locale, "employees")}
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="notes"
-            leftSection={<IconNote size={16} />}
-            rightSection={
-              company.notes ? (
-                <Badge size="xs" color="gray">
-                  {company.notes.length}
-                </Badge>
-              ) : undefined
-            }
-          >
-            {t(locale, "notes")}
-          </Tabs.Tab>
+            {company.distributor && (
+              <Tabs.Tab
+                value="distributor"
+                leftSection={<IconBuildingWarehouse size={16} />}
+              >
+                {t(locale, "dealer")}
+              </Tabs.Tab>
+            )}
+            <Tabs.Tab
+              value="employees"
+              leftSection={<IconUsersGroup size={16} />}
+            >
+              {t(locale, "employees")}
+            </Tabs.Tab>
+            <Tabs.Tab value="notes" leftSection={<IconNote size={16} />}>
+              {t(locale, "notes")}
+            </Tabs.Tab>
+          </Scroller>
         </Tabs.List>
 
         <form

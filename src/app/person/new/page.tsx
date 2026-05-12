@@ -34,6 +34,7 @@ import {
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
+import { useMediaQuery } from "@mantine/hooks";
 import {
   IconBalloon,
   IconBuildings,
@@ -56,6 +57,8 @@ export default function NewPersonPage() {
   const { locale, source } = useOffice();
 
   const [active, setActive] = useState(0);
+
+  const isMobile = useMediaQuery("(max-width: 620px)");
 
   const router = useRouter();
   const STEPS = 5;
@@ -130,7 +133,8 @@ export default function NewPersonPage() {
           <h1>{t(locale, "newPerson")}</h1>
           <Stepper active={active} allowNextStepsSelect={false}>
             <Stepper.Step
-              label={t(locale, "company")}
+              label={isMobile ? undefined : t(locale, "company")}
+              aria-label={t(locale, "company")}
               icon={<IconBuildings size={18} />}
             >
               <Stack>
@@ -146,7 +150,8 @@ export default function NewPersonPage() {
             </Stepper.Step>
 
             <Stepper.Step
-              label={t(locale, "person")}
+              label={isMobile ? undefined : t(locale, "person")}
+              aria-label={t(locale, "person")}
               icon={<IconUser size={18} />}
             >
               <Stack>
@@ -209,7 +214,8 @@ export default function NewPersonPage() {
             </Stepper.Step>
 
             <Stepper.Step
-              label={t(locale, "b2b")}
+              label={isMobile ? undefined : t(locale, "b2b")}
+              aria-label={t(locale, "b2b")}
               icon={<IconIdBadge2 size={18} />}
             >
               <Stack>
@@ -265,7 +271,8 @@ export default function NewPersonPage() {
             </Stepper.Step>
 
             <Stepper.Step
-              label={t(locale, "responsibilities")}
+              label={isMobile ? undefined : t(locale, "responsibilities")}
+              aria-label={t(locale, "responsibilities")}
               icon={<IconChecklist size={18} />}
             >
               <Stack>
@@ -281,7 +288,8 @@ export default function NewPersonPage() {
             </Stepper.Step>
 
             <Stepper.Step
-              label={t(locale, "privateSection")}
+              label={isMobile ? undefined : t(locale, "privateSection")}
+              aria-label={t(locale, "privateSection")}
               icon={<IconBalloon size={18} />}
             >
               <Stack>

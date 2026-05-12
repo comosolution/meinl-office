@@ -23,6 +23,7 @@ import {
   Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import {
   IconBuildings,
@@ -40,9 +41,12 @@ import { useEffect, useMemo, useState } from "react";
 export default function Page() {
   const { data: session } = useSession();
   const { source, locale } = useOffice();
+
   const [active, setActive] = useState(0);
   const [loadedKdnr, setLoadedKdnr] = useState<string>();
   const [company, setCompany] = useState<Company>();
+
+  const isMobile = useMediaQuery("(max-width: 620px)");
 
   const router = useRouter();
   const STEPS = 3;
@@ -350,7 +354,8 @@ export default function Page() {
           <h1>{t(locale, "createTicket")}</h1>
           <Stepper active={active} allowNextStepsSelect={false}>
             <Stepper.Step
-              label={t(locale, "customer")}
+              label={isMobile ? undefined : t(locale, "customer")}
+              aria-label={t(locale, "customer")}
               icon={<IconBuildings size={18} />}
             >
               <Stack>
@@ -438,7 +443,8 @@ export default function Page() {
             </Stepper.Step>
 
             <Stepper.Step
-              label={t(locale, "contactPerson")}
+              label={isMobile ? undefined : t(locale, "contactPerson")}
+              aria-label={t(locale, "contactPerson")}
               icon={<IconUser size={18} />}
             >
               <Stack>
@@ -492,7 +498,8 @@ export default function Page() {
             </Stepper.Step>
 
             <Stepper.Step
-              label={t(locale, "details")}
+              label={isMobile ? undefined : t(locale, "details")}
+              aria-label={t(locale, "details")}
               icon={<IconInfoCircle size={18} />}
             >
               <Stack>
