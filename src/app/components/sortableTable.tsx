@@ -273,46 +273,48 @@ export default function SortableTable({
         results={filteredData.length}
       />
 
-      <Table highlightOnHover layout="fixed">
-        <Table.Thead>
-          <Table.Tr>
-            {columns.map(({ label, key }) => (
-              <Table.Th
-                key={key}
-                onClick={() => handleSort(key)}
-                className="cursor-pointer select-none"
-              >
-                <div className="flex items-center gap-1 whitespace-nowrap">
-                  {label}
-                  {sortBy === key && (
-                    <IconChevronUp
-                      size={16}
-                      className={`transition-all ${
-                        sortDirection === "asc" ? "rotate-0" : "rotate-180"
-                      }`}
-                    />
-                  )}
-                </div>
-              </Table.Th>
-            ))}
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {currentPageData.map((ticket, index) => (
-            <Table.Tr
-              key={index}
-              onClick={() => router.push(`/ticket/${ticket.nr}`)}
-              className="cursor-pointer"
-            >
-              {columns.map(({ key, render }) => (
-                <Table.Td key={key}>
-                  {render ? render(ticket) : String(ticket[key])}
-                </Table.Td>
+      <div className="overflow-x-auto">
+        <Table highlightOnHover layout="fixed">
+          <Table.Thead>
+            <Table.Tr>
+              {columns.map(({ label, key }) => (
+                <Table.Th
+                  key={key}
+                  onClick={() => handleSort(key)}
+                  className="cursor-pointer select-none"
+                >
+                  <div className="flex items-center gap-1 whitespace-nowrap">
+                    {label}
+                    {sortBy === key && (
+                      <IconChevronUp
+                        size={16}
+                        className={`transition-all ${
+                          sortDirection === "asc" ? "rotate-0" : "rotate-180"
+                        }`}
+                      />
+                    )}
+                  </div>
+                </Table.Th>
               ))}
             </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
+          </Table.Thead>
+          <Table.Tbody>
+            {currentPageData.map((ticket, index) => (
+              <Table.Tr
+                key={index}
+                onClick={() => router.push(`/ticket/${ticket.nr}`)}
+                className="cursor-pointer"
+              >
+                {columns.map(({ key, render }) => (
+                  <Table.Td key={key}>
+                    {render ? render(ticket) : String(ticket[key])}
+                  </Table.Td>
+                ))}
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
     </div>
   );
 }

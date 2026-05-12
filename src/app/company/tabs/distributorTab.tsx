@@ -37,6 +37,7 @@ export default function DistributorTab({ company }: { company: Company }) {
               setPageLimit={setPageLimit}
               results={sortedDistributors.length}
             />
+            <div className="overflow-x-auto">
             <Table highlightOnHover>
               <Table.Thead>
                 <Table.Tr>
@@ -81,6 +82,7 @@ export default function DistributorTab({ company }: { company: Company }) {
                 ))}
               </Table.Tbody>
             </Table>
+            </div>
           </div>
         ) : (
           <p className="dimmed text-center p-4">{t(locale, "noDealers")}</p>

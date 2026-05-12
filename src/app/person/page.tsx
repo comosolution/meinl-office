@@ -228,70 +228,72 @@ export default function Page() {
         results={filteredData.length}
       />
 
-      <Table highlightOnHover>
-        <Table.Thead>
-          <Table.Tr>
-            {columns.map((col) => (
-              <Table.Th
-                key={col.key}
-                className={col.sortable ? "cursor-pointer select-none" : ""}
-                onClick={() => {
-                  if (!col.sortable) return;
-                  if (sortBy === col.key) {
-                    setSortDirection((prev) =>
-                      prev === "asc" ? "desc" : "asc",
-                    );
-                  } else {
-                    setSortBy(col.key as keyof Person);
-                    setSortDirection("asc");
-                  }
-                }}
-              >
-                <div className="flex items-center gap-1 whitespace-nowrap">
-                  {col.label}
-                  {sortBy === col.key && col.sortable && (
-                    <IconChevronUp
-                      size={16}
-                      className={`transition-all ${
-                        sortDirection === "asc" ? "rotate-0" : "rotate-180"
-                      }`}
-                    />
-                  )}
-                </div>
-              </Table.Th>
-            ))}
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {currentPageData.map((e, i) => (
-            <Table.Tr
-              key={i}
-              className="cursor-pointer"
-              onClick={() => router.push(`/person/${e.b2bnr}`)}
-            >
-              <Table.Td>
-                <Avatar
-                  size={24}
-                  color={getAvatarColor(e.kundenart)}
-                  name={`${e.nachname} ${e.vorname}`}
-                />
-              </Table.Td>
-              <Table.Td>
-                <b>
-                  {e.nachname}, {e.vorname}
-                </b>
-              </Table.Td>
-              <Table.Td>{e.name1}</Table.Td>
-              <Table.Td>{e.jobpos}</Table.Td>
-              <Table.Td>{e.b2bnr}</Table.Td>
-              <Table.Td>
-                {b2bAccess(locale).find((a) => a.value === e.b2bzugriff)
-                  ?.label || e.b2bzugriff}
-              </Table.Td>
+      <div className="overflow-x-auto">
+        <Table highlightOnHover>
+          <Table.Thead>
+            <Table.Tr>
+              {columns.map((col) => (
+                <Table.Th
+                  key={col.key}
+                  className={col.sortable ? "cursor-pointer select-none" : ""}
+                  onClick={() => {
+                    if (!col.sortable) return;
+                    if (sortBy === col.key) {
+                      setSortDirection((prev) =>
+                        prev === "asc" ? "desc" : "asc",
+                      );
+                    } else {
+                      setSortBy(col.key as keyof Person);
+                      setSortDirection("asc");
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-1 whitespace-nowrap">
+                    {col.label}
+                    {sortBy === col.key && col.sortable && (
+                      <IconChevronUp
+                        size={16}
+                        className={`transition-all ${
+                          sortDirection === "asc" ? "rotate-0" : "rotate-180"
+                        }`}
+                      />
+                    )}
+                  </div>
+                </Table.Th>
+              ))}
             </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
+          </Table.Thead>
+          <Table.Tbody>
+            {currentPageData.map((e, i) => (
+              <Table.Tr
+                key={i}
+                className="cursor-pointer"
+                onClick={() => router.push(`/person/${e.b2bnr}`)}
+              >
+                <Table.Td>
+                  <Avatar
+                    size={24}
+                    color={getAvatarColor(e.kundenart)}
+                    name={`${e.nachname} ${e.vorname}`}
+                  />
+                </Table.Td>
+                <Table.Td>
+                  <b>
+                    {e.nachname}, {e.vorname}
+                  </b>
+                </Table.Td>
+                <Table.Td>{e.name1}</Table.Td>
+                <Table.Td>{e.jobpos}</Table.Td>
+                <Table.Td>{e.b2bnr}</Table.Td>
+                <Table.Td>
+                  {b2bAccess(locale).find((a) => a.value === e.b2bzugriff)
+                    ?.label || e.b2bzugriff}
+                </Table.Td>
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
     </main>
   );
 }

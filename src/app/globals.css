@@ -152,6 +152,11 @@ img.inverted {
   background-color: transparent;
   font-weight: bold;
   letter-spacing: -0.4px;
+  white-space: nowrap;
+}
+
+.mantine-Table-td {
+  white-space: nowrap;
 }
 
 .mantine-Table-tbody .mantine-Table-tr:hover:where([data-hover]) {

@@ -63,7 +63,7 @@ export default function PageWrapper({
       </Drawer>
       <Sidebar />
       <main className="w-full flex flex-col">
-        <header className="md:hidden bg-(--background-subtle) flex justify-between items-center gap-2 px-8 py-2">
+        <header className="md:hidden shadow-2xl flex justify-between items-center gap-2 px-8 py-2">
           <Burger
             opened={drawerOpen}
             onClick={() => setDrawerOpen((o) => !o)}

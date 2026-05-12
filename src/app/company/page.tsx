@@ -302,71 +302,73 @@ export default function Page() {
         results={filteredData.length}
       />
 
-      <Table highlightOnHover>
-        <Table.Thead>
-          <Table.Tr>
-            {columns.map((col) => (
-              <Table.Th
-                key={col.key}
-                className={col.sortable ? "cursor-pointer select-none" : ""}
-                onClick={() => {
-                  if (!col.sortable) return;
-                  if (sortBy === col.key) {
-                    setSortDirection((prev) =>
-                      prev === "asc" ? "desc" : "asc",
-                    );
-                  } else {
-                    setSortBy(col.key as keyof Company);
-                    setSortDirection("asc");
-                  }
-                }}
-              >
-                <div className="flex items-center gap-1 whitespace-nowrap">
-                  {col.label}
-                  {sortBy === col.key && col.sortable && (
-                    <IconChevronUp
-                      size={16}
-                      className={`transition-all ${
-                        sortDirection === "asc" ? "rotate-0" : "rotate-180"
-                      }`}
-                    />
-                  )}
-                </div>
-              </Table.Th>
-            ))}
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {currentPageData.map((company, i) => (
-            <Table.Tr
-              key={i}
-              className="cursor-pointer"
-              onClick={() => router.push(`/company/${company.kdnr}`)}
-            >
-              <Table.Td>
-                <Avatar
-                  size={24}
-                  variant="filled"
-                  color={getAvatarColor(company.kundenart)}
+      <div className="overflow-x-auto">
+        <Table highlightOnHover>
+          <Table.Thead>
+            <Table.Tr>
+              {columns.map((col) => (
+                <Table.Th
+                  key={col.key}
+                  className={col.sortable ? "cursor-pointer select-none" : ""}
+                  onClick={() => {
+                    if (!col.sortable) return;
+                    if (sortBy === col.key) {
+                      setSortDirection((prev) =>
+                        prev === "asc" ? "desc" : "asc",
+                      );
+                    } else {
+                      setSortBy(col.key as keyof Company);
+                      setSortDirection("asc");
+                    }
+                  }}
                 >
-                  <IconBuildings size={14} />
-                </Avatar>
-              </Table.Td>
-              <Table.Td>
-                <b>{company.name1}</b>
-              </Table.Td>
-              <Table.Td>
-                {company.name2} {company.name3}
-              </Table.Td>
-              <Table.Td>{company.matchcode}</Table.Td>
-              <Table.Td>{company.kdnr}</Table.Td>
-              <Table.Td>{company.ort}</Table.Td>
-              <Table.Td>{company.land}</Table.Td>
-              <Table.Td>{company.kundenart}</Table.Td>
+                  <div className="flex items-center gap-1 whitespace-nowrap">
+                    {col.label}
+                    {sortBy === col.key && col.sortable && (
+                      <IconChevronUp
+                        size={16}
+                        className={`transition-all ${
+                          sortDirection === "asc" ? "rotate-0" : "rotate-180"
+                        }`}
+                      />
+                    )}
+                  </div>
+                </Table.Th>
+              ))}
             </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
+          </Table.Thead>
+          <Table.Tbody>
+            {currentPageData.map((company, i) => (
+              <Table.Tr
+                key={i}
+                className="cursor-pointer"
+                onClick={() => router.push(`/company/${company.kdnr}`)}
+              >
+                <Table.Td>
+                  <Avatar
+                    size={24}
+                    variant="filled"
+                    color={getAvatarColor(company.kundenart)}
+                  >
+                    <IconBuildings size={14} />
+                  </Avatar>
+                </Table.Td>
+                <Table.Td>
+                  <b>{company.name1}</b>
+                </Table.Td>
+                <Table.Td>
+                  {company.name2} {company.name3}
+                </Table.Td>
+                <Table.Td>{company.matchcode}</Table.Td>
+                <Table.Td>{company.kdnr}</Table.Td>
+                <Table.Td>{company.ort}</Table.Td>
+                <Table.Td>{company.land}</Table.Td>
+                <Table.Td>{company.kundenart}</Table.Td>
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
     </main>
   );
 }
