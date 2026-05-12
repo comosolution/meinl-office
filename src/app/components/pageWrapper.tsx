@@ -1,5 +1,6 @@
 "use client";
-import { Avatar, Burger, Drawer } from "@mantine/core";
+import { ActionIcon, Drawer } from "@mantine/core";
+import { IconMenu3 } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import "dayjs/locale/de";
 import "dayjs/locale/en";
@@ -13,6 +14,7 @@ import FAB from "./fab";
 import Loader from "./loader";
 import Login from "./login";
 import Logo from "./logo";
+import Search from "./search";
 import Sidebar from "./sidebar";
 import WelcomeModal from "./welcomeModal";
 
@@ -65,16 +67,17 @@ export default function PageWrapper({
       <Sidebar />
       <main className="w-full flex flex-col">
         <header className="md:hidden bg-(--background-subtle) flex justify-between items-center gap-2 p-4">
-          <Burger
-            opened={drawerOpen}
+          <ActionIcon
+            variant="transparent"
             onClick={() => setDrawerOpen((o) => !o)}
-            size="sm"
             aria-label="Toggle navigation"
-          />
+          >
+            <IconMenu3 />
+          </ActionIcon>
           <Link href="/">
             <Logo />
           </Link>
-          <Avatar variant="filled" size={28} name={session?.user?.name ?? ""} />
+          <Search />
         </header>
         {children}
       </main>

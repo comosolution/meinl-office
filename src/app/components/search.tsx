@@ -1,4 +1,4 @@
-import { Avatar, Kbd, NavLink } from "@mantine/core";
+import { ActionIcon, Avatar, Kbd, NavLink } from "@mantine/core";
 import {
   Spotlight,
   spotlight,
@@ -21,11 +21,11 @@ import { navLink } from "../lib/styles";
 import { fetchResults, getAvatarColor } from "../lib/utils";
 
 export default function Search({
+  inSidebar,
   collapsed,
-  onClose,
 }: {
-  collapsed: boolean;
-  onClose?: () => void;
+  inSidebar?: boolean;
+  collapsed?: boolean;
 }) {
   const router = useRouter();
   const { source, locale, service } = useOffice();
@@ -98,7 +98,6 @@ export default function Search({
       }`,
       onClick: () => {
         router.push(`/company/${c.kdnr}${c.id === 0 ? "" : `/${c.id}`}`);
-        onClose?.();
       },
       rightSection: (
         <p className="text-xs dimmed">
@@ -132,7 +131,6 @@ export default function Search({
       description: `${p.jobpos || t(locale, "employee")} – ${p.name1}`,
       onClick: () => {
         router.push(`/person/${p.b2bnr}`);
-        onClose?.();
       },
       rightSection: <p className="text-xs dimmed">{p.b2bnr}</p>,
       leftSection: (
@@ -160,25 +158,31 @@ export default function Search({
 
   return (
     <>
-      <NavLink
-        label={t(locale, "search")}
-        title={t(locale, "search")}
-        active
-        color="dark"
-        leftSection={<IconSearch size={20} />}
-        rightSection={
-          collapsed ? undefined : (
-            <div>
-              <Kbd size="xs">Ctrl</Kbd>
-              <Kbd size="xs">K</Kbd>
-            </div>
-          )
-        }
-        styles={{
-          root: navLink(collapsed),
-        }}
-        onClick={() => spotlight.open()}
-      />
+      {inSidebar ? (
+        <NavLink
+          label={t(locale, "search")}
+          title={t(locale, "search")}
+          active
+          color="dark"
+          leftSection={<IconSearch size={20} />}
+          rightSection={
+            collapsed ? undefined : (
+              <div>
+                <Kbd size="xs">Ctrl</Kbd>
+                <Kbd size="xs">K</Kbd>
+              </div>
+            )
+          }
+          styles={{
+            root: navLink(collapsed ?? false),
+          }}
+          onClick={() => spotlight.open()}
+        />
+      ) : (
+        <ActionIcon variant="transparent" onClick={() => spotlight.open()}>
+          <IconSearch />
+        </ActionIcon>
+      )}
 
       <Spotlight
         color="black"
@@ -186,7 +190,7 @@ export default function Search({
         query={query}
         onQueryChange={setQuery}
         maxHeight="80vh"
-        nothingFound=""
+        nothingFound={t(locale, "noResults")}
         filter={(_, a) => a}
         scrollable
         shortcut={["mod + K", "mod + P", "/"]}

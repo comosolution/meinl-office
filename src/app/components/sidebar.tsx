@@ -245,7 +245,7 @@ export default function Sidebar({
       </div>
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">
-          <Search collapsed={collapsed} onClose={onClose} />
+          {!asDrawer && <Search inSidebar collapsed={collapsed} />}
           {nav
             .filter((e) => !e.hidden)
             .map((e, i) => {
