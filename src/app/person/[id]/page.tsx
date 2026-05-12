@@ -179,8 +179,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <>
       <main className="flex flex-col gap-4 p-4">
-        <div className="flex justify-between items-baseline gap-2">
-          <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row justify-between gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             <Button
               color="gray"
               variant="light"
@@ -200,7 +200,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               {person.name1}
             </Button>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             <Contact
               email={person.email}
               phone={person.phone}
@@ -235,7 +235,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <b>{person.name1}</b> ({person.kdnr})
                 </Link>
               </p>
-              <p className="dimmed">{person.b2bnr}</p>
+              <p className="dimmed hidden md:block">{person.b2bnr}</p>
             </div>
           </div>
         </header>

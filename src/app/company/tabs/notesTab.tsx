@@ -152,7 +152,9 @@ export default function NotesTab({
                       </ActionIcon>
                     </div>
                     <Accordion.Panel>
-                      <p className="px-8 whitespace-pre-wrap">{note.body}</p>
+                      <p className="px-4 md:px-8 whitespace-pre-wrap">
+                        {note.body}
+                      </p>
                     </Accordion.Panel>
                   </Accordion.Item>
                 ))}

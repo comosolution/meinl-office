@@ -2,7 +2,7 @@
 import { FileDropzone } from "@/app/components/fileDropzone";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
-import { Button, Paper } from "@mantine/core";
+import { ActionIcon, Button, Paper } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconDownload, IconUpload } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -105,9 +105,9 @@ export default function FilesTab({
                         ? format(parseDb2Date(entry.created), DATE_FORMAT)
                         : ""}
                     </p>
-                    <Button
+                    <ActionIcon
                       variant="light"
-                      leftSection={<IconDownload size={16} />}
+                      aria-label={t(locale, "download")}
                       loading={downloading === entry.lfdn}
                       onClick={async () => {
                         try {
@@ -142,8 +142,8 @@ export default function FilesTab({
                         }
                       }}
                     >
-                      {t(locale, "download")}
-                    </Button>
+                      <IconDownload size={16} />
+                    </ActionIcon>
                   </div>
                 </div>
               </Paper>

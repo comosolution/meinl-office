@@ -28,7 +28,7 @@ export default function Page() {
   const { locale } = useOffice();
 
   return (
-    <main className="flex flex-col gap-4 px-8 py-4">
+    <main className="flex flex-col gap-4 px-4 md:px-8 py-4">
       <header className="flex justify-between items-center gap-2 p-4">
         <Title />
         <div className="hidden md:flex items-center gap-4">

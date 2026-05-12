@@ -621,7 +621,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <>
       <main className="flex flex-col gap-8 p-4">
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row justify-between gap-2">
           <Button
             variant="light"
             color="gray"
@@ -631,7 +631,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           >
             {t(locale, "allTickets")}
           </Button>
-          <div className="flex gap-1">
+          <div className="flex flex-col md:flex-row gap-2">
             {ticket.tracking && ticket.tracking.versender === "DHL" && (
               <>
                 <Button
@@ -697,7 +697,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </div>
         <header className="flex flex-col gap-1">
           <h1>{id}</h1>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col md:flex-row md:items-center gap-2">
             <p>
               RMA {t(locale, "by")}{" "}
               <Link href={`/person/${ticket.kdnr_full}`} className="link">

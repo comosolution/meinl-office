@@ -150,7 +150,7 @@ export default function Page() {
   if (loading) return <Loader />;
 
   return (
-    <main className="flex flex-col gap-4 px-8 py-4">
+    <main className="flex flex-col gap-4 px-4 md:px-8 py-4">
       <header className="flex flex-col md:flex-row justify-between items-center gap-2 py-4">
         <h1>{t(locale, "allPeople")}</h1>
         <div className="flex">
