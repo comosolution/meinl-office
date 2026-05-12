@@ -20,7 +20,13 @@ import { Dealer, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
 import { fetchResults, getAvatarColor } from "../lib/utils";
 
-export default function Search({ collapsed }: { collapsed: boolean }) {
+export default function Search({
+  collapsed,
+  onClose,
+}: {
+  collapsed: boolean;
+  onClose?: () => void;
+}) {
   const router = useRouter();
   const { source, locale, service } = useOffice();
   const { data: session } = useSession();
@@ -90,8 +96,10 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       description: `${c.plz} ${c.ort} ${c.land} ${
         c.id === 0 ? "" : `– ${c.brand}`
       }`,
-      onClick: () =>
-        router.push(`/company/${c.kdnr}${c.id === 0 ? "" : `/${c.id}`}`),
+      onClick: () => {
+        router.push(`/company/${c.kdnr}${c.id === 0 ? "" : `/${c.id}`}`);
+        onClose?.();
+      },
       rightSection: (
         <p className="text-xs dimmed">
           {c.id === 0 ? c.kdnr : `${c.kdnr}-${c.id}`}
@@ -122,7 +130,10 @@ export default function Search({ collapsed }: { collapsed: boolean }) {
       id: `person-${index}-${p.b2bnr}`,
       label: `${p.nachname}, ${p.vorname}`,
       description: `${p.jobpos || t(locale, "employee")} – ${p.name1}`,
-      onClick: () => router.push(`/person/${p.b2bnr}`),
+      onClick: () => {
+        router.push(`/person/${p.b2bnr}`);
+        onClose?.();
+      },
       rightSection: <p className="text-xs dimmed">{p.b2bnr}</p>,
       leftSection: (
         <Avatar

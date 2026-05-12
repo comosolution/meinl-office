@@ -39,6 +39,31 @@ export default function Page() {
           <Avatar variant="filled" size={48} name={session?.user?.name ?? ""} />
         </div>
       </header>
+      <div className="grid lg:grid-cols-2 gap-4">
+        {[
+          {
+            label: t(locale, "companies"),
+            icon: <IconBuildings size={24} />,
+            href: "/company",
+          },
+          {
+            label: t(locale, "people"),
+            icon: <IconUsersGroup size={24} />,
+            href: "/person",
+          },
+        ].map((item, index) => (
+          <Button
+            key={index}
+            variant="light"
+            size="xl"
+            component={Link}
+            href={item.href}
+            leftSection={item.icon}
+          >
+            {t(locale, "all")} {item.label}
+          </Button>
+        ))}
+      </div>
       <div className="grid lg:grid-cols-3 gap-4">
         <HistoryList
           title={t(locale, "companies")}
@@ -90,37 +115,9 @@ export default function Page() {
             />
           )}
           getTitle={(person) => `${person.nachname}, ${person.vorname}`}
-          getSubtitle={(person) => {
-            return `${person.position || t(locale, "employee")} – ${person.company}`;
-          }}
+          getSubtitle={(person) => person.company ?? ""}
           getSource={(person: PersonInStorage) => person.source}
         />
-      </div>
-      <div className="grid lg:grid-cols-2 gap-4">
-        {[
-          {
-            label: t(locale, "companies"),
-            icon: <IconBuildings size={24} />,
-            href: "/company",
-          },
-          {
-            label: t(locale, "people"),
-            icon: <IconUsersGroup size={24} />,
-            href: "/person",
-          },
-        ].map((item, index) => (
-          <Button
-            key={index}
-            color="gray"
-            variant="light"
-            size="xl"
-            component={Link}
-            href={item.href}
-            leftSection={item.icon}
-          >
-            {t(locale, "all")} {item.label}
-          </Button>
-        ))}
       </div>
     </main>
   );

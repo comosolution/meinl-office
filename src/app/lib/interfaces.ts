@@ -115,8 +115,7 @@ export interface PersonInStorage {
   kundenart: number;
   vorname: string;
   nachname: string;
-  position: string;
-  company?: string;
+  company: string;
   source: string;
 }
 

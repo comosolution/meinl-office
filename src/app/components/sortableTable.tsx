@@ -274,7 +274,7 @@ export default function SortableTable({
       />
 
       <div className="overflow-x-auto">
-        <Table highlightOnHover layout="fixed">
+        <Table highlightOnHover>
           <Table.Thead>
             <Table.Tr>
               {columns.map(({ label, key }) => (

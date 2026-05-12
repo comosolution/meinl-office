@@ -106,6 +106,7 @@ export default function NotesTab({
               />
             </div>
             <Button
+              variant="light"
               leftSection={<IconPlus size={16} />}
               onClick={() => handleOpen()}
             >
@@ -169,6 +170,7 @@ export default function NotesTab({
         opened={opened}
         onClose={handleClose}
         withCloseButton={false}
+        overlayProps={{ blur: 4 }}
       >
         <div className="flex flex-col gap-2">
           <h2 className="text-center">

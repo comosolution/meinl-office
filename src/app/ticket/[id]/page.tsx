@@ -914,6 +914,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         opened={openedDhl}
         onClose={closeDhl}
         withCloseButton={false}
+        overlayProps={{ blur: 4 }}
       >
         <div className="flex flex-col gap-2">
           <h2>{t(locale, "createReturn")}</h2>
@@ -952,6 +953,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         opened={openedGls}
         onClose={closeGls}
         withCloseButton={false}
+        overlayProps={{ blur: 4 }}
       >
         <div className="flex flex-col gap-2">
           <h2>{t(locale, "selectPickupDate")}</h2>

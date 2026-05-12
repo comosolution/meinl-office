@@ -20,17 +20,15 @@ export default function LineGraph({
   const [selectedKdnr, setSelectedKdnr] = useState<string | null>(null);
 
   const artnrOptions = useMemo(() => {
-    const uniqueArtnrs = Array.from(new Set(tickets.map((t) => t.artnr_ku)))
+    return Array.from(new Set(tickets.map((t) => t.artnr_ku)))
       .filter((artnr) => artnr && artnr.trim())
       .sort();
-    return uniqueArtnrs.map((artnr) => ({ value: artnr, label: artnr }));
   }, [tickets]);
 
   const kdnrOptions = useMemo(() => {
-    const uniqueKdnrs = Array.from(new Set(tickets.map((t) => t.kdnr)))
+    return Array.from(new Set(tickets.map((t) => t.kdnr)))
       .filter((kdnr) => kdnr && kdnr.trim())
       .sort();
-    return uniqueKdnrs.map((kdnr) => ({ value: kdnr, label: kdnr }));
   }, [tickets]);
 
   const data = useMemo(() => {

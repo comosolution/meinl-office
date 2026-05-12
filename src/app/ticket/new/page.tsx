@@ -9,6 +9,7 @@ import {
 } from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
+import { isPreview } from "@/app/lib/utils";
 import {
   Button,
   Group,
@@ -17,6 +18,7 @@ import {
   Select,
   Stack,
   Stepper,
+  Text,
   TextInput,
   Textarea,
 } from "@mantine/core";
@@ -367,6 +369,17 @@ export default function Page() {
                         ...addresses,
                         { label: t(locale, "newAddress"), value: "0000" },
                       ]}
+                      renderOption={({ option }) => {
+                        const highlighted = option.value === "0000";
+                        return (
+                          <Text
+                            size="sm"
+                            c={highlighted ? "yellow" : undefined}
+                          >
+                            {option.label}
+                          </Text>
+                        );
+                      }}
                       checkIconPosition="right"
                       searchable
                       allowDeselect={false}
@@ -433,10 +446,22 @@ export default function Page() {
                   label={t(locale, "contactPerson")}
                   searchable
                   clearable
-                  data={[
-                    ...personOptions,
-                    { label: t(locale, "newPerson"), value: "NEW" },
-                  ]}
+                  data={
+                    isPreview
+                      ? [
+                          { label: t(locale, "newPerson"), value: "NEW" },
+                          ...personOptions,
+                        ]
+                      : personOptions
+                  }
+                  renderOption={({ option }) => {
+                    const highlighted = option.value === "NEW";
+                    return (
+                      <Text size="sm" c={highlighted ? "yellow" : undefined}>
+                        {option.label}
+                      </Text>
+                    );
+                  }}
                   checkIconPosition="right"
                   {...form.getInputProps("kdnr_full")}
                   withAsterisk

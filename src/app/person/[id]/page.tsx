@@ -121,7 +121,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       kundenart: person.kundenart,
       vorname: person.vorname,
       nachname: person.nachname,
-      position: person.jobpos,
       company: person.name1,
       source,
     };
@@ -541,6 +540,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         }}
         withCloseButton={false}
         centered
+        overlayProps={{ blur: 4 }}
       >
         <div className="flex flex-col gap-4">
           <h2>{t(locale, "generatePassword")}</h2>

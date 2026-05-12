@@ -245,7 +245,7 @@ export default function Sidebar({
       </div>
       <nav className="h-full flex flex-col place-content-between">
         <div className="flex flex-col">
-          <Search collapsed={collapsed} />
+          <Search collapsed={collapsed} onClose={onClose} />
           {nav
             .filter((e) => !e.hidden)
             .map((e, i) => {
@@ -278,9 +278,9 @@ export default function Sidebar({
           <LanguageSwitch />
           <Menu
             shadow="md"
-            width={200}
-            trigger="click-hover"
-            position="right-end"
+            width={220}
+            trigger={asDrawer ? "click" : "click-hover"}
+            position={asDrawer ? "top" : "right-end"}
             offset={0}
             loop={false}
             trapFocus={false}

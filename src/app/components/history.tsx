@@ -1,5 +1,5 @@
 import { Button, Paper } from "@mantine/core";
-import { IconEyeOff, IconTrash } from "@tabler/icons-react";
+import { IconTrash } from "@tabler/icons-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -42,16 +42,23 @@ export default function HistoryList<T>({
     .slice(0, 5);
 
   return (
-    <Paper p="lg" bg="transparent" withBorder>
-      <div className="h-full flex flex-col gap-4 justify-between">
+    <Paper p="md" bg="var(--background-subtle)">
+      <div className="h-full flex flex-col gap-2 justify-between">
         <h2 className="text-center">
           {t(locale, "recentlyVisited")} {title}
         </h2>
         {filteredHistory.length > 0 ? (
           <>
-            <div className="h-full flex flex-col gap-4">
+            <div className="h-full flex flex-col gap-2">
               {filteredHistory.map((item, index) => (
-                <Link key={index} href={link(item)}>
+                <Paper
+                  key={index}
+                  component={Link}
+                  href={link(item)}
+                  p="sm"
+                  bg="var(--background)"
+                  shadow="xl"
+                >
                   <div className="flex items-center gap-2 text-(--mantine-color-dimmed) hover:text-(--foreground) transition-all duration-300">
                     {getAvatar(item)}
                     <div className="flex flex-col">
@@ -59,7 +66,7 @@ export default function HistoryList<T>({
                       <p className="text-xs dimmed">{getSubtitle(item)}</p>
                     </div>
                   </div>
-                </Link>
+                </Paper>
               ))}
             </div>
             <Button
@@ -67,19 +74,16 @@ export default function HistoryList<T>({
               leftSection={<IconTrash size={16} />}
               onClick={clearHistory}
             >
-              {locale === "de" ? "Verlauf löschen" : "Clear history"}
+              {locale === "de" ? "Verlauf löschen" : "Clear History"}
             </Button>
           </>
         ) : (
           <>
-            <div className="flex flex-col items-center gap-2">
-              <IconEyeOff size={48} color="gray" />
-              <p className="dimmed text-center">
-                {locale === "de"
-                  ? `Keine ${title} besucht`
-                  : `No ${title} visited`}
-              </p>
-            </div>
+            <p className="dimmed text-center">
+              {locale === "de"
+                ? `Keine ${title} besucht`
+                : `No ${title.toLowerCase()} visited`}
+            </p>
             <div />
           </>
         )}

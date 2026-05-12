@@ -42,7 +42,7 @@ export default function PageWrapper({
   }, [locale]);
 
   if (status === "loading") {
-    return <Loader />;
+    return <Loader full />;
   }
 
   if (!session) {
@@ -57,13 +57,14 @@ export default function PageWrapper({
         withCloseButton={false}
         padding={0}
         size={240}
+        overlayProps={{ blur: 4 }}
         className="md:hidden"
       >
         <Sidebar asDrawer onClose={() => setDrawerOpen(false)} />
       </Drawer>
       <Sidebar />
       <main className="w-full flex flex-col">
-        <header className="md:hidden shadow-2xl flex justify-between items-center gap-2 px-4 md:px-8 py-2">
+        <header className="md:hidden bg-(--background-subtle) flex justify-between items-center gap-2 p-4">
           <Burger
             opened={drawerOpen}
             onClick={() => setDrawerOpen((o) => !o)}
