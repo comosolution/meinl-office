@@ -73,7 +73,7 @@ export default function FilesTab({
   });
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <h2>{t(locale, "files")}</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <FileDropzone

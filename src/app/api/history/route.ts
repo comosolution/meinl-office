@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     if (!response.ok) {
       return Response.json(
-        { error: "Failed to add history entry to MEINL API" },
+        { error: await response.text() },
         { status: response.status },
       );
     }

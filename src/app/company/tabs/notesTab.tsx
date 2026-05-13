@@ -30,10 +30,11 @@ export default function NotesTab({
 
   const [value, setValue] = useState<string | null>("0");
   const [sort, setSort] = useState<"created" | "modified">("created");
-  const [opened, { open, close }] = useDisclosure(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
+
+  const [opened, { open, close }] = useDisclosure(false);
 
   function handleOpen(note?: Note) {
     setEditingNote(note || null);

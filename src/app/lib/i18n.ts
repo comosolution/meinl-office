@@ -94,6 +94,7 @@ export type TranslationKey =
   | "noEmployees"
   | "noNotes"
   | "noFiles"
+  | "noTracking"
   | "ticketNotFound"
   | "addReturnLabel"
   | "downloadReturnLabel"
@@ -167,6 +168,9 @@ export type TranslationKey =
   | "tabDetails"
   | "tabFiles"
   | "tabHistory"
+  | "newEntry"
+  | "addEntry"
+  | "important"
   | "articleNumberKu"
   | "articleNumberMei"
   | "serialNumberKu"
@@ -334,6 +338,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     noEmployees: "Keine Mitarbeiter erfasst.",
     noNotes: "Keine Notizen vorhanden",
     noFiles: "Keine Dateien vorhanden",
+    noTracking: "Kein Tracking vorhanden",
     ticketNotFound: "Kein Ticket gefunden",
     addReturnLabel: "Retoure beantragen",
     downloadReturnLabel: "Label herunterladen",
@@ -405,7 +410,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     comment: "Kommentar",
     public: "Öffentlich",
     private: "Privat",
-    sendMail: "Zusätzlich per Mail senden",
+    sendMail: "Per Mail senden",
     note: "Notiz",
     notes: "Notizen",
     noteError: "Fehler beim Hinzufügen der Notiz",
@@ -417,6 +422,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     tabDetails: "Details",
     tabFiles: "Dateien",
     tabHistory: "Historie",
+    newEntry: "Neuer Eintrag",
+    addEntry: "Eintrag hinzufügen",
+    important: "Wichtig",
     articleNumberKu: "Artikelnummer (Kunde)",
     articleNumberMei: "Artikelnummer (Meinl)",
     serialNumberKu: "Seriennummer (Kunde)",
@@ -575,6 +583,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     noEmployees: "No employees found.",
     noNotes: "No notes available",
     noFiles: "No files available",
+    noTracking: "No tracking found",
     ticketNotFound: "No ticket found",
     addReturnLabel: "Create Return",
     downloadReturnLabel: "Download Return Label",
@@ -656,7 +665,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     comment: "Comment",
     public: "Public",
     private: "Private",
-    sendMail: "Also send comment by email",
+    sendMail: "Send comment by email",
     note: "Note",
     notes: "Notes",
     noteError: "Failed to add note",
@@ -668,6 +677,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     tabDetails: "Details",
     tabFiles: "Files",
     tabHistory: "History",
+    newEntry: "New Entry",
+    addEntry: "Add Entry",
+    important: "Important",
     articleNumberKu: "Article Number (Customer)",
     articleNumberMei: "Article Number (Meinl)",
     serialNumberKu: "Serial Number (Customer)",

@@ -9,9 +9,9 @@ import {
 } from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
+import { trackTicket } from "@/app/lib/recentTickets";
 import { sendResendMail } from "@/app/lib/resend";
 import { states } from "@/app/lib/rma";
-import { trackTicket } from "@/app/lib/recentTickets";
 import { fetchResults, parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
@@ -43,8 +43,6 @@ import {
   IconError404,
   IconMapPin,
   IconNews,
-  IconQrcode,
-  IconReport,
   IconTruckReturn,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -56,6 +54,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import QRCode from "qrcode";
 import React, { useEffect, useState } from "react";
+import TrackingTab from "../tabs/trackingTab";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -429,7 +428,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             public: 1,
           };
 
-          await fetch(`/api/history`, {
+          await fetch("/api/history", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -456,17 +455,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     } catch (error) {
       console.error("Error creating GLS return:", error);
     }
-  };
-
-  const handleDownload = () => {
-    if (!ticket || !ticket.tracking) return;
-
-    const link = document.createElement("a");
-    link.href = `data:application/pdf;base64,${ticket.tracking.label}`;
-    link.download = `Rücksendeetikett_${id}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   const getReturnAddress = () => {
@@ -634,24 +622,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             {t(locale, "allTickets")}
           </Button>
           <div className="flex flex-col md:flex-row gap-2">
-            {ticket.tracking && ticket.tracking.versender === "DHL" && (
-              <>
-                <Button
-                  leftSection={<IconReport size={16} />}
-                  component="a"
-                  target="_blank"
-                  href={`https://www.dhl.com/de-${locale}/home/tracking.html?submit=1&tracking-id=${ticket.tracking.sendungnr}`}
-                >
-                  {t(locale, "trackShipment")}
-                </Button>
-                <Button
-                  leftSection={<IconQrcode size={16} />}
-                  onClick={handleDownload}
-                >
-                  {t(locale, "downloadReturnLabel")}
-                </Button>
-              </>
-            )}
             <Menu shadow="md" width={160} trigger="click-hover">
               <Menu.Target>
                 <Button
@@ -886,28 +856,29 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Fieldset>
         </form>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 -mt-4">
-          {session?.user?.name && (
-            <Paper p="md">
-              <HistoryTab
-                ticketnr={id}
-                createdby={session.user.name}
-                email={email}
-                history={ticket.history}
-                onCommentAdded={async () => {
-                  await getTicket();
-                }}
-              />
-            </Paper>
-          )}
           <Paper p="md">
-            <FilesTab
+            <HistoryTab
               ticketnr={id}
-              createdby={session?.user?.name || ""}
-              files={ticket.files || []}
-              onFileUploaded={async () => {
+              createdby={session?.user?.name ?? ticket.createdby}
+              email={email}
+              history={ticket.history}
+              onCommentAdded={async () => {
                 await getTicket();
               }}
             />
+          </Paper>
+          <Paper p="md">
+            <div className="flex flex-col gap-12">
+              <FilesTab
+                ticketnr={id}
+                createdby={session?.user?.name || ""}
+                files={ticket.files || []}
+                onFileUploaded={async () => {
+                  await getTicket();
+                }}
+              />
+              <TrackingTab ticket={ticket} />
+            </div>
           </Paper>
         </div>
       </main>

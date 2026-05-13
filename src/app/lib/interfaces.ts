@@ -203,7 +203,7 @@ export interface Ticket {
   mediumpath: string;
   person: Person | null;
   versandadresse: Versandadresse;
-  tracking: Tracking | null;
+  tracking: Tracking[] | null;
   trackingHistory: TrackingHistory[] | null;
   files: Attachment[] | null;
   fileinfo: FileInfo[];
@@ -301,13 +301,12 @@ export interface HistoryEntry {
   created: string;
   createdBy: string;
   comment: string;
-
   status_int: Status;
   status_ext: Status;
-
   tracknr: string;
   source: string;
   public: number;
+  prio: number;
 }
 
 export interface Person {
