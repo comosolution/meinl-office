@@ -35,5 +35,6 @@ export const MEINL_OFFICE_WELCOME_KEY = "meinl.office.welcome";
 export const MEINL_OFFICE_COMPANY_HISTORY_KEY = "meinl.office.company.recent";
 export const MEINL_OFFICE_DEALER_HISTORY_KEY = "meinl.office.dealer.recent";
 export const MEINL_OFFICE_PERSON_HISTORY_KEY = "meinl.office.person.recent";
+export const MEINL_RMA_TICKET_KEY = "meinl.rma.ticket.recent";
 
 export const DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";

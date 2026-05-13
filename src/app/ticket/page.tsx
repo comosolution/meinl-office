@@ -12,6 +12,7 @@ import StatsOverview from "../components/statsOverview";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
+import { RecentTickets, getRecentTickets } from "../lib/recentTickets";
 import { parseDb2Date } from "../lib/utils";
 
 export default function Page() {
@@ -23,6 +24,7 @@ export default function Page() {
   const [value, setValue] = useState("all");
   const [tickets, setTickets] = useState<TicketSummary[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [recentlyViewed, setRecentlyViewed] = useState<RecentTickets>({});
 
   const isMobile = useMediaQuery("(max-width: 620px)");
 
@@ -76,6 +78,12 @@ export default function Page() {
     fetchTickets();
   }, []);
 
+  useEffect(() => {
+    if (value === "recent") {
+      setRecentlyViewed(getRecentTickets());
+    }
+  }, [value]);
+
   if (loading) {
     return <Loader />;
   }
@@ -93,7 +101,7 @@ export default function Page() {
           onChange={setValue}
           data={[
             {
-              label: t(locale, "allTickets"),
+              label: t(locale, "all"),
               value: "all",
             },
             {
@@ -103,6 +111,10 @@ export default function Page() {
             {
               label: t(locale, "myTickets"),
               value: "mine",
+            },
+            {
+              label: t(locale, "recentTickets"),
+              value: "recent",
             },
             {
               label: t(locale, "ticketStats"),
@@ -137,6 +149,7 @@ export default function Page() {
             value === "mine" ? (session?.user?.name ?? undefined) : undefined
           }
           status={value === "new" ? "100" : undefined}
+          recentlyViewed={value === "recent" ? recentlyViewed : undefined}
         />
       ) : (
         <div className="flex flex-col gap-4">

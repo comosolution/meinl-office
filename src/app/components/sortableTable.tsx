@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { RecentTickets } from "@/app/lib/recentTickets";
 import { Status, TicketSummary } from "@/app/lib/interfaces";
 import { Button, Select, Table } from "@mantine/core";
 import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
@@ -12,14 +13,18 @@ import { t } from "../lib/i18n";
 import { exportXLSX } from "../lib/utils";
 import Pagination from "./pagination";
 
+type TicketKey = keyof TicketSummary | "viewed";
+
 export default function SortableTable({
   tickets,
   createdBy,
   status,
+  recentlyViewed,
 }: {
   tickets: TicketSummary[];
   createdBy?: string;
   status?: string;
+  recentlyViewed?: RecentTickets;
 }) {
   const router = useRouter();
   const { locale } = useOffice();
@@ -56,6 +61,7 @@ export default function SortableTable({
       const matchesCreatedBy = filters.createdBy
         ? ticket.createdby === filters.createdBy
         : true;
+      const matchesRecent = recentlyViewed ? ticket.nr in recentlyViewed : true;
 
       setPage(1);
       return (
@@ -64,14 +70,13 @@ export default function SortableTable({
         matchesKundenart &&
         matchesStatus &&
         matchesArtNr &&
-        matchesCreatedBy
+        matchesCreatedBy &&
+        matchesRecent
       );
     });
-  }, [tickets, filters]);
+  }, [tickets, filters, recentlyViewed]);
 
-  type TicketKey = keyof TicketSummary;
-
-  const getFilterOptions = (data: TicketSummary[], key: TicketKey) => {
+  const getFilterOptions = (data: TicketSummary[], key: keyof TicketSummary) => {
     return Array.from(new Set(data.map((t) => t[key]).filter(Boolean)))
       .sort((a, b) => String(a).localeCompare(String(b)))
       .map((value) => ({
@@ -151,11 +156,18 @@ export default function SortableTable({
       key: "created",
       render: (ticket) => format(new Date(ticket.created), DATE_FORMAT),
     },
-    {
-      label: t(locale, "modified"),
-      key: "modified",
-      render: (ticket) => format(new Date(ticket.modified), DATE_FORMAT),
-    },
+    recentlyViewed
+      ? {
+          label: t(locale, "viewed"),
+          key: "viewed",
+          render: (ticket) =>
+            format(new Date(recentlyViewed[ticket.nr]), DATE_FORMAT),
+        }
+      : {
+          label: t(locale, "modified"),
+          key: "modified",
+          render: (ticket) => format(new Date(ticket.modified), DATE_FORMAT),
+        },
   ];
 
   const handleSort = (key: TicketKey) => {
@@ -174,12 +186,13 @@ export default function SortableTable({
       let aVal: string | Status = a[sortBy as keyof TicketSummary];
       let bVal: string | Status = b[sortBy as keyof TicketSummary];
 
-      if (sortBy === "status_int") {
+      if (sortBy === "viewed") {
+        aVal = recentlyViewed?.[a.nr] ?? "";
+        bVal = recentlyViewed?.[b.nr] ?? "";
+      } else if (sortBy === "status_int") {
         aVal = a.status_int.nr;
         bVal = b.status_int.nr;
-      }
-
-      if (sortBy === "artnr") {
+      } else if (sortBy === "artnr") {
         aVal = a.artnr_mei || a.artnr_ku || "";
         bVal = b.artnr_mei || b.artnr_ku || "";
       }
@@ -192,7 +205,7 @@ export default function SortableTable({
         ? String(aVal).localeCompare(String(bVal))
         : String(bVal).localeCompare(String(aVal));
     });
-  }, [filteredData, sortBy, sortDirection]);
+  }, [filteredData, sortBy, sortDirection, recentlyViewed]);
 
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
@@ -206,6 +219,16 @@ export default function SortableTable({
       status_int: status ?? "",
     }));
   }, [createdBy, status]);
+
+  useEffect(() => {
+    if (recentlyViewed) {
+      setSortBy("viewed");
+      setSortDirection("desc");
+    } else {
+      setSortBy("created");
+      setSortDirection("desc");
+    }
+  }, [!!recentlyViewed]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -340,7 +363,9 @@ export default function SortableTable({
               >
                 {columns.map(({ key, render }) => (
                   <Table.Td key={key}>
-                    {render ? render(ticket) : String(ticket[key])}
+                    {render
+                      ? render(ticket)
+                      : String(ticket[key as keyof TicketSummary])}
                   </Table.Td>
                 ))}
               </Table.Tr>

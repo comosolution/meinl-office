@@ -11,6 +11,7 @@ import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
 import { sendResendMail } from "@/app/lib/resend";
 import { states } from "@/app/lib/rma";
+import { trackTicket } from "@/app/lib/recentTickets";
 import { fetchResults, parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
@@ -583,6 +584,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [newState]);
 
   useEffect(() => {
+    trackTicket(id);
     if (!ticket) {
       getTicket();
     }
