@@ -94,14 +94,14 @@ export default function Page() {
 
   return (
     <main className="flex flex-col gap-4 p-4">
-      <header className="flex flex-col md:flex-row justify-between items-center gap-2 py-4">
+      <header className="flex flex-col md:flex-row justify-between items-center gap-2">
         <SegmentedControl
-          size={isMobile ? "sm" : "lg"}
+          size={isMobile ? "sm" : "xl"}
           value={value}
           onChange={setValue}
           data={[
             {
-              label: t(locale, "all"),
+              label: t(locale, "allTickets"),
               value: "all",
             },
             {

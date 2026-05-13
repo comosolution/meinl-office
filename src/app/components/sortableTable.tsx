@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { RecentTickets } from "@/app/lib/recentTickets";
 import { Status, TicketSummary } from "@/app/lib/interfaces";
+import { RecentTickets } from "@/app/lib/recentTickets";
 import { Button, Select, Table } from "@mantine/core";
 import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -76,7 +76,10 @@ export default function SortableTable({
     });
   }, [tickets, filters, recentlyViewed]);
 
-  const getFilterOptions = (data: TicketSummary[], key: keyof TicketSummary) => {
+  const getFilterOptions = (
+    data: TicketSummary[],
+    key: keyof TicketSummary,
+  ) => {
     return Array.from(new Set(data.map((t) => t[key]).filter(Boolean)))
       .sort((a, b) => String(a).localeCompare(String(b)))
       .map((value) => ({
