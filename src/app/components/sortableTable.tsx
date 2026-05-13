@@ -5,7 +5,7 @@ import { Button, Select, Table } from "@mantine/core";
 import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { DATE_FORMAT } from "../lib/constants";
 import { t } from "../lib/i18n";
@@ -14,10 +14,12 @@ import Pagination from "./pagination";
 
 export default function SortableTable({
   tickets,
-  kdnr,
+  createdBy,
+  status,
 }: {
   tickets: TicketSummary[];
-  kdnr?: string;
+  createdBy?: string;
+  status?: string;
 }) {
   const router = useRouter();
   const { locale } = useOffice();
@@ -26,11 +28,12 @@ export default function SortableTable({
   const [sortBy, setSortBy] = useState<TicketKey>("created");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [filters, setFilters] = useState({
-    kdnr: kdnr ? kdnr : "",
+    kdnr: "",
     kdnr_name: "",
     kundenart: "all",
-    status_int: "",
+    status_int: status ?? "",
     artnr: "",
+    createdBy: createdBy ?? "",
   });
 
   const filteredData = useMemo(() => {
@@ -50,6 +53,9 @@ export default function SortableTable({
         : true;
       const ticketArtNr = ticket.artnr_mei || ticket.artnr_ku;
       const matchesArtNr = filters.artnr ? ticketArtNr === filters.artnr : true;
+      const matchesCreatedBy = filters.createdBy
+        ? ticket.createdby === filters.createdBy
+        : true;
 
       setPage(1);
       return (
@@ -57,7 +63,8 @@ export default function SortableTable({
         matchesKdnrName &&
         matchesKundenart &&
         matchesStatus &&
-        matchesArtNr
+        matchesArtNr &&
+        matchesCreatedBy
       );
     });
   }, [tickets, filters]);
@@ -95,6 +102,11 @@ export default function SortableTable({
 
   const kdnrNameOptions = useMemo(
     () => getFilterOptions(filteredData, "kdnr_name"),
+    [filteredData],
+  );
+
+  const createdByOptions = useMemo(
+    () => getFilterOptions(filteredData, "createdby"),
     [filteredData],
   );
 
@@ -187,20 +199,42 @@ export default function SortableTable({
   const endIndex = startIndex + pageSize;
   const currentPageData = sortedTickets.slice(startIndex, endIndex);
 
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      createdBy: createdBy ?? "",
+      status_int: status ?? "",
+    }));
+  }, [createdBy, status]);
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid md:grid-cols-6 items-end gap-2">
+      <div className="grid md:grid-cols-7 items-end gap-2">
+        <Select
+          label={t(locale, "createdBy")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={createdByOptions}
+          value={filters.createdBy || null}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, createdBy: value || "" }))
+          }
+          checkIconPosition="right"
+          disabled={createdBy !== undefined}
+        />
         <Select
           label={t(locale, "status")}
           searchable
           clearable
           placeholder={t(locale, "filter")}
           data={statusOptions}
-          value={filters.status_int}
+          value={filters.status_int || null}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, status_int: value || "" }))
           }
           checkIconPosition="right"
+          disabled={status !== undefined}
         />
         <Select
           label={t(locale, "customerNumber")}
@@ -212,7 +246,6 @@ export default function SortableTable({
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, kdnr: value || "" }))
           }
-          disabled={kdnr !== undefined}
           checkIconPosition="right"
         />
         <Select

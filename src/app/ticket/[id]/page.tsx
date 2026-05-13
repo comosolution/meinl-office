@@ -704,7 +704,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <b>{ticket.kdnr_name}</b>{" "}
                 <span className="dimmed">({ticket.kdnr_full})</span>
               </Link>{" "}
-              – {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}
+              – {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}{" "}
+              {t(locale, "by")} <b>{ticket.createdby}</b>
             </p>
             <Badge variant="light">{ticket.status_int.text}</Badge>
           </div>

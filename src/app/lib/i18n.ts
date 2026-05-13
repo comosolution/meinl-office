@@ -47,6 +47,7 @@ export type TranslationKey =
   | "createTicket"
   | "allTickets"
   | "newTickets"
+  | "myTickets"
   | "cancel"
   | "delete"
   | "allCampaigns"
@@ -229,6 +230,7 @@ export type TranslationKey =
   | "subject"
   | "body"
   | "createdAt"
+  | "createdBy"
   | "modifiedAt"
   | "sortBy"
   | "by"
@@ -309,6 +311,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     company: "Unternehmen",
     allTickets: "Alle Tickets",
     newTickets: "Neue Tickets",
+    myTickets: "Meine Tickets",
     address: "Anschrift",
     communication: "Kommunikation",
     socialMedia: "Social Media",
@@ -476,6 +479,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     subject: "Betreff",
     body: "Inhalt",
     createdAt: "Erstellt am",
+    createdBy: "Erstellt von",
     modifiedAt: "Bearbeitet am",
     sortBy: "Sortieren nach",
     by: "von",
@@ -540,6 +544,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     createTicket: "Create Ticket",
     allTickets: "All Tickets",
     newTickets: "New Tickets",
+    myTickets: "My Tickets",
     cancel: "Cancel",
     delete: "Delete",
     deleteConfirm: "Delete campaign permanently",
@@ -722,6 +727,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     subject: "Subject",
     body: "Content",
     createdAt: "Created at",
+    createdBy: "Created by",
     modifiedAt: "Modified at",
     sortBy: "Sort by",
     by: "by",

@@ -1,13 +1,8 @@
 "use client";
 import { Button, SegmentedControl, TextInput } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import {
-  IconPlus,
-  IconReportAnalytics,
-  IconSearch,
-  IconStar,
-  IconTable,
-} from "@tabler/icons-react";
+import { IconPlus, IconSearch } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import LineGraph from "../components/lineGraph";
@@ -20,6 +15,7 @@ import { Order, TicketSummary } from "../lib/interfaces";
 import { parseDb2Date } from "../lib/utils";
 
 export default function Page() {
+  const { data: session } = useSession();
   const { locale } = useOffice();
 
   const [loading, setLoading] = useState(true);
@@ -99,29 +95,20 @@ export default function Page() {
             {
               label: t(locale, "allTickets"),
               value: "all",
-              icon: IconTable,
             },
             {
               label: t(locale, "newTickets"),
               value: "new",
-              icon: IconStar,
+            },
+            {
+              label: t(locale, "myTickets"),
+              value: "mine",
             },
             {
               label: t(locale, "ticketStats"),
               value: "dashboard",
-              icon: IconReportAnalytics,
             },
-          ].map((d) => {
-            return {
-              label: (
-                <div className="flex items-center gap-2">
-                  <d.icon size={isMobile ? 20 : 24} stroke={1.5} />
-                  {isMobile ? <p>{d.label}</p> : <h2>{d.label}</h2>}
-                </div>
-              ),
-              value: d.value,
-            };
-          })}
+          ]}
         />
         <div className="flex items-center">
           {value !== "dashboard" && (
@@ -145,11 +132,11 @@ export default function Page() {
 
       {value !== "dashboard" ? (
         <SortableTable
-          tickets={
-            value === "all"
-              ? filteredTickets
-              : filteredTickets.filter((t) => String(t.status_int.nr) === "100")
+          tickets={filteredTickets}
+          createdBy={
+            value === "mine" ? (session?.user?.name ?? undefined) : undefined
           }
+          status={value === "new" ? "100" : undefined}
         />
       ) : (
         <div className="flex flex-col gap-4">
