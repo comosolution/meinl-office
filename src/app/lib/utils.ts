@@ -12,6 +12,15 @@ import { Order, TicketSummary } from "./interfaces";
 
 export const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
 
+export const handleDownload = (id: string, label: string) => {
+  const link = document.createElement("a");
+  link.href = `data:application/pdf;base64,${label}`;
+  link.download = `Rücksendeetikett_${id}.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 export const generatePassword = (length = 8) => {
   const charset =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-+#$%&()=?";

@@ -94,19 +94,19 @@ export default function FilesTab({
           {files
             .map((entry, index) => (
               <Paper key={index} p="sm" shadow="sm" bg="var(--background)">
-                <div className="flex justify-between items-center gap-4">
-                  <div className="flex-1">
+                <div className="flex flex-col gap-1">
+                  <div className="flex justify-between items-center gap-2">
                     <p className="text-sm">{entry.createdBy}</p>
-                    <h2>{entry.filename}</h2>
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
                     <p className="text-sm dimmed">
                       {entry.created
                         ? format(parseDb2Date(entry.created), DATE_FORMAT)
                         : ""}
                     </p>
+                  </div>
+                  <div className="flex justify-between items-center gap-2">
+                    <h2>{entry.filename}</h2>
                     <ActionIcon
-                      variant="light"
+                      color="dark"
                       aria-label={t(locale, "download")}
                       loading={downloading === entry.lfdn}
                       onClick={async () => {

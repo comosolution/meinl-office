@@ -625,6 +625,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <Menu shadow="md" width={160} trigger="click-hover">
               <Menu.Target>
                 <Button
+                  color="yellow"
                   variant="light"
                   leftSection={<IconTruckReturn size={16} />}
                 >
@@ -632,34 +633,28 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item
-                  onClick={openDhl}
-                  rightSection={
-                    <p className="text-xs dimmed">
-                      {ticket.trackingHistory?.find(
-                        (h) => h.versender === "DHL",
-                      )?.anzahl || 0}
-                    </p>
-                  }
-                >
-                  DHL
-                </Menu.Item>
-                <Menu.Item
-                  onClick={openGls}
-                  rightSection={
-                    <p className="text-xs dimmed">
-                      {ticket.trackingHistory?.find(
-                        (h) => h.versender === "GLS",
-                      )?.anzahl || 0}
-                    </p>
-                  }
-                >
-                  GLS
-                </Menu.Item>
+                {[
+                  { id: "DHL", action: openDhl },
+                  { id: "GLS", action: openGls },
+                ].map((option) => (
+                  <Menu.Item
+                    key={option.id}
+                    onClick={option.action}
+                    rightSection={
+                      <p className="text-xs dimmed">
+                        {ticket.trackingHistory?.find(
+                          (h) => h.versender === option.id,
+                        )?.anzahl || 0}
+                      </p>
+                    }
+                  >
+                    {option.id}
+                  </Menu.Item>
+                ))}
               </Menu.Dropdown>
             </Menu>
             <Button
-              variant="light"
+              color="dark"
               leftSection={<IconNews size={16} />}
               onClick={handleGenerateLaufzettel}
             >
@@ -679,7 +674,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               – {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}{" "}
               {t(locale, "by")} <b>{ticket.createdby}</b>
             </p>
-            <Badge variant="light">{ticket.status_int.text}</Badge>
+            <Badge color="gray" variant="light">
+              {ticket.status_int.text}
+            </Badge>
           </div>
         </header>
         <form
@@ -858,17 +855,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 -mt-4">
           <Paper p="md">
             <HistoryTab
-              ticketnr={id}
-              createdby={session?.user?.name ?? ticket.createdby}
+              ticket={ticket}
               email={email}
-              history={ticket.history}
               onCommentAdded={async () => {
                 await getTicket();
               }}
             />
           </Paper>
-          <Paper p="md">
-            <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-4">
+            <Paper p="md">
               <FilesTab
                 ticketnr={id}
                 createdby={session?.user?.name || ""}
@@ -877,9 +872,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   await getTicket();
                 }}
               />
+            </Paper>
+            <Paper p="md">
               <TrackingTab ticket={ticket} />
-            </div>
-          </Paper>
+            </Paper>
+          </div>
         </div>
       </main>
       <Drawer

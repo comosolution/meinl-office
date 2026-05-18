@@ -1,8 +1,9 @@
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
-import { HistoryEntry } from "@/app/lib/interfaces";
+import { Ticket } from "@/app/lib/interfaces";
 import { sendResendMail } from "@/app/lib/resend";
 import {
+  ActionIcon,
   Alert,
   Button,
   Checkbox,
@@ -17,29 +18,30 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import {
+  IconDownload,
   IconExclamationMark,
+  IconExternalLink,
   IconLock,
   IconLockOpen,
   IconPlus,
+  IconTruckReturn,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { DATE_FORMAT } from "../../lib/constants";
-import { parseDb2Date } from "../../lib/utils";
+import { DATE_FORMAT, DHL_TRACKING_URL } from "../../lib/constants";
+import { handleDownload, parseDb2Date } from "../../lib/utils";
 
 export default function HistoryTab({
-  ticketnr,
-  createdby,
+  ticket,
   email,
   onCommentAdded,
-  history = [],
 }: {
-  ticketnr: string;
-  createdby: string;
+  ticket: Ticket;
   email: string;
   onCommentAdded?: () => void;
-  history?: HistoryEntry[];
 }) {
+  const { data: session } = useSession();
   const { locale } = useOffice();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,8 +78,8 @@ export default function HistoryTab({
     setIsSubmitting(true);
     try {
       const payload = {
-        ticketnr,
-        createdby,
+        ticketnr: ticket.nr,
+        createdby: session?.user?.name || ticket.createdby,
         comment: values.comment,
         public: parseInt(values.public),
         prio: values.prio ? 1 : 0,
@@ -97,7 +99,7 @@ export default function HistoryTab({
         if (values.withMail && email) {
           await sendResendMail({
             receiver: values.public === "1" ? email : values.email,
-            subject: `Meinl RMA ${ticketnr} - Neuer Kommentar`,
+            subject: `Meinl RMA ${ticket.nr} - Neuer Kommentar`,
             content: `Neuer Kommentar hinzugefügt:\n\n${values.comment}\n\nUm auf den Kommentar zu antworten gehen Sie bitte in das Serviceportal.`,
           });
         }
@@ -134,39 +136,82 @@ export default function HistoryTab({
             {t(locale, "addEntry")}
           </Button>
         </div>
-        <div className="p-4">
-          {history && history.length > 0 ? (
-            <Timeline active={history.length} bulletSize={20}>
-              {history
+        <div>
+          {ticket.history && ticket.history.length > 0 ? (
+            <Timeline
+              radius="md"
+              active={ticket.history.length}
+              bulletSize={28}
+              lineWidth={4}
+            >
+              {ticket.history
                 .map((entry, index) => (
                   <Timeline.Item
                     key={index}
-                    title={
-                      <div className="flex justify-between">
-                        <p className="text-sm">{entry.createdBy}</p>
-                        <p className="text-sm dimmed">
-                          {format(parseDb2Date(entry.created), DATE_FORMAT)}
-                        </p>
-                      </div>
-                    }
                     bullet={
-                      entry.prio > 0 ? <IconExclamationMark /> : undefined
+                      entry.prio > 0 ? (
+                        <IconExclamationMark />
+                      ) : entry.tracknr ? (
+                        <IconTruckReturn />
+                      ) : undefined
                     }
                   >
-                    <h2
-                      style={{
-                        color:
-                          entry.prio > 0 ? "var(--main)" : "var(--foreground)",
-                      }}
-                    >
-                      {entry.comment}
-                    </h2>
+                    <Paper p="sm" shadow="sm" bg="var(--background)">
+                      <div
+                        className="flex flex-col gap-1"
+                        style={{
+                          color:
+                            entry.prio > 0
+                              ? "var(--main)"
+                              : "var(--foreground)",
+                        }}
+                      >
+                        <div className="flex justify-between items-center gap-2">
+                          <p className="text-sm">{entry.createdBy}</p>
+                          <p className="text-sm dimmed">
+                            {format(parseDb2Date(entry.created), DATE_FORMAT)}
+                          </p>
+                        </div>
+                        <div className="flex justify-between items-center gap-1">
+                          <h3>{entry.comment} </h3>
+                          {entry.tracknr && entry.comment.includes("DHL") && (
+                            <div className="flex gap-1">
+                              <ActionIcon
+                                color="yellow"
+                                variant="light"
+                                component="a"
+                                target="_blank"
+                                href={`${DHL_TRACKING_URL}${entry.tracknr}`}
+                              >
+                                <IconExternalLink size={16} />
+                              </ActionIcon>{" "}
+                              <ActionIcon
+                                color="yellow"
+                                aria-label={t(locale, "download")}
+                                onClick={() =>
+                                  handleDownload(
+                                    entry.tracknr,
+                                    ticket.tracking?.find(
+                                      (e) => e.sendungnr === entry.tracknr,
+                                    )?.label || "",
+                                  )
+                                }
+                              >
+                                <IconDownload size={16} />
+                              </ActionIcon>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Paper>
                   </Timeline.Item>
                 ))
                 .reverse()}
             </Timeline>
           ) : (
-            <p className="text-center text-xs dimmed">{t(locale, "noNotes")}</p>
+            <p className="text-center text-xs dimmed py-4">
+              {t(locale, "noNotes")}
+            </p>
           )}
         </div>
       </div>
@@ -226,7 +271,7 @@ export default function HistoryTab({
                   />
                 )}
                 {form.values.withMail && (
-                  <Alert>
+                  <Alert color="gray">
                     {form.values.public === "0"
                       ? "Der angegebene Empfänger"
                       : `Der Ticketersteller (${email})`}{" "}

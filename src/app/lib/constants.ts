@@ -19,6 +19,9 @@ export const DHL_API_TOKEN = isPreview
 export const DHL_API_RETURN_LABEL = isPreview
   ? "https://api-sandbox.dhl.com/parcel/de/shipping/returns/v1/orders?labelType=SHIPMENT_LABEL"
   : "https://api-eu.dhl.com/parcel/de/shipping/returns/v1/orders?labelType=SHIPMENT_LABEL";
+export const DHL_TRACKING_URL =
+  "https://www.dhl.com/de-de/home/tracking.html?submit=1&tracking-id=";
+
 export const GLS_API_TOKEN = isPreview
   ? "https://api-sandbox.gls-group.net/oauth2/v2/token"
   : "https://api.gls-group.net/oauth2/v2/token";
