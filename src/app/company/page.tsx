@@ -190,7 +190,6 @@ export default function Page() {
     { label: t(locale, "kdnr"), key: "kdnr", sortable: true },
     { label: t(locale, "city"), key: "ort", sortable: true },
     { label: t(locale, "country"), key: "land", sortable: true },
-    { label: t(locale, "customerType"), key: "kundenartText", sortable: true },
   ] as const;
 
   if (loading) return <Loader />;
@@ -363,7 +362,6 @@ export default function Page() {
                 <Table.Td>{company.kdnr}</Table.Td>
                 <Table.Td>{company.ort}</Table.Td>
                 <Table.Td>{company.land}</Table.Td>
-                <Table.Td>{company.kundenart}</Table.Td>
               </Table.Tr>
             ))}
           </Table.Tbody>

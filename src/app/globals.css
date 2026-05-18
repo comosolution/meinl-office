@@ -162,10 +162,8 @@ img.inverted {
   white-space: nowrap;
 }
 
-@media (max-width: 768px) {
-  .mantine-Table-td {
-    white-space: nowrap;
-  }
+.mantine-Table-td {
+  white-space: nowrap;
 }
 
 .mantine-Table-tbody .mantine-Table-tr:hover:where([data-hover]) {

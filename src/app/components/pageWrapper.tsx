@@ -65,7 +65,7 @@ export default function PageWrapper({
         <Sidebar asDrawer onClose={() => setDrawerOpen(false)} />
       </Drawer>
       <Sidebar />
-      <main className="w-full flex flex-col">
+      <main className="w-full min-w-0 flex flex-col">
         <header className="md:hidden bg-(--background-subtle) flex justify-between items-center gap-2 p-4">
           <ActionIcon
             variant="transparent"

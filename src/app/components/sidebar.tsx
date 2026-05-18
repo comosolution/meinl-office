@@ -338,8 +338,8 @@ export default function Sidebar({
   return (
     <aside
       className={`bg-(--background-subtle) h-screen ${
-        collapsed ? "w-16" : "w-60"
-      } sticky top-0 z-50 hidden md:flex flex-col gap-2 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
+        collapsed ? "w-16" : "w-54"
+      } shrink-0 sticky top-0 z-50 hidden md:flex flex-col gap-2 pt-4 shadow-2xl shadow-black/50 transition-all duration-300 overflow-x-hidden`}
     >
       {content}
     </aside>
