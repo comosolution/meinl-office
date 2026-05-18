@@ -162,7 +162,9 @@ export default function NotesTab({
                 ))}
             </Accordion>
           ) : (
-            <p className="text-center text-xs dimmed">{t(locale, "noNotes")}</p>
+            <p className="text-center text-xs dimmed p-4">
+              {t(locale, "noNotes")}
+            </p>
           )}
         </div>
       </Tabs.Panel>

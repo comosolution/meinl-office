@@ -172,7 +172,7 @@ export default function HistoryTab({
                             {format(parseDb2Date(entry.created), DATE_FORMAT)}
                           </p>
                         </div>
-                        <div className="flex justify-between items-center gap-1">
+                        <div className="flex justify-between items-center gap-2">
                           <h3>{entry.comment} </h3>
                           {entry.tracknr && entry.comment.includes("DHL") && (
                             <div className="flex gap-1">
