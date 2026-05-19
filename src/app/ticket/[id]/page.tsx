@@ -17,7 +17,6 @@ import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
   ActionIcon,
-  Alert,
   Badge,
   Button,
   Drawer,
@@ -41,7 +40,6 @@ import {
   IconDeviceFloppy,
   IconEdit,
   IconError404,
-  IconMapPin,
   IconNews,
   IconTruckReturn,
 } from "@tabler/icons-react";
@@ -71,6 +69,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [phone, setPhone] = useState("");
 
   const [openedDhl, { open: openDhl, close: closeDhl }] = useDisclosure(false);
+  const [dhlQuantity, setDhlQuantity] = useState(1);
   const [openedGls, { open: openGls, close: closeGls }] = useDisclosure(false);
 
   const form = useForm<Partial<Ticket>>({
@@ -289,14 +288,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       customerReference: id,
     };
 
-    try {
-      const response = await fetch("/api/return/dhl", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+    const shipmentNumbers: string[] = [];
 
-      if (response.ok) {
+    for (let i = 0; i < dhlQuantity; i++) {
+      try {
+        const response = await fetch("/api/return/dhl", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        if (!response.ok) {
+          console.error("Failed to create DHL return label");
+          continue;
+        }
+
         const data = await response.json();
         const pdfData = data.pdf;
         const shipmentNo = data.shipmentNo;
@@ -319,12 +325,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         });
 
         if (uploadRes.ok) {
-          notifications.show({
-            title: "Retoure erstellt",
-            message: `Die DHL Retoure mit Sendungsnummer ${shipmentNo} wurde erfolgreich erstellt.`,
-            autoClose: 3000,
-            color: "dark",
-          });
+          shipmentNumbers.push(shipmentNo);
 
           await sendResendMail({
             receiver: email,
@@ -336,19 +337,29 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               data: pdfData,
             },
           });
-
-          updateTicketStatus("110", "810");
         } else {
           console.error(
             "Failed to upload return label:",
             await uploadRes.text(),
           );
         }
-      } else {
-        console.error("Failed to create DHL return label");
+      } catch (error) {
+        console.error("Error creating DHL return label:", error);
       }
-    } catch (error) {
-      console.error("Error creating DHL return label:", error);
+    }
+
+    if (shipmentNumbers.length > 0) {
+      notifications.show({
+        title: "Retoure erstellt",
+        message:
+          shipmentNumbers.length === 1
+            ? `Die DHL Retoure mit Sendungsnummer ${shipmentNumbers[0]} wurde erfolgreich erstellt.`
+            : `${shipmentNumbers.length} DHL Retouren erstellt: ${shipmentNumbers.join(", ")}`,
+        autoClose: 3000,
+        color: "dark",
+      });
+
+      updateTicketStatus("110", "810");
     }
   };
 
@@ -883,26 +894,39 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         size="xs"
         position="right"
         opened={openedDhl}
-        onClose={closeDhl}
+        onClose={() => {
+          closeDhl();
+          setDhlQuantity(1);
+        }}
         withCloseButton={false}
         overlayProps={{ blur: 4 }}
       >
         <div className="flex flex-col gap-2">
           <h2>{t(locale, "createReturn")}</h2>
-          <Alert
-            color="dark"
-            title={t(locale, "address")}
-            icon={<IconMapPin size={16} />}
-          >
+          <Paper p="md" shadow="xl" bg="var(--background)">
             <ReturnAddress />
-          </Alert>
+          </Paper>
           <TextInput
             label={t(locale, "email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <NumberInput
+            label={t(locale, "quantity")}
+            value={dhlQuantity}
+            onChange={(v) => setDhlQuantity(Number(v) || 1)}
+            min={1}
+            max={10}
+          />
           <div className="flex justify-between gap-2">
-            <Button color="dark" variant="transparent" onClick={closeDhl}>
+            <Button
+              color="dark"
+              variant="transparent"
+              onClick={() => {
+                closeDhl();
+                setDhlQuantity(1);
+              }}
+            >
               {t(locale, "cancel")}
             </Button>
             <Button
@@ -911,7 +935,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 handleCreateDhlReturn();
               }}
               leftSection={<IconCheck size={16} />}
-              disabled={!email}
+              disabled={!email || dhlQuantity < 1 || dhlQuantity > 10}
             >
               {t(locale, "createReturn")}
             </Button>
@@ -938,13 +962,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             }
             className="place-self-center"
           />
-          <Alert
-            color="dark"
-            title={t(locale, "address")}
-            icon={<IconMapPin size={16} />}
-          >
+          <Paper p="md" shadow="xl" bg="var(--background)">
             <ReturnAddress />
-          </Alert>
+          </Paper>
           <TextInput
             label={t(locale, "email")}
             value={email}
