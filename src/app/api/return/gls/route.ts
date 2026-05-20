@@ -1,9 +1,16 @@
 import { GLS_API } from "@/app/lib/constants";
+import { isPreview } from "@/app/lib/utils";
 
 export async function POST(request: Request) {
-  const user = process.env.GLS_API_USER;
-  const pass = process.env.GLS_API_PASSWORD;
-  const contactId = process.env.GLS_API_CONTACT_ID;
+  const user = isPreview
+    ? process.env.GLS_API_USER
+    : process.env.GLS_API_USER_PROD;
+  const pass = isPreview
+    ? process.env.GLS_API_PASSWORD
+    : process.env.GLS_API_PASSWORD_PROD;
+  const contactId = isPreview
+    ? process.env.GLS_API_CONTACT_ID
+    : process.env.GLS_API_CONTACT_ID_PROD;
 
   if (!user || !pass || !contactId) {
     return Response.json(
@@ -15,7 +22,8 @@ export async function POST(request: Request) {
   const auth = Buffer.from(`${user}:${pass}`).toString("base64");
 
   try {
-    const { Address, PickupDate, ShipmentReference } = await request.json();
+    const { Address, PickupDate, ShipmentReference, Quantity } =
+      await request.json();
 
     const options = {
       method: "POST",
@@ -45,11 +53,7 @@ export async function POST(request: Request) {
           Shipper: {
             ContactID: contactId,
           },
-          ShipmentUnit: [
-            {
-              Weight: 1,
-            },
-          ],
+          ShipmentUnit: Array.from({ length: Quantity }, () => ({})),
         },
         PrintingOptions: {
           ReturnLabels: {

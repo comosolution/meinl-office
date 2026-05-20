@@ -68,9 +68,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [pickupDateGls, setPickupDateGls] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const [openedDhl, { open: openDhl, close: closeDhl }] = useDisclosure(false);
-  const [dhlQuantity, setDhlQuantity] = useState(1);
   const [openedGls, { open: openGls, close: closeGls }] = useDisclosure(false);
 
   const form = useForm<Partial<Ticket>>({
@@ -293,7 +293,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     const shipmentNumbers: string[] = [];
 
-    for (let i = 0; i < dhlQuantity; i++) {
+    for (let i = 0; i < quantity; i++) {
       try {
         const response = await fetch("/api/return/dhl", {
           method: "POST",
@@ -393,6 +393,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         eMail: email,
         FixedLinePhonenumber: phone,
       },
+      Quantity: quantity,
     };
 
     try {
@@ -899,7 +900,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         opened={openedDhl}
         onClose={() => {
           closeDhl();
-          setDhlQuantity(1);
+          setQuantity(1);
         }}
         withCloseButton={false}
         overlayProps={{ blur: 4 }}
@@ -916,8 +917,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           />
           <NumberInput
             label={t(locale, "quantity")}
-            value={dhlQuantity}
-            onChange={(v) => setDhlQuantity(Number(v) || 1)}
+            value={quantity}
+            onChange={(v) => setQuantity(Number(v) || 1)}
             min={1}
             max={10}
           />
@@ -927,7 +928,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               variant="transparent"
               onClick={() => {
                 closeDhl();
-                setDhlQuantity(1);
+                setQuantity(1);
               }}
             >
               {t(locale, "cancel")}
@@ -938,7 +939,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 handleCreateDhlReturn();
               }}
               leftSection={<IconCheck size={16} />}
-              disabled={!email || dhlQuantity < 1 || dhlQuantity > 10}
+              disabled={!email || quantity < 1 || quantity > 10}
             >
               {t(locale, "createReturn")}
             </Button>
@@ -978,8 +979,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
+          <NumberInput
+            label={t(locale, "quantity")}
+            value={quantity}
+            onChange={(v) => setQuantity(Number(v) || 1)}
+            min={1}
+            max={10}
+          />
           <div className="flex justify-between gap-2">
-            <Button color="dark" variant="transparent" onClick={closeGls}>
+            <Button
+              color="dark"
+              variant="transparent"
+              onClick={() => {
+                closeGls();
+                setQuantity(1);
+              }}
+            >
               {t(locale, "cancel")}
             </Button>
             <Button
@@ -990,7 +1005,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 }
               }}
               leftSection={<IconCalendarCheck size={16} />}
-              disabled={!pickupDateGls || !email || !phone}
+              disabled={
+                !pickupDateGls ||
+                !email ||
+                !phone ||
+                quantity < 1 ||
+                quantity > 10
+              }
             >
               {t(locale, "confirmPickup")}
             </Button>

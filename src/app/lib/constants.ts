@@ -22,9 +22,6 @@ export const DHL_API_RETURN_LABEL = isPreview
 export const DHL_TRACKING_URL =
   "https://www.dhl.com/de-de/home/tracking.html?submit=1&tracking-id=";
 
-export const GLS_API_TOKEN = isPreview
-  ? "https://api-sandbox.gls-group.net/oauth2/v2/token"
-  : "https://api.gls-group.net/oauth2/v2/token";
 export const GLS_API = isPreview
   ? "https://shipit-wbm-test01.gls-group.eu:8443/backend/rs/shipments"
   : "https://api.gls-group.net/shipit-farm/v1/backend/rs/shipments";

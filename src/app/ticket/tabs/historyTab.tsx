@@ -7,6 +7,7 @@ import {
   Alert,
   Button,
   Checkbox,
+  CopyButton,
   Modal,
   Paper,
   SegmentedControl,
@@ -18,6 +19,8 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import {
+  IconCheck,
+  IconCopy,
   IconDownload,
   IconExclamationMark,
   IconExternalLink,
@@ -138,19 +141,14 @@ export default function HistoryTab({
         </div>
         <div>
           {ticket.history && ticket.history.length > 0 ? (
-            <Timeline
-              radius="md"
-              active={ticket.history.length}
-              bulletSize={28}
-              lineWidth={4}
-            >
+            <Timeline radius="md" bulletSize={28} lineWidth={4}>
               {ticket.history
                 .map((entry, index) => (
                   <Timeline.Item
                     key={index}
                     bullet={
                       entry.prio > 0 ? (
-                        <IconExclamationMark />
+                        <IconExclamationMark color="red" />
                       ) : entry.tracknr ? (
                         <IconTruckReturn />
                       ) : undefined
@@ -200,6 +198,19 @@ export default function HistoryTab({
                                 <IconDownload size={16} />
                               </ActionIcon>
                             </div>
+                          )}
+                          {entry.tracknr && entry.comment.includes("GLS") && (
+                            <CopyButton value={entry.tracknr}>
+                              {({ copied, copy }) => (
+                                <ActionIcon color="blue" onClick={copy}>
+                                  {copied ? (
+                                    <IconCheck size={16} />
+                                  ) : (
+                                    <IconCopy size={16} />
+                                  )}
+                                </ActionIcon>
+                              )}
+                            </CopyButton>
                           )}
                         </div>
                       </div>

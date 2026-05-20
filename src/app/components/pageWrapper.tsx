@@ -79,7 +79,7 @@ export default function PageWrapper({
           </Link>
           <Search />
         </header>
-        {children}
+        <div className="pb-20">{children}</div>
       </main>
       <FAB />
       {showWelcome && isPreview && (
