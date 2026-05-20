@@ -1,8 +1,13 @@
 import { DHL_API_RETURN_LABEL, DHL_API_TOKEN } from "@/app/lib/constants";
+import { isPreview } from "@/app/lib/utils";
 
 export async function POST(request: Request) {
-  const user = process.env.DHL_API_USER;
-  const pass = process.env.DHL_API_PASSWORD;
+  const user = isPreview
+    ? process.env.DHL_API_USER
+    : process.env.DHL_API_USER_PROD;
+  const pass = isPreview
+    ? process.env.DHL_API_PASSWORD
+    : process.env.DHL_API_PASSWORD_PROD;
   const clientId = process.env.DHL_API_ID;
   const clientSecret = process.env.DHL_API_SECRET;
 

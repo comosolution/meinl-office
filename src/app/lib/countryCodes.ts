@@ -8,6 +8,32 @@ const aliasToIso2: Record<string, string> = {
   UK: "GB",
 };
 
+const alpha2ToReceiverId: Record<string, string> = {
+  AT: "Lager_AT_CB1",
+  BE: "Lager_BE_CB1",
+  BG: "Lager_BG_CB06",
+  CH: "Lager_CH_CB06",
+  CZ: "Lager_CZ_CB06",
+  DK: "Lager_DK_CB06",
+  EE: "Lager_EE_CB1",
+  ES: "Lager_ES_CB06",
+  FR: "Lager_FR_CB1",
+  GB: "Lager_GB_CB1",
+  HR: "Lager_HR_CB06",
+  HU: "Lager_HU_CB06",
+  IE: "Lager_IE_CB06",
+  IT: "Lager_IT_CB06",
+  LT: "Lager_LT_CB06",
+  LU: "Lager_LU_CB1",
+  MT: "Lager_MT_CB06",
+  NL: "Lager_NL_CB1",
+  PL: "Lager_PL_CB06",
+  RO: "Lager_RO_CB1",
+  SK: "Lager_SK_CB06",
+  SI: "Lager_Sl_CB1",
+  DE: "RetourenLager01",
+};
+
 export const normalizeAlpha3CountryCode = (input: string): string | null => {
   if (!input) return null;
   const code = input.trim().toUpperCase();
@@ -28,6 +54,16 @@ export const normalizeAlpha2CountryCode = (input: string): string | null => {
   const normalized = aliasToIso2[code] ?? code;
 
   return normalized;
+};
+
+export const getReceiverIdForCountry = (input: string): string | null => {
+  const alpha2Code = normalizeAlpha2CountryCode(input);
+
+  if (!alpha2Code) {
+    return null;
+  }
+
+  return alpha2ToReceiverId[alpha2Code] ?? null;
 };
 
 export const countryCodes = (locale: "de" | "en") => {

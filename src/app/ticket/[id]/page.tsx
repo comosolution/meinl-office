@@ -4,6 +4,7 @@ import { useOffice } from "@/app/context/officeContext";
 import { DATE_FORMAT } from "@/app/lib/constants";
 import {
   countryCodes,
+  getReceiverIdForCountry,
   normalizeAlpha2CountryCode,
   normalizeAlpha3CountryCode,
 } from "@/app/lib/countryCodes";
@@ -12,7 +13,7 @@ import { Person, Ticket } from "@/app/lib/interfaces";
 import { trackTicket } from "@/app/lib/recentTickets";
 import { sendResendMail } from "@/app/lib/resend";
 import { states } from "@/app/lib/rma";
-import { fetchResults, parseDb2Date } from "@/app/lib/utils";
+import { fetchResults, isPreview, parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
@@ -277,7 +278,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const addressHouse = addressParts[1] || "1";
 
     const body = {
-      receiverId: normalizeAlpha3CountryCode(country)?.toLowerCase() || "deu",
+      receiverId: isPreview
+        ? normalizeAlpha3CountryCode(country)?.toLowerCase() || "deu"
+        : getReceiverIdForCountry(country) || "RetourenLager01",
       shipper: {
         name1: name,
         addressStreet: addressStreet,
