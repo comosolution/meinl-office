@@ -658,7 +658,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     rightSection={
                       <p className="text-xs dimmed">
                         {ticket.trackingHistory?.find(
-                          (h) => h.versender === option.id,
+                          (h) => h.versender?.trim() === option.id,
                         )?.anzahl || 0}
                       </p>
                     }
