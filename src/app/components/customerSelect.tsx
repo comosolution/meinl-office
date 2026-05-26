@@ -5,7 +5,7 @@ import { Company } from "@/app/lib/interfaces";
 import { fetchResults } from "@/app/lib/utils";
 import { Loader, Select, SelectProps, Text } from "@mantine/core";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { t } from "../lib/i18n";
 
 type CustomerOption = {
@@ -28,7 +28,21 @@ export function CustomerSelect({
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<CustomerOption[]>([]);
   const [loading, setLoading] = useState(false);
+
   const debouncedQuery = useDebounce(query, 400);
+  const hasAutoSearched = useRef(false);
+
+  useEffect(() => {
+    if (
+      value &&
+      !hasAutoSearched.current &&
+      !options.some((o) => o.value === value)
+    ) {
+      hasAutoSearched.current = true;
+      setQuery(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   useEffect(() => {
     const getData = async () => {
@@ -73,10 +87,14 @@ export function CustomerSelect({
       value={value}
       onChange={onChange}
       onSearchChange={(val) => {
-          const selectedLabel = options.find((o) => o.value === value)?.label;
-          if (val === selectedLabel) return;
-          setQuery(val);
-        }}
+        const selectedLabel = options.find((o) => o.value === value)?.label;
+        if (val === selectedLabel) return;
+        if (options.some((o) => o.label === val)) {
+          setQuery("");
+          return;
+        }
+        setQuery(val);
+      }}
       data={options}
       renderOption={({ option }) => {
         const highlighted = (option as CustomerOption).kundenart === 30;

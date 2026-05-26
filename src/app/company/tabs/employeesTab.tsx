@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function EmployeesTab({ company }: { company: Company }) {
-  const { locale, source } = useOffice();
+  const { locale } = useOffice();
 
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);

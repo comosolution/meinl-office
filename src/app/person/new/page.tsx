@@ -49,7 +49,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getInitialValues, validateForm, type FormValues } from "../[id]/form";
 
 export default function NewPersonPage() {
@@ -75,6 +75,14 @@ export default function NewPersonPage() {
   };
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
+
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const kdnrFromQuery = query.get("kdnr");
+    if (kdnrFromQuery) {
+      form.setFieldValue("kdnr", Number(kdnrFromQuery));
+    }
+  }, []);
 
   return (
     <main className="flex flex-col gap-4 p-4">

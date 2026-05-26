@@ -39,6 +39,7 @@ export type TranslationKey =
   | "dealer"
   | "employee"
   | "employees"
+  | "addEmployee"
   | "details"
   | "addCampaign"
   | "searchByName"
@@ -292,6 +293,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     dealerLocator: "DealerLocator",
     dealer: "Händler",
     employees: "Mitarbeiter",
+    addEmployee: "Mitarbeiter hinzufügen",
     details: "Details",
     addCampaign: "Kampagne anlegen",
     searchByName: "Nach Name oder Kdnr suchen ...",
@@ -547,6 +549,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     dealerLocator: "DealerLocator",
     dealer: "Dealer",
     employees: "Employees",
+    addEmployee: "Add Employee",
     details: "Details",
     addCampaign: "Add Campaign",
     searchByName: "Search by name or CID ...",

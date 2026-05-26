@@ -20,6 +20,7 @@ import {
   Button,
   Checkbox,
   Fieldset,
+  NumberFormatter,
   NumberInput,
   Scroller,
   Table,
@@ -45,6 +46,7 @@ import {
   IconExternalLink,
   IconNote,
   IconPhoto,
+  IconPlus,
   IconShoppingCartPin,
   IconUsersGroup,
 } from "@tabler/icons-react";
@@ -188,6 +190,14 @@ export default function Page({
         </Button>
         <div className="flex flex-col md:flex-row gap-2">
           <Contact email={company.mailadr} phone={company.telefon} />
+          <Button
+            variant="light"
+            component={Link}
+            href={`/person/new?kdnr=${company.kdnr}`}
+            leftSection={<IconPlus size={16} />}
+          >
+            {t(locale, "addEmployee")}
+          </Button>
           {isPreview && (
             <Button
               component="a"
@@ -436,8 +446,16 @@ export default function Page({
                         company.salesVolume.VVJ,
                       ].map((entry, index) => (
                         <Table.Tr key={index}>
-                          <Table.Th w={160}>{entry.label}</Table.Th>
-                          <Table.Td>{Number(entry.value).toFixed(2)}</Table.Td>
+                          <Table.Th w={160}>
+                            {entry.label?.replace(" USD", "")}
+                          </Table.Th>
+                          <Table.Td>
+                            <NumberFormatter
+                              prefix="$"
+                              value={Number(entry.value).toFixed(2)}
+                              thousandSeparator
+                            />
+                          </Table.Td>
                         </Table.Tr>
                       ))}
                     </Table.Tbody>
