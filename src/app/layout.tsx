@@ -12,10 +12,10 @@ import { Titillium_Web } from "next/font/google";
 import App from "./components/app";
 import { OfficeProvider } from "./context/officeContext";
 import "./globals.css";
+import { isPreview } from "./lib/utils";
 
 export const metadata: Metadata = {
-  title: "Meinl Office",
-  description: "",
+  title: `Meinl Office ${isPreview ? "(Dev)" : ""}`,
 };
 
 const titillium = Titillium_Web({
