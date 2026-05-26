@@ -22,7 +22,7 @@ export async function GET() {
 
     if (!response.ok) {
       return Response.json(
-        { error: "Failed to fetch from MEINL API" },
+        { error: await response.text() },
         { status: response.status },
       );
     }

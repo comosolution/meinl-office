@@ -54,7 +54,7 @@ export default function SortableTable({
             ? ticket.kundenart !== "30"
             : ticket.kundenart === "30";
       const matchesStatus = filters.status_int
-        ? ticket.status_int.nr === filters.status_int
+        ? ticket.status_int?.nr === filters.status_int
         : true;
       const ticketArtNr = ticket.artnr_mei || ticket.artnr_ku;
       const matchesArtNr = filters.artnr ? ticketArtNr === filters.artnr : true;
