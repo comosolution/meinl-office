@@ -149,6 +149,7 @@ export default function Page() {
             value === "mine" ? (session?.user?.name ?? undefined) : undefined
           }
           status={value === "new" ? "100" : undefined}
+          kundenart={value === "new" ? "withoutExport" : "all"}
           recentlyViewed={value === "recent" ? recentlyViewed : undefined}
         />
       ) : (

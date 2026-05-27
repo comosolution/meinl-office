@@ -19,11 +19,13 @@ export default function SortableTable({
   tickets,
   createdBy,
   status,
+  kundenart,
   recentlyViewed,
 }: {
   tickets: TicketSummary[];
   createdBy?: string;
   status?: string;
+  kundenart?: string;
   recentlyViewed?: RecentTickets;
 }) {
   const router = useRouter();
@@ -35,7 +37,7 @@ export default function SortableTable({
   const [filters, setFilters] = useState({
     kdnr: "",
     kdnr_name: "",
-    kundenart: "all",
+    kundenart: kundenart ?? "all",
     status_int: status ?? "",
     artnr: "",
     createdBy: createdBy ?? "",
@@ -220,8 +222,9 @@ export default function SortableTable({
       ...prev,
       createdBy: createdBy ?? "",
       status_int: status ?? "",
+      kundenart: kundenart ?? "all",
     }));
-  }, [createdBy, status]);
+  }, [createdBy, status, kundenart]);
 
   useEffect(() => {
     if (recentlyViewed) {
