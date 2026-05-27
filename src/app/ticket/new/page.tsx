@@ -225,7 +225,12 @@ export default function Page() {
       });
 
       if (!res.ok) {
+        notifications.show({
+          title: t(locale, "error"),
+          message: await res.text(),
+        });
         console.error(await res.text());
+        return;
       }
 
       router.push("/ticket");
