@@ -1,4 +1,4 @@
-import { RMA_WEB_API } from "@/app/lib/constants";
+import { RMA_WEB_API } from "@/app/lib/config";
 
 export async function GET() {
   const user = process.env.API_USER;

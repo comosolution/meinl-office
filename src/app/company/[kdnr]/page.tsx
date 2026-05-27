@@ -9,7 +9,7 @@ import {
   MEINL_AE_URL,
   MEINL_AE_USA_URL,
   MEINL_OFFICE_COMPANY_HISTORY_KEY,
-} from "@/app/lib/constants";
+} from "@/app/lib/config";
 import { customerTypes } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
@@ -190,14 +190,16 @@ export default function Page({
         </Button>
         <div className="flex flex-col md:flex-row gap-2">
           <Contact email={company.mailadr} phone={company.telefon} />
-          <Button
-            variant="light"
-            component={Link}
-            href={`/person/new?kdnr=${company.kdnr}`}
-            leftSection={<IconPlus size={16} />}
-          >
-            {t(locale, "addEmployee")}
-          </Button>
+          {isPreview && (
+            <Button
+              variant="light"
+              component={Link}
+              href={`/person/new?kdnr=${company.kdnr}`}
+              leftSection={<IconPlus size={16} />}
+            >
+              {t(locale, "addEmployee")}
+            </Button>
+          )}
           {isPreview && (
             <Button
               component="a"

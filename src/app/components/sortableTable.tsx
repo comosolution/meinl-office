@@ -8,7 +8,7 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
-import { DATE_FORMAT } from "../lib/constants";
+import { DATE_FORMAT } from "../lib/config";
 import { t } from "../lib/i18n";
 import { exportXLSX } from "../lib/utils";
 import Pagination from "./pagination";

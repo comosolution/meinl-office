@@ -10,7 +10,7 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { useOffice } from "../context/officeContext";
-import { MEINL_AE_URL, MEINL_AE_USA_URL } from "../lib/constants";
+import { MEINL_AE_URL, MEINL_AE_USA_URL } from "../lib/config";
 import { t } from "../lib/i18n";
 import { isPreview } from "../lib/utils";
 
@@ -28,6 +28,7 @@ export default function FAB() {
       label: t(locale, "newPerson"),
       href: "/person/new",
       icon: <IconUser size={16} />,
+      disabled: !isPreview,
     },
     {
       label: t(locale, "newCampaign"),

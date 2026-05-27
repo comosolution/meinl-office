@@ -1,4 +1,4 @@
-import { DHL_API_RETURN_LABEL, DHL_API_TOKEN } from "@/app/lib/constants";
+import { DHL_API_RETURN_LABEL, DHL_API_TOKEN } from "@/app/lib/config";
 import { isPreview } from "@/app/lib/utils";
 
 export async function POST(request: Request) {

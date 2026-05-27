@@ -11,7 +11,7 @@ import { useOffice } from "../context/officeContext";
 import { b2bAccess } from "../lib/data";
 import { t } from "../lib/i18n";
 import { Person } from "../lib/interfaces";
-import { fetchResults, getAvatarColor } from "../lib/utils";
+import { fetchResults, getAvatarColor, isPreview } from "../lib/utils";
 
 export default function Page() {
   const { locale, source, service } = useOffice();
@@ -161,13 +161,15 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
-          <Button
-            component={Link}
-            href="/person/new"
-            leftSection={<IconPlus size={16} />}
-          >
-            {t(locale, "createPerson")}
-          </Button>
+          {isPreview && (
+            <Button
+              component={Link}
+              href="/person/new"
+              leftSection={<IconPlus size={16} />}
+            >
+              {t(locale, "createPerson")}
+            </Button>
+          )}
         </div>
       </header>
 

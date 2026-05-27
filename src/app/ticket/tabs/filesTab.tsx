@@ -7,7 +7,7 @@ import { useForm } from "@mantine/form";
 import { IconDownload, IconUpload } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
-import { DATE_FORMAT } from "../../lib/constants";
+import { DATE_FORMAT } from "../../lib/config";
 import { Attachment } from "../../lib/interfaces";
 import { fileToBase64, parseDb2Date } from "../../lib/utils";
 

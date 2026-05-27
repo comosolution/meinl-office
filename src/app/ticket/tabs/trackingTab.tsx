@@ -1,5 +1,5 @@
 import { useOffice } from "@/app/context/officeContext";
-import { DHL_TRACKING_URL } from "@/app/lib/constants";
+import { DHL_TRACKING_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Ticket } from "@/app/lib/interfaces";
 import { handleDownload } from "@/app/lib/utils";

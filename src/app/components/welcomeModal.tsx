@@ -10,7 +10,7 @@ import { IconCheck, IconMoon, IconSun } from "@tabler/icons-react";
 import { useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
-import { MEINL_OFFICE_WELCOME_KEY } from "../lib/constants";
+import { MEINL_OFFICE_WELCOME_KEY } from "../lib/config";
 import { t } from "../lib/i18n";
 import Logo from "./logo";
 import Title from "./title";

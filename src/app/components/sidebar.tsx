@@ -34,7 +34,7 @@ import {
   MEINL_AE_URL,
   MEINL_AE_USA_URL,
   MEINL_OFFICE_SIDEBAR_KEY,
-} from "../lib/constants";
+} from "../lib/config";
 import { t } from "../lib/i18n";
 import { navLink } from "../lib/styles";
 import { isPreview } from "../lib/utils";

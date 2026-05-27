@@ -1,7 +1,7 @@
 import { Pagination as MantinePagination, Select } from "@mantine/core";
 import { useEffect } from "react";
 import { useOffice } from "../context/officeContext";
-import { MEINL_OFFICE_LIMIT_KEY } from "../lib/constants";
+import { MEINL_OFFICE_LIMIT_KEY } from "../lib/config";
 import { t } from "../lib/i18n";
 
 export default function Pagination({

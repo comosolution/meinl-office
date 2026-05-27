@@ -9,7 +9,7 @@ import {
   MEINL_AE_URL,
   MEINL_AE_USA_URL,
   MEINL_OFFICE_DEALER_HISTORY_KEY,
-} from "@/app/lib/constants";
+} from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Company, DealerInStorage } from "@/app/lib/interfaces";
 import { getAvatarColor, isPreview, parseUrl } from "@/app/lib/utils";

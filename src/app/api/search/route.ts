@@ -1,4 +1,4 @@
-import { MEINL_WEB_API } from "@/app/lib/constants";
+import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function POST(request: Request) {
   const { type, search, source, service, user } = await request.json();

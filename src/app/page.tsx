@@ -14,7 +14,7 @@ import {
   MEINL_OFFICE_COMPANY_HISTORY_KEY,
   MEINL_OFFICE_DEALER_HISTORY_KEY,
   MEINL_OFFICE_PERSON_HISTORY_KEY,
-} from "./lib/constants";
+} from "./lib/config";
 import { t } from "./lib/i18n";
 import {
   CompanyInStorage,

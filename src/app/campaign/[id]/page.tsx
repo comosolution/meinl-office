@@ -3,7 +3,7 @@ import DealerSelect from "@/app/components/dealerSelect";
 import Loader from "@/app/components/loader";
 import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
-import { MEINL_DEALERS_URL } from "@/app/lib/constants";
+import { MEINL_DEALERS_URL } from "@/app/lib/config";
 import { brands } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Campaign, CampaignProduct, Dealer } from "@/app/lib/interfaces";

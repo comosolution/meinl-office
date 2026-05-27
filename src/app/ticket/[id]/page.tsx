@@ -1,7 +1,7 @@
 "use client";
 import Loader from "@/app/components/loader";
 import { useOffice } from "@/app/context/officeContext";
-import { DATE_FORMAT } from "@/app/lib/constants";
+import { DATE_FORMAT } from "@/app/lib/config";
 import {
   countryCodes,
   getReceiverIdForCountry,

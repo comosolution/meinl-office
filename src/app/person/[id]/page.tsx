@@ -6,7 +6,7 @@ import {
   MEINL_AE_URL,
   MEINL_AE_USA_URL,
   MEINL_OFFICE_PERSON_HISTORY_KEY,
-} from "@/app/lib/constants";
+} from "@/app/lib/config";
 import { countryCodes } from "@/app/lib/countryCodes";
 import {
   b2bAccess,

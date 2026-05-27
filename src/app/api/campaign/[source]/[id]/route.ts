@@ -1,4 +1,4 @@
-import { MEINL_WEB_API } from "@/app/lib/constants";
+import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function DELETE(
   request: Request,

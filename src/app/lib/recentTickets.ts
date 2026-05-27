@@ -1,4 +1,4 @@
-import { MEINL_RMA_TICKET_KEY } from "./constants";
+import { MEINL_RMA_TICKET_KEY } from "./config";
 
 export type RecentTickets = Record<string, string>;
 

@@ -1,4 +1,4 @@
-import { GLS_API } from "@/app/lib/constants";
+import { GLS_API } from "@/app/lib/config";
 import { isPreview } from "@/app/lib/utils";
 
 export async function POST(request: Request) {

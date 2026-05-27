@@ -12,7 +12,7 @@ import {
   MEINL_OFFICE_LOCALE_KEY,
   MEINL_OFFICE_SERVICE_KEY,
   MEINL_OFFICE_SOURCE_KEY,
-} from "../lib/constants";
+} from "../lib/config";
 
 interface OfficeContextType {
   source: "OFFGUT" | "OFFUSA";
