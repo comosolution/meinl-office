@@ -107,10 +107,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           created: parseDb2Date(data.created),
           modified: parseDb2Date(data.modified),
           versandadresse: {
-            ...data.versandadresse,
+            vanr: data.versandadresse?.vanr ?? "",
+            vaname: data.versandadresse?.vaname ?? "",
+            vaname2: data.versandadresse?.vaname2 ?? "",
+            vaname3: data.versandadresse?.vaname3 ?? "",
+            vastrasse: data.versandadresse?.vastrasse ?? "",
+            vaplz: data.versandadresse?.vaplz ?? "",
+            vaort: data.versandadresse?.vaort ?? "",
             valand:
-              normalizeAlpha2CountryCode(data.versandadresse.valand) ||
-              data.versandadresse.valand,
+              normalizeAlpha2CountryCode(data.versandadresse?.valand) ??
+              data.versandadresse?.valand ?? "",
+            zusatz: data.versandadresse?.zusatz ?? "",
           },
         };
 
@@ -126,17 +133,29 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           descr: transformed.descr || "",
           menge: transformed.menge || 1,
           auftr_art: transformed.auftr_art || "",
-          versandadresse: transformed.versandadresse || {
-            vanr: "",
-            vaname: "",
-            vaname2: "",
-            vaname3: "",
-            vastrasse: "",
-            vaplz: "",
-            vaort: "",
-            valand: "",
-            zusatz: "",
-          },
+          versandadresse: transformed.versandadresse
+            ? {
+                vanr: transformed.versandadresse.vanr || "",
+                vaname: transformed.versandadresse.vaname || "",
+                vaname2: transformed.versandadresse.vaname2 || "",
+                vaname3: transformed.versandadresse.vaname3 || "",
+                vastrasse: transformed.versandadresse.vastrasse || "",
+                vaplz: transformed.versandadresse.vaplz || "",
+                vaort: transformed.versandadresse.vaort || "",
+                valand: transformed.versandadresse.valand || "",
+                zusatz: transformed.versandadresse.zusatz || "",
+              }
+            : {
+                vanr: "",
+                vaname: "",
+                vaname2: "",
+                vaname3: "",
+                vastrasse: "",
+                vaplz: "",
+                vaort: "",
+                valand: "",
+                zusatz: "",
+              },
         });
       } else {
         console.error("Failed to fetch ticket");
@@ -474,11 +493,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const getReturnAddress = () => {
     const ticketAddress = {
-      name: ticket?.versandadresse.vaname ?? "",
-      street: ticket?.versandadresse.vastrasse ?? "",
-      zip: ticket?.versandadresse.vaplz ?? "",
-      city: ticket?.versandadresse.vaort ?? "",
-      country: ticket?.versandadresse.valand ?? "",
+      name: ticket?.versandadresse?.vaname ?? "",
+      street: ticket?.versandadresse?.vastrasse ?? "",
+      zip: ticket?.versandadresse?.vaplz ?? "",
+      city: ticket?.versandadresse?.vaort ?? "",
+      country: ticket?.versandadresse?.valand ?? "",
     };
 
     if (!owner) return ticketAddress;

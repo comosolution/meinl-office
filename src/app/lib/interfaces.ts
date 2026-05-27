@@ -202,7 +202,7 @@ export interface Ticket {
   optemail: string;
   mediumpath: string;
   person: Person | null;
-  versandadresse: Versandadresse;
+  versandadresse: Versandadresse | null;
   tracking: Tracking[] | null;
   trackingHistory: TrackingHistory[] | null;
   files: Attachment[] | null;

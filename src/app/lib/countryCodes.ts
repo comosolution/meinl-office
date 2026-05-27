@@ -34,7 +34,7 @@ const alpha2ToReceiverId: Record<string, string> = {
   DE: "RetourenLager01",
 };
 
-export const normalizeAlpha3CountryCode = (input: string): string | null => {
+export const normalizeAlpha3CountryCode = (input?: string): string | null => {
   if (!input) return null;
   const code = input.trim().toUpperCase();
 
@@ -47,7 +47,7 @@ export const normalizeAlpha3CountryCode = (input: string): string | null => {
   return null;
 };
 
-export const normalizeAlpha2CountryCode = (input: string): string | null => {
+export const normalizeAlpha2CountryCode = (input?: string): string | null => {
   if (!input) return null;
   const code = input.trim().toUpperCase();
 
