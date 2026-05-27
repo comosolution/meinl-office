@@ -81,19 +81,9 @@ export default function SortableTable({
       const matchesCreatedRange = (() => {
         const [start, end] = filters.createdRange;
         if (!start && !end) return true;
-        const created = new Date(ticket.created);
-        created.setHours(0, 0, 0, 0);
-        if (start) {
-          const s = new Date(start);
-          s.setHours(0, 0, 0, 0);
-          if (created < s) return false;
-        }
-        const rangeEnd = end ?? start;
-        if (rangeEnd) {
-          const e = new Date(rangeEnd);
-          e.setHours(23, 59, 59, 999);
-          if (created > e) return false;
-        }
+        const created = dayjs(ticket.created);
+        if (start && created.isBefore(start, "day")) return false;
+        if (created.isAfter(end ?? start, "day")) return false;
         return true;
       })();
 
