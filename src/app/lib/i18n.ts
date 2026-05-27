@@ -199,6 +199,7 @@ export type TranslationKey =
   | "filter"
   | "page"
   | "of"
+  | "result"
   | "results"
   | "resultsPerPage"
   | "export"
@@ -254,7 +255,14 @@ export type TranslationKey =
   | "enterNameKdnrOrMatchcode"
   | "enterAtLeast2Chars"
   | "loading"
-  | "noResults";
+  | "noResults"
+  | "today"
+  | "yesterday"
+  | "thisWeek"
+  | "lastWeek"
+  | "thisMonth"
+  | "lastMonth"
+  | "thisYear";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -454,6 +462,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     filter: "Filtern ...",
     page: "Seite",
     of: "von",
+    result: "Ergebnis",
     results: "Ergebnisse",
     resultsPerPage: "Ergebnisse pro Seite",
     export: "Exportieren",
@@ -512,6 +521,13 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     loading: "Lade...",
     light: "Hell",
     dark: "Dunkel",
+    today: "Heute",
+    yesterday: "Gestern",
+    thisWeek: "Diese Woche",
+    lastWeek: "Letzte Woche",
+    thisMonth: "Dieser Monat",
+    lastMonth: "Letzter Monat",
+    thisYear: "Dieses Jahr",
   },
   en: {
     welcome: "Welcome",
@@ -710,6 +726,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     filter: "Filter ...",
     page: "Page",
     of: "of",
+    result: "Result",
     results: "Results",
     resultsPerPage: "Results per Page",
     export: "Export",
@@ -767,6 +784,13 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     loading: "Loading...",
     light: "Light",
     dark: "Dark",
+    today: "Today",
+    yesterday: "Yesterday",
+    thisWeek: "This Week",
+    lastWeek: "Last Week",
+    thisMonth: "This Month",
+    lastMonth: "Last Month",
+    thisYear: "This Year",
   },
 };
 

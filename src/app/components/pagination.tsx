@@ -40,7 +40,7 @@ export default function Pagination({
   return (
     <div className="sticky top-0 z-30 grid grid-cols-2 md:grid-cols-3 items-center gap-2 backdrop-blur py-2">
       <p className="text-xs hidden md:block">
-        {results} {t(locale, "results")}
+        {results} {t(locale, results === 1 ? "result" : "results")}
       </p>
       <div className="flex md:justify-center">
         <MantinePagination.Root

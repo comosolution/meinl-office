@@ -3,8 +3,10 @@
 import { Status, TicketSummary } from "@/app/lib/interfaces";
 import { RecentTickets } from "@/app/lib/recentTickets";
 import { Button, Select, Table } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
 import { format } from "date-fns";
+import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -34,14 +36,26 @@ export default function SortableTable({
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<TicketKey>("created");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<{
+    kdnr: string;
+    kdnr_name: string;
+    kundenart: string;
+    status_int: string;
+    artnr: string;
+    createdBy: string;
+    createdRange: [Date | null, Date | null];
+  }>({
     kdnr: "",
     kdnr_name: "",
     kundenart: kundenart ?? "all",
     status_int: status ?? "",
     artnr: "",
     createdBy: createdBy ?? "",
+    createdRange: [null, null],
   });
+
+  const today = dayjs();
+  const thisWeekStart = today.subtract((today.day() + 6) % 7, "day");
 
   const filteredData = useMemo(() => {
     return tickets.filter((ticket) => {
@@ -64,6 +78,24 @@ export default function SortableTable({
         ? ticket.createdby === filters.createdBy
         : true;
       const matchesRecent = recentlyViewed ? ticket.nr in recentlyViewed : true;
+      const matchesCreatedRange = (() => {
+        const [start, end] = filters.createdRange;
+        if (!start && !end) return true;
+        const created = new Date(ticket.created);
+        created.setHours(0, 0, 0, 0);
+        if (start) {
+          const s = new Date(start);
+          s.setHours(0, 0, 0, 0);
+          if (created < s) return false;
+        }
+        const rangeEnd = end ?? start;
+        if (rangeEnd) {
+          const e = new Date(rangeEnd);
+          e.setHours(23, 59, 59, 999);
+          if (created > e) return false;
+        }
+        return true;
+      })();
 
       setPage(1);
       return (
@@ -73,7 +105,8 @@ export default function SortableTable({
         matchesStatus &&
         matchesArtNr &&
         matchesCreatedBy &&
-        matchesRecent
+        matchesRecent &&
+        matchesCreatedRange
       );
     });
   }, [tickets, filters, recentlyViewed]);
@@ -238,7 +271,7 @@ export default function SortableTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid md:grid-cols-7 items-end gap-2">
+      <div className="grid md:grid-cols-4 items-end gap-2 md:gap-y-0">
         <Select
           label={t(locale, "createdBy")}
           searchable
@@ -300,6 +333,73 @@ export default function SortableTable({
             setFilters((prev) => ({ ...prev, artnr: value || "" }))
           }
           checkIconPosition="right"
+        />
+        <DatePickerInput
+          type="range"
+          allowSingleDateInRange
+          highlightToday
+          label={t(locale, "created")}
+          placeholder={t(locale, "filter")}
+          value={filters.createdRange}
+          onChange={(value) =>
+            setFilters((prev) => ({
+              ...prev,
+              createdRange: value as [Date | null, Date | null],
+            }))
+          }
+          valueFormat="DD.MM.YYYY"
+          presets={[
+            {
+              value: [today.format("YYYY-MM-DD"), today.format("YYYY-MM-DD")],
+              label: t(locale, "today"),
+            },
+            {
+              value: [
+                today.subtract(1, "day").format("YYYY-MM-DD"),
+                today.subtract(1, "day").format("YYYY-MM-DD"),
+              ],
+              label: t(locale, "yesterday"),
+            },
+            {
+              value: [
+                thisWeekStart.format("YYYY-MM-DD"),
+                today.format("YYYY-MM-DD"),
+              ],
+              label: t(locale, "thisWeek"),
+            },
+            {
+              value: [
+                thisWeekStart.subtract(7, "day").format("YYYY-MM-DD"),
+                thisWeekStart.subtract(1, "day").format("YYYY-MM-DD"),
+              ],
+              label: t(locale, "lastWeek"),
+            },
+            {
+              value: [
+                today.startOf("month").format("YYYY-MM-DD"),
+                today.format("YYYY-MM-DD"),
+              ],
+              label: t(locale, "thisMonth"),
+            },
+            {
+              value: [
+                today
+                  .subtract(1, "month")
+                  .startOf("month")
+                  .format("YYYY-MM-DD"),
+                today.subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
+              ],
+              label: t(locale, "lastMonth"),
+            },
+            {
+              value: [
+                today.startOf("year").format("YYYY-MM-DD"),
+                today.format("YYYY-MM-DD"),
+              ],
+              label: t(locale, "thisYear"),
+            },
+          ]}
+          clearable
         />
         <Select
           label={t(locale, "customerType")}
