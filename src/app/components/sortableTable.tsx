@@ -4,7 +4,12 @@ import { Status, TicketSummary } from "@/app/lib/interfaces";
 import { RecentTickets } from "@/app/lib/recentTickets";
 import { Button, Select, Table } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
+import {
+  IconCalendarWeek,
+  IconChevronUp,
+  IconFilterOff,
+  IconTableExport,
+} from "@tabler/icons-react";
 import { format } from "date-fns";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -30,8 +35,19 @@ export default function SortableTable({
   kundenart?: string;
   recentlyViewed?: RecentTickets;
 }) {
-  const router = useRouter();
   const { locale } = useOffice();
+
+  const initialValues = {
+    kdnr: "",
+    kdnr_name: "",
+    firma: "",
+    kundenart: kundenart ?? "all",
+    status_int: status ?? "",
+    artnr: "",
+    createdBy: createdBy ?? "",
+    createdRange: [null, null] as [Date | null, Date | null],
+  };
+
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<TicketKey>("created");
@@ -39,21 +55,15 @@ export default function SortableTable({
   const [filters, setFilters] = useState<{
     kdnr: string;
     kdnr_name: string;
+    firma: string;
     kundenart: string;
     status_int: string;
     artnr: string;
     createdBy: string;
     createdRange: [Date | null, Date | null];
-  }>({
-    kdnr: "",
-    kdnr_name: "",
-    kundenart: kundenart ?? "all",
-    status_int: status ?? "",
-    artnr: "",
-    createdBy: createdBy ?? "",
-    createdRange: [null, null],
-  });
+  }>(initialValues);
 
+  const router = useRouter();
   const today = dayjs();
   const thisWeekStart = today.subtract((today.day() + 6) % 7, "day");
 
@@ -77,6 +87,9 @@ export default function SortableTable({
       const matchesCreatedBy = filters.createdBy
         ? ticket.createdby === filters.createdBy
         : true;
+      const matchesFirma = filters.firma
+        ? ticket.firma === filters.firma
+        : true;
       const matchesRecent = recentlyViewed ? ticket.nr in recentlyViewed : true;
       const matchesCreatedRange = (() => {
         const [start, end] = filters.createdRange;
@@ -95,6 +108,7 @@ export default function SortableTable({
         matchesStatus &&
         matchesArtNr &&
         matchesCreatedBy &&
+        matchesFirma &&
         matchesRecent &&
         matchesCreatedRange
       );
@@ -143,6 +157,11 @@ export default function SortableTable({
     [filteredData],
   );
 
+  const firmaOptions = useMemo(
+    () => getFilterOptions(filteredData, "firma"),
+    [filteredData],
+  );
+
   const artnrOptions = useMemo(() => {
     const artnrSet = new Set(
       filteredData.map((t) => t.artnr_mei || t.artnr_ku).filter(Boolean),
@@ -165,6 +184,10 @@ export default function SortableTable({
       label: t(locale, "status"),
       key: "status_int",
       render: (ticket) => ticket.status_int.text,
+    },
+    {
+      label: t(locale, "company"),
+      key: "firma",
     },
     {
       label: t(locale, "customerNumber"),
@@ -261,7 +284,7 @@ export default function SortableTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid md:grid-cols-4 items-end gap-2 md:gap-y-0">
+      <div className="grid md:grid-cols-5 items-end gap-2 md:gap-y-0">
         <Select
           label={t(locale, "createdBy")}
           searchable
@@ -287,6 +310,18 @@ export default function SortableTable({
           }
           checkIconPosition="right"
           disabled={status !== undefined}
+        />
+        <Select
+          label={t(locale, "company")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={firmaOptions}
+          value={filters.firma}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, firma: value || "" }))
+          }
+          checkIconPosition="right"
         />
         <Select
           label={t(locale, "customerNumber")}
@@ -389,6 +424,8 @@ export default function SortableTable({
               label: t(locale, "thisYear"),
             },
           ]}
+          rightSection={<IconCalendarWeek size={16} />}
+          rightSectionPointerEvents="none"
           clearable
         />
         <Select
@@ -408,9 +445,18 @@ export default function SortableTable({
         <Button
           variant="light"
           onClick={() => {
+            setFilters(initialValues);
+          }}
+          leftSection={<IconFilterOff size={16} />}
+          disabled={JSON.stringify(filters) === JSON.stringify(initialValues)}
+        >
+          {t(locale, "clearFilters")}
+        </Button>
+        <Button
+          color="dark"
+          onClick={() => {
             exportXLSX(JSON.stringify(sortedTickets));
           }}
-          fullWidth
           leftSection={<IconTableExport size={16} />}
         >
           {t(locale, "export")}

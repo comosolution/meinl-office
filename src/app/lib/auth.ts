@@ -23,6 +23,7 @@ export const authOptions: NextAuthOptions = {
       session.user!.email = token.email;
       session.user!.name = token.name;
       session.user!.image = token.picture;
+      session.user.roles = token.roles ?? [];
       return session;
     },
     async jwt({ token, user, profile }) {
@@ -31,6 +32,7 @@ export const authOptions: NextAuthOptions = {
         token.email = profile.email;
         token.name = profile.name;
         token.picture = profile.image;
+        token.roles = profile.roles ?? [];
       }
       return token;
     },

@@ -1,5 +1,6 @@
 "use client";
 import {
+  Autocomplete,
   Avatar,
   SegmentedControl,
   Select,
@@ -91,7 +92,7 @@ export default function Page() {
         (c.branche || "").toLowerCase() === filters.branche.toLowerCase();
       const cityMatch =
         !filters.city ||
-        (c.ort || "").toLowerCase() === filters.city.toLowerCase();
+        (c.ort || "").toLowerCase().startsWith(filters.city.toLowerCase());
 
       return (
         searchMatch &&
@@ -167,7 +168,14 @@ export default function Page() {
 
   const cityOptions = useMemo(() => {
     return Array.from(
-      new Set(companies.map((c) => c.ort || "").filter(Boolean)),
+      new Set(
+        companies
+          .map((c) => (c.ort.includes(",") ? c.ort.split(",")[0] : c.ort))
+          .map((ort) =>
+            ort.toLowerCase().replace(/\b\w/g, (ch) => ch.toUpperCase()),
+          )
+          .filter(Boolean),
+      ),
     )
       .sort((a, b) => a.localeCompare(b))
       .map((value) => ({ label: value, value }));
@@ -197,8 +205,8 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-4 px-4 md:px-8 py-4">
       <header className="flex flex-col md:flex-row justify-between items-center gap-2 py-4">
-        <h1>{t(locale, "allCompanies")}</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row justify-center text-center md:items-baseline gap-2">
+          <h1>{t(locale, "allCompanies")}</h1>
           <TextInput
             variant="unstyled"
             placeholder={t(locale, "searchCompanies")}
@@ -206,14 +214,14 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
-          {source === "OFFGUT" && (
-            <SegmentedControl
-              data={["B2B", "B2C"]}
-              value={service}
-              onChange={(value) => setService(value as "B2B" | "B2C")}
-            />
-          )}
         </div>
+        {source === "OFFGUT" && (
+          <SegmentedControl
+            data={["B2B", "B2C"]}
+            value={service}
+            onChange={(value) => setService(value as "B2B" | "B2C")}
+          />
+        )}
       </header>
 
       <div
@@ -241,9 +249,8 @@ export default function Page() {
             }));
           }}
         />
-        <Select
+        <Autocomplete
           label={t(locale, "city")}
-          searchable
           clearable
           placeholder={t(locale, "filter")}
           data={cityOptions}
@@ -251,7 +258,6 @@ export default function Page() {
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, city: value || "" }))
           }
-          checkIconPosition="right"
         />
         <Select
           label={t(locale, "country")}

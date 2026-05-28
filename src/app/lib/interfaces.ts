@@ -171,6 +171,7 @@ export interface TicketSummary {
   artnr_mei: string;
   artnr: string;
   kdnr_name: string;
+  firma: string;
 }
 
 export interface Ticket {
@@ -181,6 +182,7 @@ export interface Ticket {
   kdnr: string;
   kdnr_full: string;
   kdnr_name: string;
+  firma: string;
   updatedby: string;
   createdby: string;
   created: string;

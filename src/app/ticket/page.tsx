@@ -64,6 +64,7 @@ export default function Page() {
             String(t.kdnr) || "",
             t.kdnr_full || "",
             t.kdnr_name || "",
+            t.firma || "",
             t.artnr_ku || "",
             t.artnr_mei || "",
             t.created || "",

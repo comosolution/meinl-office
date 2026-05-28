@@ -116,7 +116,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             vaort: data.versandadresse?.vaort ?? "",
             valand:
               normalizeAlpha2CountryCode(data.versandadresse?.valand) ??
-              data.versandadresse?.valand ?? "",
+              data.versandadresse?.valand ??
+              "",
             zusatz: data.versandadresse?.zusatz ?? "",
           },
         };
@@ -646,15 +647,26 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     <>
       <main className="flex flex-col gap-8 p-4">
         <div className="flex flex-col md:flex-row justify-between gap-2">
-          <Button
-            variant="light"
-            color="gray"
-            component={Link}
-            href="/ticket"
-            leftSection={<IconChevronLeft size={16} />}
-          >
-            {t(locale, "allTickets")}
-          </Button>
+          <div className="flex flex-col md:flex-row gap-2">
+            <Button
+              variant="light"
+              color="gray"
+              component={Link}
+              href="/ticket"
+              leftSection={<IconChevronLeft size={16} />}
+            >
+              {t(locale, "allTickets")}
+            </Button>
+            <Button
+              variant="transparent"
+              color="gray"
+              component={Link}
+              href={`/company/${ticket.kdnr}`}
+              leftSection={<IconChevronLeft size={16} />}
+            >
+              {ticket.firma}
+            </Button>
+          </div>
           <div className="flex flex-col md:flex-row gap-2">
             <Menu shadow="md" width={160} trigger="click-hover">
               <Menu.Target>

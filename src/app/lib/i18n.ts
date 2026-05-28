@@ -197,6 +197,7 @@ export type TranslationKey =
   | "searchByArticleNumber"
   | "modified"
   | "filter"
+  | "clearFilters"
   | "page"
   | "of"
   | "result"
@@ -460,6 +461,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     searchByArticleNumber: "Nach Artikelnummer suchen ...",
     modified: "Bearbeitet",
     filter: "Filtern ...",
+    clearFilters: "Filter zurücksetzen",
     page: "Seite",
     of: "von",
     result: "Ergebnis",
@@ -724,6 +726,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     searchByArticleNumber: "Search by article number ...",
     modified: "Modified",
     filter: "Filter ...",
+    clearFilters: "Clear Filters",
     page: "Page",
     of: "of",
     result: "Result",

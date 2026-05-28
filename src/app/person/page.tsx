@@ -152,8 +152,8 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-4 px-4 md:px-8 py-4">
       <header className="flex flex-col md:flex-row justify-between items-center gap-2 py-4">
-        <h1>{t(locale, "allPeople")}</h1>
-        <div className="flex">
+        <div className="flex flex-col md:flex-row justify-center text-center md:items-baseline gap-2">
+          <h1>{t(locale, "allPeople")}</h1>
           <TextInput
             variant="unstyled"
             placeholder={t(locale, "searchPeople")}
@@ -161,16 +161,16 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
-          {isPreview && (
-            <Button
-              component={Link}
-              href="/person/new"
-              leftSection={<IconPlus size={16} />}
-            >
-              {t(locale, "createPerson")}
-            </Button>
-          )}
         </div>
+        {isPreview && (
+          <Button
+            component={Link}
+            href="/person/new"
+            leftSection={<IconPlus size={16} />}
+          >
+            {t(locale, "createPerson")}
+          </Button>
+        )}
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2">

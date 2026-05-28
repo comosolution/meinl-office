@@ -240,12 +240,15 @@ export const fetchResults = async <T>(
     method: "POST",
     body: JSON.stringify({
       type,
-      search: query || " ",
+      search: query?.replaceAll("'", " ") || " ",
       source,
       service,
       user,
     }),
     signal,
   });
+
+  if (!res.ok) return [];
+
   return res.json();
 };

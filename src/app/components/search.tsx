@@ -58,7 +58,7 @@ export default function Search({
           fetchResults<Dealer>(
             source,
             service,
-            "dealers",
+            source === "OFFGUT" ? "dealers" : "companies",
             session?.user?.name ?? "",
             debouncedQuery,
             signal,
@@ -97,11 +97,13 @@ export default function Search({
         c.id === 0 ? "" : `– ${c.brand}`
       }`,
       onClick: () => {
-        router.push(`/company/${c.kdnr}${c.id === 0 ? "" : `/${c.id}`}`);
+        router.push(
+          `/company/${c.kdnr}${c.id === 0 || source === "OFFUSA" ? "" : `/${c.id}`}`,
+        );
       },
       rightSection: (
         <p className="text-xs dimmed">
-          {c.id === 0 ? c.kdnr : `${c.kdnr}-${c.id}`}
+          {c.id === 0 || source === "OFFUSA" ? c.kdnr : `${c.kdnr}-${c.id}`}
         </p>
       ),
       leftSection: (
