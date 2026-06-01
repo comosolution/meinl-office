@@ -253,7 +253,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     setEditing(false);
   };
 
-  const updateTicketStatus = async (int: string, ext: string) => {
+  const updateTicketStatus = async (int: string, ext: string, art?: string) => {
     const payload = {
       ...ticket,
       status_int: {
@@ -262,6 +262,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       status_ext: {
         nr: ext,
       },
+      auftr_art: art ?? ticket?.auftr_art ?? "",
       files: null,
       user: session?.user?.name,
     };
@@ -597,7 +598,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const selectedState = states.find((s) => s.int === newState);
 
     if (selectedState) {
-      updateTicketStatus(selectedState.int, selectedState.ext);
+      updateTicketStatus(
+        selectedState.int,
+        selectedState.ext,
+        selectedState.art,
+      );
     } else {
       notifications.show({
         title: "Ungültiger Status",

@@ -1,17 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { Status, TicketSummary } from "@/app/lib/interfaces";
+import { Status, Ticket, TicketSummary } from "@/app/lib/interfaces";
 import { RecentTickets } from "@/app/lib/recentTickets";
-import { Button, Select, Table } from "@mantine/core";
+import { ActionIcon, Button, Select, Table, Tooltip } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import {
   IconCalendarWeek,
   IconChevronUp,
+  IconEye,
+  IconEyeOff,
   IconFilterOff,
   IconTableExport,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
 import dayjs from "dayjs";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
@@ -24,17 +27,22 @@ type TicketKey = keyof TicketSummary | "viewed";
 
 export default function SortableTable({
   tickets,
+  view,
   createdBy,
   status,
   kundenart,
   recentlyViewed,
+  onUpdate,
 }: {
   tickets: TicketSummary[];
+  view: string;
   createdBy?: string;
   status?: string;
   kundenart?: string;
   recentlyViewed?: RecentTickets;
+  onUpdate: () => Promise<void>;
 }) {
+  const { data: session } = useSession();
   const { locale } = useOffice();
 
   const initialValues = {
@@ -99,8 +107,8 @@ export default function SortableTable({
         if (created.isAfter(end ?? start, "day")) return false;
         return true;
       })();
+      const isHidden = view === "new" ? ticket.hidden : false;
 
-      setPage(1);
       return (
         matchesKdnr &&
         matchesKdnrName &&
@@ -110,10 +118,15 @@ export default function SortableTable({
         matchesCreatedBy &&
         matchesFirma &&
         matchesRecent &&
-        matchesCreatedRange
+        matchesCreatedRange &&
+        !isHidden
       );
     });
-  }, [tickets, filters, recentlyViewed]);
+  }, [tickets, filters, recentlyViewed, view]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [filters, recentlyViewed, view]);
 
   const getFilterOptions = (
     data: TicketSummary[],
@@ -230,12 +243,47 @@ export default function SortableTable({
     }
   };
 
+  const updateTicketVisibility = async (
+    ticket: TicketSummary,
+    hidden: boolean,
+  ) => {
+    try {
+      const response = await fetch(`/api/ticket/${ticket.nr}`);
+      if (!response.ok) {
+        console.error("Failed to fetch ticket for update");
+        return;
+      }
+
+      const existingTicket: Ticket = await response.json();
+      const payload = {
+        ...existingTicket,
+        hidden,
+        files: null,
+        user: session?.user?.name,
+      };
+
+      const res = await fetch("/api/ticket", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        onUpdate();
+      } else {
+        console.error("Failed to update ticket status:", await res.text());
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const sortedTickets = useMemo(() => {
     if (!sortBy) return filteredData;
 
     return [...filteredData].sort((a, b) => {
-      let aVal: string | Status = a[sortBy as keyof TicketSummary];
-      let bVal: string | Status = b[sortBy as keyof TicketSummary];
+      let aVal: string | Status | boolean = a[sortBy as keyof TicketSummary];
+      let bVal: string | Status | boolean = b[sortBy as keyof TicketSummary];
 
       if (sortBy === "viewed") {
         aVal = recentlyViewed?.[a.nr] ?? "";
@@ -494,6 +542,7 @@ export default function SortableTable({
                   </div>
                 </Table.Th>
               ))}
+              <Table.Th />
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
@@ -510,6 +559,48 @@ export default function SortableTable({
                       : String(ticket[key as keyof TicketSummary])}
                   </Table.Td>
                 ))}
+                {view === "new" ? (
+                  <Table.Td>
+                    <Tooltip
+                      label={t(locale, "hideTicket")}
+                      position="left"
+                      withArrow
+                    >
+                      <ActionIcon
+                        variant="light"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateTicketVisibility(ticket, true);
+                        }}
+                      >
+                        <IconEyeOff size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Table.Td>
+                ) : view === "all" &&
+                  ticket.status_int?.nr === "100" &&
+                  ticket.hidden ? (
+                  <Table.Td>
+                    <Tooltip
+                      label={t(locale, "showTicket")}
+                      position="left"
+                      withArrow
+                    >
+                      <ActionIcon
+                        color="dark"
+                        variant="transparent"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateTicketVisibility(ticket, false);
+                        }}
+                      >
+                        <IconEye size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Table.Td>
+                ) : (
+                  <Table.Td />
+                )}
               </Table.Tr>
             ))}
           </Table.Tbody>

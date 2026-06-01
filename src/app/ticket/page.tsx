@@ -21,7 +21,7 @@ export default function Page() {
 
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [value, setValue] = useState("all");
+  const [view, setView] = useState("all");
   const [tickets, setTickets] = useState<TicketSummary[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<RecentTickets>({});
@@ -80,10 +80,10 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (value === "recent") {
+    if (view === "recent") {
       setRecentlyViewed(getRecentTickets());
     }
-  }, [value]);
+  }, [view]);
 
   if (loading) {
     return <Loader />;
@@ -98,8 +98,8 @@ export default function Page() {
       <header className="flex flex-col md:flex-row justify-between items-center gap-2">
         <SegmentedControl
           size={isMobile ? "sm" : "xl"}
-          value={value}
-          onChange={setValue}
+          value={view}
+          onChange={setView}
           data={[
             {
               label: t(locale, "allTickets"),
@@ -124,7 +124,7 @@ export default function Page() {
           ]}
         />
         <div className="flex items-center">
-          {value !== "dashboard" && (
+          {view !== "dashboard" && (
             <TextInput
               variant="unstyled"
               placeholder={t(locale, "searchTickets")}
@@ -143,15 +143,17 @@ export default function Page() {
         </div>
       </header>
 
-      {value !== "dashboard" ? (
+      {view !== "dashboard" ? (
         <SortableTable
           tickets={filteredTickets}
+          view={view}
           createdBy={
-            value === "mine" ? (session?.user?.name ?? undefined) : undefined
+            view === "mine" ? (session?.user?.name ?? undefined) : undefined
           }
-          status={value === "new" ? "100" : undefined}
-          kundenart={value === "new" ? "withoutExport" : "all"}
-          recentlyViewed={value === "recent" ? recentlyViewed : undefined}
+          status={view === "new" ? "100" : undefined}
+          kundenart={view === "new" ? "withoutExport" : "all"}
+          recentlyViewed={view === "recent" ? recentlyViewed : undefined}
+          onUpdate={fetchTickets}
         />
       ) : (
         <div className="flex flex-col gap-4">

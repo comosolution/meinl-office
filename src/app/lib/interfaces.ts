@@ -172,6 +172,7 @@ export interface TicketSummary {
   artnr: string;
   kdnr_name: string;
   firma: string;
+  hidden: boolean;
 }
 
 export interface Ticket {
@@ -210,6 +211,7 @@ export interface Ticket {
   files: Attachment[] | null;
   fileinfo: FileInfo[];
   history: HistoryEntry[];
+  hidden: boolean;
 }
 
 export interface Status {

@@ -30,6 +30,7 @@ export default function Page() {
           <div className="flex flex-col items-end">
             <h3>{session?.user?.name}</h3>
             <p className="dimmed text-xs">{session?.user?.email}</p>
+            <p>{session?.user?.roles?.join(", ")}</p>
           </div>
           <Avatar variant="filled" size={48} name={session?.user?.name ?? ""} />
         </div>

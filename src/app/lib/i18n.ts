@@ -148,6 +148,8 @@ export type TranslationKey =
   | "additionalShipping"
   | "status"
   | "editTicket"
+  | "showTicket"
+  | "hideTicket"
   | "save"
   | "apply"
   | "files"
@@ -412,6 +414,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     additionalShipping: "Zusatz",
     status: "Status",
     editTicket: "Ticket bearbeiten",
+    showTicket: 'Ticket in Ansicht "Neu" anzeigen',
+    hideTicket: 'Ticket in Ansicht "Neu" verstecken',
     save: "Speichern",
     apply: "Übernehmen",
     files: "Dateien",
@@ -677,6 +681,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     additionalShipping: "Additional",
     status: "Status",
     editTicket: "Edit Ticket",
+    showTicket: 'Show ticket in "New" view',
+    hideTicket: 'Hide ticket in "New" view',
     save: "Save",
     apply: "Apply",
     files: "Files",
