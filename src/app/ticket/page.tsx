@@ -10,6 +10,7 @@ import Loader from "../components/loader";
 import SortableTable from "../components/sortableTable";
 import StatsOverview from "../components/statsOverview";
 import { useOffice } from "../context/officeContext";
+import { MEINL_RMA_VIEW_KEY } from "../lib/config";
 import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
 import { RecentTickets, getRecentTickets } from "../lib/recentTickets";
@@ -21,7 +22,9 @@ export default function Page() {
 
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [view, setView] = useState("all");
+  const [view, setView] = useState(
+    () => localStorage.getItem(MEINL_RMA_VIEW_KEY) ?? "all",
+  );
   const [tickets, setTickets] = useState<TicketSummary[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<RecentTickets>({});
@@ -80,6 +83,8 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem(MEINL_RMA_VIEW_KEY, view);
+
     if (view === "recent") {
       setRecentlyViewed(getRecentTickets());
     }

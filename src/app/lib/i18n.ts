@@ -23,10 +23,14 @@ export type TranslationKey =
   | "startPage"
   | "campaigns"
   | "tickets"
+  | "profile"
+  | "roles"
+  | "noRoles"
   | "changelog"
   | "logout"
   | "source"
   | "language"
+  | "location"
   | "companyLabel"
   | "personLabel"
   | "backToStart"
@@ -265,7 +269,10 @@ export type TranslationKey =
   | "lastWeek"
   | "thisMonth"
   | "lastMonth"
-  | "thisYear";
+  | "thisYear"
+  | "settings"
+  | "clearData"
+  | "clearDataConfirm";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -289,10 +296,14 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     startPage: "Startseite",
     campaigns: "Kampagnen",
     tickets: "RMA Tickets",
+    profile: "Profil",
+    roles: "Rollen",
+    noRoles: "Keine Rollen zugeordnet",
     changelog: "Changelog",
     logout: "Ausloggen",
     source: "Quelle",
     language: "Sprache",
+    location: "Standort",
     companyLabel: "Firma",
     personLabel: "Person",
     backToStart: "Zurück zur Startseite",
@@ -534,6 +545,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     thisMonth: "Dieser Monat",
     lastMonth: "Letzter Monat",
     thisYear: "Dieses Jahr",
+    settings: "Einstellungen",
+    clearData: "Gespeicherte Nutzerdaten löschen",
+    clearDataConfirm: "Alle lokalen Daten werden unwiderruflich gelöscht.",
   },
   en: {
     welcome: "Welcome",
@@ -556,10 +570,14 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     startPage: "Home",
     campaigns: "Campaigns",
     tickets: "RMA Tickets",
+    profile: "Profile",
+    roles: "Roles",
+    noRoles: "No roles assigned",
     changelog: "Changelog",
     logout: "Sign Out",
     source: "Source",
     language: "Language",
+    location: "Location",
     companyLabel: "Company",
     personLabel: "Person",
     backToStart: "Back to start",
@@ -800,6 +818,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     thisMonth: "This Month",
     lastMonth: "Last Month",
     thisYear: "This Year",
+    settings: "Settings",
+    clearData: "Clear stored user data",
+    clearDataConfirm: "All local data will be permanently deleted.",
   },
 };
 

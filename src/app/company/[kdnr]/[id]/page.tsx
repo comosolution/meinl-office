@@ -252,19 +252,21 @@ export default function Page({
             <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
               {t(locale, "companyLogo")}
             </Tabs.Tab>
-            <Tabs.Tab
-              value="storelocator"
-              leftSection={<IconShoppingCartPin size={16} />}
-              rightSection={
-                distributor.dealerloc ? (
-                  <IconCircleCheck size={16} color="gray" />
-                ) : (
-                  <IconCircleX size={16} color="gray" />
-                )
-              }
-            >
-              {t(locale, "dealerLocator")}
-            </Tabs.Tab>
+            {source === "OFFGUT" && (
+              <Tabs.Tab
+                value="storelocator"
+                leftSection={<IconShoppingCartPin size={16} />}
+                rightSection={
+                  distributor.dealerloc ? (
+                    <IconCircleCheck size={16} color="gray" />
+                  ) : (
+                    <IconCircleX size={16} color="gray" />
+                  )
+                }
+              >
+                {t(locale, "dealerLocator")}
+              </Tabs.Tab>
+            )}
           </Scroller>
         </Tabs.List>
 
@@ -324,22 +326,22 @@ export default function Page({
                   <TextInput
                     label={t(locale, "country")}
                     {...form.getInputProps("land")}
-                    readOnly={!edit}
+                    readOnly={!edit || source === "OFFUSA"}
                   />
                   <TextInput
                     label={t(locale, "streetPostbox")}
                     {...form.getInputProps("strasse")}
-                    readOnly={!edit}
+                    readOnly={!edit || source === "OFFUSA"}
                   />
                   <TextInput
                     label={t(locale, "postalCode")}
                     {...form.getInputProps("plz")}
-                    readOnly={!edit}
+                    readOnly={!edit || source === "OFFUSA"}
                   />
                   <TextInput
                     label={t(locale, "city")}
                     {...form.getInputProps("ort")}
-                    readOnly={!edit}
+                    readOnly={!edit || source === "OFFUSA"}
                   />
                 </div>
               </Fieldset>
@@ -358,7 +360,26 @@ export default function Page({
                 <TextInput
                   label={t(locale, "email")}
                   {...form.getInputProps("mailadr")}
-                  readOnly
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label={t(locale, "websiteUrl")}
+                  {...form.getInputProps("www")}
+                  readOnly={!edit}
+                  rightSection={
+                    <div className="flex">
+                      <ActionIcon
+                        size="sm"
+                        variant="transparent"
+                        color="dark"
+                        component="a"
+                        href={parseUrl(company.www)}
+                        target="_blank"
+                      >
+                        <IconExternalLink size={16} />
+                      </ActionIcon>
+                    </div>
+                  }
                 />
               </Fieldset>
               <Fieldset>

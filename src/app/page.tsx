@@ -2,6 +2,8 @@
 import { Avatar } from "@mantine/core";
 import { IconBuildings, IconBuildingWarehouse } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import packageJson from "../../package.json";
 import HistoryList from "./components/history";
 import Title from "./components/title";
 import { useOffice } from "./context/officeContext";
@@ -23,17 +25,19 @@ export default function Page() {
   const { locale } = useOffice();
 
   return (
-    <main className="flex flex-col gap-4 px-4 md:px-8 py-4">
+    <main className="flex flex-col gap-2 px-4 md:px-8 py-4">
       <header className="flex justify-between items-center gap-2 py-4">
         <Title />
-        <div className="hidden md:flex items-center gap-4">
+        <Link
+          href="/settings/profile"
+          className="hidden md:flex items-center gap-4 hover:text-(--main) transition-all"
+        >
           <div className="flex flex-col items-end">
             <h3>{session?.user?.name}</h3>
             <p className="dimmed text-xs">{session?.user?.email}</p>
-            <p>{session?.user?.roles?.join(", ")}</p>
           </div>
           <Avatar variant="filled" size={48} name={session?.user?.name ?? ""} />
-        </div>
+        </Link>
       </header>
       <div className="grid lg:grid-cols-3 gap-4">
         <HistoryList
@@ -90,6 +94,14 @@ export default function Page() {
           getSource={(person: PersonInStorage) => person.source}
         />
       </div>
+      <footer className="flex justify-center py-4">
+        <Link
+          href="/settings/changelog"
+          className="link text-xs text-center dimmed"
+        >
+          Meinl Office {packageJson.version}
+        </Link>
+      </footer>
     </main>
   );
 }

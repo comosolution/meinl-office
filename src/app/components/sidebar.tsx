@@ -9,7 +9,6 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import {
-  IconAddressBook,
   IconBasket,
   IconBuildings,
   IconHistory,
@@ -21,6 +20,7 @@ import {
   IconNews,
   IconSun,
   IconTicket,
+  IconUserCircle,
   IconUsersGroup,
 } from "@tabler/icons-react";
 import { signOut, useSession } from "next-auth/react";
@@ -48,8 +48,7 @@ export default function Sidebar({
   onClose?: () => void;
 }) {
   const { data: session } = useSession();
-  const { source, setSource, service, setService, locale, setLocale } =
-    useOffice();
+  const { source, setSource, locale, setLocale } = useOffice();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -118,7 +117,10 @@ export default function Sidebar({
         title={name}
         leftSection={
           <div className="w-5">
-            <ReactCountryFlag countryCode={source === "OFFGUT" ? "DE" : "US"} />
+            <ReactCountryFlag
+              countryCode={source === "OFFGUT" ? "DE" : "US"}
+              svg
+            />
           </div>
         }
         styles={{
@@ -140,7 +142,7 @@ export default function Sidebar({
         title={t(locale, "language")}
         leftSection={
           <div className="w-5">
-            <ReactCountryFlag countryCode={locale === "de" ? "DE" : "US"} svg />
+            <ReactCountryFlag countryCode={locale === "de" ? "DE" : "US"} />
           </div>
         }
         styles={{
@@ -150,21 +152,6 @@ export default function Sidebar({
           setLocale(locale === "de" ? "en" : "de");
         }}
       />
-    );
-  };
-
-  const ServiceSwitch = () => {
-    if (source !== "OFFGUT") {
-      return null;
-    }
-
-    return (
-      <Menu.Item
-        leftSection={<IconAddressBook size={14} />}
-        onClick={() => setService(service === "B2B" ? "B2C" : "B2B")}
-      >
-        {service}
-      </Menu.Item>
     );
   };
 
@@ -288,8 +275,8 @@ export default function Sidebar({
           >
             <Menu.Target>
               <NavLink
-                label={session?.user?.name}
-                title={session?.user?.name ?? ""}
+                label={session?.user?.name ?? t(locale, "profile")}
+                title={session?.user?.name ?? t(locale, "profile")}
                 styles={{
                   root: navLink(collapsed),
                 }}
@@ -304,8 +291,14 @@ export default function Sidebar({
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Label>{session?.user?.email}</Menu.Label>
-              <ServiceSwitch />
-              <ThemeSwitch />
+              <Menu.Item
+                leftSection={<IconUserCircle size={14} />}
+                component={Link}
+                href="/settings/profile"
+                onClick={() => onClose?.()}
+              >
+                {t(locale, "profile")}
+              </Menu.Item>
               <Menu.Item
                 leftSection={<IconHistory size={14} />}
                 component={Link}
@@ -314,6 +307,7 @@ export default function Sidebar({
               >
                 {t(locale, "changelog")}
               </Menu.Item>
+              <ThemeSwitch />
               <Menu.Item
                 leftSection={<IconLogout size={14} />}
                 onClick={() => signOut()}

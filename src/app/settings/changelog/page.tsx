@@ -13,7 +13,7 @@ export default async function ChangelogPage() {
         <div key={index} className="pt-8" style={{ borderTop: defaultBorder }}>
           <div className="flex flex-col lg:flex-row lg:items-baseline gap-8">
             <div className="flex items-baseline gap-2 lg:w-1/4">
-              <Badge size="xl" variant="light">
+              <Badge size="xl" variant="outline">
                 {section.version}
               </Badge>
               <p className="dimmed text-xs">
