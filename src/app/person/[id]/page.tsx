@@ -21,6 +21,7 @@ import { t } from "@/app/lib/i18n";
 import { Person, PersonInStorage } from "@/app/lib/interfaces";
 import {
   dateParser,
+  fetchPerson,
   formatDateToString,
   generatePassword,
   getAvatarColor,
@@ -45,7 +46,6 @@ import {
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import {
   IconBalloon,
   IconBasketPlus,
@@ -94,23 +94,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [person]);
 
   const getPerson = async () => {
-    const response = await fetch("/api/person", {
-      method: "POST",
-      body: JSON.stringify({ b2bnr: id, source }),
-    });
-
-    if (!response.ok) {
-      notifications.show({
-        id: `error-${id}`,
-        title: `${t(locale, "error")} ${response.status}`,
-        message: (await response.text()) || "",
-        autoClose: false,
-      });
-      return;
-    }
-
-    const persons = await response.json();
-    setPerson(persons);
+    const p = await fetchPerson(source, id);
+    setPerson(p);
   };
 
   const updateHistory = () => {

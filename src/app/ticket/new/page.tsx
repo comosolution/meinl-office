@@ -9,7 +9,7 @@ import {
 } from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
-import { isPreview } from "@/app/lib/utils";
+import { fetchCompany, isPreview } from "@/app/lib/utils";
 import {
   Button,
   Group,
@@ -240,13 +240,8 @@ export default function Page() {
   };
 
   const getCompany = async () => {
-    const response = await fetch("/api/company/", {
-      method: "POST",
-      body: JSON.stringify({ kdnr: form.values.kdnr, source }),
-    });
-
-    const companies = await response.json();
-    setCompany(companies[0]);
+    const c = await fetchCompany(form.values.kdnr, source);
+    setCompany(c);
   };
 
   useEffect(() => {

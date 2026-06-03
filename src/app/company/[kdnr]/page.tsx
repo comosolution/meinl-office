@@ -13,7 +13,12 @@ import {
 import { customerTypes } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
-import { getAvatarColor, isPreview, parseUrl } from "@/app/lib/utils";
+import {
+  fetchCompany,
+  getAvatarColor,
+  isPreview,
+  parseUrl,
+} from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -28,7 +33,6 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
 import {
   IconBasketPlus,
   IconBrandFacebook,
@@ -94,23 +98,8 @@ export default function Page({
   }, [company]);
 
   const getCompany = async () => {
-    const response = await fetch("/api/company/", {
-      method: "POST",
-      body: JSON.stringify({ kdnr, source }),
-    });
-
-    if (!response.ok) {
-      notifications.show({
-        id: `error-${kdnr}`,
-        title: `${t(locale, "error")} ${response.status}`,
-        message: (await response.text()) || "",
-        autoClose: false,
-      });
-      return;
-    }
-
-    const companies = await response.json();
-    setCompany(companies[0]);
+    const c = await fetchCompany(kdnr, source);
+    setCompany(c);
   };
 
   const updateHistory = () => {
@@ -322,18 +311,18 @@ export default function Page({
                   <TextInput
                     label={t(locale, "nameLabel")}
                     {...form.getInputProps("name1")}
-                    readOnly={!edit}
+                    readOnly={!edit || source === "OFFUSA"}
                     className="md:col-span-2"
                   />
                   <TextInput
                     label={t(locale, "nameLabel") + " 2"}
                     {...form.getInputProps("name2")}
-                    readOnly={!edit}
+                    readOnly={!edit || source === "OFFUSA"}
                   />
                   <TextInput
                     label={t(locale, "nameLabel") + " 3"}
                     {...form.getInputProps("name3")}
-                    readOnly={!edit}
+                    readOnly={!edit || source === "OFFUSA"}
                   />
                   <TextInput
                     label={t(locale, "matchcode")}

@@ -13,7 +13,7 @@ import { Person, Ticket } from "@/app/lib/interfaces";
 import { trackTicket } from "@/app/lib/recentTickets";
 import { sendResendMail } from "@/app/lib/resend";
 import { states } from "@/app/lib/rma";
-import { fetchResults, isPreview, parseDb2Date } from "@/app/lib/utils";
+import { fetchPerson, isPreview, parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
@@ -171,18 +171,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const getOwner = async () => {
     if (!ticket) return;
 
-    const persons = await fetchResults<Person>(
-      source,
-      service,
-      "persons",
-      session?.user?.name ?? "",
-      ticket.kdnr_full,
-    );
-    const contact = persons.find((p) => p.b2bnr === ticket.kdnr_full);
+    const person = await fetchPerson(source, ticket.kdnr_full);
 
-    setOwner(contact || null);
-    setEmail(contact?.email || "");
-    setPhone(contact?.phone || "");
+    setOwner(person ?? null);
+    setEmail(person?.email ?? "");
+    setPhone(person?.phone ?? "");
   };
 
   const handleSubmit = form.onSubmit(async (values) => {
