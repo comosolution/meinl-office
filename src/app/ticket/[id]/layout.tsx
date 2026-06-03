@@ -8,7 +8,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
 
-  return { title: `${id} - Meinl Office ${isPreview ? "(Dev)" : ""}` };
+  return { title: `RMA ${id} - Meinl Office ${isPreview ? "(Dev)" : ""}` };
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
