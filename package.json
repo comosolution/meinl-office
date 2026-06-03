@@ -21,6 +21,7 @@
     "@tabler/icons-react": "^3.34.1",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "exceljs": "^4.4.0",
     "i18n-iso-countries": "^7.0.0",
     "jsbarcode": "^3.12.3",
     "jspdf": "^4.1.0",
@@ -36,8 +37,7 @@
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
     "remark-rehype": "^11.1.2",
-    "resend": "^6.12.2",
-    "xlsx": "^0.18.5"
+    "resend": "^6.12.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

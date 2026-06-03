@@ -502,8 +502,8 @@ export default function SortableTable({
         </Button>
         <Button
           color="dark"
-          onClick={() => {
-            exportXLSX(JSON.stringify(sortedTickets));
+          onClick={async () => {
+            await exportXLSX(JSON.stringify(sortedTickets));
           }}
           leftSection={<IconTableExport size={16} />}
         >

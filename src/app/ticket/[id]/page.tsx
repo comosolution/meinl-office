@@ -8,12 +8,12 @@ import {
   normalizeAlpha2CountryCode,
   normalizeAlpha3CountryCode,
 } from "@/app/lib/countryCodes";
+import { useFetchPerson } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
 import { trackTicket } from "@/app/lib/recentTickets";
 import { sendResendMail } from "@/app/lib/resend";
 import { states } from "@/app/lib/rma";
-import { useFetchPerson } from "@/app/lib/hooks";
 import { isPreview, parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
@@ -735,7 +735,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             onChange={setNewState}
             data={[
               ...states.map((s) => {
-                return { label: `${s.label} (${s.int})`, value: s.int };
+                return {
+                  label: `${s.label} (${s.int})`,
+                  value: s.int,
+                  disabled:
+                    Number(ticket.status_int.nr) > 500 && s.int !== "790",
+                };
               }),
             ]}
             searchable

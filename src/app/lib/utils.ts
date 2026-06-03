@@ -7,7 +7,7 @@ import {
   subMonths,
   subYears,
 } from "date-fns";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import { Order, TicketSummary } from "./interfaces";
 
 export const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
@@ -54,19 +54,36 @@ export async function fileToBase64(file: File): Promise<string> {
   });
 }
 
-export function exportXLSX(data: string) {
+export async function exportXLSX(data: string) {
   try {
     const jsonData = JSON.parse(data);
     if (!Array.isArray(jsonData)) {
       throw new Error("Invalid data format: Expected an array of objects");
     }
 
-    const worksheet = XLSX.utils.json_to_sheet(jsonData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Export");
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Export");
 
-    const fileName = `Export_${new Date().toISOString()}.xlsx`;
-    XLSX.writeFile(workbook, fileName);
+    if (jsonData.length > 0) {
+      worksheet.columns = Object.keys(jsonData[0]).map((key) => ({
+        header: key,
+        key,
+      }));
+      worksheet.addRows(jsonData);
+    }
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Export_${new Date().toISOString()}.xlsx`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   } catch (error) {
     console.error("Error exporting XLSX:", error);
   }
