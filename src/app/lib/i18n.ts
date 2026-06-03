@@ -106,6 +106,8 @@ export type TranslationKey =
   | "trackShipment"
   | "selectPickupDate"
   | "confirmPickup"
+  | "closeTicket"
+  | "reason"
   | "date"
   | "customerType"
   | "websiteUrl"
@@ -369,6 +371,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     trackShipment: "Sendung verfolgen",
     selectPickupDate: "Abholtermin wählen",
     confirmPickup: "Termin buchen",
+    closeTicket: "Ticket schließen",
+    reason: "Grund",
     date: "Datum",
     customerType: "Kundenart",
     websiteUrl: "Website URL",
@@ -633,6 +637,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     trackShipment: "Track & Trace",
     selectPickupDate: "Select Pickup Date",
     confirmPickup: "Confirm Pickup",
+    closeTicket: "Close Ticket",
+    reason: "Reason",
     date: "Date",
     customerType: "Customer Type",
     websiteUrl: "Website URL",

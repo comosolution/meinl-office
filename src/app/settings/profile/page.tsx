@@ -28,9 +28,9 @@ export default function Page() {
   const { data: session } = useSession();
   const { locale, setLocale, source, setSource, service, setService } =
     useOffice();
-  const { setColorScheme } = useMantineColorScheme();
+  const { setColorScheme, colorScheme } = useMantineColorScheme();
 
-  const [selectedTheme, setSelectedTheme] = useState<"light" | "dark">("light");
+  const [selectedTheme, setSelectedTheme] = useState(colorScheme);
 
   const [popoverOpened, { open: openPopover, close: closePopover }] =
     useDisclosure(false);

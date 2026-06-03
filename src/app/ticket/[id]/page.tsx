@@ -24,6 +24,7 @@ import {
   Drawer,
   Fieldset,
   Menu,
+  Modal,
   NumberInput,
   Paper,
   Select,
@@ -71,9 +72,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [closeReason, setCloseReason] = useState("");
 
   const [openedDhl, { open: openDhl, close: closeDhl }] = useDisclosure(false);
   const [openedGls, { open: openGls, close: closeGls }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const form = useForm<Partial<Ticket>>({
     initialValues: {
@@ -587,8 +590,41 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     doc.save(`Laufzettel_${id}.pdf`);
   };
 
+  const handleCloseTicket = async () => {
+    const selectedState = states.find((s) => s.int === "790");
+    if (!selectedState) return;
+
+    const payload = {
+      ticketnr: id,
+      createdby: session?.user?.name || ticket?.createdby,
+      comment: `Manuell beendet: ${closeReason}`,
+      source: "OF",
+      public: 1,
+      prio: 1,
+    };
+
+    await fetch("/api/history", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    await updateTicketStatus(
+      selectedState.int,
+      selectedState.ext,
+      selectedState.art,
+    );
+    setCloseReason("");
+    close();
+  };
+
   useEffect(() => {
     if (!newState) return;
+
+    if (newState === "790") {
+      open();
+      return;
+    }
 
     const selectedState = states.find((s) => s.int === newState);
 
@@ -743,6 +779,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 };
               }),
             ]}
+            disabled={Number(ticket.status_int.nr) === 790}
             searchable
             checkIconPosition="right"
           />
@@ -1054,6 +1091,46 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
       </Drawer>
+      <Modal
+        opened={opened}
+        onClose={() => {
+          setNewState(null);
+          setCloseReason("");
+          close();
+        }}
+        withCloseButton={false}
+        overlayProps={{ blur: 4 }}
+      >
+        <div className="flex flex-col gap-4">
+          <h2>{t(locale, "closeTicket")}</h2>
+          <TextInput
+            label={t(locale, "reason")}
+            value={closeReason}
+            onChange={(e) => setCloseReason(e.target.value)}
+            autoFocus
+          />
+          <div className="flex justify-between gap-2">
+            <Button
+              color="dark"
+              variant="transparent"
+              onClick={() => {
+                setNewState(null);
+                setCloseReason("");
+                close();
+              }}
+            >
+              {t(locale, "cancel")}
+            </Button>
+            <Button
+              onClick={handleCloseTicket}
+              leftSection={<IconCheck size={16} />}
+              disabled={!closeReason.trim()}
+            >
+              {t(locale, "closeTicket")}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }
