@@ -1,11 +1,10 @@
 "use client";
 import { useOffice } from "@/app/context/officeContext";
-import { useDebounce } from "@/app/lib/hooks";
+import { useDebounce, useFetchResults } from "@/app/lib/hooks";
 import { Dealer } from "@/app/lib/interfaces";
-import { fetchResults, safeLocaleCompare } from "@/app/lib/utils";
+import { safeLocaleCompare } from "@/app/lib/utils";
 import { ActionIcon, Loader, TextInput } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { t } from "../lib/i18n";
 
@@ -19,7 +18,7 @@ export default function DealerSelect({
   disabled?: boolean;
 }) {
   const { source, locale } = useOffice();
-  const { data: session } = useSession();
+  const fetchResults = useFetchResults();
 
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Dealer[]>([]);
@@ -36,13 +35,7 @@ export default function DealerSelect({
     let cancelled = false;
     const fetchData = async () => {
       setLoading(true);
-      const res = await fetchResults<Dealer>(
-        source,
-        "B2B",
-        "dealers",
-        session?.user?.name ?? "",
-        debouncedSearch,
-      );
+      const res = await fetchResults<Dealer>("dealers", debouncedSearch);
       if (!cancelled) {
         setResults(res.sort((a, b) => safeLocaleCompare(a.name1, b.name1)));
         setLoading(false);

@@ -1,7 +1,6 @@
 "use client";
 import { Avatar, Button, Select, Table, TextInput } from "@mantine/core";
 import { IconChevronUp, IconPlus, IconSearch } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -11,11 +10,12 @@ import { useOffice } from "../context/officeContext";
 import { b2bAccess } from "../lib/data";
 import { t } from "../lib/i18n";
 import { Person } from "../lib/interfaces";
-import { fetchResults, getAvatarColor, isPreview } from "../lib/utils";
+import { useFetchResults } from "../lib/hooks";
+import { getAvatarColor, isPreview } from "../lib/utils";
 
 export default function Page() {
   const { locale, source, service } = useOffice();
-  const { data: session } = useSession();
+  const fetchResults = useFetchResults();
 
   const [persons, setPersons] = useState<Person[]>([]);
   const [page, setPage] = useState(1);
@@ -35,12 +35,7 @@ export default function Page() {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetchResults<Person>(
-      source,
-      service,
-      "persons",
-      session?.user?.name ?? "",
-    );
+    const res = await fetchResults<Person>("persons");
     setPersons(res);
     setLoading(false);
   };

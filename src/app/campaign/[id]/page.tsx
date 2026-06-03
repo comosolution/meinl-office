@@ -7,8 +7,8 @@ import { MEINL_DEALERS_URL } from "@/app/lib/config";
 import { brands } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Campaign, CampaignProduct, Dealer } from "@/app/lib/interfaces";
+import { useFetchResults } from "@/app/lib/hooks";
 import {
-  fetchResults,
   notEmptyValidation,
   safeLocaleCompare,
 } from "@/app/lib/utils";
@@ -51,6 +51,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
   const { source, locale } = useOffice();
+  const fetchResults = useFetchResults();
 
   const [campaign, setCampaign] = useState<Campaign>();
   const [edit, setEdit] = useState(false);
@@ -113,12 +114,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetchResults<Dealer>(
-      source,
-      "B2B",
-      "dealers",
-      dealerSearch,
-    );
+    const res = await fetchResults<Dealer>("dealers", dealerSearch);
     setDealers(res.sort((a, b) => safeLocaleCompare(a.name1, b.name1)));
     setLoading(false);
   };

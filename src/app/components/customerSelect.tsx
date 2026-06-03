@@ -1,10 +1,8 @@
 "use client";
 import { useOffice } from "@/app/context/officeContext";
-import { useDebounce } from "@/app/lib/hooks";
+import { useDebounce, useFetchResults } from "@/app/lib/hooks";
 import { Company } from "@/app/lib/interfaces";
-import { fetchResults } from "@/app/lib/utils";
 import { Loader, Select, SelectProps, Text } from "@mantine/core";
-import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { t } from "../lib/i18n";
 
@@ -22,8 +20,8 @@ export function CustomerSelect({
   value: string | null;
   onChange: (value: string | null) => void;
 }) {
-  const { locale, source } = useOffice();
-  const { data: session } = useSession();
+  const { locale } = useOffice();
+  const fetchResults = useFetchResults();
 
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState<CustomerOption[]>([]);
@@ -53,10 +51,7 @@ export function CustomerSelect({
       setLoading(true);
       try {
         const allCompanies = await fetchResults<Company>(
-          source,
-          "B2B",
           "companies",
-          session?.user?.name ?? "",
           debouncedQuery,
         );
         const mapped: CustomerOption[] =
@@ -76,7 +71,7 @@ export function CustomerSelect({
       }
     };
     getData();
-  }, [debouncedQuery, source]);
+  }, [debouncedQuery]);
 
   return (
     <Select

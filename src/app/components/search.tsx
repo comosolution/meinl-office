@@ -10,15 +10,14 @@ import {
   IconBuildingWarehouse,
   IconSearch,
 } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useOffice } from "../context/officeContext";
-import { useDebounce } from "../lib/hooks";
+import { useDebounce, useFetchResults } from "../lib/hooks";
 import { t } from "../lib/i18n";
 import { Dealer, Person } from "../lib/interfaces";
 import { navLink } from "../lib/styles";
-import { fetchResults, getAvatarColor } from "../lib/utils";
+import { getAvatarColor } from "../lib/utils";
 
 export default function Search({
   inSidebar,
@@ -29,7 +28,7 @@ export default function Search({
 }) {
   const router = useRouter();
   const { source, locale, service } = useOffice();
-  const { data: session } = useSession();
+  const fetchResults = useFetchResults();
 
   const [query, setQuery] = useState("");
   const [companies, setCompanies] = useState<Dealer[]>([]);
@@ -56,23 +55,13 @@ export default function Search({
       try {
         const [allCompanies, allPersons] = await Promise.all([
           fetchResults<Dealer>(
-            source,
-            service,
             source === "OFFGUT" ? "dealers" : "companies",
-            session?.user?.name ?? "",
             debouncedQuery,
             signal,
           ),
           service === "B2C"
             ? []
-            : fetchResults<Person>(
-                source,
-                service,
-                "persons",
-                session?.user?.name ?? "",
-                debouncedQuery,
-                signal,
-              ),
+            : fetchResults<Person>("persons", debouncedQuery, signal),
         ]);
 
         setCompanies(allCompanies);
