@@ -13,7 +13,8 @@ import { Person, Ticket } from "@/app/lib/interfaces";
 import { trackTicket } from "@/app/lib/recentTickets";
 import { sendResendMail } from "@/app/lib/resend";
 import { states } from "@/app/lib/rma";
-import { fetchPerson, isPreview, parseDb2Date } from "@/app/lib/utils";
+import { useFetchPerson } from "@/app/lib/hooks";
+import { isPreview, parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
@@ -58,7 +59,8 @@ import TrackingTab from "../tabs/trackingTab";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
-  const { locale, source, service } = useOffice();
+  const { locale } = useOffice();
+  const fetchPerson = useFetchPerson();
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [owner, setOwner] = useState<Person | null>(null);
@@ -171,7 +173,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const getOwner = async () => {
     if (!ticket) return;
 
-    const person = await fetchPerson(source, ticket.kdnr_full);
+    const person = await fetchPerson(ticket.kdnr_full);
 
     setOwner(person ?? null);
     setEmail(person?.email ?? "");

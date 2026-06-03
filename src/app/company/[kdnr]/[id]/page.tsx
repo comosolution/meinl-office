@@ -12,8 +12,8 @@ import {
 } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Company, DealerInStorage } from "@/app/lib/interfaces";
+import { useFetchCompany } from "@/app/lib/hooks";
 import {
-  fetchCompany,
   getAvatarColor,
   isPreview,
   parseUrl,
@@ -62,6 +62,7 @@ export default function Page({
   const { kdnr, id } = React.use(params);
   const { data: session } = useSession();
   const { source, locale } = useOffice();
+  const fetchCompany = useFetchCompany();
 
   const [company, setCompany] = useState<Company>();
   const [distributor, setDistributor] = useState<Company>();
@@ -89,7 +90,7 @@ export default function Page({
   }, [company]);
 
   const getCompany = async () => {
-    const c = await fetchCompany(kdnr, source);
+    const c = await fetchCompany(kdnr);
     setCompany(c);
     setDistributor(c?.haendler?.find((h) => h.id === +id));
   };

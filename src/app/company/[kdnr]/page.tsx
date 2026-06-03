@@ -13,8 +13,8 @@ import {
 import { customerTypes } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
+import { useFetchCompany } from "@/app/lib/hooks";
 import {
-  fetchCompany,
   getAvatarColor,
   isPreview,
   parseUrl,
@@ -72,6 +72,7 @@ export default function Page({
   const { kdnr } = React.use(params);
   const { data: session } = useSession();
   const { source, locale } = useOffice();
+  const fetchCompany = useFetchCompany();
 
   const [company, setCompany] = useState<Company>();
   const [activeTab, setActiveTab] = useState<string | null>("company");
@@ -98,7 +99,7 @@ export default function Page({
   }, [company]);
 
   const getCompany = async () => {
-    const c = await fetchCompany(kdnr, source);
+    const c = await fetchCompany(kdnr);
     setCompany(c);
   };
 

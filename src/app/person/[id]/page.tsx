@@ -19,9 +19,9 @@ import {
 } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Person, PersonInStorage } from "@/app/lib/interfaces";
+import { useFetchPerson } from "@/app/lib/hooks";
 import {
   dateParser,
-  fetchPerson,
   formatDateToString,
   generatePassword,
   getAvatarColor,
@@ -67,6 +67,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
   const { source, locale } = useOffice();
+  const fetchPerson = useFetchPerson();
 
   const [person, setPerson] = useState<Person>();
   const [activeTab, setActiveTab] = useState<string | null>("info");
@@ -94,7 +95,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [person]);
 
   const getPerson = async () => {
-    const p = await fetchPerson(source, id);
+    const p = await fetchPerson(id);
     setPerson(p);
   };
 

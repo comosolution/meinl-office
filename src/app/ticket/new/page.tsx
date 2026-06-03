@@ -9,7 +9,8 @@ import {
 } from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
-import { fetchCompany, isPreview } from "@/app/lib/utils";
+import { useFetchCompany } from "@/app/lib/hooks";
+import { isPreview } from "@/app/lib/utils";
 import {
   Button,
   Group,
@@ -41,6 +42,7 @@ import { useEffect, useMemo, useState } from "react";
 export default function Page() {
   const { data: session } = useSession();
   const { source, locale } = useOffice();
+  const fetchCompany = useFetchCompany();
 
   const [active, setActive] = useState(0);
   const [loadedKdnr, setLoadedKdnr] = useState<string>();
@@ -240,7 +242,7 @@ export default function Page() {
   };
 
   const getCompany = async () => {
-    const c = await fetchCompany(form.values.kdnr, source);
+    const c = await fetchCompany(form.values.kdnr);
     setCompany(c);
   };
 

@@ -1,4 +1,3 @@
-import { notifications } from "@mantine/notifications";
 import {
   format,
   isAfter,
@@ -9,7 +8,7 @@ import {
   subYears,
 } from "date-fns";
 import * as XLSX from "xlsx";
-import { Company, Order, Person, TicketSummary } from "./interfaces";
+import { Order, TicketSummary } from "./interfaces";
 
 export const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
 
@@ -252,50 +251,4 @@ export const fetchResults = async <T>(
   if (!res.ok) return [];
 
   return res.json();
-};
-
-export const fetchCompany = async (
-  kdnr: string,
-  source: string,
-): Promise<Company | undefined> => {
-  const response = await fetch("/api/company/", {
-    method: "POST",
-    body: JSON.stringify({ kdnr, source }),
-  });
-
-  if (!response.ok) {
-    notifications.show({
-      id: `error-${kdnr}`,
-      title: `Error ${response.status}`,
-      message: (await response.text()) || "",
-      autoClose: false,
-    });
-    return;
-  }
-
-  const company = await response.json();
-  return Array.isArray(company) ? company[0] : company;
-};
-
-export const fetchPerson = async (
-  source: string,
-  id: string,
-): Promise<Person | undefined> => {
-  const response = await fetch("/api/person", {
-    method: "POST",
-    body: JSON.stringify({ b2bnr: id, source }),
-  });
-
-  if (!response.ok) {
-    notifications.show({
-      id: `error-${id}`,
-      title: `Error ${response.status}`,
-      message: (await response.text()) || "",
-      autoClose: false,
-    });
-    return;
-  }
-
-  const person: Person = await response.json();
-  return Array.isArray(person) ? person[0] : person;
 };
