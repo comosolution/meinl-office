@@ -274,7 +274,12 @@ export type TranslationKey =
   | "thisYear"
   | "settings"
   | "clearData"
-  | "clearDataConfirm";
+  | "clearDataConfirm"
+  | "addReceiver"
+  | "mailAlertPrivateSingle"
+  | "mailAlertPrivateMultiple"
+  | "mailAlertPublicPrefix"
+  | "mailAlertPublicSuffix";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -552,6 +557,11 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     settings: "Einstellungen",
     clearData: "Gespeicherte Nutzerdaten löschen",
     clearDataConfirm: "Alle lokalen Daten werden unwiderruflich gelöscht.",
+    addReceiver: "Empfänger hinzufügen",
+    mailAlertPrivateSingle: "Der angegebene Empfänger bekommt diesen Kommentar zusätzlich per Mail geschickt.",
+    mailAlertPrivateMultiple: "Die angegebenen Empfänger bekommen diesen Kommentar zusätzlich per Mail geschickt.",
+    mailAlertPublicPrefix: "Der Ticketersteller",
+    mailAlertPublicSuffix: "bekommt diesen Kommentar zusätzlich per Mail geschickt.",
   },
   en: {
     welcome: "Welcome",
@@ -827,6 +837,11 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     settings: "Settings",
     clearData: "Clear stored user data",
     clearDataConfirm: "All local data will be permanently deleted.",
+    addReceiver: "Add Recipient",
+    mailAlertPrivateSingle: "The specified recipient will also receive this comment by email.",
+    mailAlertPrivateMultiple: "The specified recipients will also receive this comment by email.",
+    mailAlertPublicPrefix: "The ticket creator",
+    mailAlertPublicSuffix: "will also receive this comment by email.",
   },
 };
 

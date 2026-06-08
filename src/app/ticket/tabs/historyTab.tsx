@@ -28,6 +28,8 @@ import {
   IconLockOpen,
   IconPlus,
   IconTruckReturn,
+  IconUserMinus,
+  IconUserPlus,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -56,24 +58,28 @@ export default function HistoryTab({
     public: string;
     prio: boolean;
     withMail: boolean;
-    email: string;
+    emails: string[];
   }>({
     initialValues: {
       comment: "",
       public: "1",
       prio: false,
       withMail: false,
-      email: "",
+      emails: [""],
     },
-    validate: {
-      comment: (value) =>
-        value.trim().length === 0 ? "Kommentar darf nicht leer sein" : null,
-      email: (value, values) =>
-        values.public === "0" && values.withMail
-          ? /^\S+@\S+$/.test(value)
-            ? null
-            : "Invalid email"
-          : null,
+    validate: (values) => {
+      const errors: Record<string, string> = {};
+      if (values.comment.trim().length === 0) {
+        errors.comment = "Kommentar darf nicht leer sein";
+      }
+      if (values.public === "0" && values.withMail) {
+        values.emails.forEach((email, index) => {
+          if (!/^\S+@\S+$/.test(email)) {
+            errors[`emails.${index}`] = "Ungültige E-Mail-Adresse";
+          }
+        });
+      }
+      return errors;
     },
   });
 
@@ -99,12 +105,18 @@ export default function HistoryTab({
       });
 
       if (response.ok) {
-        if (values.withMail && email) {
-          await sendResendMail({
-            receiver: values.public === "1" ? email : values.email,
-            subject: `Meinl RMA ${ticket.nr} - Neuer Kommentar`,
-            content: `Neuer Kommentar hinzugefügt:\n\n${values.comment}\n\nUm auf den Kommentar zu antworten gehen Sie bitte in das Serviceportal.`,
-          });
+        if (values.withMail) {
+          const receivers =
+            values.public === "1" ? [email] : values.emails.filter(Boolean);
+          await Promise.all(
+            receivers.map((receiver) =>
+              sendResendMail({
+                receiver,
+                subject: `Meinl RMA ${ticket.nr} - Neuer Kommentar`,
+                content: `Neuer Kommentar hinzugefügt:\n\n${values.comment}\n\nUm auf den Kommentar zu antworten gehen Sie bitte in das Serviceportal.`,
+              }),
+            ),
+          );
         }
 
         form.reset();
@@ -245,6 +257,7 @@ export default function HistoryTab({
               label={t(locale, "comment")}
               {...form.getInputProps("comment")}
               rows={3}
+              withAsterisk
             />
             <SegmentedControl
               data={[
@@ -281,17 +294,50 @@ export default function HistoryTab({
                   {...form.getInputProps("withMail", { type: "checkbox" })}
                 />
                 {form.values.public === "0" && form.values.withMail && (
-                  <TextInput
-                    label={t(locale, "email")}
-                    {...form.getInputProps("email")}
-                  />
+                  <div className="flex flex-col gap-2">
+                    {(form.values.emails ?? [""]).map((_, index) => (
+                      <div key={index} className="flex gap-2 items-start">
+                        <TextInput
+                          className="flex-1"
+                          {...form.getInputProps(`emails.${index}`)}
+                        />
+                        <ActionIcon
+                          size="input-sm"
+                          variant="light"
+                          color="red"
+                          onClick={() =>
+                            form.setFieldValue(
+                              "emails",
+                              form.values.emails.filter((_, i) => i !== index),
+                            )
+                          }
+                          disabled={(form.values.emails ?? []).length === 1}
+                        >
+                          <IconUserMinus size={16} />
+                        </ActionIcon>
+                      </div>
+                    ))}
+                    <Button
+                      variant="transparent"
+                      leftSection={<IconUserPlus size={16} />}
+                      onClick={() =>
+                        form.setFieldValue("emails", [
+                          ...(form.values.emails ?? []),
+                          "",
+                        ])
+                      }
+                    >
+                      {t(locale, "addReceiver")}
+                    </Button>
+                  </div>
                 )}
                 {form.values.withMail && (
                   <Alert color="gray">
                     {form.values.public === "0"
-                      ? "Der angegebene Empfänger"
-                      : `Der Ticketersteller (${email})`}{" "}
-                    bekommt diesen Kommentar zusätzlich per Mail geschickt.
+                      ? form.values.emails.length > 1
+                        ? t(locale, "mailAlertPrivateMultiple")
+                        : t(locale, "mailAlertPrivateSingle")
+                      : `${t(locale, "mailAlertPublicPrefix")} (${email}) ${t(locale, "mailAlertPublicSuffix")}`}
                   </Alert>
                 )}
               </div>
