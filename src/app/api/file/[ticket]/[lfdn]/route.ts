@@ -1,4 +1,4 @@
-import { RMA_WEB_API } from "@/app/lib/config";
+import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function GET(
   request: Request,
@@ -25,7 +25,7 @@ export async function GET(
 
   try {
     const response = await fetch(
-      `${RMA_WEB_API}/download/file/${b2bno}/${ticket}/${lfdn}`,
+      `${MEINL_WEB_API}/rma/download/file/${b2bno}/${ticket}/${lfdn}`,
       {
         headers: {
           Authorization: `Basic ${auth}`,

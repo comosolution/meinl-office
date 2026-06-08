@@ -1,4 +1,4 @@
-import { RMA_WEB_API } from "@/app/lib/config";
+import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function GET() {
   const user = process.env.API_USER;
@@ -14,7 +14,7 @@ export async function GET() {
   const auth = Buffer.from(`${user}:${pass}`).toString("base64");
 
   try {
-    const response = await fetch(`${RMA_WEB_API}/all/de-de`, {
+    const response = await fetch(`${MEINL_WEB_API}/rma/all/de-de`, {
       headers: {
         Authorization: `Basic ${auth}`,
       },
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const payload = { guid: "", tickets: [body] };
 
-    const response = await fetch(`${RMA_WEB_API}/${b2bno}/${locale}`, {
+    const response = await fetch(`${MEINL_WEB_API}/rma/${b2bno}/${locale}`, {
       method: "POST",
       headers: {
         Authorization: `Basic ${auth}`,

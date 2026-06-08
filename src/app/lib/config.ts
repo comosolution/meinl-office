@@ -3,9 +3,6 @@ import { isPreview } from "./utils";
 export const MEINL_WEB_API = isPreview
   ? "https://meinlwebapidev.meinl.loc/api"
   : "https://meinlwebapi.meinl.loc/api";
-export const RMA_WEB_API = isPreview
-  ? "https://apidev.meinl.de/MeinlWebApi/api/rma"
-  : "https://meinlwebapi.meinl.loc/api/rma";
 
 export const MEINL_DEALERS_URL = isPreview
   ? "https://dealerdev.meinl.loc/"
@@ -24,7 +21,7 @@ export const DHL_TRACKING_URL =
 
 export const GLS_API = isPreview
   ? "https://shipit-wbm-test01.gls-group.eu:8443/backend/rs/shipments"
-  : "https://api.gls-group.net/shipit-farm/v1/backend/rs/shipments";
+  : "https://shipit-wbm-de02.gls-group.eu/backend/rs/shipments";
 
 export const MEINL_OFFICE_SIDEBAR_KEY = "meinl.office.sidebar.collapsed";
 export const MEINL_OFFICE_SOURCE_KEY = "meinl.office.source";

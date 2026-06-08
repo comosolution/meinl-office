@@ -1,4 +1,4 @@
-import { RMA_WEB_API } from "@/app/lib/config";
+import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function GET(
   request: Request,
@@ -19,7 +19,7 @@ export async function GET(
   const auth = Buffer.from(`${user}:${pass}`).toString("base64");
 
   try {
-    const response = await fetch(`${RMA_WEB_API}/ticket/${id}/de-de`, {
+    const response = await fetch(`${MEINL_WEB_API}/rma/ticket/${id}/de-de`, {
       headers: {
         Authorization: `Basic ${auth}`,
       },

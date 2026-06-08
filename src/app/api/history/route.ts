@@ -1,4 +1,4 @@
-import { RMA_WEB_API } from "@/app/lib/config";
+import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function POST(request: Request) {
   const user = process.env.API_USER;
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const response = await fetch(
-      `${RMA_WEB_API}/history/add/${b2bno}/${locale}`,
+      `${MEINL_WEB_API}/rma/history/add/${b2bno}/${locale}`,
       {
         method: "POST",
         headers: {

@@ -1,4 +1,4 @@
-import { RMA_WEB_API } from "@/app/lib/config";
+import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function POST(request: Request) {
   const user = process.env.API_USER;
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const response = await fetch(`${RMA_WEB_API}/upload/file`, {
+    const response = await fetch(`${MEINL_WEB_API}/rma/upload/file`, {
       method: "POST",
       headers: {
         Authorization: `Basic ${auth}`,
