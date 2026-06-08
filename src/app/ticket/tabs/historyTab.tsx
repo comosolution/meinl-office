@@ -141,14 +141,19 @@ export default function HistoryTab({
         </div>
         <div>
           {ticket.history && ticket.history.length > 0 ? (
-            <Timeline radius="md" bulletSize={28} lineWidth={4}>
+            <Timeline
+              radius="md"
+              active={ticket.history.length}
+              bulletSize={28}
+              lineWidth={4}
+            >
               {ticket.history
                 .map((entry, index) => (
                   <Timeline.Item
                     key={index}
                     bullet={
                       entry.prio > 0 ? (
-                        <IconExclamationMark color="red" />
+                        <IconExclamationMark />
                       ) : entry.tracknr ? (
                         <IconTruckReturn />
                       ) : undefined

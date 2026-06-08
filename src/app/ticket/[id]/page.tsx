@@ -756,7 +756,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               {t(locale, "by")} <b>{ticket.createdby}</b>
             </p>
             <Badge color="gray" variant="light">
-              {ticket.status_int.text}
+              {ticket.status_int.text} ({ticket.status_int.nr})
             </Badge>
           </div>
         </header>
@@ -774,7 +774,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   label: `${s.label} (${s.int})`,
                   value: s.int,
                   disabled:
-                    Number(ticket.status_int.nr) > 500 && s.int !== "790",
+                    (!ticket.artnr_mei &&
+                      Number(s.int) > 500 &&
+                      Number(s.int) < 790) ||
+                    (Number(ticket.status_int.nr) > 500 && s.int !== "790"),
                 };
               }),
             ]}
@@ -815,16 +818,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Fieldset>
             <div className="flex flex-col gap-2">
               <h2>{t(locale, "details")}</h2>
-              <div className="flex items-end">
+              <div className="flex items-end gap-1">
                 <TextInput
                   label={t(locale, "articleNumberKu")}
                   {...form.getInputProps("artnr_ku")}
-                  readOnly={!editing}
+                  readOnly
                   className="flex-1"
                 />
                 <ActionIcon
                   size="input-sm"
-                  variant="subtle"
+                  variant="light"
                   aria-label="Copy KU to MEI"
                   disabled={!editing}
                   onClick={() =>
@@ -840,16 +843,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   className="flex-1"
                 />
               </div>
-              <div className="flex items-end">
+              <div className="flex items-end gap-1">
                 <TextInput
                   label={t(locale, "serialNumberKu")}
                   {...form.getInputProps("sernr_ku")}
-                  readOnly={!editing}
+                  readOnly
                   className="flex-1"
                 />
                 <ActionIcon
                   size="input-sm"
-                  variant="subtle"
+                  variant="light"
                   aria-label="Copy KU to MEI"
                   disabled={!editing}
                   onClick={() =>

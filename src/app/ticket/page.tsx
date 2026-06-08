@@ -1,7 +1,7 @@
 "use client";
-import { Button, SegmentedControl, TextInput } from "@mantine/core";
+import { ActionIcon, Button, SegmentedControl, TextInput } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconPlus, IconSearch } from "@tabler/icons-react";
+import { IconPlus, IconRefresh, IconSearch } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -21,6 +21,7 @@ export default function Page() {
   const { locale } = useOffice();
 
   const [loading, setLoading] = useState(true);
+  const [fetching, setFetching] = useState(true);
   const [search, setSearch] = useState("");
   const [view, setView] = useState(
     () => localStorage.getItem(MEINL_RMA_VIEW_KEY) ?? "all",
@@ -32,6 +33,7 @@ export default function Page() {
   const isMobile = useMediaQuery("(max-width: 620px)");
 
   const fetchTickets = async () => {
+    setFetching(true);
     try {
       const response = await fetch("/api/ticket");
       if (response.ok) {
@@ -52,6 +54,7 @@ export default function Page() {
       console.error("Error fetching tickets:", error);
     } finally {
       setLoading(false);
+      setFetching(false);
     }
   };
 
@@ -128,7 +131,7 @@ export default function Page() {
             },
           ]}
         />
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           {view !== "dashboard" && (
             <TextInput
               variant="unstyled"
@@ -138,6 +141,13 @@ export default function Page() {
               onChange={(e) => setSearch(e.currentTarget.value)}
             />
           )}
+          <ActionIcon
+            variant="transparent"
+            loading={fetching}
+            onClick={fetchTickets}
+          >
+            <IconRefresh size={16} />
+          </ActionIcon>
           <Button
             component={Link}
             href="/ticket/new"
