@@ -211,11 +211,6 @@ export default function SortableTable({
       key: "kdnr_name",
     },
     {
-      label: t(locale, "articleNumber"),
-      key: "artnr",
-      render: (ticket) => ticket.artnr_mei || ticket.artnr_ku,
-    },
-    {
       label: t(locale, "created"),
       key: "created",
       render: (ticket) => format(new Date(ticket.created), DATE_FORMAT),
@@ -523,6 +518,7 @@ export default function SortableTable({
         <Table highlightOnHover>
           <Table.Thead>
             <Table.Tr>
+              <Table.Th />
               {columns.map(({ label, key }) => (
                 <Table.Th
                   key={key}
@@ -542,7 +538,6 @@ export default function SortableTable({
                   </div>
                 </Table.Th>
               ))}
-              <Table.Th />
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
@@ -552,18 +547,11 @@ export default function SortableTable({
                 onClick={() => router.push(`/ticket/${ticket.nr}`)}
                 className="cursor-pointer"
               >
-                {columns.map(({ key, render }) => (
-                  <Table.Td key={key}>
-                    {render
-                      ? render(ticket)
-                      : String(ticket[key as keyof TicketSummary])}
-                  </Table.Td>
-                ))}
                 {view === "new" ? (
                   <Table.Td>
                     <Tooltip
                       label={t(locale, "hideTicket")}
-                      position="left"
+                      position="right"
                       withArrow
                     >
                       <ActionIcon
@@ -583,7 +571,7 @@ export default function SortableTable({
                   <Table.Td>
                     <Tooltip
                       label={t(locale, "showTicket")}
-                      position="left"
+                      position="right"
                       withArrow
                     >
                       <ActionIcon
@@ -601,6 +589,13 @@ export default function SortableTable({
                 ) : (
                   <Table.Td />
                 )}
+                {columns.map(({ key, render }) => (
+                  <Table.Td key={key}>
+                    {render
+                      ? render(ticket)
+                      : String(ticket[key as keyof TicketSummary])}
+                  </Table.Td>
+                ))}
               </Table.Tr>
             ))}
           </Table.Tbody>

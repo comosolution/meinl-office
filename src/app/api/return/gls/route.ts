@@ -68,7 +68,10 @@ export async function POST(request: Request) {
 
     if (!response.ok) {
       return Response.json(
-        { error: "Failed to create GLS return" },
+        {
+          error: "Failed to create GLS return",
+          details: await response.text(),
+        },
         { status: response.status },
       );
     }

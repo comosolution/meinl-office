@@ -174,9 +174,11 @@ export default function Page() {
             <div>
               <Popover
                 opened={popoverOpened}
-                onClose={closePopover}
+                onChange={closePopover}
+                width="target"
+                position="bottom"
+                offset={2}
                 shadow="md"
-                withArrow
               >
                 <Popover.Target>
                   <Button
@@ -190,9 +192,9 @@ export default function Page() {
                   </Button>
                 </Popover.Target>
                 <Popover.Dropdown>
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col text-center gap-4">
                     <p>{t(locale, "clearDataConfirm")}</p>
-                    <div className="flex justify-between gap-2">
+                    <div className="flex justify-between gap-1">
                       <Button variant="transparent" onClick={closePopover}>
                         {t(locale, "cancel")}
                       </Button>

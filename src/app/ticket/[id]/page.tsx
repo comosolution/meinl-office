@@ -456,7 +456,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           const payload = {
             ticketnr: id,
             createdby: session?.user?.name || ticket.createdby,
-            comment: `GLS Pickup am ${pickupDateFormatted} (${shipmentNo})`,
+            comment: `Der GLS-Pickup-Termin für Ihre Rücksendung ist am ${pickupDateFormatted} (${shipmentNo})`,
             source: "OF",
             tracknr: shipmentNo,
             public: 1,
