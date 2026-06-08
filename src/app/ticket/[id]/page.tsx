@@ -514,8 +514,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       !!ticketAddress.name ||
       !!ticketAddress.street ||
       !!ticketAddress.zip ||
-      !!ticketAddress.city ||
-      !!ticketAddress.country;
+      !!ticketAddress.city;
     return hasTicketAddress ? ticketAddress : ownerAddress;
   };
 
