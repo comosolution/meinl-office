@@ -1,5 +1,6 @@
 "use client";
 import Loader from "@/app/components/loader";
+import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { DATE_FORMAT } from "@/app/lib/config";
 import {
@@ -43,7 +44,9 @@ import {
   IconDeviceFloppy,
   IconEdit,
   IconError404,
+  IconExclamationCircle,
   IconNews,
+  IconSearch,
   IconTruckReturn,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -60,7 +63,7 @@ import TrackingTab from "../tabs/trackingTab";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
-  const { locale } = useOffice();
+  const { locale, source } = useOffice();
   const fetchPerson = useFetchPerson();
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
@@ -68,15 +71,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [newState, setNewState] = useState<string | null>(null);
+  const [isMeiArtnr, setIsMeiArtnr] = useState(false);
+  const [newArtnr, setNewArtnr] = useState("");
   const [pickupDateGls, setPickupDateGls] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [closeReason, setCloseReason] = useState("");
+  const [reason, setReason] = useState("");
 
   const [openedDhl, { open: openDhl, close: closeDhl }] = useDisclosure(false);
   const [openedGls, { open: openGls, close: closeGls }] = useDisclosure(false);
-  const [opened, { open, close }] = useDisclosure(false);
+  const [openedArtnr, { open: openArtnr, close: closeArtnr }] =
+    useDisclosure(false);
+  const [openedReason, { open: openReason, close: closeReason }] =
+    useDisclosure(false);
 
   const form = useForm<Partial<Ticket>>({
     initialValues: {
@@ -619,7 +627,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const payload = {
       ticketnr: id,
       createdby: session?.user?.name || ticket?.createdby,
-      comment: `Manuell beendet: ${closeReason}`,
+      comment: `Manuell beendet: ${reason}`,
       source: "OF",
       public: 1,
       prio: 1,
@@ -636,15 +644,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       selectedState.ext,
       selectedState.art,
     );
-    setCloseReason("");
-    close();
+    setReason("");
+    closeReason();
   };
 
   useEffect(() => {
     if (!newState) return;
 
     if (newState === "790") {
-      open();
+      openReason();
       return;
     }
 
@@ -664,6 +672,25 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
   }, [newState]);
 
+  const verifyArtnr = async () => {
+    const res = await fetch("/api/product/verify", {
+      method: "POST",
+      body: JSON.stringify({
+        artnr: ticket?.artnr_ku,
+        source,
+        user: session?.user?.name,
+      }),
+    });
+
+    if (!res.ok) {
+      console.error("Failed to verify article number:", await res.text());
+      return;
+    }
+
+    const result = await res.json();
+    setIsMeiArtnr(result.verified);
+  };
+
   useEffect(() => {
     trackTicket(id);
     if (!ticket) {
@@ -675,6 +702,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     if (!owner) {
       getOwner();
+    }
+    if (ticket) {
+      verifyArtnr();
     }
   }, [ticket]);
 
@@ -854,16 +884,31 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   aria-label="Copy KU to MEI"
                   disabled={!editing}
                   onClick={() =>
-                    form.setFieldValue("artnr_mei", form.values.artnr_ku)
+                    isMeiArtnr
+                      ? form.setFieldValue("artnr_mei", form.values.artnr_ku)
+                      : openArtnr()
                   }
                 >
-                  <IconChevronRight size={18} />
+                  {isMeiArtnr ? (
+                    <IconChevronRight size={18} />
+                  ) : (
+                    <IconExclamationCircle size={16} />
+                  )}
                 </ActionIcon>
                 <TextInput
                   label={t(locale, "articleNumberMei")}
                   {...form.getInputProps("artnr_mei")}
-                  readOnly={!editing}
+                  readOnly
                   className="flex-1"
+                  rightSection={
+                    <ActionIcon
+                      variant="transparent"
+                      disabled={!editing}
+                      onClick={openArtnr}
+                    >
+                      <IconSearch size={16} />
+                    </ActionIcon>
+                  }
                 />
               </div>
               <div className="flex items-end gap-1">
@@ -1117,11 +1162,51 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </Drawer>
       <Modal
-        opened={opened}
+        opened={openedArtnr}
+        onClose={() => {
+          setNewArtnr("");
+          closeArtnr();
+        }}
+        withCloseButton={false}
+        overlayProps={{ blur: 4 }}
+      >
+        <div className="flex flex-col gap-4">
+          <h2>{t(locale, "setArticleNumber")}</h2>
+          <ProductSelect
+            label={t(locale, "articleNumberMei")}
+            value={newArtnr}
+            onChange={(value) => setNewArtnr(value || "")}
+          />
+          <div className="flex justify-between gap-2">
+            <Button
+              color="dark"
+              variant="transparent"
+              onClick={() => {
+                setNewArtnr("");
+                closeArtnr();
+              }}
+            >
+              {t(locale, "cancel")}
+            </Button>
+            <Button
+              onClick={() => {
+                form.setFieldValue("artnr_mei", newArtnr);
+                closeArtnr();
+              }}
+              leftSection={<IconCheck size={16} />}
+              disabled={!newArtnr.trim()}
+            >
+              {t(locale, "setArticleNumber")}
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        opened={openedReason}
         onClose={() => {
           setNewState(null);
-          setCloseReason("");
-          close();
+          setReason("");
+          closeReason();
         }}
         withCloseButton={false}
         overlayProps={{ blur: 4 }}
@@ -1130,8 +1215,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <h2>{t(locale, "closeTicket")}</h2>
           <TextInput
             label={t(locale, "reason")}
-            value={closeReason}
-            onChange={(e) => setCloseReason(e.target.value)}
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
             autoFocus
           />
           <div className="flex justify-between gap-2">
@@ -1140,8 +1225,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               variant="transparent"
               onClick={() => {
                 setNewState(null);
-                setCloseReason("");
-                close();
+                setReason("");
+                closeReason();
               }}
             >
               {t(locale, "cancel")}
@@ -1149,7 +1234,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <Button
               onClick={handleCloseTicket}
               leftSection={<IconCheck size={16} />}
-              disabled={!closeReason.trim()}
+              disabled={!reason.trim()}
             >
               {t(locale, "closeTicket")}
             </Button>

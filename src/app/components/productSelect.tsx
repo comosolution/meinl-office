@@ -45,7 +45,7 @@ export function ProductSelect({
       setLoading(true);
 
       try {
-        const res = await fetch("/api/product", {
+        const res = await fetch("/api/product/typeahead", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

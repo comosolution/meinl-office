@@ -108,6 +108,7 @@ export type TranslationKey =
   | "confirmPickup"
   | "closeTicket"
   | "reason"
+  | "setArticleNumber"
   | "date"
   | "customerType"
   | "websiteUrl"
@@ -378,6 +379,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     confirmPickup: "Termin buchen",
     closeTicket: "Ticket schließen",
     reason: "Grund",
+    setArticleNumber: "Artikelnummer setzen",
     date: "Datum",
     customerType: "Kundenart",
     websiteUrl: "Website URL",
@@ -558,10 +560,13 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     clearData: "Gespeicherte Nutzerdaten löschen",
     clearDataConfirm: "Alle lokalen Daten werden unwiderruflich gelöscht.",
     addReceiver: "Empfänger hinzufügen",
-    mailAlertPrivateSingle: "Der angegebene Empfänger bekommt diesen Kommentar zusätzlich per Mail geschickt.",
-    mailAlertPrivateMultiple: "Die angegebenen Empfänger bekommen diesen Kommentar zusätzlich per Mail geschickt.",
+    mailAlertPrivateSingle:
+      "Der angegebene Empfänger bekommt diesen Kommentar zusätzlich per Mail geschickt.",
+    mailAlertPrivateMultiple:
+      "Die angegebenen Empfänger bekommen diesen Kommentar zusätzlich per Mail geschickt.",
     mailAlertPublicPrefix: "Der Ticketersteller",
-    mailAlertPublicSuffix: "bekommt diesen Kommentar zusätzlich per Mail geschickt.",
+    mailAlertPublicSuffix:
+      "bekommt diesen Kommentar zusätzlich per Mail geschickt.",
   },
   en: {
     welcome: "Welcome",
@@ -649,6 +654,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     confirmPickup: "Confirm Pickup",
     closeTicket: "Close Ticket",
     reason: "Reason",
+    setArticleNumber: "Set Article Number",
     date: "Date",
     customerType: "Customer Type",
     websiteUrl: "Website URL",
@@ -838,8 +844,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     clearData: "Clear stored user data",
     clearDataConfirm: "All local data will be permanently deleted.",
     addReceiver: "Add Recipient",
-    mailAlertPrivateSingle: "The specified recipient will also receive this comment by email.",
-    mailAlertPrivateMultiple: "The specified recipients will also receive this comment by email.",
+    mailAlertPrivateSingle:
+      "The specified recipient will also receive this comment by email.",
+    mailAlertPrivateMultiple:
+      "The specified recipients will also receive this comment by email.",
     mailAlertPublicPrefix: "The ticket creator",
     mailAlertPublicSuffix: "will also receive this comment by email.",
   },
