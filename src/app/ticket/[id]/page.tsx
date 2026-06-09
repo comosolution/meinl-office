@@ -252,6 +252,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   const updateTicketStatus = async (int: string, ext: string, art?: string) => {
+    if (!ticket) return;
+
     const payload = {
       ...ticket,
       status_int: {
@@ -272,6 +274,27 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     });
 
     if (res.ok) {
+      if (Number(int) > 110 && Number(int) < 790) {
+        const statusLabel = states.find((s) => s.int === int)?.label;
+
+        const payload = {
+          ticketnr: id,
+          createdby: session?.user?.name || ticket.createdby,
+          comment: `Status geändert auf ${statusLabel} (${int})`,
+          source: "OF",
+          tracknr: "",
+          public: 1,
+        };
+
+        await fetch("/api/history", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+      }
+
       getTicket();
     } else {
       console.error("Failed to update ticket status:", await res.text());
@@ -755,7 +778,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               – {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}{" "}
               {t(locale, "by")} <b>{ticket.createdby}</b>
             </p>
-            <Badge color="gray" variant="light">
+            <Badge size="lg" variant="light">
               {ticket.status_int.text} ({ticket.status_int.nr})
             </Badge>
           </div>
@@ -781,7 +804,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 };
               }),
             ]}
-            disabled={Number(ticket.status_int.nr) === 790}
+            disabled={Number(ticket.status_int.nr) === 790 || editing}
             searchable
             checkIconPosition="right"
           />

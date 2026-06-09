@@ -11,11 +11,15 @@ export async function POST(request: Request) {
     });
 
     if (res.status === 204) {
-      return new Response("Failed to fetch person", { status: 404 });
+      return new Response("Failed to fetch person" + (await res.text()), {
+        status: 404,
+      });
     }
 
     if (!res.ok) {
-      return new Response("Failed to fetch person", { status: res.status });
+      return new Response("Failed to fetch person" + (await res.text()), {
+        status: res.status,
+      });
     }
 
     const data = await res.json();

@@ -12,7 +12,6 @@ export async function POST(request: Request) {
   }
 
   const auth = Buffer.from(`${user}:${pass}`).toString("base64");
-
   const body = await request.json();
 
   const res = await fetch(`${MEINL_WEB_API}/rma/product/typeahead`, {
