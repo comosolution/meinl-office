@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { receiver, subject, content, attachment } = body;
+  const { receiver, subject, content, attachment, attachments } = body;
 
   if (!receiver || !content) {
     return Response.json(
@@ -42,21 +42,25 @@ export async function POST(request: Request) {
     text: content,
   };
 
-  if (attachment) {
-    if (!attachment.filename || !attachment.type || !attachment.data) {
-      return Response.json(
-        { error: "attachment must include filename, type and data" },
-        { status: 400 },
-      );
-    }
+  const allAttachments = [
+    ...(attachment ? [attachment] : []),
+    ...(attachments ?? []),
+  ];
 
-    payload.attachments = [
-      {
-        filename: attachment.filename,
-        contentType: attachment.type,
-        content: attachment.data,
-      },
-    ];
+  if (allAttachments.length > 0) {
+    for (const a of allAttachments) {
+      if (!a.filename || !a.type || !a.data) {
+        return Response.json(
+          { error: "attachment must include filename, type and data" },
+          { status: 400 },
+        );
+      }
+    }
+    payload.attachments = allAttachments.map((a) => ({
+      filename: a.filename,
+      contentType: a.type,
+      content: a.data,
+    }));
   }
 
   try {

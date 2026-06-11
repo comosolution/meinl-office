@@ -26,13 +26,13 @@ export default function Page() {
 
   return (
     <main className="flex flex-col gap-2 px-4 md:px-8 py-4">
-      <header className="flex justify-between items-center gap-2 py-4">
+      <header className="flex flex-col lg:flex-row justify-between items-center gap-2 py-4">
         <Title />
         <Link
           href="/settings/profile"
-          className="hidden md:flex items-center gap-4 hover:text-(--main) transition-all"
+          className="flex flex-row-reverse lg:flex-row items-center gap-2 hover:text-(--main) transition-all"
         >
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col lg:items-end">
             <h3>{session?.user?.name}</h3>
             <p className="dimmed text-xs">{session?.user?.email}</p>
           </div>

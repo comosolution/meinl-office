@@ -1,16 +1,18 @@
+import { FileDropzone } from "@/app/components/fileDropzone";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
 import { Ticket } from "@/app/lib/interfaces";
 import { sendResendMail } from "@/app/lib/resend";
+import { fileToBase64 } from "@/app/lib/utils";
 import {
   ActionIcon,
-  Alert,
   Button,
-  Checkbox,
   CopyButton,
-  Modal,
+  Divider,
+  Drawer,
   Paper,
   SegmentedControl,
+  Switch,
   Textarea,
   TextInput,
   Timeline,
@@ -59,6 +61,7 @@ export default function HistoryTab({
     prio: boolean;
     withMail: boolean;
     emails: string[];
+    files: File[];
   }>({
     initialValues: {
       comment: "",
@@ -66,6 +69,7 @@ export default function HistoryTab({
       prio: false,
       withMail: false,
       emails: [""],
+      files: [],
     },
     validate: (values) => {
       const errors: Record<string, string> = {};
@@ -105,7 +109,36 @@ export default function HistoryTab({
       });
 
       if (response.ok) {
+        for (const file of values.files) {
+          const dataUrl = await fileToBase64(file);
+          const base64 = dataUrl.includes(",")
+            ? dataUrl.split(",")[1]
+            : dataUrl;
+
+          await fetch("/api/file", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ticketNr: ticket.nr,
+              filename: file.name,
+              createdBy: session?.user?.name || ticket.createdby,
+              status: 2,
+              data: base64,
+            }),
+          });
+        }
+
         if (values.withMail) {
+          const mailAttachments = await Promise.all(
+            values.files.map(async (file) => {
+              const dataUrl = await fileToBase64(file);
+              const base64 = dataUrl.includes(",")
+                ? dataUrl.split(",")[1]
+                : dataUrl;
+              return { filename: file.name, type: file.type, data: base64 };
+            }),
+          );
+
           const receivers =
             values.public === "1" ? [email] : values.emails.filter(Boolean);
           await Promise.all(
@@ -114,6 +147,9 @@ export default function HistoryTab({
                 receiver,
                 subject: `Meinl RMA ${ticket.nr} - Neuer Kommentar`,
                 content: `Neuer Kommentar hinzugefügt:\n\n${values.comment}\n\nUm auf den Kommentar zu antworten gehen Sie bitte in das Serviceportal.`,
+                ...(mailAttachments.length > 0 && {
+                  attachments: mailAttachments,
+                }),
               }),
             ),
           );
@@ -243,20 +279,22 @@ export default function HistoryTab({
           )}
         </div>
       </div>
-      <Modal
+      <Drawer
         size="md"
+        position="right"
         opened={opened}
         onClose={close}
         withCloseButton={false}
         overlayProps={{ blur: 4 }}
       >
         <div className="flex flex-col gap-2">
-          <h2 className="text-center">{t(locale, "newEntry")}</h2>
+          <h2>{t(locale, "newEntry")}</h2>
           <form onSubmit={handleSubmit} className="flex flex-col gap-2">
             <Textarea
               label={t(locale, "comment")}
               {...form.getInputProps("comment")}
               rows={3}
+              resize="vertical"
               withAsterisk
             />
             <SegmentedControl
@@ -282,27 +320,28 @@ export default function HistoryTab({
               ]}
               {...form.getInputProps("public")}
             />
-            <Paper p="md" shadow="xl" bg="var(--background)">
-              <div className="flex flex-col gap-2">
-                <Checkbox
-                  color="red"
-                  label={`${t(locale, "important").toUpperCase()}!`}
-                  {...form.getInputProps("prio", { type: "checkbox" })}
-                />
-                <Checkbox
-                  label={t(locale, "sendMail")}
-                  {...form.getInputProps("withMail", { type: "checkbox" })}
-                />
-                {form.values.public === "0" && form.values.withMail && (
-                  <div className="flex flex-col gap-2">
-                    {(form.values.emails ?? [""]).map((_, index) => (
-                      <div key={index} className="flex gap-2 items-start">
-                        <TextInput
-                          className="flex-1"
-                          {...form.getInputProps(`emails.${index}`)}
-                        />
+            <FileDropzone
+              files={form.values.files}
+              onChange={(files) => form.setFieldValue("files", files)}
+            />
+            <div className="flex flex-col gap-2 py-4">
+              <Switch
+                label={`${t(locale, "important").toUpperCase()}!`}
+                {...form.getInputProps("prio", { type: "checkbox" })}
+              />
+              <Divider />
+              <Switch
+                label={t(locale, "sendMail")}
+                {...form.getInputProps("withMail", { type: "checkbox" })}
+              />
+              {form.values.public === "0" && form.values.withMail && (
+                <div className="flex flex-col gap-2">
+                  {(form.values.emails ?? [""]).map((_, index) => (
+                    <TextInput
+                      key={index}
+                      {...form.getInputProps(`emails.${index}`)}
+                      rightSection={
                         <ActionIcon
-                          size="input-sm"
                           variant="light"
                           color="red"
                           onClick={() =>
@@ -315,33 +354,35 @@ export default function HistoryTab({
                         >
                           <IconUserMinus size={16} />
                         </ActionIcon>
-                      </div>
-                    ))}
-                    <Button
-                      variant="transparent"
-                      leftSection={<IconUserPlus size={16} />}
-                      onClick={() =>
-                        form.setFieldValue("emails", [
-                          ...(form.values.emails ?? []),
-                          "",
-                        ])
                       }
-                    >
-                      {t(locale, "addReceiver")}
-                    </Button>
-                  </div>
-                )}
-                {form.values.withMail && (
-                  <Alert color="gray">
+                    />
+                  ))}
+                  <Button
+                    variant="transparent"
+                    leftSection={<IconUserPlus size={16} />}
+                    onClick={() =>
+                      form.setFieldValue("emails", [
+                        ...(form.values.emails ?? []),
+                        "",
+                      ])
+                    }
+                  >
+                    {t(locale, "addReceiver")}
+                  </Button>
+                </div>
+              )}
+              {form.values.withMail && (
+                <Paper p="md" shadow="xl" bg="var(--background)">
+                  <p className="text-xs">
                     {form.values.public === "0"
                       ? form.values.emails.length > 1
                         ? t(locale, "mailAlertPrivateMultiple")
                         : t(locale, "mailAlertPrivateSingle")
                       : `${t(locale, "mailAlertPublicPrefix")} (${email}) ${t(locale, "mailAlertPublicSuffix")}`}
-                  </Alert>
-                )}
-              </div>
-            </Paper>
+                  </p>
+                </Paper>
+              )}
+            </div>
             <div className="flex justify-between gap-2">
               <Button color="dark" variant="transparent" onClick={close}>
                 {t(locale, "cancel")}
@@ -357,7 +398,7 @@ export default function HistoryTab({
             </div>
           </form>
         </div>
-      </Modal>
+      </Drawer>
     </>
   );
 }

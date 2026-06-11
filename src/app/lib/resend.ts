@@ -11,6 +11,7 @@ export type MailRequest = {
   subject?: string;
   content: string;
   attachment?: ResendAttachment;
+  attachments?: ResendAttachment[];
 };
 
 export async function sendResendMail(options: MailRequest): Promise<void> {

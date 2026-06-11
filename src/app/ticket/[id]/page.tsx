@@ -20,6 +20,7 @@ import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
   ActionIcon,
+  Avatar,
   Badge,
   Button,
   Drawer,
@@ -788,7 +789,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Menu.Dropdown>
             </Menu>
             <Button
-              color="dark"
+              color="gray"
+              variant="light"
               leftSection={<IconNews size={16} />}
               onClick={handleGenerateLaufzettel}
             >
@@ -796,22 +798,41 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Button>
           </div>
         </div>
-        <header className="flex flex-col gap-2">
-          <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <h1>{id}</h1>
-            <Badge size="lg" variant="light">
-              {ticket.status_int.text} ({ticket.status_int.nr})
-            </Badge>
+        <header className="flex flex-col lg:flex-row justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <h1>{id}</h1>
+              <Badge size="lg" variant="light">
+                {ticket.status_int.text} ({ticket.status_int.nr})
+              </Badge>
+            </div>
+            <p className="text-sm">
+              {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}{" "}
+              {t(locale, "by")} <b>{ticket.createdby}</b>
+            </p>
           </div>
-          <p>
-            RMA {t(locale, "by")}{" "}
-            <Link href={`/person/${ticket.kdnr_full}`} className="link">
-              <b>{ticket.kdnr_name}</b>{" "}
-              <span className="dimmed">({ticket.kdnr_full})</span>
-            </Link>{" "}
-            – {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}{" "}
-            {t(locale, "by")} <b>{ticket.createdby}</b>
-          </p>
+          <Link
+            href={`/person/${ticket.kdnr_full}`}
+            className="flex flex-row-reverse lg:flex-row justify-end items-center gap-2 hover:text-(--main) transition-all"
+          >
+            <div className="flex flex-col lg:items-end">
+              <h2>
+                {ticket.kdnr_name}{" "}
+                <span className="font-medium">({ticket.kdnr_full})</span>
+              </h2>
+              <div className="flex gap-1 text-sm">
+                <p>
+                  {ticket.firma} / {owner?.email}
+                </p>
+              </div>
+            </div>
+            <Avatar
+              color="red"
+              variant="filled"
+              size={48}
+              name={ticket.kdnr_name ?? ""}
+            />
+          </Link>
         </header>
         <form
           onSubmit={handleSubmit}
@@ -842,7 +863,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             {!editing ? (
               <Button
                 color="dark"
-                variant="transparent"
                 leftSection={<IconEdit size={16} />}
                 onClick={() => setEditing(true)}
                 disabled={Number(ticket.status_int.nr) > 500}
