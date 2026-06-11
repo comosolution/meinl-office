@@ -132,6 +132,13 @@ export default function Page() {
           ]}
         />
         <div className="flex items-center gap-2">
+          <ActionIcon
+            variant="transparent"
+            loading={fetching}
+            onClick={fetchTickets}
+          >
+            <IconRefresh size={16} />
+          </ActionIcon>
           {view !== "dashboard" && (
             <TextInput
               variant="unstyled"
@@ -141,13 +148,6 @@ export default function Page() {
               onChange={(e) => setSearch(e.currentTarget.value)}
             />
           )}
-          <ActionIcon
-            variant="transparent"
-            loading={fetching}
-            onClick={fetchTickets}
-          >
-            <IconRefresh size={16} />
-          </ActionIcon>
           <Button
             component={Link}
             href="/ticket/new"

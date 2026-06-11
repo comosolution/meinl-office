@@ -124,6 +124,7 @@ export type TranslationKey =
   | "matchcode"
   | "matchcodeStartsWith"
   | "kdnrStartsWith"
+  | "nameStartsWith"
   | "b2bnrStartsWith"
   | "latitude"
   | "longitude"
@@ -395,6 +396,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     deputy: "Vertreter",
     matchcodeStartsWith: "Matchcode beginnt mit",
     kdnrStartsWith: "Kdnr beginnt mit",
+    nameStartsWith: "Name beginnt mit",
     b2bnrStartsWith: "B2B-Nr. beginnt mit",
     latitude: "Breitengrad",
     longitude: "Längengrad",
@@ -611,7 +613,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     addEmployee: "Add Employee",
     details: "Details",
     addCampaign: "Add Campaign",
-    searchByName: "Search by name or CID ...",
+    searchByName: "Search by name or AccNo ...",
     allCampaigns: "All Campaigns",
     ticketOverview: "Overview",
     ticketStats: "Analytics",
@@ -634,7 +636,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     brand: "Brand",
     start: "Start",
     end: "End",
-    searchByContact: "Search by name or CID ...",
+    searchByContact: "Search by name or AccNo ...",
     back: "Back",
     idLabel: "ID",
     nameLabel: "Name",
@@ -665,11 +667,12 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     city: "City",
     extra: "Extra",
     matchcode: "Matchcode",
-    kdnr: "CID",
+    kdnr: "AccNo",
     branch: "Branch",
     deputy: "Deputy",
     matchcodeStartsWith: "Matchcode starts with",
-    kdnrStartsWith: "CID starts with",
+    kdnrStartsWith: "AccNo starts with",
+    nameStartsWith: "Name starts with",
     b2bnrStartsWith: "B2B-No starts with",
     latitude: "Latitude",
     longitude: "Longitude",
@@ -766,7 +769,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     openLink: "Open Link",
     linkCopied: "Link copied",
     participatingDealers: "Participating Dealers",
-    searchByNameOrKdnr: "Search by name or CID ...",
+    searchByNameOrKdnr: "Search by name or AccNo ...",
     notActivatedForDealerLocator: "is not activated for the DealerLocator.",
     offeredProducts: "Offered Products",
     searchByArticleNumber: "Search by article number ...",
@@ -828,7 +831,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     success: "Success",
     availableDownloads: "Available Downloads",
     noDownloads: "No Downloads",
-    enterNameKdnrOrMatchcode: "Enter name, CID or matchcode",
+    enterNameKdnrOrMatchcode: "Enter name, AccNo or matchcode",
     enterAtLeast2Chars: "Please enter at least 2 characters",
     loading: "Loading...",
     light: "Light",

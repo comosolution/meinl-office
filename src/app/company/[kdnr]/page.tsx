@@ -11,21 +11,16 @@ import {
   MEINL_OFFICE_COMPANY_HISTORY_KEY,
 } from "@/app/lib/config";
 import { customerTypes } from "@/app/lib/data";
+import { useFetchCompany } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
-import { useFetchCompany } from "@/app/lib/hooks";
-import {
-  getAvatarColor,
-  isPreview,
-  parseUrl,
-} from "@/app/lib/utils";
+import { getAvatarColor, isPreview, parseUrl } from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
   Button,
   Checkbox,
   Fieldset,
-  NumberFormatter,
   NumberInput,
   Scroller,
   Table,
@@ -447,7 +442,8 @@ export default function Page({
                   readOnly
                 />
               </Fieldset>
-              {source === "OFFUSA" && company.salesVolume && (
+              {/* TODO: show sales infos only for selected users */}
+              {/*  {source === "OFFUSA" && company.salesVolume && (
                 <Fieldset>
                   <h2>{t(locale, "salesVolume")}</h2>
                   <Table variant="vertical">
@@ -474,7 +470,7 @@ export default function Page({
                     </Table.Tbody>
                   </Table>
                 </Fieldset>
-              )}
+              )} 
               {source === "OFFUSA" && company.discount && (
                 <Fieldset>
                   <h2>{t(locale, "discount")}</h2>
@@ -493,7 +489,7 @@ export default function Page({
                     </Table.Tbody>
                   </Table>
                 </Fieldset>
-              )}
+              )}*/}
             </div>
           </Tabs.Panel>
 

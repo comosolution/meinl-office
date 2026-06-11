@@ -14,9 +14,9 @@ import Loader from "../components/loader";
 import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
 import { countryCodes, normalizeAlpha2CountryCode } from "../lib/countryCodes";
+import { useFetchResults } from "../lib/hooks";
 import { t } from "../lib/i18n";
 import { Company } from "../lib/interfaces";
-import { useFetchResults } from "../lib/hooks";
 import { getAvatarColor, safeLocaleCompare } from "../lib/utils";
 
 export default function Page() {
@@ -38,6 +38,7 @@ export default function Page() {
     kdnr: "",
     branche: "",
     city: "",
+    name: "",
   });
 
   const fetchData = async () => {
@@ -88,6 +89,9 @@ export default function Page() {
       const cityMatch =
         !filters.city ||
         (c.ort || "").toLowerCase().startsWith(filters.city.toLowerCase());
+      const nameMatch =
+        !filters.name ||
+        (c.name1 || "").toLowerCase().startsWith(filters.name.toLowerCase());
 
       return (
         searchMatch &&
@@ -96,7 +100,8 @@ export default function Page() {
         matchcodeMatch &&
         kdnrMatch &&
         brancheMatch &&
-        cityMatch
+        cityMatch &&
+        nameMatch
       );
     });
   }, [companies, search, filters]);
@@ -187,7 +192,7 @@ export default function Page() {
 
   const columns = [
     { label: "", key: "avatar", sortable: false },
-    { label: t(locale, "name"), key: "name1", sortable: true },
+    { label: t(locale, "nameLabel"), key: "name1", sortable: true },
     { label: t(locale, "extra"), key: "name2", sortable: true },
     { label: t(locale, "matchcode"), key: "matchcode", sortable: true },
     { label: t(locale, "kdnr"), key: "kdnr", sortable: true },
@@ -200,8 +205,8 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-4 px-4 md:px-8 py-4">
       <header className="flex flex-col md:flex-row justify-between items-center gap-2 py-4">
-        <div className="flex flex-col md:flex-row justify-center text-center md:items-baseline gap-2">
-          <h1>{t(locale, "allCompanies")}</h1>
+        <h1>{t(locale, "allCompanies")}</h1>
+        <div className="flex flex-col md:flex-row justify-center text-center md:items-center gap-2">
           <TextInput
             variant="unstyled"
             placeholder={t(locale, "searchCompanies")}
@@ -209,18 +214,18 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
+          {source === "OFFGUT" && (
+            <SegmentedControl
+              data={["B2B", "B2C"]}
+              value={service}
+              onChange={(value) => setService(value as "B2B" | "B2C")}
+            />
+          )}
         </div>
-        {source === "OFFGUT" && (
-          <SegmentedControl
-            data={["B2B", "B2C"]}
-            value={service}
-            onChange={(value) => setService(value as "B2B" | "B2C")}
-          />
-        )}
       </header>
 
       <div
-        className={`grid grid-cols-1 ${source === "OFFGUT" ? "md:grid-cols-5" : "md:grid-cols-6"} gap-2`}
+        className={`grid grid-cols-1 ${source === "OFFGUT" ? "md:grid-cols-6" : "md:grid-cols-5"} gap-2 md:gap-y-0`}
       >
         <TextInput
           label={t(locale, "kdnrStartsWith")}
@@ -231,6 +236,15 @@ export default function Page() {
             setFilters((prev) => ({ ...prev, kdnr: value }));
           }}
           autoFocus
+        />
+        <TextInput
+          label={t(locale, "nameStartsWith")}
+          placeholder="A..."
+          value={filters.name}
+          onChange={(e) => {
+            const value = e.currentTarget.value;
+            setFilters((prev) => ({ ...prev, name: value }));
+          }}
         />
         <TextInput
           label={t(locale, "matchcodeStartsWith")}

@@ -153,7 +153,12 @@ img.inverted {
 
 .mantine-TextInput-input[data-variant="unstyled"] {
   background-color: transparent;
-  border-color: transparent;
+  border-color: var(--mantine-color-red-7);
+  transition: var(--transition);
+}
+
+.mantine-TextInput-input[data-variant="unstyled"]:focus {
+  border-color: var(--main);
 }
 
 .mantine-Table-th {

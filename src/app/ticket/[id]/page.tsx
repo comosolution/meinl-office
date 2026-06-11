@@ -796,22 +796,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Button>
           </div>
         </div>
-        <header className="flex flex-col gap-1">
-          <h1>{id}</h1>
+        <header className="flex flex-col gap-2">
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <p>
-              RMA {t(locale, "by")}{" "}
-              <Link href={`/person/${ticket.kdnr_full}`} className="link">
-                <b>{ticket.kdnr_name}</b>{" "}
-                <span className="dimmed">({ticket.kdnr_full})</span>
-              </Link>{" "}
-              – {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}{" "}
-              {t(locale, "by")} <b>{ticket.createdby}</b>
-            </p>
+            <h1>{id}</h1>
             <Badge size="lg" variant="light">
               {ticket.status_int.text} ({ticket.status_int.nr})
             </Badge>
           </div>
+          <p>
+            RMA {t(locale, "by")}{" "}
+            <Link href={`/person/${ticket.kdnr_full}`} className="link">
+              <b>{ticket.kdnr_name}</b>{" "}
+              <span className="dimmed">({ticket.kdnr_full})</span>
+            </Link>{" "}
+            – {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}{" "}
+            {t(locale, "by")} <b>{ticket.createdby}</b>
+          </p>
         </header>
         <form
           onSubmit={handleSubmit}

@@ -8,9 +8,9 @@ import Loader from "../components/loader";
 import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
 import { b2bAccess } from "../lib/data";
+import { useFetchResults } from "../lib/hooks";
 import { t } from "../lib/i18n";
 import { Person } from "../lib/interfaces";
-import { useFetchResults } from "../lib/hooks";
 import { getAvatarColor, isPreview } from "../lib/utils";
 
 export default function Page() {
@@ -147,8 +147,8 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-4 px-4 md:px-8 py-4">
       <header className="flex flex-col md:flex-row justify-between items-center gap-2 py-4">
-        <div className="flex flex-col md:flex-row justify-center text-center md:items-baseline gap-2">
-          <h1>{t(locale, "allPeople")}</h1>
+        <h1>{t(locale, "allPeople")}</h1>
+        <div className="flex flex-col md:flex-row justify-center text-center md:items-center gap-2">
           <TextInput
             variant="unstyled"
             placeholder={t(locale, "searchPeople")}
@@ -156,16 +156,17 @@ export default function Page() {
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
+
+          {isPreview && (
+            <Button
+              component={Link}
+              href="/person/new"
+              leftSection={<IconPlus size={16} />}
+            >
+              {t(locale, "createPerson")}
+            </Button>
+          )}
         </div>
-        {isPreview && (
-          <Button
-            component={Link}
-            href="/person/new"
-            leftSection={<IconPlus size={16} />}
-          >
-            {t(locale, "createPerson")}
-          </Button>
-        )}
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
