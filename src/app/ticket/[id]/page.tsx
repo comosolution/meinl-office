@@ -802,7 +802,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <div>
             <div className="flex items-center gap-2">
               <h1>{id}</h1>
-              <Badge size="lg" variant="light">
+              <Badge size="lg" variant="light" color="blue">
                 {ticket.status_int.text} ({ticket.status_int.nr})
               </Badge>
             </div>
@@ -922,6 +922,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   className="flex-1"
                   rightSection={
                     <ActionIcon
+                      color="dark"
                       variant="transparent"
                       disabled={!editing}
                       onClick={openArtnr}
