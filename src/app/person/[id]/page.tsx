@@ -17,9 +17,9 @@ import {
   sizes,
   titles,
 } from "@/app/lib/data";
+import { useFetchPerson } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Person, PersonInStorage } from "@/app/lib/interfaces";
-import { useFetchPerson } from "@/app/lib/hooks";
 import {
   dateParser,
   formatDateToString,
@@ -126,39 +126,42 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     );
   };
 
-  const actions = isPreview ? (
-    <div className="md:col-span-2 flex justify-end gap-2">
-      {edit ? (
-        <div className="flex gap-2">
+  const actions =
+    isPreview || source === "OFFUSA" ? (
+      <div className="md:col-span-2 flex justify-end gap-2">
+        {edit ? (
+          <div className="flex gap-2">
+            <Button
+              color="dark"
+              variant="transparent"
+              onClick={() => {
+                setEdit(false);
+                getPerson();
+              }}
+            >
+              {t(locale, "discard")}
+            </Button>
+            <Button
+              type="submit"
+              color="dark"
+              leftSection={<IconDeviceFloppy size={16} />}
+              disabled={!form.isValid()}
+            >
+              {t(locale, "saveChanges")}
+            </Button>
+          </div>
+        ) : (
           <Button
             color="dark"
             variant="transparent"
-            // TODO: reset form
-            onClick={() => setEdit(false)}
+            leftSection={<IconEdit size={16} />}
+            onClick={() => setEdit(true)}
           >
-            {t(locale, "discard")}
+            {t(locale, "editData")}
           </Button>
-          <Button
-            type="submit"
-            color="dark"
-            leftSection={<IconDeviceFloppy size={16} />}
-            disabled={!form.isValid()}
-          >
-            {t(locale, "saveChanges")}
-          </Button>
-        </div>
-      ) : (
-        <Button
-          color="dark"
-          variant="transparent"
-          leftSection={<IconEdit size={16} />}
-          onClick={() => setEdit(true)}
-        >
-          {t(locale, "editData")}
-        </Button>
-      )}
-    </div>
-  ) : null;
+        )}
+      </div>
+    ) : null;
 
   if (!person) return <Loader />;
 
@@ -192,7 +195,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               phone={person.phone}
               mobile={person.mobil}
             />
-            {isPreview && (
+            {(isPreview || source === "OFFUSA") && (
               <Button
                 component="a"
                 href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${person.kdnr}`}

@@ -5,10 +5,12 @@ export const MEINL_WEB_API = isPreview
   : "https://meinlwebapi.meinl.loc/api";
 
 export const MEINL_DEALERS_URL = isPreview
-  ? "https://dealerdev.meinl.loc/"
+  ? "https://dealerdev.meinl.loc"
   : "https://dealer.meinl.de";
 export const MEINL_AE_URL = "https://apidev.meinl.de/aeblazorbeta";
-export const MEINL_AE_USA_URL = "https://apidev.meinl.de/us/aeblazorbetaus";
+export const MEINL_AE_USA_URL = isPreview
+  ? "https://apidev.meinl.de/us/aeblazorbetaus"
+  : "http://rc-order.meinlusa.com";
 
 export const DHL_API_TOKEN = isPreview
   ? "https://api-sandbox.dhl.com/parcel/de/account/auth/ropc/v1/token"

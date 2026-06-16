@@ -10,7 +10,7 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { useOffice } from "../context/officeContext";
-import { MEINL_AE_URL, MEINL_AE_USA_URL } from "../lib/config";
+import { MEINL_AE_USA_URL } from "../lib/config";
 import { t } from "../lib/i18n";
 import { isPreview } from "../lib/utils";
 
@@ -28,7 +28,7 @@ export default function FAB() {
       label: t(locale, "newPerson"),
       href: "/person/new",
       icon: <IconUser size={16} />,
-      disabled: !isPreview,
+      disabled: !isPreview || source !== "OFFUSA",
     },
     {
       label: t(locale, "newCampaign"),
@@ -44,9 +44,9 @@ export default function FAB() {
     },
     {
       label: t(locale, "newOrder"),
-      href: `${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}`,
+      href: MEINL_AE_USA_URL,
       icon: <IconBasket size={16} />,
-      hidden: !isPreview,
+      hidden: !isPreview || source !== "OFFUSA",
       external: true,
     },
   ];

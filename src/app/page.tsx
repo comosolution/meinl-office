@@ -36,7 +36,12 @@ export default function Page() {
             <h3>{session?.user?.name}</h3>
             <p className="dimmed text-xs">{session?.user?.email}</p>
           </div>
-          <Avatar variant="filled" size={48} name={session?.user?.name ?? ""} />
+          <Avatar
+            color="yellow"
+            variant="light"
+            size={48}
+            name={session?.user?.name ?? ""}
+          />
         </Link>
       </header>
       <div className="grid lg:grid-cols-3 gap-4">

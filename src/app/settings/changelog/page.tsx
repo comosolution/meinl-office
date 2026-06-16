@@ -8,12 +8,12 @@ export default async function ChangelogPage() {
 
   return (
     <main className="flex flex-col gap-8 p-8">
-      <h1> {title}</h1>
+      <h1>{title}</h1>
       {sections.map((section, index) => (
         <div key={index} className="pt-8" style={{ borderTop: defaultBorder }}>
           <div className="flex flex-col lg:flex-row lg:items-baseline gap-8">
             <div className="flex items-baseline gap-2 lg:w-1/4">
-              <Badge size="xl" variant="outline">
+              <Badge size="xl" variant="light" color="yellow">
                 {section.version}
               </Badge>
               <p className="dimmed text-xs">

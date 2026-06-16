@@ -157,7 +157,7 @@ export default function Page() {
             onChange={(e) => setSearch(e.currentTarget.value)}
           />
 
-          {isPreview && (
+          {(isPreview || source === "OFFUSA") && (
             <Button
               component={Link}
               href="/person/new"

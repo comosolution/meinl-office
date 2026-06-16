@@ -175,7 +175,7 @@ export default function Page({
         </Button>
         <div className="flex flex-col md:flex-row gap-2">
           <Contact email={company.mailadr} phone={company.telefon} />
-          {isPreview && (
+          {(isPreview || source === "OFFUSA") && (
             <Button
               variant="light"
               component={Link}
@@ -185,7 +185,7 @@ export default function Page({
               {t(locale, "addEmployee")}
             </Button>
           )}
-          {isPreview && (
+          {(isPreview || source === "OFFUSA") && (
             <Button
               component="a"
               href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${company.kdnr}`}

@@ -30,11 +30,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
-import {
-  MEINL_AE_URL,
-  MEINL_AE_USA_URL,
-  MEINL_OFFICE_SIDEBAR_KEY,
-} from "../lib/config";
+import { MEINL_AE_USA_URL, MEINL_OFFICE_SIDEBAR_KEY } from "../lib/config";
 import { t } from "../lib/i18n";
 import { navLink } from "../lib/styles";
 import { isPreview } from "../lib/utils";
@@ -93,9 +89,9 @@ export default function Sidebar({
     },
     {
       name: t(locale, "orders"),
-      href: `${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}`,
+      href: MEINL_AE_USA_URL,
       icon: <IconBasket size={20} />,
-      hidden: !isPreview,
+      hidden: source !== "OFFUSA",
       external: true,
     },
   ];
@@ -111,7 +107,7 @@ export default function Sidebar({
   const SourceSwitch = () => {
     const name = source === "OFFGUT" ? "Deutschland" : "USA";
 
-    return isPreview ? (
+    return (
       <NavLink
         label={name}
         title={name}
@@ -132,7 +128,7 @@ export default function Sidebar({
           onClose?.();
         }}
       />
-    ) : null;
+    );
   };
 
   const LanguageSwitch = () => {
@@ -178,7 +174,7 @@ export default function Sidebar({
 
   const DevIndicator = () => {
     return isPreview ? (
-      <Badge size="xs" variant="light" color="dark">
+      <Badge size="xs" variant="light" color="yellow">
         DEV
       </Badge>
     ) : null;
@@ -212,7 +208,12 @@ export default function Sidebar({
         >
           <Image src="/logo.svg" alt="Meinl Logo" width={32} height={32} />
           {!collapsed && (
-            <p className="text-2xl tracking-tighter text-(--main)">Office</p>
+            <p className="text-2xl tracking-tighter text-(--main)">
+              Office{" "}
+              {source === "OFFUSA" && (
+                <span className="text-lg leading-none">USA</span>
+              )}
+            </p>
           )}
         </Link>
         <DevIndicator />
@@ -282,7 +283,8 @@ export default function Sidebar({
                 }}
                 leftSection={
                   <Avatar
-                    variant="filled"
+                    color="yellow"
+                    variant="light"
                     size={20}
                     name={session?.user?.name ?? ""}
                   />

@@ -590,7 +590,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       body: [
         ["Ticket ID", id],
         ["Erstellt am", format(ticket.created, DATE_FORMAT)],
-        ["Kunde", `${ticket.kdnr_full} – ${ticket.kdnr_name}` || ""],
+        [
+          "Kunde",
+          `${ticket.kdnr_full} – ${ticket.firma} (${ticket.kdnr_name})` || "",
+        ],
         ["Artikelnummer", ticket.artnr_mei || ticket.artnr_ku || ""],
         ["Seriennummer", ticket.sernr_mei || ticket.sernr_ku || ""],
         ["Fehlerbeschreibung", ticket.descr || ""],

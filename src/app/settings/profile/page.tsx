@@ -1,7 +1,6 @@
 "use client";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
-import { isPreview } from "@/app/lib/utils";
 import {
   Avatar,
   Badge,
@@ -54,10 +53,15 @@ export default function Page() {
       </div>
 
       <header className="flex items-center gap-4 py-4">
-        <Avatar variant="filled" size={72} name={session?.user?.name ?? ""} />
+        <Avatar
+          color="yellow"
+          variant="light"
+          size={72}
+          name={session?.user?.name ?? ""}
+        />
         <div className="flex flex-col gap-1 w-full">
           <h1>{session?.user?.name}</h1>
-          <p>{session?.user?.email}</p>
+          <p className="dimmed">{session?.user?.email}</p>
         </div>
       </header>
 
@@ -93,40 +97,34 @@ export default function Page() {
               />
             </div>
             <hr />
-            {isPreview && (
-              <>
-                <div className="flex justify-between items-baseline gap-2">
-                  <p>{t(locale, "location")}</p>
-                  <SegmentedControl
-                    value={source}
-                    onChange={(value) =>
-                      setSource(value as "OFFGUT" | "OFFUSA")
-                    }
-                    data={[
-                      {
-                        label: (
-                          <div className="flex items-center justify-center gap-2">
-                            <ReactCountryFlag countryCode="DE" svg />
-                            <span>Deutschland</span>
-                          </div>
-                        ),
-                        value: "OFFGUT",
-                      },
-                      {
-                        label: (
-                          <div className="flex items-center justify-center gap-2">
-                            <ReactCountryFlag countryCode="US" svg />
-                            <span>USA</span>
-                          </div>
-                        ),
-                        value: "OFFUSA",
-                      },
-                    ]}
-                  />
-                </div>
-                <hr />
-              </>
-            )}
+            <div className="flex justify-between items-baseline gap-2">
+              <p>{t(locale, "location")}</p>
+              <SegmentedControl
+                value={source}
+                onChange={(value) => setSource(value as "OFFGUT" | "OFFUSA")}
+                data={[
+                  {
+                    label: (
+                      <div className="flex items-center justify-center gap-2">
+                        <ReactCountryFlag countryCode="DE" svg />
+                        <span>Deutschland</span>
+                      </div>
+                    ),
+                    value: "OFFGUT",
+                  },
+                  {
+                    label: (
+                      <div className="flex items-center justify-center gap-2">
+                        <ReactCountryFlag countryCode="US" svg />
+                        <span>USA</span>
+                      </div>
+                    ),
+                    value: "OFFUSA",
+                  },
+                ]}
+              />
+            </div>
+            <hr />
             <div className="flex justify-between items-baseline gap-2">
               <p>Theme</p>
               <SegmentedControl

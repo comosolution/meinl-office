@@ -9,7 +9,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { MEINL_OFFICE_WELCOME_KEY } from "../lib/config";
-import { isPreview } from "../lib/utils";
 import FAB from "./fab";
 import Loader from "./loader";
 import Login from "./login";
@@ -82,9 +81,7 @@ export default function PageWrapper({
         <div className="pb-20">{children}</div>
       </main>
       <FAB />
-      {showWelcome && isPreview && (
-        <WelcomeModal onComplete={handleWelcomeComplete} />
-      )}
+      {showWelcome && <WelcomeModal onComplete={handleWelcomeComplete} />}
     </div>
   );
 }

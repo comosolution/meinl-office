@@ -10,14 +10,10 @@ import {
   MEINL_AE_USA_URL,
   MEINL_OFFICE_DEALER_HISTORY_KEY,
 } from "@/app/lib/config";
+import { useFetchCompany } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Company, DealerInStorage } from "@/app/lib/interfaces";
-import { useFetchCompany } from "@/app/lib/hooks";
-import {
-  getAvatarColor,
-  isPreview,
-  parseUrl,
-} from "@/app/lib/utils";
+import { getAvatarColor, isPreview, parseUrl } from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -184,7 +180,7 @@ export default function Page({
         </div>
         <div className="flex flex-col md:flex-row gap-2">
           <Contact email={company.mailadr} phone={company.telefon} />
-          {isPreview && (
+          {(isPreview || source === "OFFUSA") && (
             <Button
               component="a"
               href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${company.kdnr}`}
