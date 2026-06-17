@@ -1,7 +1,9 @@
 import fs from "fs";
 import { notFound } from "next/navigation";
 import path from "path";
+import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
+import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
@@ -18,10 +20,17 @@ export interface ChangelogData {
   sections: ChangelogSection[];
 }
 
+export interface DocHeading {
+  id: string;
+  depth: number;
+  value: string;
+}
+
 export interface DocFile {
   slug: string;
   title: string;
   html: string;
+  headings: DocHeading[];
 }
 
 export async function getDocsFiles(): Promise<DocFile[]> {
@@ -41,7 +50,7 @@ export async function getDocsFiles(): Promise<DocFile[]> {
   for (const filename of filenames) {
     const filePath = path.join(docsPath, filename);
     const content = fs.readFileSync(filePath, "utf-8");
-    const tree = unified().use(remarkParse).parse(content);
+    const tree = unified().use(remarkParse).use(remarkGfm).parse(content);
 
     let title = "";
     visit(tree, "heading", (node, index, parent) => {
@@ -58,15 +67,32 @@ export async function getDocsFiles(): Promise<DocFile[]> {
 
     const hast = await unified()
       .use(remarkParse, { breaks: true })
+      .use(remarkGfm)
       .use(remarkRehype)
+      .use(rehypeSlug)
       .use(rehypeStringify)
       .run(tree);
     const html = unified().use(rehypeStringify).stringify(hast);
+
+    const headings: DocHeading[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    visit(hast as any, "element", (node: any) => {
+      const tag: string = node.tagName;
+      if (tag === "h2" || tag === "h3") {
+        const id: string = node.properties?.id || "";
+        if (!id) return;
+        let value = "";
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        visit(node, "text", (t: any) => { value += t.value || ""; });
+        headings.push({ id, depth: Number(tag[1]), value });
+      }
+    });
 
     docs.push({
       slug: filename.replace(".md", ""),
       title: title || filename.replace(".md", ""),
       html,
+      headings,
     });
   }
 
@@ -116,6 +142,7 @@ export async function getMarkdownContent(): Promise<ChangelogData> {
       if (currentVersion && currentContent) {
         const file = await unified()
           .use(remarkParse, { breaks: true })
+          .use(remarkGfm)
           .use(remarkRehype)
           .use(rehypeStringify)
           .run(currentContent);

@@ -1,5 +1,6 @@
 import { getDocsFiles } from "@/app/lib/markdown";
 import Link from "next/link";
+import { DocTableOfContents } from "./DocTableOfContents";
 
 export default async function Page({
   searchParams,
@@ -35,6 +36,9 @@ export default async function Page({
           className="flex-1 flex flex-col gap-2 prose"
           dangerouslySetInnerHTML={{ __html: selectedDoc.html }}
         />
+        <aside className="w-48 shrink-0 sticky top-8 self-start">
+          <DocTableOfContents headings={selectedDoc.headings} />
+        </aside>
       </div>
     </main>
   );

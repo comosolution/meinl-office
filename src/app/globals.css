@@ -211,3 +211,36 @@ hr {
   border: none;
   border-top: 1px solid var(--border-color);
 }
+
+article img {
+  border-radius: var(--mantine-radius-default);
+  box-shadow: var(--shadow-md);
+}
+
+article table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: var(--mantine-font-size-sm);
+  line-height: var(--mantine-line-height);
+  margin-bottom: var(--defaultPadding);
+  overflow: hidden;
+}
+
+article thead tr th {
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+  text-align: left;
+  font-weight: 600;
+  background-color: var(--background-subtle);
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+article tbody tr td {
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+  border-bottom: 1px solid var(--border-color);
+}
+
+article tbody tr:last-child td {
+  border-bottom: none;
+}

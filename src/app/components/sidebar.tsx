@@ -302,16 +302,14 @@ export default function Sidebar({
               >
                 {t(locale, "profile")}
               </Menu.Item>
-              {isPreview && (
-                <Menu.Item
-                  leftSection={<IconHelp size={14} />}
-                  component={Link}
-                  href="/settings/help"
-                  onClick={() => onClose?.()}
-                >
-                  {t(locale, "documentation")}
-                </Menu.Item>
-              )}
+              <Menu.Item
+                leftSection={<IconHelp size={14} />}
+                component={Link}
+                href="/settings/help"
+                onClick={() => onClose?.()}
+              >
+                {t(locale, "documentation")}
+              </Menu.Item>
               <Menu.Item
                 leftSection={<IconHistory size={14} />}
                 component={Link}

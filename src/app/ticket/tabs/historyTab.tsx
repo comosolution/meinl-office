@@ -65,7 +65,7 @@ export default function HistoryTab({
   }>({
     initialValues: {
       comment: "",
-      public: "1",
+      public: "0",
       prio: false,
       withMail: false,
       emails: [""],
