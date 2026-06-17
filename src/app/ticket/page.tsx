@@ -75,6 +75,8 @@ export default function Page() {
             t.artnr_mei || "",
             t.created || "",
             t.createdby || "",
+            t.status_int?.nr || "",
+            t.status_int?.text || "",
           ].some((value) => value.toLowerCase().includes(keyword)),
         );
       return searchMatch;

@@ -18,6 +18,61 @@ export interface ChangelogData {
   sections: ChangelogSection[];
 }
 
+export interface DocFile {
+  slug: string;
+  title: string;
+  html: string;
+}
+
+export async function getDocsFiles(): Promise<DocFile[]> {
+  const docsPath = path.join(process.cwd(), "docs");
+
+  if (!fs.existsSync(docsPath)) {
+    return [];
+  }
+
+  const filenames = fs
+    .readdirSync(docsPath)
+    .filter((f) => f.endsWith(".md"))
+    .sort();
+
+  const docs: DocFile[] = [];
+
+  for (const filename of filenames) {
+    const filePath = path.join(docsPath, filename);
+    const content = fs.readFileSync(filePath, "utf-8");
+    const tree = unified().use(remarkParse).parse(content);
+
+    let title = "";
+    visit(tree, "heading", (node, index, parent) => {
+      if (node.depth === 1 && title === "") {
+        const textNode = node.children.find((c) => c.type === "text");
+        if (textNode && "value" in textNode) {
+          title = textNode.value as string;
+          if (parent && typeof index === "number") {
+            parent.children.splice(index, 1);
+          }
+        }
+      }
+    });
+
+    const hast = await unified()
+      .use(remarkParse, { breaks: true })
+      .use(remarkRehype)
+      .use(rehypeStringify)
+      .run(tree);
+    const html = unified().use(rehypeStringify).stringify(hast);
+
+    docs.push({
+      slug: filename.replace(".md", ""),
+      title: title || filename.replace(".md", ""),
+      html,
+    });
+  }
+
+  return docs;
+}
+
 export async function getMarkdownContent(): Promise<ChangelogData> {
   const changelogPath = path.join(process.cwd(), "CHANGELOG.md");
 

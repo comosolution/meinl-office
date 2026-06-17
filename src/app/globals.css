@@ -17,7 +17,7 @@
 .dark {
   --background: var(--mantine-color-black);
   --foreground: var(--mantine-color-white);
-  --background-subtle: var(--mantine-color-dark-9);
+  --background-subtle: var(--mantine-color-dark-8);
   --subtle: rgba(255, 255, 255, 0.2);
   --border-color: var(--mantine-color-dark-4);
   --filter-inverted: none;
@@ -178,6 +178,17 @@ img.inverted {
   background-color: transparent;
 }
 
+article h2 {
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+
+article h2:not(:first-of-type) {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
 article h3 {
   font-size: 24px;
   margin-bottom: 4px;
@@ -186,6 +197,14 @@ article h3 {
 article li {
   list-style-type: disc;
   margin-left: 1.2rem;
+}
+
+article blockquote {
+  margin-bottom: var(--defaultPadding);
+  padding: var(--defaultPadding);
+  border-radius: var(--mantine-radius-default);
+  border: 1px solid var(--border-color);
+  background: var(--background-subtle);
 }
 
 hr {

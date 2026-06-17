@@ -26,6 +26,8 @@ export type TranslationKey =
   | "profile"
   | "roles"
   | "noRoles"
+  | "documentation"
+  | "showDocumentation"
   | "changelog"
   | "logout"
   | "source"
@@ -308,6 +310,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     profile: "Profil",
     roles: "Rollen",
     noRoles: "Keine Rollen zugeordnet",
+    documentation: "Hilfe",
+    showDocumentation: "Hilfe anzeigen",
     changelog: "Changelog",
     logout: "Ausloggen",
     source: "Quelle",
@@ -594,6 +598,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     profile: "Profile",
     roles: "Roles",
     noRoles: "No roles assigned",
+    documentation: "Documentation",
+    showDocumentation: "Show documentation",
     changelog: "Changelog",
     logout: "Sign Out",
     source: "Source",
