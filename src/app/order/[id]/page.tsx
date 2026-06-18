@@ -102,6 +102,24 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <Table.Td>{value}</Table.Td>
               </Table.Tr>
             ))}
+            <Table.Tr>
+              <Table.Th w={200}>{t(locale, "shippingAddress")}</Table.Th>
+              <Table.Td className="whitespace-normal!">
+                {[
+                  order.versandadresse?.name1,
+                  order.versandadresse?.name2,
+                  order.versandadresse?.name3,
+                  order.versandadresse?.strasse,
+                  order.versandadresse?.plz,
+                  order.versandadresse?.ort,
+                  order.versandadresse?.land,
+                ]
+                  .filter(Boolean)
+                  .map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+              </Table.Td>
+            </Table.Tr>
           </Table.Tbody>
         </Table>
       </div>
@@ -155,11 +173,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                           <Table.Tr key={i}>
                             <Table.Td>{pos.menge}</Table.Td>
                             <Table.Td>{pos.artnr}</Table.Td>
-                            <Table.Td>{pos.artikelbezeichnung}</Table.Td>
+                            <Table.Td className="whitespace-normal! max-w-xs">
+                              {pos.artikelbezeichnung}
+                            </Table.Td>
                             <Table.Td>{pos.listPreis.toFixed(2)}</Table.Td>
-                            <Table.Td>{pos.rabatt1}%</Table.Td>
-                            <Table.Td>{pos.rabatt2}%</Table.Td>
-                            <Table.Td>{pos.rabatt3}%</Table.Td>
+                            <Table.Td>
+                              {pos.rabatt1 > 0 ? pos.rabatt1.toFixed(2) : ""}
+                            </Table.Td>
+                            <Table.Td
+                              className={`${pos.rabatt2 ? "text-(--main)" : ""}`}
+                            >
+                              {pos.rabatt2 > 0 ? pos.rabatt2.toFixed(2) : ""}
+                            </Table.Td>
+                            <Table.Td>
+                              {pos.rabatt3 > 0 ? pos.rabatt3.toFixed(2) : ""}
+                            </Table.Td>
                             <Table.Td>{pos.nettoPreis.toFixed(2)}</Table.Td>
                             <Table.Td
                               className={`${pos.kostenlos ? "text-(--main)" : ""}`}
@@ -167,7 +195,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                               {pos.kostenlos ? t(locale, "yes") : ""}
                             </Table.Td>
                             <Table.Td>{pos.posnr}</Table.Td>
-                            <Table.Td>{pos.bemerkung}</Table.Td>
+                            <Table.Td className="whitespace-normal! max-w-xs">
+                              {pos.bemerkung}
+                            </Table.Td>
                           </Table.Tr>
                         ))}
                       </Table.Tbody>

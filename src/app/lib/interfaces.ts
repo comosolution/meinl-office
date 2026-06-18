@@ -246,8 +246,19 @@ export interface OrderHead {
 }
 
 export interface Order extends OrderHead {
-  versandadresse: Versandadresse;
+  versandadresse: OrderAddress;
   positionen: OrderPosition[];
+}
+
+export interface OrderAddress {
+  land: string;
+  name1: string;
+  name2: string;
+  name3: string;
+  ort: string;
+  plz: string;
+  strasse: string;
+  vanr: string;
 }
 
 export interface OrderCompany {
