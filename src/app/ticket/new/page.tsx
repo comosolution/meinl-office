@@ -1,6 +1,7 @@
 "use client";
 import { CustomerSelect } from "@/app/components/customerSelect";
 import { FileDropzone } from "@/app/components/fileDropzone";
+import SourceRequired from "@/app/components/sourceRequired";
 import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import {
@@ -335,7 +336,7 @@ export default function Page() {
     [uniquePersons],
   );
 
-  if (source === "OFFUSA") return;
+  if (source === "OFFUSA") return <SourceRequired requiredSource="OFFGUT" />;
 
   return (
     <main className="flex flex-col gap-4 p-4">

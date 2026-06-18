@@ -4,6 +4,7 @@ import { IconBasketPlus, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from "react";
 import OrderTable from "../components/orderTable";
+import SourceRequired from "../components/sourceRequired";
 import { useOffice } from "../context/officeContext";
 import { MEINL_AE_USA_URL } from "../lib/config";
 import { t } from "../lib/i18n";
@@ -12,7 +13,7 @@ export default function Page() {
   const { locale, source } = useOffice();
   const [search, setSearch] = useState("");
 
-  if (source === "OFFGUT") return null;
+  if (source === "OFFGUT") return <SourceRequired requiredSource="OFFUSA" />;
 
   return (
     <main className="flex flex-col gap-4 px-4 md:px-8 py-4">

@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import LineGraph from "../components/lineGraph";
 import Loader from "../components/loader";
 import StatsOverview from "../components/statsOverview";
+import SourceRequired from "../components/sourceRequired";
 import TicketTable from "../components/ticketTable";
 import { useOffice } from "../context/officeContext";
 import { MEINL_RMA_VIEW_KEY } from "../lib/config";
@@ -97,7 +98,8 @@ export default function Page() {
 
   if (loading) return <Loader />;
 
-  if (!tickets || source === "OFFUSA") return;
+  if (!tickets) return;
+  if (source === "OFFUSA") return <SourceRequired requiredSource="OFFGUT" />;
 
   return (
     <main className="flex flex-col gap-4 p-4">

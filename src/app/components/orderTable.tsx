@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { getDatePresets } from "../lib/utils";
+import Loader from "./loader";
 import Pagination from "./pagination";
 
 type OrderKey = keyof OrderHead;
@@ -173,7 +174,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
     key: OrderKey | null;
     render?: (o: OrderHead) => string;
   }[] = [
-    { label: t(locale, "customerNumber"), key: "kdnr" },
+    { label: t(locale, "kdnr"), key: "kdnr" },
     {
       label: t(locale, "company"),
       key: null,
@@ -208,7 +209,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
   const startIndex = (page - 1) * pageSize;
   const currentPageData = sortedOrders.slice(startIndex, startIndex + pageSize);
 
-  if (loading) return null;
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col gap-4">

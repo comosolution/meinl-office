@@ -1,0 +1,34 @@
+"use client";
+import { Button } from "@mantine/core";
+import { IconError404, IconRefresh } from "@tabler/icons-react";
+import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
+
+export default function SourceRequired({
+  requiredSource,
+}: {
+  requiredSource: "OFFGUT" | "OFFUSA";
+}) {
+  const { locale, setSource } = useOffice();
+
+  const sourceName =
+    requiredSource === "OFFGUT"
+      ? t(locale, "sourceGermany")
+      : t(locale, "sourceUSA");
+
+  return (
+    <main className="flex flex-col items-center justify-center gap-4 px-4 py-24">
+      <IconError404 size={64} />
+      <p className="text-gray-500">
+        {t(locale, "pageOnlyAvailableIn")} Office {sourceName}.
+      </p>
+      <Button
+        variant="light"
+        leftSection={<IconRefresh size={16} />}
+        onClick={() => setSource(requiredSource)}
+      >
+        {t(locale, "switchTo")} Office {sourceName}
+      </Button>
+    </main>
+  );
+}

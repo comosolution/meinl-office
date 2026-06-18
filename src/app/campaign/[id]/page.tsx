@@ -1,5 +1,6 @@
 "use client";
 import DealerSelect from "@/app/components/dealerSelect";
+import SourceRequired from "@/app/components/sourceRequired";
 import Loader from "@/app/components/loader";
 import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
@@ -137,7 +138,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   if (!campaign) return <Loader />;
 
-  if (source === "OFFUSA") return;
+  if (source === "OFFUSA") return <SourceRequired requiredSource="OFFGUT" />;
 
   return (
     <main className="flex flex-col gap-4 p-4">

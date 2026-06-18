@@ -105,7 +105,8 @@ export default function Sidebar({
   }, [colorScheme]);
 
   const SourceSwitch = () => {
-    const name = source === "OFFGUT" ? "Deutschland" : "USA";
+    const name =
+      source === "OFFGUT" ? t(locale, "sourceGermany") : t(locale, "sourceUSA");
 
     return (
       <NavLink

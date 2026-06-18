@@ -1,5 +1,6 @@
 "use client";
 import { CustomerSelect } from "@/app/components/customerSelect";
+import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
 import { countryCodes } from "@/app/lib/countryCodes";
 import {
@@ -84,7 +85,7 @@ export default function NewPersonPage() {
     }
   }, []);
 
-  if (source === "OFFGUT") return;
+  if (source === "OFFGUT") return <SourceRequired requiredSource="OFFUSA" />;
 
   return (
     <main className="flex flex-col gap-4 p-4">

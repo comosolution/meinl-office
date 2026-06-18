@@ -1,5 +1,6 @@
 "use client";
 import Loader from "@/app/components/loader";
+import SourceRequired from "@/app/components/sourceRequired";
 import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { DATE_FORMAT } from "@/app/lib/config";
@@ -733,7 +734,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     );
   }
 
-  if (source === "OFFUSA") return;
+  if (source === "OFFUSA") return <SourceRequired requiredSource="OFFGUT" />;
 
   return (
     <>

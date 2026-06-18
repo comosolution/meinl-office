@@ -287,6 +287,10 @@ export type TranslationKey =
   | "mailAlertPrivateMultiple"
   | "mailAlertPublicPrefix"
   | "mailAlertPublicSuffix"
+  | "pageOnlyAvailableIn"
+  | "switchTo"
+  | "sourceGermany"
+  | "sourceUSA"
   | "orderDate"
   | "deliveryDate"
   | "orderNumberCustomer"
@@ -584,6 +588,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     mailAlertPublicPrefix: "Der Ticketersteller",
     mailAlertPublicSuffix:
       "bekommt diesen Kommentar zusätzlich per Mail geschickt.",
+    pageOnlyAvailableIn: "Diese Seite ist nur verfügbar in",
+    switchTo: "Wechseln zu",
+    sourceGermany: "Deutschland",
+    sourceUSA: "USA",
     orderDate: "Auftragsdatum",
     deliveryDate: "Lieferdatum",
     orderNumberCustomer: "Bestellnr. Kunde",
@@ -684,7 +692,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     customerType: "Customer Type",
     websiteUrl: "Website URL",
     streetPostbox: "Street / PO Box",
-    customerNumber: "Customer Number",
+    customerNumber: "Account Number",
     country: "Country",
     postalCode: "Postal Code",
     city: "City",
@@ -726,7 +734,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     descriptionLabel: "Description",
     next: "Next",
     previous: "Previous",
-    selectCustomer: "Enter customer number or name",
+    selectCustomer: "Enter account number or name",
     hobbies: "Hobbies",
     musicGenre: "Music Genre",
     instrument: "Instrument",
@@ -878,6 +886,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
       "The specified recipients will also receive this comment by email.",
     mailAlertPublicPrefix: "The ticket creator",
     mailAlertPublicSuffix: "will also receive this comment by email.",
+    pageOnlyAvailableIn: "This page is only available in",
+    switchTo: "Switch to",
+    sourceGermany: "Germany",
+    sourceUSA: "USA",
     orderDate: "Order Date",
     deliveryDate: "Delivery Date",
     orderNumberCustomer: "Order No. Customer",

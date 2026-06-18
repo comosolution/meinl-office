@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "../components/loader";
+import SourceRequired from "../components/sourceRequired";
 import Pagination from "../components/pagination";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
@@ -66,7 +67,7 @@ export default function Page() {
 
   if (loading) return <Loader />;
 
-  if (source === "OFFUSA") return;
+  if (source === "OFFUSA") return <SourceRequired requiredSource="OFFGUT" />;
 
   return (
     <main className="flex flex-col gap-4 px-4 md:px-8 py-4">
