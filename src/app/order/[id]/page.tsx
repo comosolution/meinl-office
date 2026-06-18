@@ -2,10 +2,15 @@
 import Loader from "@/app/components/loader";
 import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
+import { MEINL_AE_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
 import { Button, Paper, Table } from "@mantine/core";
-import { IconChevronLeft } from "@tabler/icons-react";
+import {
+  IconBasketPlus,
+  IconChevronLeft,
+  IconCircleCheckFilled,
+} from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -84,8 +89,26 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           >
             {t(locale, "allOrders")}
           </Button>
+          <Button
+            variant="transparent"
+            color="gray"
+            component={Link}
+            href={`/company/${order.kdnr}`}
+            leftSection={<IconChevronLeft size={16} />}
+          >
+            {order.company.name1}
+          </Button>
         </div>
-        <div className="flex flex-col md:flex-row gap-2"></div>
+        <div className="flex flex-col md:flex-row gap-2">
+          <Button
+            component="a"
+            href={`${MEINL_AE_URL}?kdnr=${order.kdnr}`}
+            target="_blank"
+            leftSection={<IconBasketPlus size={16} />}
+          >
+            {t(locale, "newOrder")}
+          </Button>
+        </div>
       </div>
       <header className="flex items-center gap-4 py-4">
         <h1>
@@ -98,7 +121,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Table.Tbody>
             {headRows.map(({ label, value }) => (
               <Table.Tr key={label}>
-                <Table.Th w={200}>{label}</Table.Th>
+                <Table.Th w={160}>{label}</Table.Th>
                 <Table.Td>{value}</Table.Td>
               </Table.Tr>
             ))}
@@ -198,10 +221,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                               {pos.rabatt3 > 0 ? pos.rabatt3.toFixed(2) : ""}
                             </Table.Td>
                             <Table.Td>{pos.nettoPreis.toFixed(2)}</Table.Td>
-                            <Table.Td
-                              className={`${pos.kostenlos ? "text-(--main)" : ""}`}
-                            >
-                              {pos.kostenlos ? t(locale, "yes") : ""}
+                            <Table.Td>
+                              {pos.kostenlos ? (
+                                <IconCircleCheckFilled
+                                  size={16}
+                                  color="var(--main)"
+                                />
+                              ) : (
+                                ""
+                              )}
                             </Table.Td>
                             <Table.Td>{pos.posnr}</Table.Td>
                             <Table.Td className="whitespace-normal! max-w-xs">
