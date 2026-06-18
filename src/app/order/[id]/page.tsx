@@ -152,20 +152,29 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </header>
 
                   <div className="overflow-x-auto">
-                    <Table>
+                    <Table
+                      layout="fixed"
+                      style={{
+                        fontSize: "var(--mantine-font-size-xs)",
+                      }}
+                    >
                       <Table.Thead>
                         <Table.Tr>
-                          <Table.Th>{t(locale, "quantity")}</Table.Th>
-                          <Table.Th>{t(locale, "articleNumber")}</Table.Th>
-                          <Table.Th>{t(locale, "descriptionLabel")}</Table.Th>
-                          <Table.Th>{t(locale, "listPrice")}</Table.Th>
-                          <Table.Th>%</Table.Th>
-                          <Table.Th>%</Table.Th>
-                          <Table.Th>%</Table.Th>
-                          <Table.Th>{t(locale, "netPrice")}</Table.Th>
-                          <Table.Th>{t(locale, "free")}</Table.Th>
-                          <Table.Th>{t(locale, "position")}</Table.Th>
-                          <Table.Th>{t(locale, "remark")}</Table.Th>
+                          <Table.Th w={50}>{t(locale, "quantity")}</Table.Th>
+                          <Table.Th w={110}>
+                            {t(locale, "articleNumber")}
+                          </Table.Th>
+                          <Table.Th w={220}>
+                            {t(locale, "descriptionLabel")}
+                          </Table.Th>
+                          <Table.Th w={50}>{t(locale, "listPrice")}</Table.Th>
+                          <Table.Th w={50}>%</Table.Th>
+                          <Table.Th w={50}>%</Table.Th>
+                          <Table.Th w={50}>%</Table.Th>
+                          <Table.Th w={50}>{t(locale, "netPrice")}</Table.Th>
+                          <Table.Th w={50}>{t(locale, "free")}</Table.Th>
+                          <Table.Th w={50}>{t(locale, "position")}</Table.Th>
+                          <Table.Th w={120}>{t(locale, "remark")}</Table.Th>
                         </Table.Tr>
                       </Table.Thead>
                       <Table.Tbody>
