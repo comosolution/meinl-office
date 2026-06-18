@@ -244,6 +244,25 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Paper>
             );
           })}
+        {grouped && (
+          <p
+            className="text-sm text-right"
+            style={{ paddingRight: "var(--mantine-spacing-md)" }}
+          >
+            {t(locale, "orderValue")}:{" "}
+            <b>
+              {grouped &&
+                Object.values(grouped)
+                  .flat()
+                  .reduce((sum, p) => sum + p.nettoPreis * p.menge, 0)
+                  .toLocaleString(locale === "de" ? "de-DE" : "en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{" "}
+              {order.company?.wkz ?? "USD"}
+            </b>
+          </p>
+        )}
       </div>
     </main>
   );
