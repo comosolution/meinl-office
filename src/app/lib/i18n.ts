@@ -295,7 +295,11 @@ export type TranslationKey =
   | "deliveryDate"
   | "orderNumberCustomer"
   | "orderNumberInternal"
-  | "clerk";
+  | "clerk"
+  | "listPrice"
+  | "netPrice"
+  | "remark"
+  | "orderValue";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -597,6 +601,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     orderNumberCustomer: "Bestellnr. Kunde",
     orderNumberInternal: "Bestellnr. Intern",
     clerk: "Sachbearbeiter",
+    listPrice: "VK-Preis",
+    netPrice: "EK-Preis",
+    remark: "Bemerkung",
+    orderValue: "Auftragswert",
   },
   en: {
     welcome: "Welcome",
@@ -895,6 +903,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     orderNumberCustomer: "Order No. Customer",
     orderNumberInternal: "Order No. Internal",
     clerk: "Clerk",
+    listPrice: "List Price",
+    netPrice: "Net Price",
+    remark: "Remark",
+    orderValue: "Order Value",
   },
 };
 

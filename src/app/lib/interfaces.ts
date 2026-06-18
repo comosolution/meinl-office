@@ -245,6 +245,11 @@ export interface OrderHead {
   company: OrderCompany;
 }
 
+export interface Order extends OrderHead {
+  versandadresse: Versandadresse;
+  positionen: OrderPosition[];
+}
+
 export interface OrderCompany {
   matchcode: string;
   name1: string;
@@ -257,6 +262,22 @@ export interface OrderCompany {
   wkz: string;
   zahlungsText: string;
   zahlungsArt: string;
+}
+
+export interface OrderPosition {
+  artikelbezeichnung: string;
+  artnr: string;
+  bemerkung: string;
+  kostenlos: false;
+  listPreis: number;
+  marke: string;
+  menge: number;
+  nettoPreis: number;
+  posnr: number;
+  preiskennzeichen: string;
+  rabatt1: number;
+  rabatt2: number;
+  rabatt3: number;
 }
 
 export interface SalesVolume {

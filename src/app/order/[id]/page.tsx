@@ -1,16 +1,79 @@
 "use client";
+import Loader from "@/app/components/loader";
+import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
-import { Button } from "@mantine/core";
+import { Order, OrderPosition } from "@/app/lib/interfaces";
+import { Button, Paper, Table } from "@mantine/core";
 import { IconChevronLeft } from "@tabler/icons-react";
+import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const { data: session } = useSession();
   const { locale, source } = useOffice();
+
+  const [loading, setLoading] = useState(true);
+  const [order, setOrder] = useState<Order>();
+
+  const getOrder = async () => {
+    try {
+      const response = await fetch("/api/order/details", {
+        method: "POST",
+        body: JSON.stringify({ unid: id, source, user: session?.user }),
+      });
+      if (response.ok) setOrder(await response.json());
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getOrder();
+  }, []);
+
+  if (!order || loading) return <Loader />;
+  if (source === "OFFGUT") return <SourceRequired requiredSource="OFFUSA" />;
+
+  const parseDate = (s: string) =>
+    s && s !== "00000000"
+      ? format(
+          new Date(`${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`),
+          "MM/dd/yyyy",
+        )
+      : "–";
+
+  const grouped = order.positionen
+    ? order.positionen.reduce<Record<string, OrderPosition[]>>((acc, pos) => {
+        (acc[pos.marke] ??= []).push(pos);
+        return acc;
+      }, {})
+    : null;
+
+  const headRows: { label: string; value: string }[] = [
+    { label: t(locale, "customerNumber"), value: order.kdnr },
+    { label: t(locale, "nameLabel"), value: order.company?.name1 ?? "–" },
+    { label: t(locale, "clerk"), value: order.sachbearbeiterName },
+    { label: t(locale, "orderDate"), value: parseDate(order.auftragsDatum) },
+    {
+      label: t(locale, "deliveryDate"),
+      value: parseDate(order.lieferdatumAuftrag),
+    },
+    { label: t(locale, "orderType"), value: order.beschaffungsart },
+    {
+      label: t(locale, "orderNumberInternal"),
+      value: order.auftragsbestellnummerIntern,
+    },
+    {
+      label: t(locale, "orderNumberCustomer"),
+      value: order.auftragsbestellnummerKunde || "–",
+    },
+  ];
 
   return (
     <main className="flex flex-col gap-4 p-4">
@@ -30,9 +93,91 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       </div>
       <header className="flex items-center gap-4 py-4">
         <h1>
-          {t(locale, "order")} {id}
+          {t(locale, "order")} {order.auftragsbestellnummerIntern || id}
         </h1>
       </header>
+
+      <div className="overflow-x-auto max-w-xl">
+        <Table variant="vertical" withTableBorder withColumnBorders>
+          <Table.Tbody>
+            {headRows.map(({ label, value }) => (
+              <Table.Tr key={label}>
+                <Table.Th>{label}</Table.Th>
+                <Table.Td>{value}</Table.Td>
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {grouped &&
+          Object.entries(grouped).map(([marke, positions]) => {
+            const total = positions.reduce(
+              (sum, p) => sum + p.nettoPreis * p.menge,
+              0,
+            );
+            return (
+              <Paper key={marke} p="md">
+                <div className="flex flex-col gap-4">
+                  <header className="flex justify-between items-baseline gap-2">
+                    <h2>{marke}</h2>
+                    <p className="text-sm">
+                      {t(locale, "orderValue")}:{" "}
+                      {total.toLocaleString(
+                        locale === "de" ? "de-DE" : "en-US",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        },
+                      )}{" "}
+                      {order.company?.wkz ?? "EUR"}
+                    </p>
+                  </header>
+
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <Table.Thead>
+                        <Table.Tr>
+                          <Table.Th>{t(locale, "quantity")}</Table.Th>
+                          <Table.Th>{t(locale, "articleNumber")}</Table.Th>
+                          <Table.Th>{t(locale, "descriptionLabel")}</Table.Th>
+                          <Table.Th>{t(locale, "position")}</Table.Th>
+                          <Table.Th>{t(locale, "listPrice")}</Table.Th>
+                          <Table.Th>%</Table.Th>
+                          <Table.Th>%</Table.Th>
+                          <Table.Th>%</Table.Th>
+                          <Table.Th>{t(locale, "netPrice")}</Table.Th>
+                          <Table.Th>{t(locale, "remark")}</Table.Th>
+                        </Table.Tr>
+                      </Table.Thead>
+                      <Table.Tbody>
+                        {positions.map((pos, i) => (
+                          <Table.Tr key={i}>
+                            <Table.Td>{pos.menge}</Table.Td>
+                            <Table.Td>{pos.artnr}</Table.Td>
+                            <Table.Td>{pos.artikelbezeichnung}</Table.Td>
+                            <Table.Td>{pos.posnr}</Table.Td>
+                            <Table.Td>{pos.listPreis.toFixed(2)}</Table.Td>
+                            <Table.Td>{pos.rabatt1}%</Table.Td>
+                            <Table.Td>{pos.rabatt2}%</Table.Td>
+                            <Table.Td>{pos.rabatt3}%</Table.Td>
+                            <Table.Td
+                              className={`text-right ${pos.kostenlos ? "text-pink-500" : ""}`}
+                            >
+                              {pos.nettoPreis.toFixed(2)}
+                            </Table.Td>
+                            <Table.Td>{pos.bemerkung}</Table.Td>
+                          </Table.Tr>
+                        ))}
+                      </Table.Tbody>
+                    </Table>
+                  </div>
+                </div>
+              </Paper>
+            );
+          })}
+      </div>
     </main>
   );
 }

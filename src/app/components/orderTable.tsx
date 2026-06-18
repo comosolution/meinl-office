@@ -193,14 +193,14 @@ export default function OrderTable({ search = "" }: { search?: string }) {
       label: t(locale, "orderDate"),
       key: "auftragsDatum",
       render: (o) =>
-        o.auftragsDatum ? format(new Date(o.auftragsDatum), "dd.MM.yyyy") : "",
+        o.auftragsDatum ? format(new Date(o.auftragsDatum), "MM/dd/yyyy") : "",
     },
     {
       label: t(locale, "deliveryDate"),
       key: "lieferdatumAuftrag",
       render: (o) =>
         o.lieferdatumAuftrag
-          ? format(new Date(o.lieferdatumAuftrag), "dd.MM.yyyy")
+          ? format(new Date(o.lieferdatumAuftrag), "MM/dd/yyyy")
           : "",
     },
   ];
@@ -263,7 +263,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
               dateRange: value as [Date | null, Date | null],
             }))
           }
-          valueFormat="DD.MM.YYYY"
+          valueFormat="MM/DD/YYYY"
           presets={getDatePresets(locale)}
           rightSection={<IconCalendarWeek size={16} />}
           rightSectionPointerEvents="none"
@@ -282,7 +282,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
               deliveryDateRange: value as [Date | null, Date | null],
             }))
           }
-          valueFormat="DD.MM.YYYY"
+          valueFormat="MM/DD/YYYY"
           presets={getDatePresets(locale)}
           rightSection={<IconCalendarWeek size={16} />}
           rightSectionPointerEvents="none"
