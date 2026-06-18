@@ -5,13 +5,10 @@ import { ProductSelect } from "@/app/components/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_DEALERS_URL } from "@/app/lib/config";
 import { brands } from "@/app/lib/data";
+import { useFetchResults } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Campaign, CampaignProduct, Dealer } from "@/app/lib/interfaces";
-import { useFetchResults } from "@/app/lib/hooks";
-import {
-  notEmptyValidation,
-  safeLocaleCompare,
-} from "@/app/lib/utils";
+import { notEmptyValidation, safeLocaleCompare } from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -139,6 +136,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   if (!campaign) return <Loader />;
+
+  if (source === "OFFUSA") return;
 
   return (
     <main className="flex flex-col gap-4 p-4">

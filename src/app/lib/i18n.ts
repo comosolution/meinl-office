@@ -17,6 +17,7 @@ export type TranslationKey =
   | "searchPeople"
   | "searchCompaniesOrPeople"
   | "searchTickets"
+  | "searchOrders"
   | "createPerson"
   | "dashboard"
   | "search"
@@ -195,6 +196,8 @@ export type TranslationKey =
   | "newPerson"
   | "newCampaign"
   | "newTicket"
+  | "order"
+  | "allOrders"
   | "newOrder"
   | "showAllTickets"
   | "createReturn"
@@ -283,7 +286,12 @@ export type TranslationKey =
   | "mailAlertPrivateSingle"
   | "mailAlertPrivateMultiple"
   | "mailAlertPublicPrefix"
-  | "mailAlertPublicSuffix";
+  | "mailAlertPublicSuffix"
+  | "orderDate"
+  | "deliveryDate"
+  | "orderNumberCustomer"
+  | "orderNumberInternal"
+  | "clerk";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -301,6 +309,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     searchPeople: "Person suchen ...",
     searchCompaniesOrPeople: "Firma oder Person suchen ...",
     searchTickets: "Ticket suchen ...",
+    searchOrders: "Aufträge suchen ...",
     createPerson: "Person anlegen",
     dashboard: "Dashboard",
     search: "Suche",
@@ -479,6 +488,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     newPerson: "Neue Person",
     newCampaign: "Neue Kampagne",
     newTicket: "Neues RMA Ticket",
+    order: "Auftrag",
+    allOrders: "Alle Aufträge",
     newOrder: "Neuer Auftrag",
     showAllTickets: "Alle Tickets anzeigen",
     createReturn: "Retoure beantragen",
@@ -573,6 +584,11 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     mailAlertPublicPrefix: "Der Ticketersteller",
     mailAlertPublicSuffix:
       "bekommt diesen Kommentar zusätzlich per Mail geschickt.",
+    orderDate: "Auftragsdatum",
+    deliveryDate: "Lieferdatum",
+    orderNumberCustomer: "Bestellnr. Kunde",
+    orderNumberInternal: "Bestellnr. Intern",
+    clerk: "Sachbearbeiter",
   },
   en: {
     welcome: "Welcome",
@@ -589,6 +605,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     searchPeople: "Search people ...",
     searchCompaniesOrPeople: "Search companies or people ...",
     searchTickets: "Search tickets ...",
+    searchOrders: "Search orders ...",
     createPerson: "Add Person",
     dashboard: "Dashboard",
     search: "Search",
@@ -767,6 +784,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     newPerson: "New Person",
     newCampaign: "New Campaign",
     newTicket: "New RMA Ticket",
+    order: "Order",
+    allOrders: "All Orders",
     newOrder: "New Order",
     showAllTickets: "Show All Tickets",
     createReturn: "Request Return",
@@ -859,6 +878,11 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
       "The specified recipients will also receive this comment by email.",
     mailAlertPublicPrefix: "The ticket creator",
     mailAlertPublicSuffix: "will also receive this comment by email.",
+    orderDate: "Order Date",
+    deliveryDate: "Delivery Date",
+    orderNumberCustomer: "Order No. Customer",
+    orderNumberInternal: "Order No. Internal",
+    clerk: "Clerk",
   },
 };
 

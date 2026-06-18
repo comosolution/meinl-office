@@ -712,9 +712,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
   }, [ticket]);
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
   if (!ticket) {
     return (
@@ -734,6 +732,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       </div>
     );
   }
+
+  if (source === "OFFUSA") return;
 
   return (
     <>

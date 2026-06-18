@@ -232,6 +232,33 @@ export interface Versandadresse {
   zusatz: string | null;
 }
 
+export interface OrderHead {
+  unid: string;
+  kdnr: string;
+  sachbearbeiterName: string;
+  auftragsDatum: string;
+  lieferdatumAuftrag: string;
+  auftragsbestellnummerKunde: string;
+  auftragsbestellnummerIntern: string;
+  sachbearbeiterKuerzel: string;
+  beschaffungsart: string;
+  company: OrderCompany;
+}
+
+export interface OrderCompany {
+  matchcode: string;
+  name1: string;
+  name2: string;
+  name3: string;
+  str: string;
+  land: string;
+  plz: string;
+  ort: string;
+  wkz: string;
+  zahlungsText: string;
+  zahlungsArt: string;
+}
+
 export interface SalesVolume {
   openEntriesUSD: {
     label: string;

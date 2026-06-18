@@ -7,8 +7,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import LineGraph from "../components/lineGraph";
 import Loader from "../components/loader";
-import SortableTable from "../components/sortableTable";
 import StatsOverview from "../components/statsOverview";
+import TicketTable from "../components/ticketTable";
 import { useOffice } from "../context/officeContext";
 import { MEINL_RMA_VIEW_KEY } from "../lib/config";
 import { t } from "../lib/i18n";
@@ -18,7 +18,7 @@ import { parseDb2Date } from "../lib/utils";
 
 export default function Page() {
   const { data: session } = useSession();
-  const { locale } = useOffice();
+  const { locale, source } = useOffice();
 
   const [loading, setLoading] = useState(true);
   const [fetching, setFetching] = useState(true);
@@ -95,13 +95,9 @@ export default function Page() {
     }
   }, [view]);
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
-  if (!tickets) {
-    return;
-  }
+  if (!tickets || source === "OFFUSA") return;
 
   return (
     <main className="flex flex-col gap-4 p-4">
@@ -161,7 +157,7 @@ export default function Page() {
       </header>
 
       {view !== "dashboard" ? (
-        <SortableTable
+        <TicketTable
           tickets={filteredTickets}
           view={view}
           createdBy={

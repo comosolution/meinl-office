@@ -20,12 +20,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { DATE_FORMAT } from "../lib/config";
 import { t } from "../lib/i18n";
-import { exportXLSX } from "../lib/utils";
+import { exportXLSX, getDatePresets } from "../lib/utils";
 import Pagination from "./pagination";
 
 type TicketKey = keyof TicketSummary | "viewed";
 
-export default function SortableTable({
+export default function TicketTable({
   tickets,
   view,
   createdBy,
@@ -72,8 +72,6 @@ export default function SortableTable({
   }>(initialValues);
 
   const router = useRouter();
-  const today = dayjs();
-  const thisWeekStart = today.subtract((today.day() + 6) % 7, "day");
 
   const filteredData = useMemo(() => {
     return tickets.filter((ticket) => {
@@ -209,6 +207,11 @@ export default function SortableTable({
     {
       label: t(locale, "nameLabel"),
       key: "kdnr_name",
+    },
+    {
+      label: t(locale, "articleNumber"),
+      key: "artnr",
+      render: (ticket) => ticket.artnr_mei || ticket.artnr_ku,
     },
     {
       label: t(locale, "created"),
@@ -416,57 +419,7 @@ export default function SortableTable({
             }))
           }
           valueFormat="DD.MM.YYYY"
-          presets={[
-            {
-              value: [today.format("YYYY-MM-DD"), today.format("YYYY-MM-DD")],
-              label: t(locale, "today"),
-            },
-            {
-              value: [
-                today.subtract(1, "day").format("YYYY-MM-DD"),
-                today.subtract(1, "day").format("YYYY-MM-DD"),
-              ],
-              label: t(locale, "yesterday"),
-            },
-            {
-              value: [
-                thisWeekStart.format("YYYY-MM-DD"),
-                today.format("YYYY-MM-DD"),
-              ],
-              label: t(locale, "thisWeek"),
-            },
-            {
-              value: [
-                thisWeekStart.subtract(7, "day").format("YYYY-MM-DD"),
-                thisWeekStart.subtract(1, "day").format("YYYY-MM-DD"),
-              ],
-              label: t(locale, "lastWeek"),
-            },
-            {
-              value: [
-                today.startOf("month").format("YYYY-MM-DD"),
-                today.format("YYYY-MM-DD"),
-              ],
-              label: t(locale, "thisMonth"),
-            },
-            {
-              value: [
-                today
-                  .subtract(1, "month")
-                  .startOf("month")
-                  .format("YYYY-MM-DD"),
-                today.subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
-              ],
-              label: t(locale, "lastMonth"),
-            },
-            {
-              value: [
-                today.startOf("year").format("YYYY-MM-DD"),
-                today.format("YYYY-MM-DD"),
-              ],
-              label: t(locale, "thisYear"),
-            },
-          ]}
+          presets={getDatePresets(locale)}
           rightSection={<IconCalendarWeek size={16} />}
           rightSectionPointerEvents="none"
           clearable

@@ -41,6 +41,8 @@ export default function Page() {
     },
   });
 
+  if (source === "OFFUSA") return;
+
   return (
     <main className="flex flex-col gap-4 p-4">
       <div className="flex justify-between items-center">

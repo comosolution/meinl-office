@@ -31,7 +31,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
-import { MEINL_AE_USA_URL, MEINL_OFFICE_SIDEBAR_KEY } from "../lib/config";
+import { MEINL_OFFICE_SIDEBAR_KEY } from "../lib/config";
 import { t } from "../lib/i18n";
 import { navLink } from "../lib/styles";
 import { isPreview } from "../lib/utils";
@@ -90,10 +90,9 @@ export default function Sidebar({
     },
     {
       name: t(locale, "orders"),
-      href: MEINL_AE_USA_URL,
+      href: "/order",
       icon: <IconBasket size={20} />,
       hidden: source !== "OFFUSA",
-      external: true,
     },
   ];
 
@@ -253,7 +252,6 @@ export default function Sidebar({
                   leftSection={e.icon}
                   component={Link}
                   href={e.href}
-                  target={e.external ? "_blank" : undefined}
                   styles={{
                     root: navLink(collapsed),
                   }}

@@ -17,7 +17,7 @@ export default async function Page({
     <main className="flex flex-col gap-8 p-8">
       <h1>Docs</h1>
       <div className="flex gap-8 h-full min-h-0">
-        <nav className="flex flex-col gap-1 w-48 shrink-0">
+        <nav className="w-48 shrink-0 sticky top-8 self-start flex flex-col">
           {docs.map((d) => (
             <Link
               key={d.slug}

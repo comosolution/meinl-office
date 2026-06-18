@@ -8,9 +8,61 @@ import {
   subYears,
 } from "date-fns";
 import ExcelJS from "exceljs";
+import dayjs from "dayjs";
+import { Locale, t } from "./i18n";
 import { Order, TicketSummary } from "./interfaces";
 
 export const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
+
+export const getDatePresets = (locale: Locale): { value: [string, string]; label: string }[] => {
+  const today = dayjs();
+  const thisWeekStart = today.subtract((today.day() + 6) % 7, "day");
+  return [
+    {
+      value: [today.format("YYYY-MM-DD"), today.format("YYYY-MM-DD")] as [string, string],
+      label: t(locale, "today"),
+    },
+    {
+      value: [
+        today.subtract(1, "day").format("YYYY-MM-DD"),
+        today.subtract(1, "day").format("YYYY-MM-DD"),
+      ],
+      label: t(locale, "yesterday"),
+    },
+    {
+      value: [thisWeekStart.format("YYYY-MM-DD"), today.format("YYYY-MM-DD")],
+      label: t(locale, "thisWeek"),
+    },
+    {
+      value: [
+        thisWeekStart.subtract(7, "day").format("YYYY-MM-DD"),
+        thisWeekStart.subtract(1, "day").format("YYYY-MM-DD"),
+      ],
+      label: t(locale, "lastWeek"),
+    },
+    {
+      value: [
+        today.startOf("month").format("YYYY-MM-DD"),
+        today.format("YYYY-MM-DD"),
+      ],
+      label: t(locale, "thisMonth"),
+    },
+    {
+      value: [
+        today.subtract(1, "month").startOf("month").format("YYYY-MM-DD"),
+        today.subtract(1, "month").endOf("month").format("YYYY-MM-DD"),
+      ],
+      label: t(locale, "lastMonth"),
+    },
+    {
+      value: [
+        today.startOf("year").format("YYYY-MM-DD"),
+        today.format("YYYY-MM-DD"),
+      ],
+      label: t(locale, "thisYear"),
+    },
+  ];
+};
 
 export const handleDownload = (id: string, label: string) => {
   const link = document.createElement("a");

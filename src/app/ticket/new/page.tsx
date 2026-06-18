@@ -7,9 +7,9 @@ import {
   countryCodes,
   normalizeAlpha2CountryCode,
 } from "@/app/lib/countryCodes";
+import { useFetchCompany } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
-import { useFetchCompany } from "@/app/lib/hooks";
 import { isPreview } from "@/app/lib/utils";
 import {
   Button,
@@ -334,6 +334,8 @@ export default function Page() {
       })),
     [uniquePersons],
   );
+
+  if (source === "OFFUSA") return;
 
   return (
     <main className="flex flex-col gap-4 p-4">
