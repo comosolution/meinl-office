@@ -56,14 +56,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     : null;
 
   const headRows: { label: string; value: string }[] = [
-    { label: t(locale, "customerNumber"), value: order.kdnr },
-    { label: t(locale, "nameLabel"), value: order.company?.name1 ?? "–" },
-    { label: t(locale, "clerk"), value: order.sachbearbeiterName },
     { label: t(locale, "orderDate"), value: parseDate(order.auftragsDatum) },
-    {
-      label: t(locale, "deliveryDate"),
-      value: parseDate(order.lieferdatumAuftrag),
-    },
+    { label: t(locale, "customerNumber"), value: order.kdnr },
+    { label: t(locale, "company"), value: order.company?.name1 ?? "–" },
+    { label: t(locale, "clerk"), value: order.sachbearbeiterName },
     { label: t(locale, "orderType"), value: order.beschaffungsart },
     {
       label: t(locale, "orderNumberInternal"),
@@ -102,7 +98,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Table.Tbody>
             {headRows.map(({ label, value }) => (
               <Table.Tr key={label}>
-                <Table.Th>{label}</Table.Th>
+                <Table.Th w={200}>{label}</Table.Th>
                 <Table.Td>{value}</Table.Td>
               </Table.Tr>
             ))}
@@ -124,14 +120,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <h2>{marke}</h2>
                     <p className="text-sm">
                       {t(locale, "orderValue")}:{" "}
-                      {total.toLocaleString(
-                        locale === "de" ? "de-DE" : "en-US",
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        },
-                      )}{" "}
-                      {order.company?.wkz ?? "EUR"}
+                      <b>
+                        {total.toLocaleString(
+                          locale === "de" ? "de-DE" : "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          },
+                        )}{" "}
+                        {order.company?.wkz ?? "USD"}
+                      </b>
                     </p>
                   </header>
 
@@ -142,12 +140,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                           <Table.Th>{t(locale, "quantity")}</Table.Th>
                           <Table.Th>{t(locale, "articleNumber")}</Table.Th>
                           <Table.Th>{t(locale, "descriptionLabel")}</Table.Th>
-                          <Table.Th>{t(locale, "position")}</Table.Th>
                           <Table.Th>{t(locale, "listPrice")}</Table.Th>
                           <Table.Th>%</Table.Th>
                           <Table.Th>%</Table.Th>
                           <Table.Th>%</Table.Th>
                           <Table.Th>{t(locale, "netPrice")}</Table.Th>
+                          <Table.Th>{t(locale, "free")}</Table.Th>
+                          <Table.Th>{t(locale, "position")}</Table.Th>
                           <Table.Th>{t(locale, "remark")}</Table.Th>
                         </Table.Tr>
                       </Table.Thead>
@@ -157,16 +156,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             <Table.Td>{pos.menge}</Table.Td>
                             <Table.Td>{pos.artnr}</Table.Td>
                             <Table.Td>{pos.artikelbezeichnung}</Table.Td>
-                            <Table.Td>{pos.posnr}</Table.Td>
                             <Table.Td>{pos.listPreis.toFixed(2)}</Table.Td>
                             <Table.Td>{pos.rabatt1}%</Table.Td>
                             <Table.Td>{pos.rabatt2}%</Table.Td>
                             <Table.Td>{pos.rabatt3}%</Table.Td>
+                            <Table.Td>{pos.nettoPreis.toFixed(2)}</Table.Td>
                             <Table.Td
-                              className={`text-right ${pos.kostenlos ? "text-pink-500" : ""}`}
+                              className={`${pos.kostenlos ? "text-(--main)" : ""}`}
                             >
-                              {pos.nettoPreis.toFixed(2)}
+                              {pos.kostenlos ? t(locale, "yes") : ""}
                             </Table.Td>
+                            <Table.Td>{pos.posnr}</Table.Td>
                             <Table.Td>{pos.bemerkung}</Table.Td>
                           </Table.Tr>
                         ))}

@@ -268,7 +268,7 @@ export interface OrderPosition {
   artikelbezeichnung: string;
   artnr: string;
   bemerkung: string;
-  kostenlos: false;
+  kostenlos: boolean;
   listPreis: number;
   marke: string;
   menge: number;
