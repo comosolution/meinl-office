@@ -1,0 +1,88 @@
+import { Table } from "@mantine/core";
+import { IconCircleCheckFilled } from "@tabler/icons-react";
+import { useOffice } from "../context/officeContext";
+import { t } from "../lib/i18n";
+import { OrderPosition } from "../lib/interfaces";
+
+export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
+  const { locale } = useOffice();
+
+  return (
+    <div className="overflow-x-auto">
+      <Table layout="fixed" style={{ fontSize: "var(--mantine-font-size-xs)" }}>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th w={50}>
+              {t(locale as Parameters<typeof t>[0], "quantity")}
+            </Table.Th>
+            <Table.Th w={110}>
+              {t(locale as Parameters<typeof t>[0], "articleNumber")}
+            </Table.Th>
+            <Table.Th w={220}>
+              {t(locale as Parameters<typeof t>[0], "descriptionLabel")}
+            </Table.Th>
+            <Table.Th w={50}>
+              {t(locale as Parameters<typeof t>[0], "listPrice")}
+            </Table.Th>
+            <Table.Th w={50}>%</Table.Th>
+            <Table.Th w={50}>%</Table.Th>
+            <Table.Th w={50}>%</Table.Th>
+            <Table.Th w={50}>
+              {t(locale as Parameters<typeof t>[0], "netPrice")}
+            </Table.Th>
+            <Table.Th w={50}>
+              {t(locale as Parameters<typeof t>[0], "free")}
+            </Table.Th>
+            <Table.Th w={50}>
+              {t(locale as Parameters<typeof t>[0], "position")}
+            </Table.Th>
+            <Table.Th w={120}>
+              {t(locale as Parameters<typeof t>[0], "remark")}
+            </Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {positions.map((pos, i) => (
+            <Table.Tr key={i}>
+              <Table.Td
+                className={pos.menge > pos.bestand ? "text-(--main)" : ""}
+              >
+                {pos.menge}
+              </Table.Td>
+              <Table.Td>{pos.artnr}</Table.Td>
+              <Table.Td className="whitespace-normal! max-w-xs">
+                {pos.artikelbezeichnung}
+              </Table.Td>
+              <Table.Td>{pos.listPreis.toFixed(2)}</Table.Td>
+              <Table.Td className={pos.rabatt1.modified ? "text-(--main)" : ""}>
+                {pos.rabatt1.value > 0 ? pos.rabatt1.value.toFixed(2) : ""}
+              </Table.Td>
+              <Table.Td className={pos.rabatt2.modified ? "text-(--main)" : ""}>
+                {pos.rabatt2.value > 0 ? pos.rabatt2.value.toFixed(2) : ""}
+              </Table.Td>
+              <Table.Td className={pos.rabatt3.modified ? "text-(--main)" : ""}>
+                {pos.rabatt3.value > 0 ? pos.rabatt3.value.toFixed(2) : ""}
+              </Table.Td>
+              <Table.Td
+                className={pos.nettoPreis.modified ? "text-(--main)" : ""}
+              >
+                {pos.nettoPreis.value.toFixed(2)}
+              </Table.Td>
+              <Table.Td>
+                {pos.kostenlos ? (
+                  <IconCircleCheckFilled size={16} color="var(--main)" />
+                ) : (
+                  ""
+                )}
+              </Table.Td>
+              <Table.Td>{pos.posnr}</Table.Td>
+              <Table.Td className="whitespace-normal! max-w-xs">
+                {pos.bemerkung}
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </div>
+  );
+}

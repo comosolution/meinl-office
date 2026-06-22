@@ -1,15 +1,17 @@
 "use client";
 import Loader from "@/app/components/loader";
+import { PositionsTable } from "@/app/components/positionTable";
 import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_AE_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
-import { Button, Paper, Table } from "@mantine/core";
+import { Button, Paper, SegmentedControl, Table } from "@mantine/core";
 import {
   IconBasketPlus,
   IconChevronLeft,
-  IconCircleCheckFilled,
+  IconLayoutGrid,
+  IconList,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -23,6 +25,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState<Order>();
+  const [view, setView] = useState<"brand" | "list">("brand");
 
   const getOrder = async () => {
     try {
@@ -65,6 +68,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     { label: t(locale, "customerNumber"), value: order.kdnr },
     { label: t(locale, "company"), value: order.company?.name1 ?? "–" },
     { label: t(locale, "clerk"), value: order.sachbearbeiterName },
+    {
+      label: t(locale, "orderValue"),
+      value: `${order.auftragsWert.toLocaleString(
+        locale === "de" ? "de-DE" : "en-US",
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        },
+      )} USD`,
+    },
     { label: t(locale, "orderType"), value: order.beschaffungsart },
     {
       label: t(locale, "orderNumberInternal"),
@@ -148,10 +161,39 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       </div>
 
       <div className="flex flex-col gap-2">
-        {grouped &&
+        <div className="flex justify-between items-center">
+          <h3>{t(locale, "orderDetails")}</h3>
+          <SegmentedControl
+            value={view}
+            onChange={(v) => setView(v as "brand" | "list")}
+            data={[
+              {
+                label: (
+                  <div className="flex items-center gap-1">
+                    <IconLayoutGrid size={14} />
+                    {t(locale, "byBrand")}
+                  </div>
+                ),
+                value: "brand",
+              },
+              {
+                label: (
+                  <div className="flex items-center gap-1">
+                    <IconList size={14} />
+                    {t(locale, "listView")}
+                  </div>
+                ),
+                value: "list",
+              },
+            ]}
+          />
+        </div>
+
+        {view === "brand" &&
+          grouped &&
           Object.entries(grouped).map(([marke, positions]) => {
             const total = positions.reduce(
-              (sum, p) => sum + p.nettoPreis * p.menge,
+              (sum, p) => sum + p.nettoPreis.value * p.menge,
               0,
             );
             return (
@@ -173,92 +215,36 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       </b>
                     </p>
                   </header>
-
-                  <div className="overflow-x-auto">
-                    <Table
-                      layout="fixed"
-                      style={{
-                        fontSize: "var(--mantine-font-size-xs)",
-                      }}
-                    >
-                      <Table.Thead>
-                        <Table.Tr>
-                          <Table.Th w={50}>{t(locale, "quantity")}</Table.Th>
-                          <Table.Th w={110}>
-                            {t(locale, "articleNumber")}
-                          </Table.Th>
-                          <Table.Th w={220}>
-                            {t(locale, "descriptionLabel")}
-                          </Table.Th>
-                          <Table.Th w={50}>{t(locale, "listPrice")}</Table.Th>
-                          <Table.Th w={50}>%</Table.Th>
-                          <Table.Th w={50}>%</Table.Th>
-                          <Table.Th w={50}>%</Table.Th>
-                          <Table.Th w={50}>{t(locale, "netPrice")}</Table.Th>
-                          <Table.Th w={50}>{t(locale, "free")}</Table.Th>
-                          <Table.Th w={50}>{t(locale, "position")}</Table.Th>
-                          <Table.Th w={120}>{t(locale, "remark")}</Table.Th>
-                        </Table.Tr>
-                      </Table.Thead>
-                      <Table.Tbody>
-                        {positions.map((pos, i) => (
-                          <Table.Tr key={i}>
-                            <Table.Td>{pos.menge}</Table.Td>
-                            <Table.Td>{pos.artnr}</Table.Td>
-                            <Table.Td className="whitespace-normal! max-w-xs">
-                              {pos.artikelbezeichnung}
-                            </Table.Td>
-                            <Table.Td>{pos.listPreis.toFixed(2)}</Table.Td>
-                            <Table.Td>
-                              {pos.rabatt1 > 0 ? pos.rabatt1.toFixed(2) : ""}
-                            </Table.Td>
-                            <Table.Td
-                              className={`${pos.rabatt2 ? "text-(--main)" : ""}`}
-                            >
-                              {pos.rabatt2 > 0 ? pos.rabatt2.toFixed(2) : ""}
-                            </Table.Td>
-                            <Table.Td>
-                              {pos.rabatt3 > 0 ? pos.rabatt3.toFixed(2) : ""}
-                            </Table.Td>
-                            <Table.Td>{pos.nettoPreis.toFixed(2)}</Table.Td>
-                            <Table.Td>
-                              {pos.kostenlos ? (
-                                <IconCircleCheckFilled
-                                  size={16}
-                                  color="var(--main)"
-                                />
-                              ) : (
-                                ""
-                              )}
-                            </Table.Td>
-                            <Table.Td>{pos.posnr}</Table.Td>
-                            <Table.Td className="whitespace-normal! max-w-xs">
-                              {pos.bemerkung}
-                            </Table.Td>
-                          </Table.Tr>
-                        ))}
-                      </Table.Tbody>
-                    </Table>
-                  </div>
+                  <PositionsTable positions={positions} />
                 </div>
               </Paper>
             );
           })}
-        {grouped && (
+
+        {view === "list" && order.positionen && (
+          <Paper p="md">
+            <PositionsTable
+              positions={[...order.positionen].sort(
+                (a, b) => a.posnr - b.posnr,
+              )}
+            />
+          </Paper>
+        )}
+
+        {order.positionen && (
           <p
             className="text-sm text-right"
             style={{ paddingRight: "var(--mantine-spacing-md)" }}
           >
             {t(locale, "orderValue")}:{" "}
             <b>
-              {grouped &&
-                Object.values(grouped)
-                  .flat()
-                  .reduce((sum, p) => sum + p.nettoPreis * p.menge, 0)
-                  .toLocaleString(locale === "de" ? "de-DE" : "en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}{" "}
+              {order.auftragsWert.toLocaleString(
+                locale === "de" ? "de-DE" : "en-US",
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
+              )}{" "}
               {order.company?.wkz ?? "USD"}
             </b>
           </p>

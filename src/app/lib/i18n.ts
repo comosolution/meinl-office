@@ -300,7 +300,10 @@ export type TranslationKey =
   | "netPrice"
   | "remark"
   | "orderValue"
-  | "free";
+  | "orderDetails"
+  | "free"
+  | "byBrand"
+  | "listView";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -606,7 +609,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     netPrice: "EK-Preis",
     remark: "Bemerkung",
     orderValue: "Auftragswert",
+    orderDetails: "Auftragsdetails",
     free: "Kostenlos",
+    byBrand: "Nach Marke",
+    listView: "Liste",
   },
   en: {
     welcome: "Welcome",
@@ -909,7 +915,10 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     netPrice: "Net Price",
     remark: "Remark",
     orderValue: "Order Value",
+    orderDetails: "Order Details",
     free: "Free",
+    byBrand: "By Brand",
+    listView: "List",
   },
 };
 

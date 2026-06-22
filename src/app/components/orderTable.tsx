@@ -31,6 +31,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
   const [filters, setFilters] = useState({
     kdnr: "",
     name1: "",
+    land: "",
     sachbearbeiterName: "",
     dateRange: [null, null] as [Date | null, Date | null],
     deliveryDateRange: [null, null] as [Date | null, Date | null],
@@ -85,6 +86,13 @@ export default function OrderTable({ search = "" }: { search?: string }) {
         .map((v) => ({ label: v!, value: v! })),
     [orders],
   );
+  const landOptions = useMemo(
+    () =>
+      Array.from(new Set(orders.map((o) => o.company?.land).filter(Boolean)))
+        .sort((a, b) => a!.localeCompare(b!))
+        .map((v) => ({ label: v!, value: v! })),
+    [orders],
+  );
 
   const filteredOrders = useMemo(
     () =>
@@ -111,6 +119,9 @@ export default function OrderTable({ search = "" }: { search?: string }) {
         const matchesName1 = filters.name1
           ? o.company?.name1 === filters.name1
           : true;
+        const matchesLand = filters.land
+          ? o.company?.land === filters.land
+          : true;
         const matchesClerk = filters.sachbearbeiterName
           ? o.sachbearbeiterName === filters.sachbearbeiterName
           : true;
@@ -136,6 +147,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
           matchesSearch &&
           matchesKdnr &&
           matchesName1 &&
+          matchesLand &&
           matchesClerk &&
           matchesDateRange &&
           matchesDeliveryDateRange
@@ -180,6 +192,11 @@ export default function OrderTable({ search = "" }: { search?: string }) {
       key: null,
       render: (o) => o.company?.name1 ?? "",
     },
+    {
+      label: t(locale, "country"),
+      key: null,
+      render: (o) => o.company?.land ?? "",
+    },
     { label: t(locale, "clerk"), key: "sachbearbeiterName" },
     {
       label: t(locale, "orderNumberCustomer"),
@@ -190,18 +207,19 @@ export default function OrderTable({ search = "" }: { search?: string }) {
       key: "auftragsbestellnummerIntern",
     },
     {
+      label: t(locale, "orderValue"),
+      key: "auftragsWert",
+      render: (o) =>
+        `${o.auftragsWert.toLocaleString(locale === "de" ? "de-DE" : "en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })} USD`,
+    },
+    {
       label: t(locale, "orderDate"),
       key: "auftragsDatum",
       render: (o) =>
         o.auftragsDatum ? format(new Date(o.auftragsDatum), "MM/dd/yyyy") : "",
-    },
-    {
-      label: t(locale, "deliveryDate"),
-      key: "lieferdatumAuftrag",
-      render: (o) =>
-        o.lieferdatumAuftrag
-          ? format(new Date(o.lieferdatumAuftrag), "MM/dd/yyyy")
-          : "",
     },
   ];
 
@@ -213,7 +231,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-6 gap-2">
         <Select
           label={t(locale, "customerNumber")}
           searchable
@@ -235,6 +253,18 @@ export default function OrderTable({ search = "" }: { search?: string }) {
           value={filters.name1 || null}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, name1: value || "" }))
+          }
+          checkIconPosition="right"
+        />
+        <Select
+          label={t(locale, "country")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={landOptions}
+          value={filters.land || null}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, land: value || "" }))
           }
           checkIconPosition="right"
         />

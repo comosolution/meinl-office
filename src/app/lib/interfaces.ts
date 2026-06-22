@@ -243,11 +243,33 @@ export interface OrderHead {
   sachbearbeiterKuerzel: string;
   beschaffungsart: string;
   company: OrderCompany;
+  auftragsWert: number;
 }
 
 export interface Order extends OrderHead {
-  versandadresse: OrderAddress;
+  auftragsart: string;
+  bemerkung: string;
+  invoiceText: string;
   positionen: OrderPosition[];
+  proformaInvoiceText: string;
+  sachbearbeiter: {
+    kuerzel: string;
+    name: string;
+  };
+  starttext: string;
+  valuta: {
+    datum: string;
+    tage: number;
+  };
+  versandadresse: OrderAddress;
+  zahlungsArt: {
+    AS400: string;
+    order: string;
+  };
+  zahlungsKondition: {
+    AS400: string;
+    order: string;
+  };
 }
 
 export interface OrderAddress {
@@ -276,19 +298,21 @@ export interface OrderCompany {
 }
 
 export interface OrderPosition {
+  aktiv: string;
   artikelbezeichnung: string;
   artnr: string;
   bemerkung: string;
+  bestand: number;
   kostenlos: boolean;
   listPreis: number;
   marke: string;
   menge: number;
-  nettoPreis: number;
+  nettoPreis: { modified: boolean; value: number };
   posnr: number;
   preiskennzeichen: string;
-  rabatt1: number;
-  rabatt2: number;
-  rabatt3: number;
+  rabatt1: { modified: boolean; value: number };
+  rabatt2: { modified: boolean; value: number };
+  rabatt3: { modified: boolean; value: number };
 }
 
 export interface SalesVolume {
