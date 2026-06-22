@@ -187,7 +187,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </p>
       </header>
 
-      <div className="overflow-x-auto shadow-2xl rounded-(--mantine-radius-default)">
+      <div className="overflow-x-auto rounded-(--mantine-radius-default)">
         <Table variant="vertical">
           <Table.Tbody>
             {headRows
