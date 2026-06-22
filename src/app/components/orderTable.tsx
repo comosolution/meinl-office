@@ -4,12 +4,14 @@ import { OrderHead } from "@/app/lib/interfaces";
 import { NumberFormatter, Select, Table } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { IconCalendarWeek, IconChevronUp } from "@tabler/icons-react";
-import { format } from "date-fns";
+
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
+import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
+import { countryCodes, normalizeAlpha2CountryCode } from "../lib/countryCodes";
 import { t } from "../lib/i18n";
 import { getDatePresets, parseOrderDate } from "../lib/utils";
 import Loader from "./loader";
@@ -97,13 +99,23 @@ export default function OrderTable({ search = "" }: { search?: string }) {
         .map((v) => ({ label: v!, value: v! })),
     [orders],
   );
-  const landOptions = useMemo(
-    () =>
-      Array.from(new Set(orders.map((o) => o.company?.land).filter(Boolean)))
-        .sort((a, b) => a!.localeCompare(b!))
-        .map((v) => ({ label: v!, value: v! })),
-    [orders],
-  );
+  const countryOptions = useMemo(() => {
+    return Array.from(
+      new Set(
+        orders
+          .map((o) => normalizeAlpha2CountryCode(o.company?.land) || "")
+          .filter(Boolean),
+      ),
+    )
+      .map((value) => ({
+        label:
+          countryCodes(locale).find(
+            (c) => c.value === normalizeAlpha2CountryCode(value),
+          )?.label || value,
+        value,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [orders]);
 
   const filteredOrders = useMemo(
     () =>
@@ -199,7 +211,9 @@ export default function OrderTable({ search = "" }: { search?: string }) {
     {
       label: t(locale, "country"),
       key: "company.land",
-      render: (o) => o.company?.land ?? "",
+      render: (o) => (
+        <ReactCountryFlag countryCode={o.company?.land ?? ""} svg />
+      ),
     },
     {
       label: t(locale, "clerk"),
@@ -214,17 +228,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
       label: t(locale, "orderNumberInternal"),
       key: "auftragsbestellnummerIntern",
     },
-    {
-      label: t(locale, "orderDate"),
-      key: "auftragsDatum",
-      render: (o) =>
-        o.auftragsDatum
-          ? format(
-              new Date(o.auftragsDatum),
-              locale === "en" ? "MM/dd/yyyy" : "dd.MM.yyyy",
-            )
-          : "",
-    },
+    { label: t(locale, "orderDate"), key: "auftragsDatum" },
     {
       label: t(locale, "orderValue"),
       key: "auftragsWert",
@@ -279,7 +283,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
           searchable
           clearable
           placeholder={t(locale, "filter")}
-          data={landOptions}
+          data={countryOptions}
           value={filters.land || null}
           onChange={(value) =>
             setFilters((prev) => ({ ...prev, land: value || "" }))

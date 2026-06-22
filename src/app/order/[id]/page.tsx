@@ -96,7 +96,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     value: React.ReactNode;
     highlight?: boolean;
   }[] = [
-    { label: t(locale, "customerNumber"), value: order.kdnr },
+    {
+      label: t(locale, "customerNumber"),
+      value: (
+        <Link href={`/company/${order.kdnr}`} className="link">
+          {order.kdnr}
+        </Link>
+      ),
+    },
     { label: t(locale, "company"), value: order.company?.name1 ?? "–" },
     {
       label: t(locale, "orderDate"),
@@ -180,7 +187,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </p>
       </header>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto shadow-2xl rounded-(--mantine-radius-default)">
         <Table variant="vertical">
           <Table.Tbody>
             {headRows
@@ -199,47 +206,50 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </Table.Td>
                 </Table.Tr>
               ))}
-            <Table.Tr>
-              <Table.Th w={200} bg="var(--background-subtle)">
-                <div className="flex items-center gap-1">
-                  {t(locale, "shippingAddress")}{" "}
-                  {order.versandadresse?.vanr === "" && (
-                    <Badge size="xs" variant="light" color="blue">
-                      temp
-                    </Badge>
-                  )}
-                </div>
-              </Table.Th>
-              <Table.Td className="whitespace-normal!">
-                {(
-                  [
-                    { value: order.versandadresse?.name1, max: 30 },
-                    { value: order.versandadresse?.name2, max: 30 },
-                    { value: order.versandadresse?.name3, max: 30 },
-                    { value: order.versandadresse?.strasse, max: 30 },
-                    { value: order.versandadresse?.ort, max: 25 },
-                    { value: order.versandadresse?.plz, max: 5 },
-                    { value: order.versandadresse?.land, max: Infinity },
-                  ] as { value: string | undefined; max: number }[]
-                )
-                  .filter(({ value }) => value)
-                  .map(({ value, max }, i) => (
-                    <p key={i}>
-                      {value!.slice(0, max)}
-                      {value!.length > max && (
-                        <span className="text-(--main) font-bold">
-                          {value!.slice(max)}
-                        </span>
+            {order.versandadresse &&
+              Object.values(order.versandadresse).some(Boolean) && (
+                <Table.Tr>
+                  <Table.Th w={200} bg="var(--background-subtle)">
+                    <div className="flex items-center gap-1">
+                      {t(locale, "shippingAddress")}{" "}
+                      {order.versandadresse?.vanr === "" && (
+                        <Badge size="xs" variant="light" color="blue">
+                          temp
+                        </Badge>
                       )}
-                    </p>
-                  ))}
-              </Table.Td>
-            </Table.Tr>
+                    </div>
+                  </Table.Th>
+                  <Table.Td className="whitespace-normal!">
+                    {(
+                      [
+                        { value: order.versandadresse?.name1, max: 30 },
+                        { value: order.versandadresse?.name2, max: 30 },
+                        { value: order.versandadresse?.name3, max: 30 },
+                        { value: order.versandadresse?.strasse, max: 30 },
+                        { value: order.versandadresse?.ort, max: 25 },
+                        { value: order.versandadresse?.plz, max: 5 },
+                        { value: order.versandadresse?.land, max: Infinity },
+                      ] as { value: string | undefined; max: number }[]
+                    )
+                      .filter(({ value }) => value)
+                      .map(({ value, max }, i) => (
+                        <p key={i}>
+                          {value!.slice(0, max)}
+                          {value!.length > max && (
+                            <span className="text-(--main) font-bold">
+                              {value!.slice(max)}
+                            </span>
+                          )}
+                        </p>
+                      ))}
+                  </Table.Td>
+                </Table.Tr>
+              )}
           </Table.Tbody>
         </Table>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mt-8">
         <div className="flex justify-between items-center">
           <h3>{t(locale, "orderDetails")}</h3>
           <SegmentedControl
