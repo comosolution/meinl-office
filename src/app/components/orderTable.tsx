@@ -176,6 +176,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
     label: string;
     key: OrderKey | null;
     render?: (o: OrderHead) => React.ReactNode;
+    align?: "center" | "right" | "left" | "justify" | "char" | undefined;
   }[] = [
     { label: t(locale, "kdnr"), key: "kdnr" },
     {
@@ -198,6 +199,12 @@ export default function OrderTable({ search = "" }: { search?: string }) {
       key: "auftragsbestellnummerIntern",
     },
     {
+      label: t(locale, "orderDate"),
+      key: "auftragsDatum",
+      render: (o) =>
+        o.auftragsDatum ? format(new Date(o.auftragsDatum), "MM/dd/yyyy") : "",
+    },
+    {
       label: t(locale, "orderValue"),
       key: "auftragsWert",
       render: (o) => (
@@ -206,15 +213,10 @@ export default function OrderTable({ search = "" }: { search?: string }) {
           thousandSeparator
           decimalScale={2}
           fixedDecimalScale
-          prefix="$"
+          prefix={`${o.company?.wkz ?? "USD"} `}
         />
       ),
-    },
-    {
-      label: t(locale, "orderDate"),
-      key: "auftragsDatum",
-      render: (o) =>
-        o.auftragsDatum ? format(new Date(o.auftragsDatum), "MM/dd/yyyy") : "",
+      align: "right",
     },
   ];
 
@@ -308,13 +310,15 @@ export default function OrderTable({ search = "" }: { search?: string }) {
         <Table highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              {columns.map(({ label, key }) => (
+              {columns.map(({ label, key, align }) => (
                 <Table.Th
                   key={key ?? label}
                   onClick={() => key && handleSort(key)}
                   className={key ? "cursor-pointer select-none" : ""}
                 >
-                  <div className="flex items-center gap-1 whitespace-nowrap">
+                  <div
+                    className={`flex items-center ${align === "right" ? "justify-end" : ""} gap-1 whitespace-nowrap`}
+                  >
                     {label}
                     {key && sortBy === key && (
                       <IconChevronUp
@@ -336,8 +340,8 @@ export default function OrderTable({ search = "" }: { search?: string }) {
                 onClick={() => router.push(`/order/${order.unid}`)}
                 className="cursor-pointer"
               >
-                {columns.map(({ key, render, label }) => (
-                  <Table.Td key={key ?? label}>
+                {columns.map(({ key, render, label, align }) => (
+                  <Table.Td key={key ?? label} align={align ?? "left"}>
                     {render
                       ? render(order)
                       : key

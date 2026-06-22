@@ -75,9 +75,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const valutaValue =
     [
       order.valuta?.datum && order.valuta.datum !== "00000000"
-        ? parseDate(order.valuta.datum)
+        ? `Due on date: ${parseDate(order.valuta.datum)}`
         : "",
-      order.valuta?.tage ? `${order.valuta.tage} d` : "",
+      order.valuta?.tage ? `Days until due: ${order.valuta.tage}` : "",
     ]
       .filter(Boolean)
       .join(" / ") || "–";
@@ -114,7 +114,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           thousandSeparator
           decimalScale={2}
           fixedDecimalScale
-          prefix="$"
+          prefix={`${order.company?.wkz ?? "USD"} `}
         />
       ),
     },
@@ -184,12 +184,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </p>
       </header>
 
-      <div className="overflow-x-auto max-w-xl">
+      <div className="overflow-x-auto">
         <Table variant="vertical">
           <Table.Tbody>
             {headRows.map(({ label, value, highlight }) => (
               <Table.Tr key={label}>
-                <Table.Th w={180} bg="var(--background-subtle)">
+                <Table.Th w={200} bg="var(--background-subtle)">
                   {label}
                 </Table.Th>
                 <Table.Td
@@ -200,7 +200,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Table.Tr>
             ))}
             <Table.Tr>
-              <Table.Th w={180} bg="var(--background-subtle)">
+              <Table.Th w={200} bg="var(--background-subtle)">
                 {t(locale, "shippingAddress")}
               </Table.Th>
               <Table.Td className="whitespace-normal!">
@@ -279,7 +279,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         thousandSeparator
                         decimalScale={2}
                         fixedDecimalScale
-                        prefix="$"
+                        prefix={`${order.company?.wkz ?? "USD"} `}
                       />
                     </p>
                   </header>
@@ -311,7 +311,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 thousandSeparator
                 decimalScale={2}
                 fixedDecimalScale
-                prefix="$"
+                prefix={`${order.company?.wkz ?? "USD"} `}
               />
             </b>
           </p>

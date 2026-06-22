@@ -1,5 +1,4 @@
 import { NumberFormatter, Table } from "@mantine/core";
-import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { OrderPosition } from "../lib/interfaces";
@@ -21,26 +20,30 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
             <Table.Th w={220}>
               {t(locale as Parameters<typeof t>[0], "descriptionLabel")}
             </Table.Th>
-            <Table.Th w={50}>
+            <Table.Th w={50} ta="right">
               {t(locale as Parameters<typeof t>[0], "listPrice")}
             </Table.Th>
-            <Table.Th w={50}>%</Table.Th>
-            <Table.Th w={50}>%</Table.Th>
-            <Table.Th w={50}>%</Table.Th>
-            <Table.Th w={50}>
-              {t(locale as Parameters<typeof t>[0], "netPrice")}
+            <Table.Th w={30} ta="right">
+              %
             </Table.Th>
-            <Table.Th w={50}>
-              {t(locale as Parameters<typeof t>[0], "active")}
+            <Table.Th w={30} ta="right">
+              %
+            </Table.Th>
+            <Table.Th w={30} ta="right">
+              %
+            </Table.Th>
+            <Table.Th w={50} ta="right">
+              {t(locale as Parameters<typeof t>[0], "netPrice")}
             </Table.Th>
             <Table.Th w={50}>
               {t(locale as Parameters<typeof t>[0], "free")}
             </Table.Th>
-            <Table.Th w={50}>
-              {t(locale as Parameters<typeof t>[0], "position")}
-            </Table.Th>
+            <Table.Th w={40}>Pos#</Table.Th>
             <Table.Th w={120}>
               {t(locale as Parameters<typeof t>[0], "remark")}
+            </Table.Th>
+            <Table.Th w={50}>
+              {t(locale as Parameters<typeof t>[0], "active")}
             </Table.Th>
           </Table.Tr>
         </Table.Thead>
@@ -56,7 +59,7 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
               <Table.Td className="whitespace-normal! max-w-xs">
                 {pos.artikelbezeichnung}
               </Table.Td>
-              <Table.Td>
+              <Table.Td ta="right">
                 <NumberFormatter
                   value={pos.listPreis}
                   thousandSeparator
@@ -64,17 +67,33 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
                   fixedDecimalScale
                 />
               </Table.Td>
-              <Table.Td className={pos.rabatt1.modified ? "text-(--main)" : ""}>
-                {pos.rabatt1.value > 0 ? pos.rabatt1.value.toFixed(2) : ""}
-              </Table.Td>
-              <Table.Td className={pos.rabatt2.modified ? "text-(--main)" : ""}>
-                {pos.rabatt2.value > 0 ? pos.rabatt2.value.toFixed(2) : ""}
-              </Table.Td>
-              <Table.Td className={pos.rabatt3.modified ? "text-(--main)" : ""}>
-                {pos.rabatt3.value > 0 ? pos.rabatt3.value.toFixed(2) : ""}
+              <Table.Td
+                ta="right"
+                className={pos.rabatt1.modified ? "text-(--main)" : ""}
+              >
+                {pos.rabatt1.value}
               </Table.Td>
               <Table.Td
-                className={pos.nettoPreis.modified ? "text-(--main)" : ""}
+                ta="right"
+                className={pos.rabatt2.modified ? "text-(--main)" : ""}
+              >
+                {pos.rabatt2.value}
+              </Table.Td>
+              <Table.Td
+                ta="right"
+                className={pos.rabatt3.modified ? "text-(--main)" : ""}
+              >
+                {pos.rabatt3.value}
+              </Table.Td>
+              <Table.Td
+                ta="right"
+                className={
+                  pos.nettoPreis.modified
+                    ? "text-(--main)"
+                    : pos.preiskennzeichen !== ""
+                      ? "text-blue-500"
+                      : ""
+                }
               >
                 <NumberFormatter
                   value={pos.nettoPreis.value}
@@ -83,23 +102,15 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
                   fixedDecimalScale
                 />
               </Table.Td>
-              <Table.Td>
-                {pos.aktiv ? (
-                  <IconCircleCheckFilled size={16} color="var(--main)" />
-                ) : (
-                  ""
-                )}
-              </Table.Td>
-              <Table.Td>
-                {pos.kostenlos ? (
-                  <IconCircleCheckFilled size={16} color="var(--main)" />
-                ) : (
-                  ""
-                )}
+              <Table.Td className={pos.kostenlos ? "text-(--main)" : ""}>
+                {pos.kostenlos ? "Yes" : ""}
               </Table.Td>
               <Table.Td>{pos.posnr}</Table.Td>
               <Table.Td className="whitespace-normal! max-w-xs">
                 {pos.bemerkung}
+              </Table.Td>
+              <Table.Td className={pos.aktiv ? "text-(--main)" : ""}>
+                {pos.aktiv ? "Yes" : ""}
               </Table.Td>
             </Table.Tr>
           ))}
