@@ -1,4 +1,4 @@
-import { Table } from "@mantine/core";
+import { NumberFormatter, Table } from "@mantine/core";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
@@ -15,7 +15,7 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
             <Table.Th w={50}>
               {t(locale as Parameters<typeof t>[0], "quantity")}
             </Table.Th>
-            <Table.Th w={110}>
+            <Table.Th w={100}>
               {t(locale as Parameters<typeof t>[0], "articleNumber")}
             </Table.Th>
             <Table.Th w={220}>
@@ -29,6 +29,9 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
             <Table.Th w={50}>%</Table.Th>
             <Table.Th w={50}>
               {t(locale as Parameters<typeof t>[0], "netPrice")}
+            </Table.Th>
+            <Table.Th w={50}>
+              {t(locale as Parameters<typeof t>[0], "active")}
             </Table.Th>
             <Table.Th w={50}>
               {t(locale as Parameters<typeof t>[0], "free")}
@@ -53,7 +56,14 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
               <Table.Td className="whitespace-normal! max-w-xs">
                 {pos.artikelbezeichnung}
               </Table.Td>
-              <Table.Td>{pos.listPreis.toFixed(2)}</Table.Td>
+              <Table.Td>
+                <NumberFormatter
+                  value={pos.listPreis}
+                  thousandSeparator
+                  decimalScale={2}
+                  fixedDecimalScale
+                />
+              </Table.Td>
               <Table.Td className={pos.rabatt1.modified ? "text-(--main)" : ""}>
                 {pos.rabatt1.value > 0 ? pos.rabatt1.value.toFixed(2) : ""}
               </Table.Td>
@@ -66,7 +76,19 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
               <Table.Td
                 className={pos.nettoPreis.modified ? "text-(--main)" : ""}
               >
-                {pos.nettoPreis.value.toFixed(2)}
+                <NumberFormatter
+                  value={pos.nettoPreis.value}
+                  thousandSeparator
+                  decimalScale={2}
+                  fixedDecimalScale
+                />
+              </Table.Td>
+              <Table.Td>
+                {pos.aktiv ? (
+                  <IconCircleCheckFilled size={16} color="var(--main)" />
+                ) : (
+                  ""
+                )}
               </Table.Td>
               <Table.Td>
                 {pos.kostenlos ? (

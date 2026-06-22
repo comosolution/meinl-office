@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { OrderHead } from "@/app/lib/interfaces";
-import { Select, Table } from "@mantine/core";
+import { NumberFormatter, Select, Table } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { IconCalendarWeek, IconChevronUp } from "@tabler/icons-react";
 import { format } from "date-fns";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { getDatePresets } from "../lib/utils";
@@ -34,7 +34,6 @@ export default function OrderTable({ search = "" }: { search?: string }) {
     land: "",
     sachbearbeiterName: "",
     dateRange: [null, null] as [Date | null, Date | null],
-    deliveryDateRange: [null, null] as [Date | null, Date | null],
   });
 
   const parseDate = (s: string) =>
@@ -102,6 +101,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
           keywords.length === 0 ||
           keywords.every((kw) =>
             [
+              o.unid,
               o.kdnr,
               o.company?.name1,
               o.sachbearbeiterName,
@@ -134,23 +134,14 @@ export default function OrderTable({ search = "" }: { search?: string }) {
           if (d.isAfter(end ?? start, "day")) return false;
           return true;
         })();
-        const matchesDeliveryDateRange = (() => {
-          const [start, end] = filters.deliveryDateRange;
-          if (!start && !end) return true;
-          if (!o.lieferdatumAuftrag) return false;
-          const d = dayjs(o.lieferdatumAuftrag);
-          if (start && d.isBefore(start, "day")) return false;
-          if (d.isAfter(end ?? start, "day")) return false;
-          return true;
-        })();
+
         return (
           matchesSearch &&
           matchesKdnr &&
           matchesName1 &&
           matchesLand &&
           matchesClerk &&
-          matchesDateRange &&
-          matchesDeliveryDateRange
+          matchesDateRange
         );
       }),
     [orders, filters, search],
@@ -184,7 +175,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
   const columns: {
     label: string;
     key: OrderKey | null;
-    render?: (o: OrderHead) => string;
+    render?: (o: OrderHead) => React.ReactNode;
   }[] = [
     { label: t(locale, "kdnr"), key: "kdnr" },
     {
@@ -209,11 +200,15 @@ export default function OrderTable({ search = "" }: { search?: string }) {
     {
       label: t(locale, "orderValue"),
       key: "auftragsWert",
-      render: (o) =>
-        `${o.auftragsWert.toLocaleString(locale === "de" ? "de-DE" : "en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })} USD`,
+      render: (o) => (
+        <NumberFormatter
+          value={o.auftragsWert}
+          thousandSeparator
+          decimalScale={2}
+          fixedDecimalScale
+          prefix="$"
+        />
+      ),
     },
     {
       label: t(locale, "orderDate"),
@@ -231,7 +226,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-5 gap-2">
         <Select
           label={t(locale, "customerNumber")}
           searchable
@@ -291,25 +286,6 @@ export default function OrderTable({ search = "" }: { search?: string }) {
             setFilters((prev) => ({
               ...prev,
               dateRange: value as [Date | null, Date | null],
-            }))
-          }
-          valueFormat="MM/DD/YYYY"
-          presets={getDatePresets(locale)}
-          rightSection={<IconCalendarWeek size={16} />}
-          rightSectionPointerEvents="none"
-          clearable
-        />
-        <DatePickerInput
-          type="range"
-          allowSingleDateInRange
-          highlightToday
-          label={t(locale, "deliveryDate")}
-          placeholder={t(locale, "filter")}
-          value={filters.deliveryDateRange}
-          onChange={(value) =>
-            setFilters((prev) => ({
-              ...prev,
-              deliveryDateRange: value as [Date | null, Date | null],
             }))
           }
           valueFormat="MM/DD/YYYY"

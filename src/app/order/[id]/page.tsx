@@ -6,11 +6,17 @@ import { useOffice } from "@/app/context/officeContext";
 import { MEINL_AE_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
-import { Button, Paper, SegmentedControl, Table } from "@mantine/core";
+import {
+  Button,
+  NumberFormatter,
+  Paper,
+  SegmentedControl,
+  Table,
+} from "@mantine/core";
 import {
   IconBasketPlus,
   IconChevronLeft,
-  IconLayoutGrid,
+  IconLayoutList,
   IconList,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
@@ -63,20 +69,54 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }, {})
     : null;
 
-  const headRows: { label: string; value: string }[] = [
-    { label: t(locale, "orderDate"), value: parseDate(order.auftragsDatum) },
+  const valutaFilled =
+    !!(order.valuta?.datum && order.valuta.datum !== "00000000") ||
+    !!order.valuta?.tage;
+  const valutaValue =
+    [
+      order.valuta?.datum && order.valuta.datum !== "00000000"
+        ? parseDate(order.valuta.datum)
+        : "",
+      order.valuta?.tage ? `${order.valuta.tage} d` : "",
+    ]
+      .filter(Boolean)
+      .join(" / ") || "–";
+
+  const zkDiffers =
+    !!order.zahlungsKondition?.AS400 &&
+    order.zahlungsKondition.AS400 !== order.zahlungsKondition.order;
+  const zkValue = order.zahlungsKondition?.order || "–";
+  const zkDisplay = zkDiffers
+    ? `${zkValue} (AS400: ${order.zahlungsKondition.AS400})`
+    : zkValue;
+
+  const zaDiffers =
+    !!order.zahlungsArt?.AS400 &&
+    order.zahlungsArt.AS400 !== order.zahlungsArt.order;
+  const zaValue = order.zahlungsArt?.order || "–";
+  const zaDisplay = zaDiffers
+    ? `${zaValue} (AS400: ${order.zahlungsArt.AS400})`
+    : zaValue;
+
+  const headRows: {
+    label: string;
+    value: React.ReactNode;
+    highlight?: boolean;
+  }[] = [
     { label: t(locale, "customerNumber"), value: order.kdnr },
     { label: t(locale, "company"), value: order.company?.name1 ?? "–" },
-    { label: t(locale, "clerk"), value: order.sachbearbeiterName },
+    { label: t(locale, "orderDate"), value: parseDate(order.auftragsDatum) },
     {
       label: t(locale, "orderValue"),
-      value: `${order.auftragsWert.toLocaleString(
-        locale === "de" ? "de-DE" : "en-US",
-        {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        },
-      )} USD`,
+      value: (
+        <NumberFormatter
+          value={order.auftragsWert}
+          thousandSeparator
+          decimalScale={2}
+          fixedDecimalScale
+          prefix="$"
+        />
+      ),
     },
     { label: t(locale, "orderType"), value: order.beschaffungsart },
     {
@@ -87,72 +127,104 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       label: t(locale, "orderNumberCustomer"),
       value: order.auftragsbestellnummerKunde || "–",
     },
+    {
+      label: t(locale, "remark"),
+      value: order.bemerkung || "–",
+    },
+    {
+      label: t(locale, "startText"),
+      value: order.starttext || "–",
+    },
+    {
+      label: t(locale, "invoiceText"),
+      value: order.invoiceText || "–",
+    },
+    {
+      label: t(locale, "proformaInvoiceText"),
+      value: order.proformaInvoiceText || "–",
+    },
+    { label: t(locale, "valuta"), value: valutaValue, highlight: valutaFilled },
+    {
+      label: t(locale, "paymentCondition"),
+      value: zkDisplay,
+      highlight: zkDiffers,
+    },
+    { label: t(locale, "paymentType"), value: zaDisplay, highlight: zaDiffers },
   ];
 
   return (
     <main className="flex flex-col gap-4 p-4">
       <div className="flex flex-col md:flex-row justify-between gap-2">
-        <div className="flex flex-col md:flex-row gap-2">
-          <Button
-            color="gray"
-            variant="light"
-            leftSection={<IconChevronLeft size={16} />}
-            component={Link}
-            href="/order"
-          >
-            {t(locale, "allOrders")}
-          </Button>
-          <Button
-            variant="transparent"
-            color="gray"
-            component={Link}
-            href={`/company/${order.kdnr}`}
-            leftSection={<IconChevronLeft size={16} />}
-          >
-            {order.company.name1}
-          </Button>
-        </div>
-        <div className="flex flex-col md:flex-row gap-2">
-          <Button
-            component="a"
-            href={`${MEINL_AE_URL}?kdnr=${order.kdnr}`}
-            target="_blank"
-            leftSection={<IconBasketPlus size={16} />}
-          >
-            {t(locale, "newOrder")}
-          </Button>
-        </div>
+        <Button
+          color="gray"
+          variant="light"
+          leftSection={<IconChevronLeft size={16} />}
+          component={Link}
+          href="/order"
+        >
+          {t(locale, "allOrders")}
+        </Button>
+        <Button
+          component="a"
+          href={`${MEINL_AE_URL}?kdnr=${order.kdnr}`}
+          target="_blank"
+          leftSection={<IconBasketPlus size={16} />}
+        >
+          {t(locale, "newOrder")}
+        </Button>
       </div>
-      <header className="flex items-center gap-4 py-4">
+      <header className="flex flex-col py-4">
         <h1>
           {t(locale, "order")} {order.auftragsbestellnummerIntern || id}
         </h1>
+        <p className="text-sm">
+          {t(locale, "createdOn")} {parseDate(order.auftragsDatum)}{" "}
+          {t(locale, "by")} <b>{order.sachbearbeiter?.name}</b> (
+          {order.sachbearbeiter?.kuerzel})
+        </p>
       </header>
 
       <div className="overflow-x-auto max-w-xl">
-        <Table variant="vertical" withTableBorder withColumnBorders>
+        <Table variant="vertical">
           <Table.Tbody>
-            {headRows.map(({ label, value }) => (
+            {headRows.map(({ label, value, highlight }) => (
               <Table.Tr key={label}>
-                <Table.Th w={160}>{label}</Table.Th>
-                <Table.Td>{value}</Table.Td>
+                <Table.Th w={180} bg="var(--background-subtle)">
+                  {label}
+                </Table.Th>
+                <Table.Td
+                  style={highlight ? { color: "var(--main)" } : undefined}
+                >
+                  {value}
+                </Table.Td>
               </Table.Tr>
             ))}
             <Table.Tr>
-              <Table.Th w={200}>{t(locale, "shippingAddress")}</Table.Th>
+              <Table.Th w={180} bg="var(--background-subtle)">
+                {t(locale, "shippingAddress")}
+              </Table.Th>
               <Table.Td className="whitespace-normal!">
-                {[
-                  order.versandadresse?.name1,
-                  order.versandadresse?.name2,
-                  order.versandadresse?.name3,
-                  order.versandadresse?.strasse,
-                  order.versandadresse?.plz,
-                  order.versandadresse?.ort,
-                  order.versandadresse?.land,
-                ]
-                  .filter(Boolean)
-                  .map((line, i) => (
-                    <p key={i}>{line}</p>
+                {(
+                  [
+                    { value: order.versandadresse?.name1, max: 30 },
+                    { value: order.versandadresse?.name2, max: 30 },
+                    { value: order.versandadresse?.name3, max: 30 },
+                    { value: order.versandadresse?.strasse, max: 30 },
+                    { value: order.versandadresse?.ort, max: 25 },
+                    { value: order.versandadresse?.plz, max: 5 },
+                    { value: order.versandadresse?.land, max: Infinity },
+                  ] as { value: string | undefined; max: number }[]
+                )
+                  .filter(({ value }) => value)
+                  .map(({ value, max }, i) => (
+                    <p key={i}>
+                      {value!.slice(0, max)}
+                      {value!.length > max && (
+                        <span style={{ color: "var(--main)" }}>
+                          {value!.slice(max)}
+                        </span>
+                      )}
+                    </p>
                   ))}
               </Table.Td>
             </Table.Tr>
@@ -170,7 +242,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               {
                 label: (
                   <div className="flex items-center gap-1">
-                    <IconLayoutGrid size={14} />
+                    <IconLayoutList size={16} />
                     {t(locale, "byBrand")}
                   </div>
                 ),
@@ -179,7 +251,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               {
                 label: (
                   <div className="flex items-center gap-1">
-                    <IconList size={14} />
+                    <IconList size={16} />
                     {t(locale, "listView")}
                   </div>
                 ),
@@ -202,17 +274,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <header className="flex justify-between items-baseline gap-2">
                     <h2>{marke}</h2>
                     <p className="text-sm">
-                      {t(locale, "orderValue")}:{" "}
-                      <b>
-                        {total.toLocaleString(
-                          locale === "de" ? "de-DE" : "en-US",
-                          {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          },
-                        )}{" "}
-                        {order.company?.wkz ?? "USD"}
-                      </b>
+                      <NumberFormatter
+                        value={total}
+                        thousandSeparator
+                        decimalScale={2}
+                        fixedDecimalScale
+                        prefix="$"
+                      />
                     </p>
                   </header>
                   <PositionsTable positions={positions} />
@@ -238,14 +306,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           >
             {t(locale, "orderValue")}:{" "}
             <b>
-              {order.auftragsWert.toLocaleString(
-                locale === "de" ? "de-DE" : "en-US",
-                {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                },
-              )}{" "}
-              {order.company?.wkz ?? "USD"}
+              <NumberFormatter
+                value={order.auftragsWert}
+                thousandSeparator
+                decimalScale={2}
+                fixedDecimalScale
+                prefix="$"
+              />
             </b>
           </p>
         )}

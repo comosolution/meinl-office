@@ -133,7 +133,7 @@ export default function NotesTab({
                       <Accordion.Control>
                         <div className="flex flex-col">
                           <p className="text-sm dimmed">
-                            {t(locale, "createdAt")}{" "}
+                            {t(locale, "createdOn")}{" "}
                             {dayjs(note.created).format("DD.MM.YYYY HH:mm")}{" "}
                             {t(locale, "by")} {note.user}
                           </p>

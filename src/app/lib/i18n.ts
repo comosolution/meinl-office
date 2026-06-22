@@ -154,6 +154,9 @@ export type TranslationKey =
   | "name3"
   | "serialNumber"
   | "orderType"
+  | "startText"
+  | "invoiceText"
+  | "proformaInvoiceText"
   | "streetAndNumber"
   | "zip"
   | "additionalShipping"
@@ -175,7 +178,6 @@ export type TranslationKey =
   | "notes"
   | "noteError"
   | "ticketId"
-  | "createdOn"
   | "created"
   | "downloadLaufzettel"
   | "edit"
@@ -246,6 +248,9 @@ export type TranslationKey =
   | "cancel"
   | "deleteImage"
   | "paymentMethod"
+  | "valuta"
+  | "paymentCondition"
+  | "paymentType"
   | "salesVolume"
   | "discount"
   | "information"
@@ -253,7 +258,7 @@ export type TranslationKey =
   | "editNote"
   | "subject"
   | "body"
-  | "createdAt"
+  | "createdOn"
   | "createdBy"
   | "modifiedAt"
   | "sortBy"
@@ -301,6 +306,7 @@ export type TranslationKey =
   | "remark"
   | "orderValue"
   | "orderDetails"
+  | "active"
   | "free"
   | "byBrand"
   | "listView";
@@ -458,6 +464,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     name3: "Name 3",
     serialNumber: "Seriennummer",
     orderType: "Auftragsart",
+    startText: "Starttext",
+    invoiceText: "Rechnungstext",
+    proformaInvoiceText: "Proforma-Rechnungstext",
     streetAndNumber: "Straße & Nr.",
     zip: "PLZ",
     additionalShipping: "Zusatz",
@@ -479,7 +488,6 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     notes: "Notizen",
     noteError: "Fehler beim Hinzufügen der Notiz",
     ticketId: "Ticket ID",
-    createdOn: "Erstellt am",
     created: "Erstellt",
     downloadLaufzettel: "Laufzettel herunterladen",
     edit: "Bearbeiten",
@@ -551,6 +559,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     confirmDelete: "Löschen bestätigen",
     deleteImage: "Bild löschen",
     paymentMethod: "Zahlart",
+    valuta: "Zahlungsziel",
+    paymentCondition: "Zahlungskondition",
+    paymentType: "Zahlungsart",
     salesVolume: "Umsatzvolumen",
     discount: "Rabatt",
     information: "Informationen",
@@ -558,7 +569,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     editNote: "Notiz bearbeiten",
     subject: "Betreff",
     body: "Inhalt",
-    createdAt: "Erstellt am",
+    createdOn: "Erstellt am",
     createdBy: "Erstellt von",
     modifiedAt: "Bearbeitet am",
     sortBy: "Sortieren nach",
@@ -610,6 +621,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     remark: "Bemerkung",
     orderValue: "Auftragswert",
     orderDetails: "Auftragsdetails",
+    active: "Aktiv",
     free: "Kostenlos",
     byBrand: "Nach Marke",
     listView: "Liste",
@@ -766,6 +778,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     name3: "Name 3",
     serialNumber: "Serial Number",
     orderType: "Order Type",
+    startText: "Start Text",
+    invoiceText: "Invoice Text",
+    proformaInvoiceText: "Proforma Invoice Text",
     streetAndNumber: "Street & No.",
     zip: "ZIP",
     additionalShipping: "Additional",
@@ -787,7 +802,6 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     notes: "Notes",
     noteError: "Failed to add note",
     ticketId: "Ticket ID",
-    createdOn: "Created on",
     created: "Created",
     downloadLaufzettel: "Download Tracking Sheet",
     edit: "Edit",
@@ -858,6 +872,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     confirmDelete: "Confirm Delete",
     deleteImage: "Delete Image",
     paymentMethod: "Method of Payment",
+    valuta: "Valuta",
+    paymentCondition: "Payment Condition",
+    paymentType: "Payment Type",
     salesVolume: "Sales Volume",
     discount: "Discount",
     information: "Infos",
@@ -865,7 +882,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     editNote: "Edit Note",
     subject: "Subject",
     body: "Content",
-    createdAt: "Created at",
+    createdOn: "Created on",
     createdBy: "Created by",
     modifiedAt: "Modified at",
     sortBy: "Sort by",
@@ -916,6 +933,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     remark: "Remark",
     orderValue: "Order Value",
     orderDetails: "Order Details",
+    active: "Active",
     free: "Free",
     byBrand: "By Brand",
     listView: "List",

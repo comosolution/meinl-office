@@ -1,7 +1,7 @@
 "use client";
 import Loader from "@/app/components/loader";
-import SourceRequired from "@/app/components/sourceRequired";
 import { ProductSelect } from "@/app/components/productSelect";
+import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
 import { DATE_FORMAT } from "@/app/lib/config";
 import {
@@ -811,7 +811,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Badge>
             </div>
             <p className="text-sm">
-              {t(locale, "createdAt")} {format(ticket.created, DATE_FORMAT)}{" "}
+              {t(locale, "createdOn")} {format(ticket.created, DATE_FORMAT)}{" "}
               {t(locale, "by")} <b>{ticket.createdby}</b>
             </p>
           </div>
