@@ -187,18 +187,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <div className="overflow-x-auto">
         <Table variant="vertical">
           <Table.Tbody>
-            {headRows.map(({ label, value, highlight }) => (
-              <Table.Tr key={label}>
-                <Table.Th w={200} bg="var(--background-subtle)">
-                  {label}
-                </Table.Th>
-                <Table.Td
-                  style={highlight ? { color: "var(--main)" } : undefined}
-                >
-                  {value}
-                </Table.Td>
-              </Table.Tr>
-            ))}
+            {headRows
+              .filter(
+                ({ value }) => value !== "–" && value !== "" && value != null,
+              )
+              .map(({ label, value, highlight }) => (
+                <Table.Tr key={label}>
+                  <Table.Th w={200} bg="var(--background-subtle)">
+                    {label}
+                  </Table.Th>
+                  <Table.Td
+                    style={highlight ? { color: "var(--main)" } : undefined}
+                  >
+                    {value}
+                  </Table.Td>
+                </Table.Tr>
+              ))}
             <Table.Tr>
               <Table.Th w={200} bg="var(--background-subtle)">
                 {t(locale, "shippingAddress")}
@@ -263,31 +267,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
         {view === "brand" &&
           grouped &&
-          Object.entries(grouped).map(([marke, positions]) => {
-            const total = positions.reduce(
-              (sum, p) => sum + p.nettoPreis.value * p.menge,
-              0,
-            );
-            return (
-              <Paper key={marke} p="md">
-                <div className="flex flex-col gap-4">
-                  <header className="flex justify-between items-baseline gap-2">
-                    <h2>{marke}</h2>
-                    <p className="text-sm">
-                      <NumberFormatter
-                        value={total}
-                        thousandSeparator
-                        decimalScale={2}
-                        fixedDecimalScale
-                        prefix={`${order.company?.wkz ?? "USD"} `}
-                      />
-                    </p>
-                  </header>
-                  <PositionsTable positions={positions} />
-                </div>
-              </Paper>
-            );
-          })}
+          Object.entries(grouped).map(([marke, positions]) => (
+            <Paper key={marke} p="md">
+              <div className="flex flex-col gap-4">
+                <h2>{marke}</h2>
+                <PositionsTable positions={positions} />
+              </div>
+            </Paper>
+          ))}
 
         {view === "list" && order.positionen && (
           <Paper p="md">

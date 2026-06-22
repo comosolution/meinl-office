@@ -308,6 +308,7 @@ export type TranslationKey =
   | "orderDetails"
   | "active"
   | "free"
+  | "yes"
   | "byBrand"
   | "listView";
 
@@ -623,6 +624,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     orderDetails: "Auftragsdetails",
     active: "Aktiv",
     free: "Kostenlos",
+    yes: "Ja",
     byBrand: "Nach Marke",
     listView: "Liste",
   },
@@ -935,6 +937,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     orderDetails: "Order Details",
     active: "Active",
     free: "Free",
+    yes: "Yes",
     byBrand: "By Brand",
     listView: "List",
   },

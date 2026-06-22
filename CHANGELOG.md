@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Status Management, Comments and Attachments
   - Tracking Sheet Generation: PDF creation with barcode and QR code
   - Return Tracking: DHL Return and GLS PickUp handling
+- **Orders**: List view and detail view for order entries
 - **Authentication**: With Azure AD
 - **Internationalization**: i18n support for German & English
 - **Locations**: Support for Meinl Germany & USA in a single application

@@ -75,7 +75,10 @@ export default function OrderTable({ search = "" }: { search?: string }) {
 
   const kdnrOptions = useMemo(() => getOptions("kdnr"), [orders]);
   const clerkOptions = useMemo(
-    () => getOptions("sachbearbeiterName"),
+    () =>
+      Array.from(new Set(orders.map((o) => o.sachbearbeiter?.name).filter(Boolean)))
+        .sort((a, b) => a!.localeCompare(b!))
+        .map((v) => ({ label: v!, value: v! })),
     [orders],
   );
   const name1Options = useMemo(
@@ -104,13 +107,13 @@ export default function OrderTable({ search = "" }: { search?: string }) {
               o.unid,
               o.kdnr,
               o.company?.name1,
-              o.sachbearbeiterName,
+              o.sachbearbeiter?.name,
+              o.sachbearbeiter?.kuerzel,
               o.auftragsbestellnummerKunde,
               o.auftragsbestellnummerIntern,
               o.auftragsDatum,
               o.lieferdatumAuftrag,
               o.beschaffungsart,
-              o.sachbearbeiterKuerzel,
             ]
               .filter(Boolean)
               .some((v) => v!.toLowerCase().includes(kw)),
@@ -123,7 +126,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
           ? o.company?.land === filters.land
           : true;
         const matchesClerk = filters.sachbearbeiterName
-          ? o.sachbearbeiterName === filters.sachbearbeiterName
+          ? o.sachbearbeiter?.name === filters.sachbearbeiterName
           : true;
         const matchesDateRange = (() => {
           const [start, end] = filters.dateRange;
@@ -189,7 +192,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
       key: null,
       render: (o) => o.company?.land ?? "",
     },
-    { label: t(locale, "clerk"), key: "sachbearbeiterName" },
+    { label: t(locale, "clerk"), key: null, render: (o) => o.sachbearbeiter?.name ?? "" },
     {
       label: t(locale, "orderNumberCustomer"),
       key: "auftragsbestellnummerKunde",
@@ -228,7 +231,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid md:grid-cols-6 gap-2">
         <Select
           label={t(locale, "customerNumber")}
           searchable
@@ -295,6 +298,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
           rightSection={<IconCalendarWeek size={16} />}
           rightSectionPointerEvents="none"
           clearable
+          className="md:col-span-2"
         />
       </div>
 

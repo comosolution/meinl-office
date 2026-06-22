@@ -587,22 +587,78 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     doc.setFontSize(20);
     doc.text("Laufzettel", 16, 20);
 
+    const artnr = ticket.artnr_mei || ticket.artnr_ku || "";
+    const sernr = ticket.sernr_mei || ticket.sernr_ku || "";
+
+    let artnrBarcodeData = "";
+    let sernrBarcodeData = "";
+
+    if (artnr) {
+      const c = document.createElement("canvas");
+      JsBarcode(c, artnr, {
+        format: "CODE128",
+        width: 1.5,
+        height: 30,
+        displayValue: true,
+      });
+      artnrBarcodeData = c.toDataURL("image/png");
+    }
+
+    if (sernr) {
+      const c = document.createElement("canvas");
+      JsBarcode(c, sernr, {
+        format: "CODE128",
+        width: 1.5,
+        height: 30,
+        displayValue: true,
+      });
+      sernrBarcodeData = c.toDataURL("image/png");
+    }
+
     autoTable(doc, {
       body: [
-        ["Ticket ID", id],
-        ["Erstellt am", format(ticket.created, DATE_FORMAT)],
+        ["Ticket ID", id, ""],
+        ["Erstellt am", format(ticket.created, DATE_FORMAT), ""],
         [
           "Kunde",
           `${ticket.kdnr_full} – ${ticket.firma} (${ticket.kdnr_name})` || "",
+          "",
         ],
-        ["Artikelnummer", ticket.artnr_mei || ticket.artnr_ku || ""],
-        ["Seriennummer", ticket.sernr_mei || ticket.sernr_ku || ""],
-        ["Fehlerbeschreibung", ticket.descr || ""],
-        ["Menge", ticket.menge?.toString() || ""],
-        ["Status", ticket.status_int?.text || ""],
+        [
+          "Artikelnummer",
+          artnr,
+          { content: "", styles: { minCellHeight: 22 } },
+        ],
+        ["Seriennummer", sernr, { content: "", styles: { minCellHeight: 22 } }],
+        ["Fehlerbeschreibung", ticket.descr || "", ""],
+        ["Menge", ticket.menge?.toString() || "", ""],
+        ["Status", ticket.status_int?.text || "", ""],
       ],
       startY: 30,
       styles: { fontSize: 10 },
+      columnStyles: { 2: { cellWidth: 60 } },
+      didDrawCell: (data) => {
+        if (data.column.index !== 2) return;
+        if (data.row.index === 3 && artnrBarcodeData) {
+          doc.addImage(
+            artnrBarcodeData,
+            "PNG",
+            data.cell.x + 2,
+            data.cell.y + 2,
+            56,
+            18,
+          );
+        } else if (data.row.index === 4 && sernrBarcodeData) {
+          doc.addImage(
+            sernrBarcodeData,
+            "PNG",
+            data.cell.x + 2,
+            data.cell.y + 2,
+            56,
+            18,
+          );
+        }
+      },
     });
 
     const canvas = document.createElement("canvas");

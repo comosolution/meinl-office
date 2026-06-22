@@ -235,15 +235,17 @@ export interface Versandadresse {
 export interface OrderHead {
   unid: string;
   kdnr: string;
-  sachbearbeiterName: string;
   auftragsDatum: string;
   lieferdatumAuftrag: string;
   auftragsbestellnummerKunde: string;
   auftragsbestellnummerIntern: string;
-  sachbearbeiterKuerzel: string;
   beschaffungsart: string;
   company: OrderCompany;
   auftragsWert: number;
+  sachbearbeiter: {
+    kuerzel: string;
+    name: string;
+  };
 }
 
 export interface Order extends OrderHead {
@@ -252,10 +254,6 @@ export interface Order extends OrderHead {
   invoiceText: string;
   positionen: OrderPosition[];
   proformaInvoiceText: string;
-  sachbearbeiter: {
-    kuerzel: string;
-    name: string;
-  };
   starttext: string;
   valuta: {
     datum: string;
