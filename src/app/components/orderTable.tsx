@@ -11,11 +11,23 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
-import { getDatePresets } from "../lib/utils";
+import { getDatePresets, parseOrderDate } from "../lib/utils";
 import Loader from "./loader";
 import Pagination from "./pagination";
 
 type OrderKey = keyof OrderHead;
+type SortKey =
+  | OrderKey
+  | "company.name1"
+  | "company.land"
+  | "sachbearbeiter.name";
+
+const getSortValue = (o: OrderHead, key: SortKey): string => {
+  if (key === "company.name1") return o.company?.name1 ?? "";
+  if (key === "company.land") return o.company?.land ?? "";
+  if (key === "sachbearbeiter.name") return o.sachbearbeiter?.name ?? "";
+  return String(o[key] ?? "");
+};
 
 export default function OrderTable({ search = "" }: { search?: string }) {
   const { data: session } = useSession();
@@ -26,7 +38,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
   const [orders, setOrders] = useState<OrderHead[]>([]);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<OrderKey>("auftragsDatum");
+  const [sortBy, setSortBy] = useState<SortKey>("auftragsDatum");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [filters, setFilters] = useState({
     kdnr: "",
@@ -35,11 +47,6 @@ export default function OrderTable({ search = "" }: { search?: string }) {
     sachbearbeiterName: "",
     dateRange: [null, null] as [Date | null, Date | null],
   });
-
-  const parseDate = (s: string) =>
-    s && s !== "00000000"
-      ? `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`
-      : "";
 
   const fetchOrders = async () => {
     try {
@@ -52,8 +59,8 @@ export default function OrderTable({ search = "" }: { search?: string }) {
         setOrders(
           data.map((o) => ({
             ...o,
-            auftragsDatum: parseDate(o.auftragsDatum),
-            lieferdatumAuftrag: parseDate(o.lieferdatumAuftrag),
+            auftragsDatum: parseOrderDate(o.auftragsDatum, locale),
+            lieferdatumAuftrag: parseOrderDate(o.lieferdatumAuftrag, locale),
           })),
         );
       }
@@ -76,7 +83,9 @@ export default function OrderTable({ search = "" }: { search?: string }) {
   const kdnrOptions = useMemo(() => getOptions("kdnr"), [orders]);
   const clerkOptions = useMemo(
     () =>
-      Array.from(new Set(orders.map((o) => o.sachbearbeiter?.name).filter(Boolean)))
+      Array.from(
+        new Set(orders.map((o) => o.sachbearbeiter?.name).filter(Boolean)),
+      )
         .sort((a, b) => a!.localeCompare(b!))
         .map((v) => ({ label: v!, value: v! })),
     [orders],
@@ -154,7 +163,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
     setPage(1);
   }, [filters, search]);
 
-  const handleSort = (key: OrderKey) => {
+  const handleSort = (key: SortKey) => {
     if (sortBy === key) {
       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
@@ -166,8 +175,8 @@ export default function OrderTable({ search = "" }: { search?: string }) {
   const sortedOrders = useMemo(
     () =>
       [...filteredOrders].sort((a, b) => {
-        const aVal = String(a[sortBy] ?? "");
-        const bVal = String(b[sortBy] ?? "");
+        const aVal = getSortValue(a, sortBy);
+        const bVal = getSortValue(b, sortBy);
         return sortDirection === "asc"
           ? aVal.localeCompare(bVal)
           : bVal.localeCompare(aVal);
@@ -177,22 +186,26 @@ export default function OrderTable({ search = "" }: { search?: string }) {
 
   const columns: {
     label: string;
-    key: OrderKey | null;
+    key: SortKey | null;
     render?: (o: OrderHead) => React.ReactNode;
     align?: "center" | "right" | "left" | "justify" | "char" | undefined;
   }[] = [
     { label: t(locale, "kdnr"), key: "kdnr" },
     {
       label: t(locale, "company"),
-      key: null,
+      key: "company.name1",
       render: (o) => o.company?.name1 ?? "",
     },
     {
       label: t(locale, "country"),
-      key: null,
+      key: "company.land",
       render: (o) => o.company?.land ?? "",
     },
-    { label: t(locale, "clerk"), key: null, render: (o) => o.sachbearbeiter?.name ?? "" },
+    {
+      label: t(locale, "clerk"),
+      key: "sachbearbeiter.name",
+      render: (o) => o.sachbearbeiter?.name ?? "",
+    },
     {
       label: t(locale, "orderNumberCustomer"),
       key: "auftragsbestellnummerKunde",
@@ -205,7 +218,12 @@ export default function OrderTable({ search = "" }: { search?: string }) {
       label: t(locale, "orderDate"),
       key: "auftragsDatum",
       render: (o) =>
-        o.auftragsDatum ? format(new Date(o.auftragsDatum), "MM/dd/yyyy") : "",
+        o.auftragsDatum
+          ? format(
+              new Date(o.auftragsDatum),
+              locale === "en" ? "MM/dd/yyyy" : "dd.MM.yyyy",
+            )
+          : "",
     },
     {
       label: t(locale, "orderValue"),
@@ -293,7 +311,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
               dateRange: value as [Date | null, Date | null],
             }))
           }
-          valueFormat="MM/DD/YYYY"
+          valueFormat={locale === "en" ? "MM/DD/YYYY" : "DD.MM.YYYY"}
           presets={getDatePresets(locale)}
           rightSection={<IconCalendarWeek size={16} />}
           rightSectionPointerEvents="none"
@@ -349,7 +367,7 @@ export default function OrderTable({ search = "" }: { search?: string }) {
                     {render
                       ? render(order)
                       : key
-                        ? String(order[key] ?? "")
+                        ? getSortValue(order, key)
                         : ""}
                   </Table.Td>
                 ))}

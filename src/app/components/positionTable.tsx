@@ -51,7 +51,9 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
           {positions.map((pos, i) => (
             <Table.Tr key={i}>
               <Table.Td
-                className={pos.menge > pos.bestand ? "text-(--main)" : ""}
+                className={
+                  pos.menge > pos.bestand ? "text-(--main) font-bold" : ""
+                }
               >
                 {pos.menge}
               </Table.Td>
@@ -89,9 +91,9 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
                 ta="right"
                 className={
                   pos.nettoPreis.modified
-                    ? "text-(--main)"
+                    ? "text-(--main) font-bold"
                     : pos.preiskennzeichen !== ""
-                      ? "text-blue-500"
+                      ? "text-(--mantine-color-blue-4) font-bold"
                       : ""
                 }
               >

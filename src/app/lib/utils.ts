@@ -7,19 +7,24 @@ import {
   subMonths,
   subYears,
 } from "date-fns";
-import ExcelJS from "exceljs";
 import dayjs from "dayjs";
+import ExcelJS from "exceljs";
 import { Locale, t } from "./i18n";
 import { Order, TicketSummary } from "./interfaces";
 
 export const isPreview = process.env.NEXT_PUBLIC_PREVIEW === "true";
 
-export const getDatePresets = (locale: Locale): { value: [string, string]; label: string }[] => {
+export const getDatePresets = (
+  locale: Locale,
+): { value: [string, string]; label: string }[] => {
   const today = dayjs();
   const thisWeekStart = today.subtract((today.day() + 6) % 7, "day");
   return [
     {
-      value: [today.format("YYYY-MM-DD"), today.format("YYYY-MM-DD")] as [string, string],
+      value: [today.format("YYYY-MM-DD"), today.format("YYYY-MM-DD")] as [
+        string,
+        string,
+      ],
       label: t(locale, "today"),
     },
     {
@@ -93,6 +98,14 @@ export function parseDb2Date(db2Date: string): string {
   }
   return db2Date;
 }
+
+export const parseOrderDate = (s: string, l: Locale) =>
+  s && s !== "00000000"
+    ? format(
+        new Date(`${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`),
+        l === "en" ? "MM/dd/yyyy" : "dd.MM.yyyy",
+      )
+    : "–";
 
 export async function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -296,4 +309,3 @@ export const formatDateToString = (date: Date | string | null): string => {
 export const getAvatarColor = (input: string | number) => {
   return +input > 59 ? "yellow" : "red";
 };
-

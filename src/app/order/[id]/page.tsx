@@ -6,7 +6,9 @@ import { useOffice } from "@/app/context/officeContext";
 import { MEINL_AE_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
+import { parseOrderDate } from "@/app/lib/utils";
 import {
+  Badge,
   Button,
   NumberFormatter,
   Paper,
@@ -19,7 +21,6 @@ import {
   IconLayoutList,
   IconList,
 } from "@tabler/icons-react";
-import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -54,14 +55,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   if (!order || loading) return <Loader />;
   if (source === "OFFGUT") return <SourceRequired requiredSource="OFFUSA" />;
 
-  const parseDate = (s: string) =>
-    s && s !== "00000000"
-      ? format(
-          new Date(`${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`),
-          "MM/dd/yyyy",
-        )
-      : "–";
-
   const grouped = order.positionen
     ? order.positionen.reduce<Record<string, OrderPosition[]>>((acc, pos) => {
         (acc[pos.marke] ??= []).push(pos);
@@ -75,7 +68,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const valutaValue =
     [
       order.valuta?.datum && order.valuta.datum !== "00000000"
-        ? `Due on date: ${parseDate(order.valuta.datum)}`
+        ? `Due on date: ${parseOrderDate(order.valuta.datum, locale)}`
         : "",
       order.valuta?.tage ? `Days until due: ${order.valuta.tage}` : "",
     ]
@@ -87,7 +80,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     order.zahlungsKondition.AS400 !== order.zahlungsKondition.order;
   const zkValue = order.zahlungsKondition?.order || "–";
   const zkDisplay = zkDiffers
-    ? `${zkValue} (AS400: ${order.zahlungsKondition.AS400})`
+    ? `${zkValue} (${order.zahlungsKondition.AS400})`
     : zkValue;
 
   const zaDiffers =
@@ -95,7 +88,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     order.zahlungsArt.AS400 !== order.zahlungsArt.order;
   const zaValue = order.zahlungsArt?.order || "–";
   const zaDisplay = zaDiffers
-    ? `${zaValue} (AS400: ${order.zahlungsArt.AS400})`
+    ? `${zaValue} (${order.zahlungsArt.AS400})`
     : zaValue;
 
   const headRows: {
@@ -105,7 +98,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }[] = [
     { label: t(locale, "customerNumber"), value: order.kdnr },
     { label: t(locale, "company"), value: order.company?.name1 ?? "–" },
-    { label: t(locale, "orderDate"), value: parseDate(order.auftragsDatum) },
+    {
+      label: t(locale, "orderDate"),
+      value: parseOrderDate(order.auftragsDatum, locale),
+    },
     {
       label: t(locale, "orderValue"),
       value: (
@@ -178,7 +174,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           {t(locale, "order")} {order.auftragsbestellnummerIntern || id}
         </h1>
         <p className="text-sm">
-          {t(locale, "createdOn")} {parseDate(order.auftragsDatum)}{" "}
+          {t(locale, "createdOn")} {parseOrderDate(order.auftragsDatum, locale)}{" "}
           {t(locale, "by")} <b>{order.sachbearbeiter?.name}</b> (
           {order.sachbearbeiter?.kuerzel})
         </p>
@@ -199,13 +195,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <Table.Td
                     style={highlight ? { color: "var(--main)" } : undefined}
                   >
-                    {value}
+                    <span className="whitespace-pre-wrap">{value}</span>
                   </Table.Td>
                 </Table.Tr>
               ))}
             <Table.Tr>
               <Table.Th w={200} bg="var(--background-subtle)">
-                {t(locale, "shippingAddress")}
+                <div className="flex items-center gap-1">
+                  {t(locale, "shippingAddress")}{" "}
+                  {order.versandadresse?.vanr === "" && (
+                    <Badge size="xs" variant="light" color="blue">
+                      temp
+                    </Badge>
+                  )}
+                </div>
               </Table.Th>
               <Table.Td className="whitespace-normal!">
                 {(
@@ -224,7 +227,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <p key={i}>
                       {value!.slice(0, max)}
                       {value!.length > max && (
-                        <span style={{ color: "var(--main)" }}>
+                        <span className="text-(--main) font-bold">
                           {value!.slice(max)}
                         </span>
                       )}
@@ -270,7 +273,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           Object.entries(grouped).map(([marke, positions]) => (
             <Paper key={marke} p="md">
               <div className="flex flex-col gap-4">
-                <h2>{marke}</h2>
+                <h2 className="text-(--mantine-color-yellow-5)">{marke}</h2>
                 <PositionsTable positions={positions} />
               </div>
             </Paper>
