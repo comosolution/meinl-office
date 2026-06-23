@@ -257,10 +257,6 @@ export default function OrderTable({
 
   if (loading) return <Loader />;
 
-  if (!sortedOrders || sortedOrders.length < 1) {
-    return <p className="dimmed text-center p-4">{t(locale, "noOrders")}</p>;
-  }
-
   return (
     <div className="flex flex-col gap-4">
       {!kdnr && (
@@ -340,62 +336,70 @@ export default function OrderTable({
         </div>
       )}
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        pageLimit={pageLimit}
-        setPageLimit={setPageLimit}
-        results={filteredOrders.length}
-      />
+      {sortedOrders && sortedOrders.length > 0 ? (
+        <>
+          <Pagination
+            page={page}
+            setPage={setPage}
+            pageLimit={pageLimit}
+            setPageLimit={setPageLimit}
+            results={filteredOrders.length}
+          />
 
-      <div className="overflow-x-auto">
-        <Table highlightOnHover>
-          <Table.Thead>
-            <Table.Tr>
-              {columns.map(({ label, key, align }) => (
-                <Table.Th
-                  key={key ?? label}
-                  onClick={() => key && handleSort(key)}
-                  className={key ? "cursor-pointer select-none" : ""}
-                >
-                  <div
-                    className={`flex items-center ${align === "right" ? "justify-end" : ""} gap-1 whitespace-nowrap`}
+          <div className="overflow-x-auto">
+            <Table highlightOnHover>
+              <Table.Thead>
+                <Table.Tr>
+                  {columns.map(({ label, key, align }) => (
+                    <Table.Th
+                      key={key ?? label}
+                      onClick={() => key && handleSort(key)}
+                      className={key ? "cursor-pointer select-none" : ""}
+                    >
+                      <div
+                        className={`flex items-center ${align === "right" ? "justify-end" : ""} gap-1 whitespace-nowrap`}
+                      >
+                        {label}
+                        {key && sortBy === key && (
+                          <IconChevronUp
+                            size={16}
+                            className={`transition-all ${
+                              sortDirection === "asc"
+                                ? "rotate-0"
+                                : "rotate-180"
+                            }`}
+                          />
+                        )}
+                      </div>
+                    </Table.Th>
+                  ))}
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {currentPageData.map((order, index) => (
+                  <Table.Tr
+                    key={index}
+                    onClick={() => router.push(`/order/${order.unid}`)}
+                    className="cursor-pointer"
                   >
-                    {label}
-                    {key && sortBy === key && (
-                      <IconChevronUp
-                        size={16}
-                        className={`transition-all ${
-                          sortDirection === "asc" ? "rotate-0" : "rotate-180"
-                        }`}
-                      />
-                    )}
-                  </div>
-                </Table.Th>
-              ))}
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {currentPageData.map((order, index) => (
-              <Table.Tr
-                key={index}
-                onClick={() => router.push(`/order/${order.unid}`)}
-                className="cursor-pointer"
-              >
-                {columns.map(({ key, render, label, align }) => (
-                  <Table.Td key={key ?? label} align={align ?? "left"}>
-                    {render
-                      ? render(order)
-                      : key
-                        ? getSortValue(order, key)
-                        : ""}
-                  </Table.Td>
+                    {columns.map(({ key, render, label, align }) => (
+                      <Table.Td key={key ?? label} align={align ?? "left"}>
+                        {render
+                          ? render(order)
+                          : key
+                            ? getSortValue(order, key)
+                            : ""}
+                      </Table.Td>
+                    ))}
+                  </Table.Tr>
                 ))}
-              </Table.Tr>
-            ))}
-          </Table.Tbody>
-        </Table>
-      </div>
+              </Table.Tbody>
+            </Table>
+          </div>
+        </>
+      ) : (
+        <p className="dimmed text-center p-4">{t(locale, "noOrders")}</p>
+      )}
     </div>
   );
 }
