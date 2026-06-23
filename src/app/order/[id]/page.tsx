@@ -8,6 +8,7 @@ import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
 import { parseOrderDate } from "@/app/lib/utils";
 import {
+  Avatar,
   Badge,
   Button,
   NumberFormatter,
@@ -188,15 +189,27 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           {t(locale, "newOrder")}
         </Button>
       </div>
-      <header className="flex flex-col py-4">
+      <header className="flex flex-col gap-1 py-4">
         <h1>
           {t(locale, "order")} {order.auftragsbestellnummerIntern || id}
         </h1>
-        <p className="text-sm">
-          {t(locale, "createdOn")} {parseOrderDate(order.auftragsDatum, locale)}{" "}
-          {t(locale, "by")} <b>{order.sachbearbeiter?.name}</b> (
-          {order.sachbearbeiter?.kuerzel})
-        </p>
+        <div className="flex flex-wrap items-center gap-1 text-sm">
+          <p className="text-sm">
+            {t(locale, "createdOn")}{" "}
+            {parseOrderDate(order.auftragsDatum, locale)} {t(locale, "by")}
+          </p>
+          <Avatar
+            size="sm"
+            color="yellow"
+            name={
+              (order.sachbearbeiter?.kuerzel || order.sachbearbeiter?.name) ??
+              ""
+            }
+          />
+          <p>
+            <b>{order.sachbearbeiter?.name}</b>
+          </p>
+        </div>
       </header>
 
       <div className="overflow-x-auto">

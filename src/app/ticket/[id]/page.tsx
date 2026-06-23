@@ -859,17 +859,23 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
         <header className="flex flex-col lg:flex-row justify-between gap-4">
-          <div>
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
               <h1>{id}</h1>
               <Badge size="lg" variant="light" color="blue">
                 {ticket.status_int.text} ({ticket.status_int.nr})
               </Badge>
             </div>
-            <p className="text-sm">
-              {t(locale, "createdOn")} {format(ticket.created, DATE_FORMAT)}{" "}
-              {t(locale, "by")} <b>{ticket.createdby}</b>
-            </p>
+            <div className="flex flex-wrap items-center gap-1 text-sm">
+              <p className="text-sm">
+                {t(locale, "createdOn")} {format(ticket.created, DATE_FORMAT)}{" "}
+                {t(locale, "by")}
+              </p>{" "}
+              <Avatar size="sm" color="yellow" name={ticket.createdby ?? ""} />
+              <p>
+                <b>{ticket.createdby}</b>
+              </p>
+            </div>
           </div>
           <Link
             href={`/person/${ticket.kdnr_full}`}

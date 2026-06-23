@@ -1,4 +1,5 @@
 import { NumberFormatter, Table } from "@mantine/core";
+import { IconCheck } from "@tabler/icons-react";
 import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { OrderPosition } from "../lib/interfaces";
@@ -104,15 +105,19 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
                   fixedDecimalScale
                 />
               </Table.Td>
-              <Table.Td className={pos.kostenlos ? "text-(--main)" : ""}>
-                {pos.kostenlos ? t(locale, "yes") : ""}
+              <Table.Td>
+                {pos.kostenlos ? (
+                  <IconCheck size={16} color="var(--main)" />
+                ) : (
+                  ""
+                )}
               </Table.Td>
               <Table.Td>{pos.posnr}</Table.Td>
               <Table.Td className="whitespace-normal! max-w-xs">
                 {pos.bemerkung}
               </Table.Td>
-              <Table.Td className={pos.aktiv ? "text-(--main)" : ""}>
-                {pos.aktiv ? t(locale, "yes") : ""}
+              <Table.Td>
+                {pos.aktiv ? <IconCheck size={16} color="var(--main)" /> : ""}
               </Table.Td>
             </Table.Tr>
           ))}
