@@ -15,6 +15,7 @@ import {
   SegmentedControl,
   Table,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import {
   IconBasketPlus,
   IconChevronLeft,
@@ -40,7 +41,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         method: "POST",
         body: JSON.stringify({ unid: id, source, user: session?.user }),
       });
-      if (response.ok) setOrder(await response.json());
+
+      if (!response.ok) {
+        notifications.show({
+          id: `error-${id}`,
+          title: `Error ${response.status}`,
+          message: (await response.text()) || "",
+          autoClose: false,
+        });
+        return;
+      }
+
+      setOrder(await response.json());
     } catch (error) {
       console.error("Error fetching orders:", error);
     } finally {
@@ -187,7 +199,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </p>
       </header>
 
-      <div className="overflow-x-auto rounded-(--mantine-radius-default)">
+      <div className="overflow-x-auto">
         <Table variant="vertical">
           <Table.Tbody>
             {headRows

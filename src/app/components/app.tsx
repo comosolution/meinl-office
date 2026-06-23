@@ -3,6 +3,7 @@ import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
 import { SessionProvider } from "next-auth/react";
 import { useOffice } from "../context/officeContext";
+import { NotificationCleaner } from "./notificationCleaner";
 import PageWrapper from "./pageWrapper";
 
 export default function App({ children }: { children: React.ReactNode }) {
@@ -12,6 +13,7 @@ export default function App({ children }: { children: React.ReactNode }) {
     <SessionProvider>
       <DatesProvider settings={{ locale: locale }}>
         <Notifications position="top-center" />
+        <NotificationCleaner />
         <PageWrapper>{children}</PageWrapper>
       </DatesProvider>
     </SessionProvider>
