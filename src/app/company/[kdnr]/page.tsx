@@ -2,6 +2,7 @@
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
+import OrderTable from "@/app/components/orderTable";
 import LogoPreview from "@/app/components/preview";
 import FileUploader from "@/app/components/upload";
 import { useOffice } from "@/app/context/officeContext";
@@ -29,6 +30,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import {
+  IconBasket,
   IconBasketPlus,
   IconBrandFacebook,
   IconBrandInstagram,
@@ -90,6 +92,10 @@ export default function Page({
     if (!company) return;
     updateHistory();
     form.setValues(getInitialValues(company));
+
+    const query = new URLSearchParams(window.location.search);
+    const tab = query.get("tab");
+    if (tab) setActiveTab(tab);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
 
@@ -276,6 +282,11 @@ export default function Page({
             >
               {t(locale, "employees")}
             </Tabs.Tab>
+            {source === "OFFUSA" && (
+              <Tabs.Tab value="orders" leftSection={<IconBasket size={16} />}>
+                {t(locale, "orders")}
+              </Tabs.Tab>
+            )}
             <Tabs.Tab value="notes" leftSection={<IconNote size={16} />}>
               {t(locale, "notes")}
             </Tabs.Tab>
@@ -635,6 +646,10 @@ export default function Page({
             <LogoPreview company={company} onDelete={() => getCompany()} />
             <FileUploader company={company} onSuccess={() => getCompany()} />
           </div>
+        </Tabs.Panel>
+
+        <Tabs.Panel value="orders" className="py-4">
+          <OrderTable kdnr={kdnr} />
         </Tabs.Panel>
 
         <DistributorTab company={company} />

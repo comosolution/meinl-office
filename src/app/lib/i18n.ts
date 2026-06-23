@@ -100,6 +100,7 @@ export type TranslationKey =
   | "isExperienceCenter"
   | "noDealers"
   | "noEmployees"
+  | "noOrders"
   | "noNotes"
   | "noFiles"
   | "noTracking"
@@ -401,6 +402,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     isExperienceCenter: "ist ein SE Experience Center",
     noDealers: "Keine Händler erfasst.",
     noEmployees: "Keine Mitarbeiter erfasst.",
+    noOrders: "Keine Aufträge erfasst.",
     noNotes: "Keine Notizen vorhanden",
     noFiles: "Keine Dateien vorhanden",
     noTracking: "Kein Tracking vorhanden",
@@ -706,6 +708,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     isExperienceCenter: "is a SE Experience Center",
     noDealers: "No dealers found.",
     noEmployees: "No employees found.",
+    noOrders: "No orders found.",
     noNotes: "No notes available",
     noFiles: "No files available",
     noTracking: "No tracking found",

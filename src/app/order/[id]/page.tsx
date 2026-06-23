@@ -104,6 +104,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     ? `${zaValue} (${order.zahlungsArt.AS400})`
     : zaValue;
 
+  const companyLink = `/company/${order.kdnr}?tab=orders`;
+
   const headRows: {
     label: string;
     value: React.ReactNode;
@@ -112,7 +114,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     {
       label: t(locale, "customerNumber"),
       value: (
-        <Link href={`/company/${order.kdnr}`} className="link">
+        <Link href={companyLink} className="link">
           {order.kdnr}
         </Link>
       ),
@@ -171,15 +173,26 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <main className="flex flex-col gap-4 p-4">
       <div className="flex flex-col md:flex-row justify-between gap-2">
-        <Button
-          color="gray"
-          variant="light"
-          leftSection={<IconChevronLeft size={16} />}
-          component={Link}
-          href="/order"
-        >
-          {t(locale, "allOrders")}
-        </Button>
+        <div className="flex flex-col md:flex-row gap-2">
+          <Button
+            color="gray"
+            variant="light"
+            leftSection={<IconChevronLeft size={16} />}
+            component={Link}
+            href="/order"
+          >
+            {t(locale, "allOrders")}
+          </Button>
+          <Button
+            variant="transparent"
+            color="gray"
+            component={Link}
+            href={companyLink}
+            leftSection={<IconChevronLeft size={16} />}
+          >
+            {order.company.name1}
+          </Button>
+        </div>
         <Button
           component="a"
           href={`${MEINL_AE_URL}?kdnr=${order.kdnr}`}

@@ -165,6 +165,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   if (!person) return <Loader />;
 
+  const companyLink = `/company/${person.kdnr}?tab=employees`;
+
   return (
     <>
       <main className="flex flex-col gap-4 p-4">
@@ -184,7 +186,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               variant="transparent"
               leftSection={<IconChevronLeft size={16} />}
               component={Link}
-              href={`/company/${person.kdnr}`}
+              href={companyLink}
             >
               {person.name1}
             </Button>
@@ -220,7 +222,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <div className="flex justify-between items-baseline gap-2">
               <p>
                 {person.jobpos || t(locale, "employee")} –{" "}
-                <Link href={`/company/${person.kdnr}`} className="link">
+                <Link href={companyLink} className="link">
                   <b>{person.name1}</b> ({person.kdnr})
                 </Link>
               </p>

@@ -10,7 +10,7 @@ export const MEINL_DEALERS_URL = isPreview
 export const MEINL_AE_URL = "https://apidev.meinl.de/aeblazorbeta";
 export const MEINL_AE_USA_URL = isPreview
   ? "https://apidev.meinl.de/us/aeblazorbetaus"
-  : "http://rc-order.meinlusa.com";
+  : "http://order.meinlusa.com";
 
 export const DHL_API_TOKEN = isPreview
   ? "https://api-sandbox.dhl.com/parcel/de/account/auth/ropc/v1/token"
