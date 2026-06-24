@@ -331,16 +331,16 @@ export default function Page({
           Object.entries(grouped).map(([marke, positions]) => (
             <Paper key={marke} p="md">
               <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-1">
-                  <Avatar size={36} color="yellow">
+                <div className="flex items-center gap-2">
+                  <Avatar size={36} color="yellow.4">
                     <Image
                       src={`/brands/${marke
                         ?.replaceAll(" ", "-")
                         .toUpperCase()}.png`}
-                      width={28}
-                      height={28}
+                      width={26}
+                      height={26}
                       alt={`${marke} Logo`}
-                      className="inverted object-contain"
+                      className="object-contain"
                     />
                   </Avatar>
                   <h2 className="text-(--mantine-color-yellow-6)">{marke}</h2>

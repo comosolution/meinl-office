@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { OrderHead } from "@/app/lib/interfaces";
-import { NumberFormatter, Select, Table } from "@mantine/core";
+import {
+  NumberFormatter,
+  SegmentedControl,
+  Select,
+  Table,
+} from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { IconCalendarWeek, IconChevronUp } from "@tabler/icons-react";
-
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -34,11 +38,9 @@ const getSortValue = (o: OrderHead, key: SortKey): string => {
 export default function OrderTable({
   search = "",
   kdnr,
-  target = "I",
 }: {
   search?: string;
   kdnr?: string;
-  target?: string;
 }) {
   const { data: session } = useSession();
   const { locale, source } = useOffice();
@@ -50,19 +52,31 @@ export default function OrderTable({
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortKey>("auftragsDatum");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [target, setTarget] = useState("I");
   const [filters, setFilters] = useState({
     kdnr: kdnr ?? "",
     name1: "",
     land: "",
     sachbearbeiterName: "",
-    dateRange: [null, null] as [Date | null, Date | null],
+    dateRange: [dayjs().subtract(13, "day").toDate(), new Date()] as [
+      Date | null,
+      Date | null,
+    ],
   });
 
   const fetchOrders = async () => {
+    const [dateFrom, dateTo] = filters.dateRange;
+    if (!dateFrom || !dateTo) return;
     try {
       const response = await fetch("/api/order", {
         method: "POST",
-        body: JSON.stringify({ source, user: session?.user?.email, target }),
+        body: JSON.stringify({
+          source,
+          user: session?.user?.email,
+          target,
+          dateFrom: dayjs(dateFrom).format("YYYY-MM-DD"),
+          dateTo: dayjs(dateTo).format("YYYY-MM-DD"),
+        }),
       });
       if (response.ok) {
         const data: OrderHead[] = await response.json();
@@ -83,7 +97,7 @@ export default function OrderTable({
 
   useEffect(() => {
     fetchOrders();
-  }, [target]);
+  }, [target, filters.dateRange]);
 
   const getOptions = (key: OrderKey) =>
     Array.from(new Set(orders.map((o) => o[key]).filter(Boolean)))
@@ -261,82 +275,92 @@ export default function OrderTable({
 
   return (
     <div className="flex flex-col gap-4">
-      {!kdnr && (
-        <div className="grid md:grid-cols-6 gap-2">
-          <Select
-            label={t(locale, "customerNumber")}
-            searchable
-            clearable
-            placeholder={t(locale, "filter")}
-            data={kdnrOptions}
-            value={filters.kdnr || null}
-            onChange={(value) =>
-              setFilters((prev) => ({ ...prev, kdnr: value || "" }))
-            }
-            checkIconPosition="right"
-          />
-          <Select
-            label={t(locale, "company")}
-            searchable
-            clearable
-            placeholder={t(locale, "filter")}
-            data={name1Options}
-            value={filters.name1 || null}
-            onChange={(value) =>
-              setFilters((prev) => ({ ...prev, name1: value || "" }))
-            }
-            checkIconPosition="right"
-          />
-          <Select
-            label={t(locale, "country")}
-            searchable
-            clearable
-            placeholder={t(locale, "filter")}
-            data={countryOptions}
-            value={filters.land || null}
-            onChange={(value) =>
-              setFilters((prev) => ({ ...prev, land: value || "" }))
-            }
-            checkIconPosition="right"
-          />
-
-          <Select
-            label={t(locale, "clerk")}
-            searchable
-            clearable
-            placeholder={t(locale, "filter")}
-            data={clerkOptions}
-            value={filters.sachbearbeiterName || null}
-            onChange={(value) =>
-              setFilters((prev) => ({
-                ...prev,
-                sachbearbeiterName: value || "",
-              }))
-            }
-            checkIconPosition="right"
-          />
-          <DatePickerInput
-            type="range"
-            allowSingleDateInRange
-            highlightToday
-            label={t(locale, "orderDate")}
-            placeholder={t(locale, "filter")}
-            value={filters.dateRange}
-            onChange={(value) =>
-              setFilters((prev) => ({
-                ...prev,
-                dateRange: value as [Date | null, Date | null],
-              }))
-            }
-            valueFormat={locale === "en" ? "MM/DD/YYYY" : "DD.MM.YYYY"}
-            presets={getDatePresets(locale)}
-            rightSection={<IconCalendarWeek size={16} />}
-            rightSectionPointerEvents="none"
-            clearable
-            className="md:col-span-2"
-          />
-        </div>
-      )}
+      <div className="grid md:grid-cols-4 items-end gap-2 md:gap-y-0">
+        <SegmentedControl
+          data={[
+            { label: t(locale, "internal"), value: "I" },
+            { label: "B2B", value: "B" },
+            { label: "EDI", value: "E" },
+          ]}
+          value={target}
+          onChange={setTarget}
+          className="md:col-span-2"
+        />
+        <DatePickerInput
+          type="range"
+          allowSingleDateInRange
+          highlightToday
+          label={t(locale, "orderDate")}
+          placeholder={t(locale, "filter")}
+          value={filters.dateRange}
+          onChange={(value) =>
+            setFilters((prev) => ({
+              ...prev,
+              dateRange: value as [Date | null, Date | null],
+            }))
+          }
+          valueFormat={locale === "en" ? "MM/DD/YYYY" : "DD.MM.YYYY"}
+          presets={getDatePresets(locale)}
+          rightSection={<IconCalendarWeek size={16} />}
+          rightSectionPointerEvents="none"
+          className="md:col-span-2"
+        />
+        {!kdnr && (
+          <>
+            <Select
+              label={t(locale, "customerNumber")}
+              searchable
+              clearable
+              placeholder={t(locale, "filter")}
+              data={kdnrOptions}
+              value={filters.kdnr || null}
+              onChange={(value) =>
+                setFilters((prev) => ({ ...prev, kdnr: value || "" }))
+              }
+              checkIconPosition="right"
+            />
+            <Select
+              label={t(locale, "company")}
+              searchable
+              clearable
+              placeholder={t(locale, "filter")}
+              data={name1Options}
+              value={filters.name1 || null}
+              onChange={(value) =>
+                setFilters((prev) => ({ ...prev, name1: value || "" }))
+              }
+              checkIconPosition="right"
+            />
+            <Select
+              label={t(locale, "country")}
+              searchable
+              clearable
+              placeholder={t(locale, "filter")}
+              data={countryOptions}
+              value={filters.land || null}
+              onChange={(value) =>
+                setFilters((prev) => ({ ...prev, land: value || "" }))
+              }
+              checkIconPosition="right"
+            />
+            <Select
+              label={t(locale, "clerk")}
+              searchable
+              clearable
+              placeholder={t(locale, "filter")}
+              data={clerkOptions}
+              value={filters.sachbearbeiterName || null}
+              onChange={(value) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  sachbearbeiterName: value || "",
+                }))
+              }
+              checkIconPosition="right"
+            />
+          </>
+        )}
+      </div>
 
       {sortedOrders && sortedOrders.length > 0 ? (
         <>
