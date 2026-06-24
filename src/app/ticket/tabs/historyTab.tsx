@@ -195,7 +195,12 @@ export default function HistoryTab({
               bulletSize={28}
               lineWidth={4}
             >
-              {ticket.history
+              {[...ticket.history]
+                .sort(
+                  (a, b) =>
+                    new Date(parseDb2Date(b.created)).getTime() -
+                    new Date(parseDb2Date(a.created)).getTime(),
+                )
                 .map((entry, index) => (
                   <Timeline.Item
                     key={index}
@@ -269,8 +274,7 @@ export default function HistoryTab({
                       </div>
                     </Paper>
                   </Timeline.Item>
-                ))
-                .reverse()}
+                ))}
             </Timeline>
           ) : (
             <p className="text-center text-xs dimmed py-4">

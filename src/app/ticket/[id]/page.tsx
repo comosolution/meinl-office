@@ -6,17 +6,14 @@ import { useOffice } from "@/app/context/officeContext";
 import { DATE_FORMAT } from "@/app/lib/config";
 import {
   countryCodes,
-  getReceiverIdForCountry,
   normalizeAlpha2CountryCode,
-  normalizeAlpha3CountryCode,
 } from "@/app/lib/countryCodes";
 import { useFetchPerson } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
 import { trackTicket } from "@/app/lib/recentTickets";
-import { sendResendMail } from "@/app/lib/resend";
 import { states } from "@/app/lib/rma";
-import { isPreview, parseDb2Date } from "@/app/lib/utils";
+import { parseDb2Date } from "@/app/lib/utils";
 import FilesTab from "@/app/ticket/tabs/filesTab";
 import HistoryTab from "@/app/ticket/tabs/historyTab";
 import {
@@ -24,7 +21,6 @@ import {
   Avatar,
   Badge,
   Button,
-  Drawer,
   Fieldset,
   Menu,
   Modal,
@@ -34,12 +30,10 @@ import {
   Textarea,
   TextInput,
 } from "@mantine/core";
-import { DatePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import {
-  IconCalendarCheck,
   IconCheck,
   IconChevronLeft,
   IconChevronRight,
@@ -52,7 +46,6 @@ import {
   IconTruckReturn,
 } from "@tabler/icons-react";
 import { format } from "date-fns";
-import dayjs from "dayjs";
 import JsBarcode from "jsbarcode";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -60,6 +53,9 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import QRCode from "qrcode";
 import React, { useEffect, useState } from "react";
+import { CloseTicketModal } from "../components/CloseTicketModal";
+import { DhlReturnDrawer } from "../components/DhlReturnDrawer";
+import { GlsReturnDrawer } from "../components/GlsReturnDrawer";
 import TrackingTab from "../tabs/trackingTab";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -75,11 +71,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [newState, setNewState] = useState<string | null>(null);
   const [isMeiArtnr, setIsMeiArtnr] = useState(false);
   const [newArtnr, setNewArtnr] = useState("");
-  const [pickupDateGls, setPickupDateGls] = useState<string | null>(null);
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const [reason, setReason] = useState("");
 
   const [openedDhl, { open: openDhl, close: closeDhl }] = useDisclosure(false);
   const [openedGls, { open: openGls, close: closeGls }] = useDisclosure(false);
@@ -190,7 +182,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     setOwner(person ?? null);
     setEmail(person?.email ?? "");
-    setPhone(person?.phone ?? "");
   };
 
   const handleSubmit = form.onSubmit(async (values) => {
@@ -311,275 +302,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
   };
 
-  const handleCreateDhlReturn = async () => {
-    if (!ticket) return;
-
-    const address = getReturnAddress();
-    const { name, street, zip, city, country } = address;
-
-    if (!street || !zip || !city || !country || !name) {
-      notifications.show({
-        title: "Fehlende Versandadresse",
-        message: "Die Versandadresse des Tickets ist unvollständig.",
-      });
-      return;
-    }
-
-    const addressParts = street.trim().split(/\s+(?=\S*$)/);
-    const addressStreet = addressParts[0] || street;
-    const addressHouse = addressParts[1] || "1";
-
-    const body = {
-      receiverId: isPreview
-        ? normalizeAlpha3CountryCode(country)?.toLowerCase() || "deu"
-        : getReceiverIdForCountry(country) || "RetourenLager01",
-      shipper: {
-        name1: name,
-        addressStreet: addressStreet,
-        addressHouse: addressHouse,
-        postalCode: zip,
-        city: city,
-      },
-      customerReference: id,
-    };
-
-    const shipmentNumbers: string[] = [];
-
-    for (let i = 0; i < quantity; i++) {
-      try {
-        const response = await fetch("/api/return/dhl", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-
-        if (!response.ok) {
-          console.error("Failed to create DHL return label");
-          continue;
-        }
-
-        const data = await response.json();
-        const pdfData = data.pdf;
-        const shipmentNo = data.shipmentNo;
-
-        const uploadBody = {
-          ticketNr: id,
-          status: ticket.status_int.nr,
-          versender: "DHL",
-          kdnr: ticket.kdnr,
-          source: "OF",
-          createdBy: session?.user?.name || ticket.createdby,
-          sendungsNr: shipmentNo,
-          labelBase64: pdfData,
-        };
-
-        const uploadRes = await fetch("/api/return", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(uploadBody),
-        });
-
-        if (uploadRes.ok) {
-          shipmentNumbers.push(shipmentNo);
-
-          await sendResendMail({
-            receiver: email,
-            subject: `Meinl RMA ${id} - DHL Rücksendung`,
-            content: `Ihre DHL Rücksendung wurde erfolgreich erstellt.\n\nSendungsnummer: ${shipmentNo}\n\nBitte beachten Sie das angehängte Rückgabeetikett.`,
-            attachment: {
-              filename: `DHL-Retoure-${shipmentNo}.pdf`,
-              type: "application/pdf",
-              data: pdfData,
-            },
-          });
-        } else {
-          console.error(
-            "Failed to upload return label:",
-            await uploadRes.text(),
-          );
-        }
-      } catch (error) {
-        console.error("Error creating DHL return label:", error);
-      }
-    }
-
-    if (shipmentNumbers.length > 0) {
-      notifications.show({
-        title: "Retoure erstellt",
-        message:
-          shipmentNumbers.length === 1
-            ? `Die DHL Retoure mit Sendungsnummer ${shipmentNumbers[0]} wurde erfolgreich erstellt.`
-            : `${shipmentNumbers.length} DHL Retouren erstellt: ${shipmentNumbers.join(", ")}`,
-        autoClose: 3000,
-        color: "dark",
-      });
-
-      updateTicketStatus("110", "810");
-    }
-  };
-
-  const handleCreateGlsReturn = async () => {
-    if (!ticket) return;
-
-    const address = getReturnAddress();
-    const { name, street, zip, city, country } = address;
-
-    if (!street || !zip || !city || !name) {
-      notifications.show({
-        title: "Fehlende Versandadresse",
-        message: "Die Versandadresse des Tickets ist unvollständig.",
-      });
-      return;
-    }
-
-    const body = {
-      ShipmentReference: [`${id}`],
-      PickupDate: dayjs(pickupDateGls).format("YYYY-MM-DD"),
-      Address: {
-        Name1: name,
-        CountryCode: normalizeAlpha2CountryCode(country) || "DE",
-        ZIPCode: zip,
-        City: city,
-        Street: street,
-        ContactPerson: ticket.kdnr_name,
-        eMail: email,
-        FixedLinePhonenumber: phone,
-      },
-      Quantity: quantity,
-    };
-
-    try {
-      const response = await fetch("/api/return/gls", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const shipmentNo = data.CreatedShipment.ParcelData[0].ParcelNumber;
-
-        const uploadBody = {
-          ticketNr: id,
-          status: ticket.status_int.nr,
-          versender: "GLS",
-          kdnr: ticket.kdnr,
-          source: "OF",
-          createdBy: session?.user?.name || ticket.createdby,
-          sendungsNr: shipmentNo,
-          labelBase64: null,
-        };
-
-        const uploadRes = await fetch("/api/return", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(uploadBody),
-        });
-
-        if (uploadRes.ok) {
-          const pickupDateFormatted = dayjs(pickupDateGls).format("DD.MM.YYYY");
-
-          notifications.show({
-            title: "Retoure erstellt",
-            message: `GLS Pickup ${shipmentNo} am ${pickupDateFormatted} wurde erfolgreich beantragt.`,
-            autoClose: 3000,
-            color: "dark",
-          });
-
-          const payload = {
-            ticketnr: id,
-            createdby: session?.user?.name || ticket.createdby,
-            comment: `Der GLS-Pickup-Termin für Ihre Rücksendung ist am ${pickupDateFormatted} (${shipmentNo})`,
-            source: "OF",
-            tracknr: shipmentNo,
-            public: 1,
-          };
-
-          await fetch("/api/history", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
-
-          await sendResendMail({
-            receiver: email,
-            subject: `Meinl RMA ${id} - GLS Pickup`,
-            content: `Ihre GLS Abholung wurde erfolgreich angemeldet.\n\nSendungsnummer: ${shipmentNo}\nAbholdatum: ${pickupDateFormatted}\n\nBitte halten Sie das Paket zum vereinbarten Datum bereit.`,
-          });
-
-          updateTicketStatus("110", "810");
-        } else {
-          console.error(
-            "Failed to upload return label:",
-            await uploadRes.text(),
-          );
-        }
-      } else {
-        console.error("Failed to create GLS return:", await response.text());
-      }
-    } catch (error) {
-      console.error("Error creating GLS return:", error);
-    }
-  };
-
-  const getReturnAddress = () => {
-    const ticketAddress = {
-      name: ticket?.versandadresse?.vaname ?? "",
-      street: ticket?.versandadresse?.vastrasse ?? "",
-      zip: ticket?.versandadresse?.vaplz ?? "",
-      city: ticket?.versandadresse?.vaort ?? "",
-      country: ticket?.versandadresse?.valand ?? "",
-    };
-
-    if (!owner) return ticketAddress;
-
-    const ownerAddress = {
-      name: owner.name1 ?? `${owner.vorname ?? ""} ${owner.nachname ?? ""}`,
-      street: owner.strasse ?? owner.street ?? "",
-      zip: owner.plz ?? owner.zip ?? owner.postalCode ?? "",
-      city: owner.ort ?? owner.city ?? "",
-      country: owner.land ?? owner.country ?? "",
-    };
-
-    const hasTicketAddress =
-      !!ticketAddress.name ||
-      !!ticketAddress.street ||
-      !!ticketAddress.zip ||
-      !!ticketAddress.city;
-    return hasTicketAddress ? ticketAddress : ownerAddress;
-  };
-
-  const ReturnAddress = () => {
-    const address = getReturnAddress();
-
-    return (
-      <>
-        {address.name ? (
-          <>
-            {address.name}
-            <br />
-          </>
-        ) : null}
-        {address.street ? (
-          <>
-            {address.street}
-            <br />
-          </>
-        ) : null}
-        {address.zip || address.city || address.country ? (
-          <>
-            {address.zip} {address.city}
-            {address.country
-              ? `, ${normalizeAlpha2CountryCode(address.country)}`
-              : ""}
-          </>
-        ) : null}
-      </>
-    );
-  };
-
   const handleGenerateLaufzettel = async () => {
     if (!ticket) return;
 
@@ -679,34 +401,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     doc.addImage(qrDataURL, "PNG", 130, finalY + 20, 50, 50);
 
     doc.save(`Laufzettel_${id}.pdf`);
-  };
-
-  const handleCloseTicket = async () => {
-    const selectedState = states.find((s) => s.int === "790");
-    if (!selectedState) return;
-
-    const payload = {
-      ticketnr: id,
-      createdby: session?.user?.name || ticket?.createdby,
-      comment: `Manuell beendet: ${reason}`,
-      source: "OF",
-      public: 1,
-      prio: 1,
-    };
-
-    await fetch("/api/history", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    await updateTicketStatus(
-      selectedState.int,
-      selectedState.ext,
-      selectedState.art,
-    );
-    setReason("");
-    closeReason();
   };
 
   useEffect(() => {
@@ -1124,130 +818,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
       </main>
-      <Drawer
-        size="xs"
-        position="right"
+      <DhlReturnDrawer
         opened={openedDhl}
-        onClose={() => {
-          closeDhl();
-          setQuantity(1);
-        }}
-        withCloseButton={false}
-        overlayProps={{ blur: 4 }}
-      >
-        <div className="flex flex-col gap-2">
-          <h2>{t(locale, "createReturn")}</h2>
-          <Paper p="md" shadow="xl" bg="var(--background)">
-            <ReturnAddress />
-          </Paper>
-          <TextInput
-            label={t(locale, "email")}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <NumberInput
-            label={t(locale, "quantity")}
-            value={quantity}
-            onChange={(v) => setQuantity(Number(v) || 1)}
-            min={1}
-            max={10}
-          />
-          <div className="flex justify-between gap-2">
-            <Button
-              color="dark"
-              variant="transparent"
-              onClick={() => {
-                closeDhl();
-                setQuantity(1);
-              }}
-            >
-              {t(locale, "cancel")}
-            </Button>
-            <Button
-              onClick={() => {
-                closeDhl();
-                handleCreateDhlReturn();
-              }}
-              leftSection={<IconCheck size={16} />}
-              disabled={!email || quantity < 1 || quantity > 10}
-            >
-              {t(locale, "createReturn")}
-            </Button>
-          </div>
-        </div>
-      </Drawer>
-      <Drawer
-        size="xs"
-        position="right"
+        onClose={closeDhl}
+        ticket={ticket}
+        id={id}
+        owner={owner}
+        onSuccess={() => updateTicketStatus("110", "810")}
+      />
+      <GlsReturnDrawer
         opened={openedGls}
         onClose={closeGls}
-        withCloseButton={false}
-        overlayProps={{ blur: 4 }}
-      >
-        <div className="flex flex-col gap-2">
-          <h2>{t(locale, "selectPickupDate")}</h2>
-          <DatePicker
-            locale={locale}
-            value={pickupDateGls}
-            onChange={setPickupDateGls}
-            minDate={dayjs().add(1, "day").toDate()}
-            excludeDate={(date) =>
-              new Date(date).getDay() === 6 || new Date(date).getDay() === 0
-            }
-            className="place-self-center"
-          />
-          <Paper p="md" shadow="xl" bg="var(--background)">
-            <ReturnAddress />
-          </Paper>
-          <TextInput
-            label={t(locale, "email")}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextInput
-            label={t(locale, "phone")}
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <NumberInput
-            label={t(locale, "quantity")}
-            value={quantity}
-            onChange={(v) => setQuantity(Number(v) || 1)}
-            min={1}
-            max={10}
-          />
-          <div className="flex justify-between gap-2">
-            <Button
-              color="dark"
-              variant="transparent"
-              onClick={() => {
-                closeGls();
-                setQuantity(1);
-              }}
-            >
-              {t(locale, "cancel")}
-            </Button>
-            <Button
-              onClick={() => {
-                if (pickupDateGls) {
-                  closeGls();
-                  handleCreateGlsReturn();
-                }
-              }}
-              leftSection={<IconCalendarCheck size={16} />}
-              disabled={
-                !pickupDateGls ||
-                !email ||
-                !phone ||
-                quantity < 1 ||
-                quantity > 10
-              }
-            >
-              {t(locale, "confirmPickup")}
-            </Button>
-          </div>
-        </div>
-      </Drawer>
+        ticket={ticket}
+        id={id}
+        owner={owner}
+        onSuccess={() => updateTicketStatus("110", "810")}
+      />
       <Modal
         opened={openedArtnr}
         onClose={() => {
@@ -1288,46 +874,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
       </Modal>
-      <Modal
+      <CloseTicketModal
         opened={openedReason}
         onClose={() => {
           setNewState(null);
-          setReason("");
           closeReason();
         }}
-        withCloseButton={false}
-        overlayProps={{ blur: 4 }}
-      >
-        <div className="flex flex-col gap-4">
-          <h2>{t(locale, "closeTicket")}</h2>
-          <TextInput
-            label={t(locale, "reason")}
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-            autoFocus
-          />
-          <div className="flex justify-between gap-2">
-            <Button
-              color="dark"
-              variant="transparent"
-              onClick={() => {
-                setNewState(null);
-                setReason("");
-                closeReason();
-              }}
-            >
-              {t(locale, "cancel")}
-            </Button>
-            <Button
-              onClick={handleCloseTicket}
-              leftSection={<IconCheck size={16} />}
-              disabled={!reason.trim()}
-            >
-              {t(locale, "closeTicket")}
-            </Button>
-          </div>
-        </div>
-      </Modal>
+        ticket={ticket}
+        id={id}
+        onSuccess={updateTicketStatus}
+      />
     </>
   );
 }
