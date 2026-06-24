@@ -65,7 +65,7 @@ export default function Page() {
               body: JSON.stringify({
                 ...values,
                 source,
-                user: session?.user?.name,
+                user: session?.user?.email,
               }),
             });
             if (response.ok) {

@@ -120,7 +120,7 @@ export default function NewPersonPage() {
                   ? values.b2bpwd
                   : null,
               source,
-              user: session?.user?.name,
+              user: session?.user?.email,
             };
 
             try {

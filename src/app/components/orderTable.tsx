@@ -34,9 +34,11 @@ const getSortValue = (o: OrderHead, key: SortKey): string => {
 export default function OrderTable({
   search = "",
   kdnr,
+  target = "I",
 }: {
   search?: string;
   kdnr?: string;
+  target?: string;
 }) {
   const { data: session } = useSession();
   const { locale, source } = useOffice();
@@ -60,7 +62,7 @@ export default function OrderTable({
     try {
       const response = await fetch("/api/order", {
         method: "POST",
-        body: JSON.stringify({ source, user: session?.user }),
+        body: JSON.stringify({ source, user: session?.user?.email, target }),
       });
       if (response.ok) {
         const data: OrderHead[] = await response.json();
@@ -81,7 +83,7 @@ export default function OrderTable({
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [target]);
 
   const getOptions = (key: OrderKey) =>
     Array.from(new Set(orders.map((o) => o[key]).filter(Boolean)))
@@ -379,7 +381,9 @@ export default function OrderTable({
                 {currentPageData.map((order, index) => (
                   <Table.Tr
                     key={index}
-                    onClick={() => router.push(`/order/${order.unid}`)}
+                    onClick={() =>
+                      router.push(`/order/${target}/${order.unid}`)
+                    }
                     className="cursor-pointer"
                   >
                     {columns.map(({ key, render, label, align }) => (

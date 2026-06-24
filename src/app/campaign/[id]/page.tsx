@@ -1,8 +1,8 @@
 "use client";
 import DealerSelect from "@/app/components/dealerSelect";
-import SourceRequired from "@/app/components/sourceRequired";
 import Loader from "@/app/components/loader";
 import { ProductSelect } from "@/app/components/productSelect";
+import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_DEALERS_URL } from "@/app/lib/config";
 import { brands } from "@/app/lib/data";
@@ -103,7 +103,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const handleDelete = async () => {
     const response = await fetch(`/api/campaign/${source}/${id}`, {
       method: "DELETE",
-      body: JSON.stringify({ user: session?.user?.name }),
+      body: JSON.stringify({ user: session?.user?.email }),
     });
     if (response.ok) {
       router.push("/campaign");
@@ -189,7 +189,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             products:
               values.products?.map((p: CampaignProduct) => p.artnr) || [],
             source,
-            user: session?.user?.name,
+            user: session?.user?.email,
           };
 
           const response = await fetch("/api/campaign/save", {

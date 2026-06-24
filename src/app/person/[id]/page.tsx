@@ -261,7 +261,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     ? b2bPassword.trim()
                     : null,
                 source,
-                user: session?.user?.name,
+                user: session?.user?.email,
               };
 
               const response = await fetch("/api/person/save", {

@@ -24,11 +24,16 @@ import {
   IconList,
 } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-export default function Page({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = React.use(params);
+export default function Page({
+  params,
+}: {
+  params: Promise<{ target: string; id: string }>;
+}) {
+  const { target, id } = React.use(params);
   const { data: session } = useSession();
   const { locale, source } = useOffice();
 
@@ -40,7 +45,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     try {
       const response = await fetch("/api/order/details", {
         method: "POST",
-        body: JSON.stringify({ unid: id, source, user: session?.user }),
+        body: JSON.stringify({
+          unid: id,
+          target,
+          source,
+          user: session?.user?.email,
+        }),
       });
 
       if (!response.ok) {
@@ -320,8 +330,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           grouped &&
           Object.entries(grouped).map(([marke, positions]) => (
             <Paper key={marke} p="md">
-              <div className="flex flex-col gap-4">
-                <h2 className="text-(--mantine-color-yellow-5)">{marke}</h2>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-1">
+                  <Avatar size={36} color="yellow">
+                    <Image
+                      src={`/brands/${marke
+                        ?.replaceAll(" ", "-")
+                        .toUpperCase()}.png`}
+                      width={28}
+                      height={28}
+                      alt={`${marke} Logo`}
+                      className="inverted object-contain"
+                    />
+                  </Avatar>
+                  <h2 className="text-(--mantine-color-yellow-6)">{marke}</h2>
+                </div>
                 <PositionsTable positions={positions} />
               </div>
             </Paper>
