@@ -36,10 +36,10 @@ import {
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { DATE_FORMAT, DHL_TRACKING_URL } from "../../lib/config";
-import { handleDownload, parseDb2Date } from "../../lib/utils";
+import { DATE_FORMAT, DHL_TRACKING_URL } from "../../../lib/config";
+import { handleDownload, parseDb2Date } from "../../../lib/utils";
 
-export default function HistoryTab({
+export default function TicketHistory({
   ticket,
   email,
   onCommentAdded,

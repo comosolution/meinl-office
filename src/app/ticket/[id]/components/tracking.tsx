@@ -11,7 +11,7 @@ import {
   IconExternalLink,
 } from "@tabler/icons-react";
 
-export default function TrackingTab({ ticket }: { ticket: Ticket }) {
+export default function Tracking({ ticket }: { ticket: Ticket }) {
   const { locale } = useOffice();
 
   return (

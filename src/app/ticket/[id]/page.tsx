@@ -1,6 +1,5 @@
 "use client";
 import Loader from "@/app/components/loader";
-import { ProductSelect } from "@/app/components/productSelect";
 import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
 import { DATE_FORMAT } from "@/app/lib/config";
@@ -14,8 +13,8 @@ import { Person, Ticket } from "@/app/lib/interfaces";
 import { trackTicket } from "@/app/lib/recentTickets";
 import { states } from "@/app/lib/rma";
 import { parseDb2Date } from "@/app/lib/utils";
-import FilesTab from "@/app/ticket/tabs/filesTab";
-import HistoryTab from "@/app/ticket/tabs/historyTab";
+import FilesUpload from "@/app/ticket/[id]/components/filesUpload";
+import TicketHistory from "@/app/ticket/[id]/components/ticketHistory";
 import {
   ActionIcon,
   Avatar,
@@ -23,7 +22,6 @@ import {
   Button,
   Fieldset,
   Menu,
-  Modal,
   NumberInput,
   Paper,
   Select,
@@ -34,7 +32,6 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import {
-  IconCheck,
   IconChevronLeft,
   IconChevronRight,
   IconDeviceFloppy,
@@ -53,10 +50,11 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import QRCode from "qrcode";
 import React, { useEffect, useState } from "react";
-import { CloseTicketModal } from "../components/CloseTicketModal";
-import { DhlReturnDrawer } from "../components/DhlReturnDrawer";
-import { GlsReturnDrawer } from "../components/GlsReturnDrawer";
-import TrackingTab from "../tabs/trackingTab";
+import { CloseTicketModal } from "./components/closeTicketModal";
+import { DhlReturnDrawer } from "./components/dhlReturnDrawer";
+import { GlsReturnDrawer } from "./components/glsReturnDrawer";
+import { SetArtnrModal } from "./components/setArtnrModal";
+import Tracking from "./components/tracking";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -70,7 +68,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [editing, setEditing] = useState(false);
   const [newState, setNewState] = useState<string | null>(null);
   const [isMeiArtnr, setIsMeiArtnr] = useState(false);
-  const [newArtnr, setNewArtnr] = useState("");
   const [email, setEmail] = useState("");
 
   const [openedDhl, { open: openDhl, close: closeDhl }] = useDisclosure(false);
@@ -793,7 +790,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </form>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 -mt-4">
           <Paper p="md">
-            <HistoryTab
+            <TicketHistory
               ticket={ticket}
               email={email}
               onCommentAdded={async () => {
@@ -803,7 +800,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Paper>
           <div className="flex flex-col gap-4">
             <Paper p="md">
-              <FilesTab
+              <FilesUpload
                 ticketnr={id}
                 createdby={session?.user?.name || ""}
                 files={ticket.files || []}
@@ -813,7 +810,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               />
             </Paper>
             <Paper p="md">
-              <TrackingTab ticket={ticket} />
+              <Tracking ticket={ticket} />
             </Paper>
           </div>
         </div>
@@ -834,46 +831,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         owner={owner}
         onSuccess={() => updateTicketStatus("110", "810")}
       />
-      <Modal
+      <SetArtnrModal
         opened={openedArtnr}
-        onClose={() => {
-          setNewArtnr("");
-          closeArtnr();
-        }}
-        withCloseButton={false}
-        overlayProps={{ blur: 4 }}
-      >
-        <div className="flex flex-col gap-4">
-          <h2>{t(locale, "setArticleNumber")}</h2>
-          <ProductSelect
-            label={t(locale, "articleNumberMei")}
-            value={newArtnr}
-            onChange={(value) => setNewArtnr(value || "")}
-          />
-          <div className="flex justify-between gap-2">
-            <Button
-              color="dark"
-              variant="transparent"
-              onClick={() => {
-                setNewArtnr("");
-                closeArtnr();
-              }}
-            >
-              {t(locale, "cancel")}
-            </Button>
-            <Button
-              onClick={() => {
-                form.setFieldValue("artnr_mei", newArtnr);
-                closeArtnr();
-              }}
-              leftSection={<IconCheck size={16} />}
-              disabled={!newArtnr.trim()}
-            >
-              {t(locale, "setArticleNumber")}
-            </Button>
-          </div>
-        </div>
-      </Modal>
+        onClose={closeArtnr}
+        onConfirm={(artnr) => form.setFieldValue("artnr_mei", artnr)}
+      />
       <CloseTicketModal
         opened={openedReason}
         onClose={() => {

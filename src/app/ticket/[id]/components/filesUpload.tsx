@@ -7,11 +7,11 @@ import { useForm } from "@mantine/form";
 import { IconDownload, IconUpload } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
-import { DATE_FORMAT } from "../../lib/config";
-import { Attachment } from "../../lib/interfaces";
-import { fileToBase64, parseDb2Date } from "../../lib/utils";
+import { DATE_FORMAT } from "../../../lib/config";
+import { Attachment } from "../../../lib/interfaces";
+import { fileToBase64, parseDb2Date } from "../../../lib/utils";
 
-export default function FilesTab({
+export default function FilesUpload({
   ticketnr,
   createdby,
   files = [],
