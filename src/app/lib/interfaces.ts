@@ -246,6 +246,13 @@ export interface OrderHead {
     kuerzel: string;
     name: string;
   };
+  besteller?: {
+    name: string;
+    email: string;
+    telefon: string;
+  };
+  komplettVersand?: boolean;
+  eilt?: boolean;
 }
 
 export interface Order extends OrderHead {
@@ -268,13 +275,6 @@ export interface Order extends OrderHead {
     AS400: string;
     order: string;
   };
-  besteller?: {
-    name: string;
-    email: string;
-    telefon: string;
-  };
-  komplettVersand?: boolean;
-  eilt?: boolean;
 }
 
 export interface OrderAddress {

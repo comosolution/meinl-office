@@ -26,12 +26,14 @@ type SortKey =
   | OrderKey
   | "company.name1"
   | "company.land"
-  | "sachbearbeiter.name";
+  | "sachbearbeiter.name"
+  | "besteller.name";
 
 const getSortValue = (o: OrderHead, key: SortKey): string => {
   if (key === "company.name1") return o.company?.name1 ?? "";
   if (key === "company.land") return o.company?.land ?? "";
   if (key === "sachbearbeiter.name") return o.sachbearbeiter?.name ?? "";
+  if (key === "besteller.name") return o.besteller?.name ?? "";
   return String(o[key] ?? "");
 };
 
@@ -52,7 +54,7 @@ export default function OrderTable({
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortKey>("auftragsDatum");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
-  const [target, setTarget] = useState("I");
+  const [target, setTarget] = useState<"I" | "B" | "E">("I");
   const [filters, setFilters] = useState({
     kdnr: kdnr ?? "",
     name1: "",
@@ -65,8 +67,10 @@ export default function OrderTable({
   });
 
   const fetchOrders = async () => {
+    setLoading(true);
     const [dateFrom, dateTo] = filters.dateRange;
     if (!dateFrom || !dateTo) return;
+
     try {
       const response = await fetch("/api/order", {
         method: "POST",
@@ -105,14 +109,23 @@ export default function OrderTable({
       .map((v) => ({ label: String(v), value: String(v) }));
 
   const kdnrOptions = useMemo(() => getOptions("kdnr"), [orders]);
+  const clerkSortKey: SortKey =
+    target === "B" ? "besteller.name" : "sachbearbeiter.name";
+
   const clerkOptions = useMemo(
     () =>
       Array.from(
-        new Set(orders.map((o) => o.sachbearbeiter?.name).filter(Boolean)),
+        new Set(
+          orders
+            .map((o) =>
+              target === "B" ? o.besteller?.name : o.sachbearbeiter?.name,
+            )
+            .filter(Boolean),
+        ),
       )
         .sort((a, b) => a!.localeCompare(b!))
         .map((v) => ({ label: v!, value: v! })),
-    [orders],
+    [orders, target],
   );
   const name1Options = useMemo(
     () =>
@@ -169,7 +182,7 @@ export default function OrderTable({
           ? o.company?.land === filters.land
           : true;
         const matchesClerk = filters.sachbearbeiterName
-          ? o.sachbearbeiter?.name === filters.sachbearbeiterName
+          ? getSortValue(o, clerkSortKey) === filters.sachbearbeiterName
           : true;
         const matchesDateRange = (() => {
           const [start, end] = filters.dateRange;
@@ -239,8 +252,8 @@ export default function OrderTable({
     },
     {
       label: t(locale, "clerk"),
-      key: "sachbearbeiter.name",
-      render: (o) => o.sachbearbeiter?.name ?? "",
+      key: clerkSortKey,
+      render: (o) => getSortValue(o, clerkSortKey),
     },
     {
       label: t(locale, "orderNumberCustomer"),
