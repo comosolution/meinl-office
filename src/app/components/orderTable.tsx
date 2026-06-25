@@ -226,7 +226,7 @@ export default function OrderTable({
   }[] = [
     { label: t(locale, "kdnr"), key: "kdnr" },
     {
-      label: t(locale, "company"),
+      label: t(locale, "customer"),
       key: "company.name1",
       render: (o) => o.company?.name1 ?? "",
     },
@@ -320,7 +320,7 @@ export default function OrderTable({
               checkIconPosition="right"
             />
             <Select
-              label={t(locale, "company")}
+              label={t(locale, "customer")}
               searchable
               clearable
               placeholder={t(locale, "filter")}

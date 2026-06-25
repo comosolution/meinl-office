@@ -242,7 +242,7 @@ export interface OrderHead {
   beschaffungsart: string;
   company: OrderCompany;
   auftragsWert: number;
-  sachbearbeiter: {
+  sachbearbeiter?: {
     kuerzel: string;
     name: string;
   };
@@ -268,6 +268,13 @@ export interface Order extends OrderHead {
     AS400: string;
     order: string;
   };
+  besteller?: {
+    name: string;
+    email: string;
+    telefon: string;
+  };
+  komplettVersand?: boolean;
+  eilt?: boolean;
 }
 
 export interface OrderAddress {

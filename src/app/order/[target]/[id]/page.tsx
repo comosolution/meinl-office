@@ -1,4 +1,5 @@
 "use client";
+import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import { PositionsTable } from "@/app/components/positionTable";
 import SourceRequired from "@/app/components/sourceRequired";
@@ -19,6 +20,7 @@ import {
 import { notifications } from "@mantine/notifications";
 import {
   IconBasketPlus,
+  IconCheck,
   IconChevronLeft,
   IconLayoutList,
   IconList,
@@ -31,7 +33,7 @@ import React, { useEffect, useState } from "react";
 export default function Page({
   params,
 }: {
-  params: Promise<{ target: string; id: string }>;
+  params: Promise<{ target: "I" | "B" | "E"; id: string }>;
 }) {
   const { target, id } = React.use(params);
   const { data: session } = useSession();
@@ -129,24 +131,21 @@ export default function Page({
         </Link>
       ),
     },
-    { label: t(locale, "company"), value: order.company?.name1 ?? "–" },
+    {
+      label: t(locale, "customer"),
+      value: `${order.company?.name1 ?? ""} ${order.company?.name2 ?? ""}`,
+    },
     {
       label: t(locale, "orderDate"),
       value: parseOrderDate(order.auftragsDatum, locale),
     },
     {
-      label: t(locale, "orderValue"),
-      value: (
-        <NumberFormatter
-          value={order.auftragsWert}
-          thousandSeparator
-          decimalScale={2}
-          fixedDecimalScale
-          prefix={`${order.company?.wkz ?? "USD"} `}
-        />
-      ),
+      label: t(locale, "deliveryDate"),
+      value: parseOrderDate(order.lieferdatumAuftrag, locale),
+      highlight: order.lieferdatumAuftrag !== order.auftragsDatum,
     },
-    { label: t(locale, "orderType"), value: order.beschaffungsart },
+    { label: t(locale, "orderType"), value: order.auftragsart },
+    { label: t(locale, "through"), value: order.beschaffungsart },
     {
       label: t(locale, "orderNumberInternal"),
       value: order.auftragsbestellnummerIntern,
@@ -178,6 +177,18 @@ export default function Page({
       highlight: zkDiffers,
     },
     { label: t(locale, "paymentType"), value: zaDisplay, highlight: zaDiffers },
+    {
+      label: t(locale, "completeDelivery"),
+      value: order.komplettVersand ? (
+        <IconCheck size={16} color="var(--main)" />
+      ) : (
+        "–"
+      ),
+    },
+    {
+      label: t(locale, "urgent"),
+      value: order.eilt ? <IconCheck size={16} color="var(--main)" /> : "–",
+    },
   ];
 
   return (
@@ -203,35 +214,71 @@ export default function Page({
             {order.company.name1}
           </Button>
         </div>
-        <Button
-          component="a"
-          href={`${MEINL_AE_URL}?kdnr=${order.kdnr}`}
-          target="_blank"
-          leftSection={<IconBasketPlus size={16} />}
-        >
-          {t(locale, "newOrder")}
-        </Button>
+        <div className="flex flex-col md:flex-row gap-2">
+          {target === "B" && (
+            <Contact
+              email={order.besteller?.email}
+              phone={order.besteller?.telefon}
+            />
+          )}
+          <Button
+            component="a"
+            href={`${MEINL_AE_URL}?kdnr=${order.kdnr}`}
+            target="_blank"
+            leftSection={<IconBasketPlus size={16} />}
+          >
+            {t(locale, "newOrder")}
+          </Button>
+        </div>
       </div>
       <header className="flex flex-col gap-1 py-4">
         <h1>
-          {t(locale, "order")} {order.auftragsbestellnummerIntern || id}
+          {t(locale, "order")} {order.auftragsbestellnummerIntern || id}{" "}
+          <span className="font-normal">
+            /{" "}
+            <NumberFormatter
+              value={order.auftragsWert}
+              thousandSeparator
+              decimalScale={2}
+              fixedDecimalScale
+              prefix={`${order.company?.wkz ?? "USD"} `}
+            />
+          </span>
         </h1>
         <div className="flex flex-wrap items-center gap-1 text-sm">
           <p className="text-sm">
             {t(locale, "createdOn")}{" "}
             {parseOrderDate(order.auftragsDatum, locale)} {t(locale, "by")}
           </p>
-          <Avatar
-            size="sm"
-            color="yellow"
-            name={
-              (order.sachbearbeiter?.kuerzel || order.sachbearbeiter?.name) ??
-              ""
-            }
-          />
-          <p>
-            <b>{order.sachbearbeiter?.name}</b>
-          </p>
+          {target === "I" ? (
+            <>
+              <Avatar
+                size="sm"
+                color="yellow"
+                name={
+                  (order.sachbearbeiter?.kuerzel ||
+                    order.sachbearbeiter?.name) ??
+                  ""
+                }
+              />
+              <p>
+                <b>{order.sachbearbeiter?.name}</b>
+              </p>
+            </>
+          ) : target === "B" ? (
+            <>
+              <Avatar
+                size="sm"
+                color="yellow"
+                name={order.besteller?.name ?? ""}
+              />
+              <p>
+                <b>{order.besteller?.name}</b>
+              </p>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </header>
 

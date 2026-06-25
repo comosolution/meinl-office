@@ -306,13 +306,16 @@ export type TranslationKey =
   | "listPrice"
   | "netPrice"
   | "remark"
+  | "through"
   | "orderValue"
   | "orderDetails"
   | "active"
   | "free"
   | "yes"
   | "byBrand"
-  | "listView";
+  | "listView"
+  | "completeDelivery"
+  | "urgent";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -624,6 +627,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     listPrice: "VK-Preis",
     netPrice: "EK-Preis",
     remark: "Bemerkung",
+    through: "Durch",
     orderValue: "Auftragswert",
     orderDetails: "Auftragsdetails",
     active: "Aktiv",
@@ -631,6 +635,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     yes: "Ja",
     byBrand: "Nach Marke",
     listView: "Liste",
+    completeDelivery: "Komplettversand",
+    urgent: "Eilt",
   },
   en: {
     welcome: "Welcome",
@@ -932,13 +938,14 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     sourceGermany: "Germany",
     sourceUSA: "USA",
     orderDate: "Order Date",
-    deliveryDate: "Delivery Date",
+    deliveryDate: "Date required",
     orderNumberCustomer: "Order No. Customer",
     orderNumberInternal: "Order No. Internal",
-    clerk: "Clerk",
+    clerk: "Placed by",
     listPrice: "List Price",
     netPrice: "Net Price",
     remark: "Remark",
+    through: "Through",
     orderValue: "Order Value",
     orderDetails: "Order Details",
     active: "Active",
@@ -946,6 +953,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     yes: "Yes",
     byBrand: "By Brand",
     listView: "List",
+    completeDelivery: "Complete Delivery",
+    urgent: "Urgent",
   },
 };
 

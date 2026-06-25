@@ -9,7 +9,7 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
 
   return (
     <div className="overflow-x-auto">
-      <Table layout="fixed" style={{ fontSize: "var(--mantine-font-size-xs)" }}>
+      <Table layout="fixed" style={{ fontSize: "var(--mantine-font-size-sm)" }}>
         <Table.Thead>
           <Table.Tr>
             <Table.Th w={50}>
@@ -24,13 +24,13 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
             <Table.Th w={60} ta="right">
               {t(locale as Parameters<typeof t>[0], "listPrice")}
             </Table.Th>
-            <Table.Th w={30} ta="right">
+            <Table.Th w={20} ta="right">
               %
             </Table.Th>
-            <Table.Th w={30} ta="right">
+            <Table.Th w={20} ta="right">
               %
             </Table.Th>
-            <Table.Th w={30} ta="right">
+            <Table.Th w={20} ta="right">
               %
             </Table.Th>
             <Table.Th w={60} ta="right">
@@ -107,7 +107,7 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
               </Table.Td>
               <Table.Td>
                 {pos.kostenlos ? (
-                  <IconCheck size={16} color="var(--main)" />
+                  <IconCheck size={20} color="var(--main)" />
                 ) : (
                   ""
                 )}
@@ -117,7 +117,7 @@ export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
                 {pos.bemerkung}
               </Table.Td>
               <Table.Td>
-                {pos.aktiv ? <IconCheck size={16} color="var(--main)" /> : ""}
+                {pos.aktiv ? <IconCheck size={20} color="var(--main)" /> : ""}
               </Table.Td>
             </Table.Tr>
           ))}
