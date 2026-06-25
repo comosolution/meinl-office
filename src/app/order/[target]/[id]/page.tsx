@@ -181,14 +181,14 @@ export default function Page({
     {
       label: t(locale, "completeDelivery"),
       value: order.komplettVersand ? (
-        <IconCheck size={16} color="var(--main)" />
+        <IconCheck size={20} color="var(--main)" />
       ) : (
         "–"
       ),
     },
     {
       label: t(locale, "urgent"),
-      value: order.eilt ? <IconCheck size={16} color="var(--main)" /> : "–",
+      value: order.eilt ? <IconCheck size={20} color="var(--main)" /> : "–",
     },
   ];
 

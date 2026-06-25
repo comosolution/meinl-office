@@ -2,22 +2,28 @@
 "use client";
 import { OrderHead } from "@/app/lib/interfaces";
 import {
+  Button,
   NumberFormatter,
   SegmentedControl,
   Select,
   Table,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import { IconCalendarWeek, IconChevronUp } from "@tabler/icons-react";
+import {
+  IconCalendarWeek,
+  IconChevronUp,
+  IconFilterOff,
+} from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
 import { countryCodes, normalizeAlpha2CountryCode } from "../lib/countryCodes";
 import { t } from "../lib/i18n";
 import { getOrderTargets, OrderTarget } from "../lib/order";
+import { loadOrderFilter, saveOrderFilter } from "../lib/orderFilter";
 import { getDatePresets, parseOrderDate } from "../lib/utils";
 import Loader from "./loader";
 import Pagination from "./pagination";
@@ -56,6 +62,7 @@ export default function OrderTable({
   const [sortBy, setSortBy] = useState<SortKey>("auftragsDatum");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [target, setTarget] = useState<OrderTarget>("I");
+  const skipFirstSaveRef = useRef(true);
   const [filters, setFilters] = useState({
     kdnr: kdnr ?? "",
     name1: "",
@@ -210,6 +217,23 @@ export default function OrderTable({
     setPage(1);
   }, [filters, search]);
 
+  useEffect(() => {
+    if (kdnr) return;
+    const stored = loadOrderFilter();
+    if (!stored) return;
+    setTarget(stored.target);
+    setFilters((prev) => ({ ...prev, ...stored.filters }));
+  }, []);
+
+  useEffect(() => {
+    if (kdnr) return;
+    if (skipFirstSaveRef.current) {
+      skipFirstSaveRef.current = false;
+      return;
+    }
+    saveOrderFilter({ target, filters });
+  }, [target, filters]);
+
   const handleSort = (key: SortKey) => {
     if (sortBy === key) {
       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
@@ -280,6 +304,16 @@ export default function OrderTable({
     },
   ];
 
+  const isFiltersDefault =
+    !filters.kdnr &&
+    !filters.name1 &&
+    !filters.land &&
+    !filters.sachbearbeiterName &&
+    !!filters.dateRange[0] &&
+    !!filters.dateRange[1] &&
+    dayjs(filters.dateRange[0]).isSame(dayjs().subtract(13, "day"), "day") &&
+    dayjs(filters.dateRange[1]).isSame(dayjs(), "day");
+
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
   const currentPageData = sortedOrders.slice(startIndex, startIndex + pageSize);
@@ -288,7 +322,7 @@ export default function OrderTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid md:grid-cols-4 items-end gap-2 md:gap-y-0">
+      <div className="grid md:grid-cols-5 items-end gap-2 md:gap-y-0">
         <SegmentedControl
           data={[...getOrderTargets(locale)]}
           value={target}
@@ -312,7 +346,7 @@ export default function OrderTable({
           presets={getDatePresets(locale)}
           rightSection={<IconCalendarWeek size={16} />}
           rightSectionPointerEvents="none"
-          className="md:col-span-2"
+          className="md:col-span-3"
         />
         {!kdnr && (
           <>
@@ -367,6 +401,23 @@ export default function OrderTable({
               }
               checkIconPosition="right"
             />
+            <Button
+              variant="light"
+              onClick={() =>
+                setFilters((prev) => ({
+                  ...prev,
+                  kdnr: "",
+                  name1: "",
+                  land: "",
+                  sachbearbeiterName: "",
+                  dateRange: [dayjs().subtract(13, "day").toDate(), new Date()],
+                }))
+              }
+              leftSection={<IconFilterOff size={16} />}
+              disabled={isFiltersDefault}
+            >
+              {t(locale, "clearFilters")}
+            </Button>
           </>
         )}
       </div>
