@@ -7,6 +7,7 @@ import { useOffice } from "@/app/context/officeContext";
 import { MEINL_AE_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
+import { getOrderTargets, OrderTarget } from "@/app/lib/order";
 import { parseOrderDate } from "@/app/lib/utils";
 import {
   Avatar,
@@ -33,7 +34,7 @@ import React, { useEffect, useState } from "react";
 export default function Page({
   params,
 }: {
-  params: Promise<{ target: "I" | "B" | "E"; id: string }>;
+  params: Promise<{ target: OrderTarget; id: string }>;
 }) {
   const { target, id } = React.use(params);
   const { data: session } = useSession();
@@ -232,19 +233,24 @@ export default function Page({
         </div>
       </div>
       <header className="flex flex-col gap-1 py-4">
-        <h1>
-          {t(locale, "order")} {order.auftragsbestellnummerIntern || id}{" "}
-          <span className="font-normal">
-            /{" "}
-            <NumberFormatter
-              value={order.auftragsWert}
-              thousandSeparator
-              decimalScale={2}
-              fixedDecimalScale
-              prefix={`${order.company?.wkz ?? "USD"} `}
-            />
-          </span>
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1>
+            {t(locale, "order")} {order.auftragsbestellnummerIntern || id}{" "}
+            <span className="font-normal">
+              /{" "}
+              <NumberFormatter
+                value={order.auftragsWert}
+                thousandSeparator
+                decimalScale={2}
+                fixedDecimalScale
+                prefix={`${order.company?.wkz ?? "USD"} `}
+              />
+            </span>
+          </h1>
+          <Badge size="lg" variant="light" color="blue">
+            {getOrderTargets(locale).find((t) => t.value === target)?.label}
+          </Badge>
+        </div>
         <div className="flex flex-wrap items-center gap-1 text-sm">
           <p className="text-sm">
             {t(locale, "createdOn")}{" "}

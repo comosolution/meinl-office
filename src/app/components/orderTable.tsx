@@ -17,6 +17,7 @@ import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
 import { countryCodes, normalizeAlpha2CountryCode } from "../lib/countryCodes";
 import { t } from "../lib/i18n";
+import { getOrderTargets, OrderTarget } from "../lib/order";
 import { getDatePresets, parseOrderDate } from "../lib/utils";
 import Loader from "./loader";
 import Pagination from "./pagination";
@@ -54,7 +55,7 @@ export default function OrderTable({
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortKey>("auftragsDatum");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
-  const [target, setTarget] = useState<"I" | "B" | "E">("I");
+  const [target, setTarget] = useState<OrderTarget>("I");
   const [filters, setFilters] = useState({
     kdnr: kdnr ?? "",
     name1: "",
@@ -67,7 +68,6 @@ export default function OrderTable({
   });
 
   const fetchOrders = async () => {
-    setLoading(true);
     const [dateFrom, dateTo] = filters.dateRange;
     if (!dateFrom || !dateTo) return;
 
@@ -290,11 +290,7 @@ export default function OrderTable({
     <div className="flex flex-col gap-4">
       <div className="grid md:grid-cols-4 items-end gap-2 md:gap-y-0">
         <SegmentedControl
-          data={[
-            { label: t(locale, "internal"), value: "I" },
-            { label: "B2B", value: "B" },
-            { label: "EDI", value: "E" },
-          ]}
+          data={[...getOrderTargets(locale)]}
           value={target}
           onChange={setTarget}
           className="md:col-span-2"
