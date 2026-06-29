@@ -8,7 +8,7 @@ import { MEINL_AE_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
 import { getOrderTargets, OrderTarget } from "@/app/lib/order";
-import { parseOrderDate } from "@/app/lib/utils";
+import { parseCreatedDate, parseOrderDate } from "@/app/lib/utils";
 import {
   Avatar,
   Badge,
@@ -26,6 +26,7 @@ import {
   IconLayoutList,
   IconList,
 } from "@tabler/icons-react";
+import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -134,16 +135,22 @@ export default function Page({
     },
     {
       label: t(locale, "customer"),
-      value: `${order.company?.name1 ?? ""} ${order.company?.name2 ?? ""}`,
+      value: `${order.company?.name1 ?? ""} ${order.company?.name2 ?? ""}, ${order.company?.ort ?? ""}`,
     },
     {
       label: t(locale, "orderDate"),
       value: parseOrderDate(order.auftragsDatum, locale),
     },
     {
+      label: t(locale, "inputDate"),
+      value: target === "E" ? parseCreatedDate(order.created, locale) : "–",
+    },
+    {
       label: t(locale, "deliveryDate"),
       value: parseOrderDate(order.lieferdatumAuftrag, locale),
-      highlight: order.lieferdatumAuftrag !== order.auftragsDatum,
+      highlight: dayjs(
+        parseOrderDate(order.lieferdatumAuftrag, locale),
+      ).isAfter(dayjs(order.created)),
     },
     { label: t(locale, "orderType"), value: order.auftragsart },
     { label: t(locale, "through"), value: order.beschaffungsart },
@@ -212,7 +219,7 @@ export default function Page({
             href={companyLink}
             leftSection={<IconChevronLeft size={16} />}
           >
-            {order.company.name1}
+            {order.company?.name1 ?? ""}
           </Button>
         </div>
         <div className="flex flex-col md:flex-row gap-2">
@@ -233,7 +240,7 @@ export default function Page({
         </div>
       </div>
       <header className="flex flex-col gap-1 py-4">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <h1>
             {t(locale, "order")} {order.auftragsbestellnummerIntern || id}{" "}
             <span className="font-normal">
@@ -254,7 +261,8 @@ export default function Page({
         <div className="flex flex-wrap items-center gap-1 text-sm">
           <p className="text-sm">
             {t(locale, "createdOn")}{" "}
-            {parseOrderDate(order.auftragsDatum, locale)} {t(locale, "by")}
+            {order.created ?? parseOrderDate(order.auftragsDatum, locale)}{" "}
+            {t(locale, "by")}
           </p>
           {target === "I" ? (
             <>
@@ -271,7 +279,7 @@ export default function Page({
                 <b>{order.sachbearbeiter?.name}</b>
               </p>
             </>
-          ) : target === "B" ? (
+          ) : (
             <>
               <Avatar
                 size="sm"
@@ -281,9 +289,20 @@ export default function Page({
               <p>
                 <b>{order.besteller?.name}</b>
               </p>
+              {order.placedBy && <p> / {order.placedBy}</p>}
+              {order.besteller?.email && (
+                <p>
+                  {" "}
+                  /{" "}
+                  <Link
+                    href={`mailto:${order.besteller?.email}`}
+                    className="link"
+                  >
+                    {order.besteller?.email}
+                  </Link>
+                </p>
+              )}
             </>
-          ) : (
-            ""
           )}
         </div>
       </header>
@@ -320,7 +339,7 @@ export default function Page({
                       )}
                     </div>
                   </Table.Th>
-                  <Table.Td className="whitespace-normal!">
+                  <Table.Td>
                     {(
                       [
                         { value: order.versandadresse?.name1, max: 30 },

@@ -107,6 +107,9 @@ export const parseOrderDate = (s: string, l: Locale) =>
       )
     : "–";
 
+export const parseCreatedDate = (s: string, l: Locale) =>
+  dayjs(new Date(s)).format(l === "en" ? "MM/DD/YYYY" : "DD.MM.YYYY");
+
 export async function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

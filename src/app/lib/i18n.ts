@@ -299,6 +299,7 @@ export type TranslationKey =
   | "sourceGermany"
   | "sourceUSA"
   | "orderDate"
+  | "inputDate"
   | "deliveryDate"
   | "orderNumberCustomer"
   | "orderNumberInternal"
@@ -620,6 +621,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     sourceGermany: "Deutschland",
     sourceUSA: "USA",
     orderDate: "Auftragsdatum",
+    inputDate: "Eingabedatum",
     deliveryDate: "Lieferdatum",
     orderNumberCustomer: "Bestellnr. Kunde",
     orderNumberInternal: "Bestellnr. Intern",
@@ -938,6 +940,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     sourceGermany: "Germany",
     sourceUSA: "USA",
     orderDate: "Order Date",
+    inputDate: "Input Date",
     deliveryDate: "Date required",
     orderNumberCustomer: "Order No. Customer",
     orderNumberInternal: "Order No. Internal",

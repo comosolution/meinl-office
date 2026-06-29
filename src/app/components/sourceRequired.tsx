@@ -17,9 +17,9 @@ export default function SourceRequired({
       : t(locale, "sourceUSA");
 
   return (
-    <main className="flex flex-col items-center justify-center gap-4 px-4 py-24">
+    <main className="flex flex-col items-center text-center justify-center gap-2 px-4 py-24">
       <IconError404 size={64} />
-      <p className="text-gray-500">
+      <p className="dimmed">
         {t(locale, "pageOnlyAvailableIn")} Office {sourceName}.
       </p>
       <Button

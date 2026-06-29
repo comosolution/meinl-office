@@ -117,7 +117,7 @@ export default function OrderTable({
 
   const kdnrOptions = useMemo(() => getOptions("kdnr"), [orders]);
   const clerkSortKey: SortKey =
-    target === "B" ? "besteller.name" : "sachbearbeiter.name";
+    target === "I" ? "sachbearbeiter.name" : "besteller.name";
 
   const clerkOptions = useMemo(
     () =>
@@ -246,6 +246,12 @@ export default function OrderTable({
   const sortedOrders = useMemo(
     () =>
       [...filteredOrders].sort((a, b) => {
+        if (sortBy === "auftragsWert") {
+          const aVal = Number(a.auftragsWert ?? 0);
+          const bVal = Number(b.auftragsWert ?? 0);
+          return sortDirection === "asc" ? aVal - bVal : bVal - aVal;
+        }
+
         const aVal = getSortValue(a, sortBy);
         const bVal = getSortValue(b, sortBy);
         return sortDirection === "asc"

@@ -50,6 +50,10 @@ export default function PageWrapper({
     return <Login />;
   }
 
+  /* if (!session.user?.roles?.includes("dev")) {
+    return <AccessDenied />;
+  } */
+
   return (
     <div className="flex">
       <Drawer

@@ -234,6 +234,7 @@ export interface Versandadresse {
 
 export interface OrderHead {
   unid: string;
+  created: string;
   kdnr: string;
   auftragsDatum: string;
   lieferdatumAuftrag: string;
@@ -275,6 +276,7 @@ export interface Order extends OrderHead {
     AS400: string;
     order: string;
   };
+  placedBy?: string;
 }
 
 export interface OrderAddress {
