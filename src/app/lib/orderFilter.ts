@@ -2,7 +2,7 @@ import { MEINL_OFFICE_ORDER_FILTER_KEY } from "./config";
 import { OrderTarget } from "./order";
 
 export type OrderFilterState = {
-  target: OrderTarget;
+  target: OrderTarget | "";
   filters: {
     kdnr: string;
     name1: string;

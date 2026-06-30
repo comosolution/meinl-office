@@ -2,6 +2,7 @@
 "use client";
 import { OrderHead } from "@/app/lib/interfaces";
 import {
+  Badge,
   Button,
   NumberFormatter,
   SegmentedControl,
@@ -22,7 +23,11 @@ import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
 import { countryCodes, normalizeAlpha2CountryCode } from "../lib/countryCodes";
 import { t } from "../lib/i18n";
-import { getOrderTargets, OrderTarget } from "../lib/order";
+import {
+  getOrderTargetColor,
+  getOrderTargets,
+  OrderTarget,
+} from "../lib/order";
 import { loadOrderFilter, saveOrderFilter } from "../lib/orderFilter";
 import { getDatePresets, parseOrderDate } from "../lib/utils";
 import Loader from "./loader";
@@ -64,7 +69,7 @@ export default function OrderTable({
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortKey>("auftragsDatum");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
-  const [target, setTarget] = useState<OrderTarget>("I");
+  const [target, setTarget] = useState<OrderTarget | "">("");
   const [filters, setFilters] = useState({
     kdnr: kdnr ?? "",
     name1: "",
@@ -123,7 +128,7 @@ export default function OrderTable({
 
   const kdnrOptions = useMemo(() => getOptions("kdnr"), [orders]);
   const clerkSortKey: SortKey =
-    target === "I" ? "sachbearbeiter.name" : "besteller.name";
+    target === "I" || target === "" ? "sachbearbeiter.name" : "besteller.name";
 
   const clerkOptions = useMemo(
     () =>
@@ -131,7 +136,9 @@ export default function OrderTable({
         new Set(
           orders
             .map((o) =>
-              target === "I" ? o.sachbearbeiter?.name : o.besteller?.name,
+              target === "I" || target === ""
+                ? o.sachbearbeiter?.name
+                : o.besteller?.name,
             )
             .filter(Boolean),
         ),
@@ -173,16 +180,19 @@ export default function OrderTable({
           keywords.length === 0 ||
           keywords.every((kw) =>
             [
-              o.unid,
-              o.kdnr,
-              o.company?.name1,
-              o.sachbearbeiter?.name,
-              o.sachbearbeiter?.kuerzel,
-              o.auftragsbestellnummerKunde,
-              o.auftragsbestellnummerIntern,
-              o.auftragsDatum,
-              o.lieferdatumAuftrag,
-              o.beschaffungsart,
+              o.unid ?? "",
+              o.kdnr ?? "",
+              o.company?.name1 ?? "",
+              o.company?.name2 ?? "",
+              o.company?.name3 ?? "",
+              o.company?.ort ?? "",
+              o.company?.matchcode ?? "",
+              o.sachbearbeiter?.name ?? "",
+              o.sachbearbeiter?.kuerzel ?? "",
+              o.auftragsbestellnummerKunde ?? "",
+              o.auftragsbestellnummerIntern ?? "",
+              o.auftragsDatum ?? "",
+              o.lieferdatumAuftrag ?? "",
             ]
               .filter(Boolean)
               .some((v) => v!.toLowerCase().includes(kw)),
@@ -305,8 +315,21 @@ export default function OrderTable({
     label: string;
     key: SortKey | null;
     render?: (o: OrderHead) => React.ReactNode;
+    hidden?: boolean;
     align?: "center" | "right" | "left" | "justify" | "char" | undefined;
   }[] = [
+    {
+      label: "",
+      key: "source",
+      render: (o) => (
+        <Badge variant="light" color={getOrderTargetColor(o.source ?? "B")}>
+          {getOrderTargets(locale)
+            .find((t) => t.value === o.source)
+            ?.label?.substring(0, 3) ?? ""}
+        </Badge>
+      ),
+      hidden: target !== "",
+    },
     { label: t(locale, "kdnr"), key: "kdnr" },
     {
       label: t(locale, "customer"),
@@ -370,7 +393,10 @@ export default function OrderTable({
     <div className="flex flex-col gap-4">
       <div className="grid md:grid-cols-5 items-end gap-2 md:gap-y-0">
         <SegmentedControl
-          data={[...getOrderTargets(locale)]}
+          data={[
+            { label: t(locale, "all"), value: "" },
+            ...getOrderTargets(locale),
+          ]}
           value={target}
           onChange={setTarget}
           className="md:col-span-2"
@@ -484,29 +510,31 @@ export default function OrderTable({
             <Table highlightOnHover>
               <Table.Thead>
                 <Table.Tr>
-                  {columns.map(({ label, key, align }) => (
-                    <Table.Th
-                      key={key ?? label}
-                      onClick={() => key && handleSort(key)}
-                      className={key ? "cursor-pointer select-none" : ""}
-                    >
-                      <div
-                        className={`flex items-center ${align === "right" ? "justify-end" : ""} gap-1 whitespace-nowrap`}
+                  {columns
+                    .filter((c) => !c.hidden)
+                    .map(({ label, key, align }) => (
+                      <Table.Th
+                        key={key ?? label}
+                        onClick={() => key && handleSort(key)}
+                        className={key ? "cursor-pointer select-none" : ""}
                       >
-                        {label}
-                        {key && sortBy === key && (
-                          <IconChevronUp
-                            size={16}
-                            className={`transition-all ${
-                              sortDirection === "asc"
-                                ? "rotate-0"
-                                : "rotate-180"
-                            }`}
-                          />
-                        )}
-                      </div>
-                    </Table.Th>
-                  ))}
+                        <div
+                          className={`flex items-center ${align === "right" ? "justify-end" : ""} gap-1 whitespace-nowrap`}
+                        >
+                          {label}
+                          {key && sortBy === key && (
+                            <IconChevronUp
+                              size={16}
+                              className={`transition-all ${
+                                sortDirection === "asc"
+                                  ? "rotate-0"
+                                  : "rotate-180"
+                              }`}
+                            />
+                          )}
+                        </div>
+                      </Table.Th>
+                    ))}
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
@@ -514,19 +542,23 @@ export default function OrderTable({
                   <Table.Tr
                     key={index}
                     onClick={() =>
-                      router.push(`/order/${target}/${order.unid}`)
+                      router.push(
+                        `/order/${target !== "" ? target : order.source}/${order.unid}`,
+                      )
                     }
                     className="cursor-pointer"
                   >
-                    {columns.map(({ key, render, label, align }) => (
-                      <Table.Td key={key ?? label} align={align ?? "left"}>
-                        {render
-                          ? render(order)
-                          : key
-                            ? getSortValue(order, key)
-                            : ""}
-                      </Table.Td>
-                    ))}
+                    {columns
+                      .filter((c) => !c.hidden)
+                      .map(({ key, render, label, align }) => (
+                        <Table.Td key={key ?? label} align={align ?? "left"}>
+                          {render
+                            ? render(order)
+                            : key
+                              ? getSortValue(order, key)
+                              : ""}
+                        </Table.Td>
+                      ))}
                   </Table.Tr>
                 ))}
               </Table.Tbody>

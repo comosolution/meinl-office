@@ -1,3 +1,5 @@
+import { OrderTarget } from "./order";
+
 export interface Dealer {
   id: number;
   matchcode: string;
@@ -234,6 +236,7 @@ export interface Versandadresse {
 
 export interface OrderHead {
   unid: string;
+  source?: OrderTarget;
   created: string;
   kdnr: string;
   auftragsDatum: string;

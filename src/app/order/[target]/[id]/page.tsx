@@ -7,7 +7,11 @@ import { useOffice } from "@/app/context/officeContext";
 import { MEINL_AE_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
-import { getOrderTargets, OrderTarget } from "@/app/lib/order";
+import {
+  getOrderTargetColor,
+  getOrderTargets,
+  OrderTarget,
+} from "@/app/lib/order";
 import { parseCreatedDate, parseOrderDate } from "@/app/lib/utils";
 import {
   Avatar,
@@ -254,7 +258,7 @@ export default function Page({
               />
             </span>
           </h1>
-          <Badge size="lg" variant="light" color="blue">
+          <Badge size="lg" variant="light" color={getOrderTargetColor(target)}>
             {getOrderTargets(locale)
               .find((t) => t.value === target)
               ?.label?.substring(0, 3) ?? ""}
