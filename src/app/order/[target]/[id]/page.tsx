@@ -4,7 +4,7 @@ import Loader from "@/app/components/loader";
 import { PositionsTable } from "@/app/components/positionTable";
 import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
-import { MEINL_AE_URL } from "@/app/lib/config";
+import { MEINL_AE_USA_URL } from "@/app/lib/config";
 import { t } from "@/app/lib/i18n";
 import { Order, OrderPosition } from "@/app/lib/interfaces";
 import {
@@ -235,7 +235,7 @@ export default function Page({
           )}
           <Button
             component="a"
-            href={`${MEINL_AE_URL}?kdnr=${order.kdnr}`}
+            href={`${MEINL_AE_USA_URL}?kdnr=${order.kdnr}`}
             target="_blank"
             leftSection={<IconBasketPlus size={16} />}
           >
