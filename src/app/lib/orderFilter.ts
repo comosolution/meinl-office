@@ -14,6 +14,7 @@ export type OrderFilterState = {
 
 export function saveOrderFilter(state: OrderFilterState): void {
   if (typeof window === "undefined") return;
+
   try {
     localStorage.setItem(
       MEINL_OFFICE_ORDER_FILTER_KEY,
@@ -25,8 +26,12 @@ export function saveOrderFilter(state: OrderFilterState): void {
           land: state.filters.land,
           sachbearbeiterName: state.filters.sachbearbeiterName,
           dateRange: [
-            state.filters.dateRange[0]?.toISOString() ?? null,
-            state.filters.dateRange[1]?.toISOString() ?? null,
+            state.filters.dateRange[0]
+              ? new Date(state.filters.dateRange[0]).toISOString()
+              : null,
+            state.filters.dateRange[1]
+              ? new Date(state.filters.dateRange[1]).toISOString()
+              : null,
           ],
         },
       }),
@@ -36,10 +41,13 @@ export function saveOrderFilter(state: OrderFilterState): void {
 
 export function loadOrderFilter(): OrderFilterState | null {
   if (typeof window === "undefined") return null;
+
   try {
     const stored = localStorage.getItem(MEINL_OFFICE_ORDER_FILTER_KEY);
     if (!stored) return null;
+
     const parsed = JSON.parse(stored);
+
     return {
       target: parsed.target,
       filters: {

@@ -255,7 +255,9 @@ export default function Page({
             </span>
           </h1>
           <Badge size="lg" variant="light" color="blue">
-            {getOrderTargets(locale).find((t) => t.value === target)?.label}
+            {getOrderTargets(locale)
+              .find((t) => t.value === target)
+              ?.label?.substring(0, 3) ?? ""}
           </Badge>
         </div>
         <div className="flex flex-wrap items-center gap-1 text-sm">

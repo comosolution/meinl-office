@@ -53,31 +53,36 @@ export default function OrderTable({
 }) {
   const { data: session } = useSession();
   const { locale, source } = useOffice();
+
   const router = useRouter();
+  const defaultStartDate = dayjs().subtract(13, "day");
 
   const [loading, setLoading] = useState(true);
+  const [fetching, setFetching] = useState(false);
   const [orders, setOrders] = useState<OrderHead[]>([]);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortKey>("auftragsDatum");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [target, setTarget] = useState<OrderTarget>("I");
-  const skipFirstSaveRef = useRef(true);
   const [filters, setFilters] = useState({
     kdnr: kdnr ?? "",
     name1: "",
     land: "",
     sachbearbeiterName: "",
-    dateRange: [dayjs().subtract(13, "day").toDate(), new Date()] as [
+    dateRange: [defaultStartDate.toDate(), new Date()] as [
       Date | null,
       Date | null,
     ],
   });
 
+  const skipFirstSaveRef = useRef(true);
+
   const fetchOrders = async () => {
     const [dateFrom, dateTo] = filters.dateRange;
     if (!dateFrom || !dateTo) return;
 
+    setFetching(true);
     try {
       const response = await fetch("/api/order", {
         method: "POST",
@@ -103,6 +108,7 @@ export default function OrderTable({
       console.error("Error fetching orders:", error);
     } finally {
       setLoading(false);
+      setFetching(false);
     }
   };
 
@@ -125,7 +131,7 @@ export default function OrderTable({
         new Set(
           orders
             .map((o) =>
-              target === "B" ? o.besteller?.name : o.sachbearbeiter?.name,
+              target === "I" ? o.sachbearbeiter?.name : o.besteller?.name,
             )
             .filter(Boolean),
         ),
@@ -219,20 +225,54 @@ export default function OrderTable({
 
   useEffect(() => {
     if (kdnr) return;
+
     const stored = loadOrderFilter();
     if (!stored) return;
+
     setTarget(stored.target);
-    setFilters((prev) => ({ ...prev, ...stored.filters }));
+
+    const [d0, d1] = stored.filters.dateRange;
+    setFilters((prev) => ({
+      ...prev,
+      ...stored.filters,
+      dateRange:
+        d0 === null && d1 === null
+          ? [defaultStartDate.toDate(), new Date()]
+          : [d0, d1],
+    }));
   }, []);
 
   useEffect(() => {
     if (kdnr) return;
+
     if (skipFirstSaveRef.current) {
       skipFirstSaveRef.current = false;
       return;
     }
-    saveOrderFilter({ target, filters });
+
+    const isDefaultRange =
+      dayjs(filters.dateRange[0]).isSame(defaultStartDate, "day") &&
+      dayjs(filters.dateRange[1]).isSame(dayjs(), "day");
+
+    saveOrderFilter({
+      target,
+      filters: {
+        ...filters,
+        dateRange: isDefaultRange ? [null, null] : filters.dateRange,
+      },
+    });
   }, [target, filters]);
+
+  useEffect(() => {
+    setPage(1);
+    setFilters((prev) => ({
+      ...prev,
+      kdnr: "",
+      name1: "",
+      land: "",
+      sachbearbeiterName: "",
+    }));
+  }, [target]);
 
   const handleSort = (key: SortKey) => {
     if (sortBy === key) {
@@ -317,7 +357,7 @@ export default function OrderTable({
     !filters.sachbearbeiterName &&
     !!filters.dateRange[0] &&
     !!filters.dateRange[1] &&
-    dayjs(filters.dateRange[0]).isSame(dayjs().subtract(13, "day"), "day") &&
+    dayjs(filters.dateRange[0]).isSame(defaultStartDate, "day") &&
     dayjs(filters.dateRange[1]).isSame(dayjs(), "day");
 
   const pageSize = pageLimit ? +pageLimit : 25;
@@ -416,7 +456,7 @@ export default function OrderTable({
                   name1: "",
                   land: "",
                   sachbearbeiterName: "",
-                  dateRange: [dayjs().subtract(13, "day").toDate(), new Date()],
+                  dateRange: [defaultStartDate.toDate(), new Date()],
                 }))
               }
               leftSection={<IconFilterOff size={16} />}
@@ -428,7 +468,9 @@ export default function OrderTable({
         )}
       </div>
 
-      {sortedOrders && sortedOrders.length > 0 ? (
+      {fetching ? (
+        <Loader />
+      ) : sortedOrders && sortedOrders.length > 0 ? (
         <>
           <Pagination
             page={page}
