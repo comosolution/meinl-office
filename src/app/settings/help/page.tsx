@@ -37,7 +37,7 @@ export default async function Page({
           dangerouslySetInnerHTML={{ __html: selectedDoc.html }}
         />
         <aside className="w-48 shrink-0 sticky top-8 self-start">
-          <DocTableOfContents headings={selectedDoc.headings} />
+          <DocTableOfContents key={selectedSlug} headings={selectedDoc.headings} />
         </aside>
       </div>
     </main>
