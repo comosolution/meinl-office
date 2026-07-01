@@ -36,6 +36,7 @@ import {
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useMediaQuery } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import {
   IconBalloon,
   IconBuildings,
@@ -134,6 +135,12 @@ export default function NewPersonPage() {
               if (res.ok) {
                 router.push(`/person/${resText}`);
               } else {
+                notifications.show({
+                  id: `error-new-person`,
+                  title: `Error ${res.status}`,
+                  message: resText ?? "",
+                  autoClose: false,
+                });
                 console.error(resText);
               }
             } catch (err) {

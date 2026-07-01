@@ -101,10 +101,9 @@ export function parseDb2Date(db2Date: string): string {
 
 export const parseOrderDate = (s: string, l: Locale) =>
   s && s !== "00000000"
-    ? format(
+    ? dayjs(
         new Date(`${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`),
-        l === "en" ? "MM/dd/yyyy" : "dd.MM.yyyy",
-      )
+      ).format(l === "en" ? "MM/DD/YYYY" : "DD.MM.YYYY")
     : "–";
 
 export const parseCreatedDate = (s: string, l: Locale) =>

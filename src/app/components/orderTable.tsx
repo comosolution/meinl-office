@@ -275,13 +275,6 @@ export default function OrderTable({
 
   useEffect(() => {
     setPage(1);
-    setFilters((prev) => ({
-      ...prev,
-      kdnr: "",
-      name1: "",
-      land: "",
-      sachbearbeiterName: "",
-    }));
   }, [target]);
 
   const handleSort = (key: SortKey) => {

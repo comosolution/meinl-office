@@ -1,7 +1,6 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import {
   IconBasket,
-  IconBuildings,
   IconExternalLink,
   IconNews,
   IconPlus,
@@ -19,16 +18,10 @@ export default function FAB() {
 
   const data = [
     {
-      label: t(locale, "newCompany"),
-      href: "/comapny/new",
-      icon: <IconBuildings size={16} />,
-      disabled: true,
-    },
-    {
       label: t(locale, "newPerson"),
       href: "/person/new",
       icon: <IconUser size={16} />,
-      disabled: !isPreview || source !== "OFFUSA",
+      hidden: !isPreview && source === "OFFGUT",
     },
     {
       label: t(locale, "newCampaign"),
@@ -46,7 +39,7 @@ export default function FAB() {
       label: t(locale, "newOrder"),
       href: MEINL_AE_USA_URL,
       icon: <IconBasket size={16} />,
-      hidden: !isPreview || source !== "OFFUSA",
+      hidden: !isPreview && source === "OFFGUT",
       external: true,
     },
   ];
@@ -81,7 +74,6 @@ export default function FAB() {
                 component={Link}
                 href={e.href}
                 target={e.external ? "_blank" : undefined}
-                disabled={e.disabled}
               >
                 {e.label}
               </Menu.Item>
