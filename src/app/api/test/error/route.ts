@@ -1,6 +1,6 @@
 import { MEINL_WEB_API } from "@/app/lib/config";
 
-export async function POST(request: Request) {
+export async function GET() {
   const user = process.env.API_USER;
   const pass = process.env.API_PASSWORD;
 
@@ -14,18 +14,19 @@ export async function POST(request: Request) {
   const auth = Buffer.from(`${user}:${pass}`).toString("base64");
 
   try {
-    const response = await fetch(`${MEINL_WEB_API}/order/details`, {
+    const response = await fetch(`${MEINL_WEB_API}/office/test/error`, {
       method: "POST",
       headers: {
         Authorization: `Basic ${auth}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(await request.json()),
+      body: JSON.stringify({
+        b2bnr: "73003-001",
+        user: "Schneider, Martin",
+        kdnr: null,
+        type: "M", // M = Eine Meldung, S = Stacktrace
+      }),
     });
-
-    if (response.status === 204) {
-      return Response.json([]);
-    }
 
     if (!response.ok) {
       return new Response(await response.text(), { status: response.status });
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
 
     return Response.json(data || []);
   } catch (err) {
-    console.error("Error fetching orders:", err);
-    return Response.json({ error: "Failed to fetch orders" }, { status: 500 });
+    console.error("Error fetching error:", err);
+    return Response.json({ error: "Failed to fetch error" }, { status: 500 });
   }
 }

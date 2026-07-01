@@ -11,7 +11,7 @@ export async function DELETE(
   });
 
   if (!res.ok) {
-    return new Response("Failed to delete", { status: res.status });
+    return new Response(await res.text(), { status: res.status });
   }
 
   return new Response("Success", { status: 200 });

@@ -67,13 +67,7 @@ export async function POST(request: Request) {
     const response = await fetch(GLS_API, options);
 
     if (!response.ok) {
-      return Response.json(
-        {
-          error: "Failed to create GLS return",
-          details: await response.text(),
-        },
-        { status: response.status },
-      );
+      return new Response(await response.text(), { status: response.status });
     }
 
     const data = await response.json();

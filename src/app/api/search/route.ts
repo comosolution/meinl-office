@@ -16,9 +16,7 @@ export async function POST(request: Request) {
   });
 
   if (!res.ok) {
-    return new Response((await res.text()) ?? "Failed to search", {
-      status: res.status,
-    });
+    return new Response(await res.text(), { status: res.status });
   }
 
   if (res.status === 204) {
