@@ -18,7 +18,6 @@ export function useFetchCompany() {
         id: `error-${kdnr}`,
         title: `Error ${response.status}`,
         message: (await response.text()) || "",
-        autoClose: false,
       });
       return;
     }
@@ -42,7 +41,6 @@ export function useFetchPerson() {
         id: `error-${id}`,
         title: `Error ${response.status}`,
         message: (await response.text()) || "",
-        autoClose: false,
       });
       return;
     }

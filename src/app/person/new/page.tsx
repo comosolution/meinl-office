@@ -68,7 +68,7 @@ export default function NewPersonPage() {
   const form = useForm<FormValues>({
     validateInputOnChange: true,
     initialValues: { ...getInitialValues({} as Person), id: 0 },
-    validate: (values: FormValues) => validateForm(values, active),
+    validate: (values: FormValues) => validateForm(values, active, locale),
   });
 
   const nextStep = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -139,7 +139,6 @@ export default function NewPersonPage() {
                   id: `error-new-person`,
                   title: `Error ${res.status}`,
                   message: resText ?? "",
-                  autoClose: false,
                 });
                 console.error(resText);
               }

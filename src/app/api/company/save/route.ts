@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   });
 
   if (!res.ok) {
-    return new Response("Failed to update company", { status: res.status });
+    return new Response(await res.text(), { status: res.status });
   }
 
   return new Response("Company updated successfully.", { status: 200 });

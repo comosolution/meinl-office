@@ -135,10 +135,10 @@ export function GlsReturnDrawer({
 
           onSuccess();
         } else {
-          console.error(
-            "Failed to upload return label:",
-            await uploadRes.text(),
-          );
+          notifications.show({
+            title: `Error ${response.status}`,
+            message: (await response.text()) || "",
+          });
         }
       } else {
         console.error("Failed to create GLS return:", await response.text());

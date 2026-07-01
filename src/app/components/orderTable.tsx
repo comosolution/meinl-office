@@ -10,6 +10,7 @@ import {
   Table,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
+import { notifications } from "@mantine/notifications";
 import {
   IconCalendarWeek,
   IconChevronUp,
@@ -108,6 +109,11 @@ export default function OrderTable({
             lieferdatumAuftrag: parseOrderDate(o.lieferdatumAuftrag, locale),
           })),
         );
+      } else {
+        notifications.show({
+          title: `Error ${response.status}`,
+          message: (await response.text()) || "",
+        });
       }
     } catch (error) {
       console.error("Error fetching orders:", error);

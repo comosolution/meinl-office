@@ -181,18 +181,16 @@ img.inverted {
 
 article h2 {
   font-size: 28px;
-  margin-bottom: 4px;
 }
 
 article h2:not(:first-of-type) {
   margin-top: 32px;
-  padding-top: 16px;
+  padding-top: 32px;
   border-top: 1px solid var(--border-color);
 }
 
 article h3 {
   font-size: 24px;
-  margin-bottom: 4px;
 }
 
 article li {
@@ -215,7 +213,8 @@ hr {
 
 article img {
   border-radius: var(--mantine-radius-default);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-color);
 }
 
 article table {

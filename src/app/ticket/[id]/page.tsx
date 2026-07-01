@@ -163,7 +163,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               },
         });
       } else {
-        console.error("Failed to fetch ticket");
+        notifications.show({
+          title: `Error ${response.status}`,
+          message: (await response.text()) || "",
+        });
       }
     } catch (error) {
       console.error("Error fetching ticket:", error);
@@ -215,7 +218,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         getTicket();
         setEditing(false);
       } else {
-        console.error("Failed to update ticket:", await res.text());
+        notifications.show({
+          title: `Error ${res.status}`,
+          message: (await res.text()) || "",
+        });
       }
     } catch (error) {
       console.error("Error updating ticket:", error);
@@ -295,7 +301,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
       getTicket();
     } else {
-      console.error("Failed to update ticket status:", await res.text());
+      notifications.show({
+        title: `Error ${res.status}`,
+        message: (await res.text()) || "",
+      });
     }
   };
 

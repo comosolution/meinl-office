@@ -12,7 +12,7 @@ export default function App({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       <DatesProvider settings={{ locale: locale }}>
-        <Notifications position="top-center" />
+        <Notifications position="top-center" autoClose={false} />
         <NotificationCleaner />
         <PageWrapper>{children}</PageWrapper>
       </DatesProvider>

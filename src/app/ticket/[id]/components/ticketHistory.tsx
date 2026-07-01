@@ -162,10 +162,9 @@ export default function TicketHistory({
         }
       } else {
         notifications.show({
-          title: t(locale, "error"),
-          message: t(locale, "noteError"),
+          title: `Error ${response.status}`,
+          message: (await response.text()) || "",
         });
-        console.error("Failed to add comment");
       }
     } catch (error) {
       console.error("Error adding comment:", error);

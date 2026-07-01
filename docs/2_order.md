@@ -83,7 +83,7 @@ Search for an item to add to the shopping cart:
 
 Having the **Art-No. only** box checked, the search only searches for matches in Item-No. (incl. partial matches) – unchecked, also "Product Name" is searched.
 
-### Item Detail
+### Item Details
 
 Clicking the select checkbox (✓) shows details for the selected item:
 
@@ -93,6 +93,16 @@ Clicking the select checkbox (✓) shows details for the selected item:
 - Check the **"Free"** box to mark the item as free.
 - Switch **"You sold"** to "Yes" if applicable.
 - Click **"Add"** to add the current item to the shopping cart.
+
+### Discounts
+
+![Item detail panel showing Item-No., Item Name, Stock, Quantity, LIST price, discount percentages, NET price, Edit checkbox, Comment field, Free checkbox, You sold toggle, and Add button](/docs/order/AE_10.png)
+
+| Color     | Description         |                   |
+| --------- | ------------------- | ----------------- |
+| **Red**   | Default Discount    | cannot be changed |
+| **Blue**  | Additional Discount | editable          |
+| **Green** | Additional Discount | editable          |
 
 ### Shopping Cart
 

@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     }
 
     if (!res.ok) {
-      return new Response("Failed to fetch company", { status: res.status });
+      return new Response(await res.text(), { status: res.status });
     }
 
     const data = await res.json();

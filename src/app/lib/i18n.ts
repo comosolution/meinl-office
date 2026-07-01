@@ -316,7 +316,9 @@ export type TranslationKey =
   | "byBrand"
   | "listView"
   | "completeDelivery"
-  | "urgent";
+  | "urgent"
+  | "invalidEmail"
+  | "isNecessary";
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   de: {
@@ -639,6 +641,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     listView: "Liste",
     completeDelivery: "Komplettversand",
     urgent: "Eilt",
+    invalidEmail: "Ungültige E-Mail-Adresse",
+    isNecessary: "ist erforderlich",
   },
   en: {
     welcome: "Welcome",
@@ -958,6 +962,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     listView: "List",
     completeDelivery: "Complete Delivery",
     urgent: "Urgent",
+    invalidEmail: "Invalid email address",
+    isNecessary: "is necessary",
   },
 };
 

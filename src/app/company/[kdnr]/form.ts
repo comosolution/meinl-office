@@ -1,6 +1,7 @@
 import { customerTypes } from "@/app/lib/data";
+import { notEmptyValidation } from "@/app/lib/form";
+import { Locale, t } from "@/app/lib/i18n";
 import { Company } from "../../lib/interfaces";
-import { notEmptyValidation } from "../../lib/utils";
 
 export const getInitialValues = (company: Company) => {
   return {
@@ -46,8 +47,8 @@ export const getInitialValues = (company: Company) => {
   };
 };
 
-export function validateForm(values: Company) {
+export function validateForm(values: Company, locale: Locale) {
   return {
-    name1: notEmptyValidation(values.name1, "Bitte Firmennamen angeben."),
+    name1: notEmptyValidation(values.name1, t(locale, "name1"), locale),
   };
 }

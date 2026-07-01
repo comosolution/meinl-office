@@ -262,10 +262,6 @@ export const safeLocaleCompare = (a?: string | null, b?: string | null) => {
   return a.localeCompare(b);
 };
 
-export const notEmptyValidation = (value: string, error: string) => {
-  return value.trim().length < 1 ? error : null;
-};
-
 export const parseUrl = (url: string) => {
   return url.startsWith("http") ? url : `https://${url}`;
 };

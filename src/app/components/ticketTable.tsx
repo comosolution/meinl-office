@@ -4,6 +4,7 @@ import { Status, Ticket, TicketSummary } from "@/app/lib/interfaces";
 import { RecentTickets } from "@/app/lib/recentTickets";
 import { ActionIcon, Button, Select, Table, Tooltip } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
+import { notifications } from "@mantine/notifications";
 import {
   IconCalendarWeek,
   IconChevronUp,
@@ -269,7 +270,10 @@ export default function TicketTable({
       if (res.ok) {
         onUpdate();
       } else {
-        console.error("Failed to update ticket status:", await res.text());
+        notifications.show({
+          title: `Error ${response.status}`,
+          message: (await response.text()) || "",
+        });
       }
     } catch (error) {
       console.error(error);

@@ -4,6 +4,7 @@ import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
 import { ActionIcon, Button, Paper } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import { IconDownload, IconUpload } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -60,7 +61,10 @@ export default function FilesUpload({
           const json = await res.json();
           if (onFileUploaded) onFileUploaded(json);
         } else {
-          console.error("Failed to upload file:", await res.text());
+          notifications.show({
+            title: `Error ${res.status}`,
+            message: (await res.text()) || "",
+          });
         }
       }
 

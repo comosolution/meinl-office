@@ -1,11 +1,12 @@
 "use client";
 import { useOffice } from "@/app/context/officeContext";
+import { notEmptyValidation } from "@/app/lib/form";
 import { t } from "@/app/lib/i18n";
 import { Campaign } from "@/app/lib/interfaces";
-import { notEmptyValidation } from "@/app/lib/utils";
 import { Button, Paper, Select, Textarea, TextInput } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import {
   IconCalendarEvent,
   IconCalendarWeek,
@@ -36,8 +37,7 @@ export default function Page() {
       products: [],
     },
     validate: {
-      title: (value) =>
-        notEmptyValidation(value, t(locale, "pleaseEnterTitle")),
+      title: (value) => notEmptyValidation(value, t(locale, "title"), locale),
     },
   });
 
@@ -70,6 +70,11 @@ export default function Page() {
             });
             if (response.ok) {
               router.push("/campaign");
+            } else {
+              notifications.show({
+                title: `Error ${response.status}`,
+                message: (await response.text()) || "",
+              });
             }
           })}
         >

@@ -1,4 +1,6 @@
 import { normalizeAlpha2CountryCode } from "@/app/lib/countryCodes";
+import { emailValidation, notEmptyValidation } from "@/app/lib/form";
+import { Locale, t } from "@/app/lib/i18n";
 import { Person } from "../../lib/interfaces";
 import { parseDateString } from "../../lib/utils";
 
@@ -54,27 +56,43 @@ export type FormValues = Omit<Person, "gebdat" | "zustaendig"> & {
   b2bdltyp: string[];
 };
 
-export function validateForm(values: FormValues, active?: number) {
+export function validateForm(
+  values: FormValues,
+  active: number,
+  locale: Locale,
+) {
   if (active === 0) {
     return {
-      kdnr: values.kdnr ? null : "Firma ist erforderlich",
+      kdnr: notEmptyValidation(String(values.kdnr), t(locale, "kdnr"), locale),
     };
   }
 
   if (active === 1) {
     return {
-      nachname: values.nachname ? null : "Nachname ist erforderlich",
-      vorname: values.vorname ? null : "Vorname ist erforderlich",
-      email: values.email ? null : "E-Mail ist erforderlich",
+      nachname: notEmptyValidation(
+        String(values.nachname),
+        t(locale, "lastName"),
+        locale,
+      ),
+      vorname: notEmptyValidation(
+        String(values.vorname),
+        t(locale, "firstName"),
+        locale,
+      ),
+      email: emailValidation(String(values.email), locale),
     };
   }
 
   if (active === 2) {
     return {
-      b2bzugriff: values.b2bzugriff ? null : "B2B-Zugriff ist erforderlich",
+      b2bzugriff: notEmptyValidation(
+        String(values.b2bzugriff),
+        t(locale, "b2bAccess"),
+        locale,
+      ),
       b2bpwd:
         values.b2bzugriff !== "0" && String(values.b2bpwd).trim().length < 4
-          ? "Passwort ist erforderlich"
+          ? `${t(locale, "b2bPassword")} ${t(locale, "isNecessary")}`
           : null,
     };
   }

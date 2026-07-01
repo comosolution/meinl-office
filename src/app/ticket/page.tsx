@@ -1,14 +1,15 @@
 "use client";
 import { ActionIcon, Button, SegmentedControl, TextInput } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import { IconPlus, IconRefresh, IconSearch } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import LineGraph from "../components/lineGraph";
 import Loader from "../components/loader";
-import StatsOverview from "../components/statsOverview";
 import SourceRequired from "../components/sourceRequired";
+import StatsOverview from "../components/statsOverview";
 import TicketTable from "../components/ticketTable";
 import { useOffice } from "../context/officeContext";
 import { MEINL_RMA_VIEW_KEY } from "../lib/config";
@@ -49,7 +50,10 @@ export default function Page() {
         );
         setTickets(sorted);
       } else {
-        console.error("Failed to fetch tickets");
+        notifications.show({
+          title: `Error ${response.status}`,
+          message: (await response.text()) || "",
+        });
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);

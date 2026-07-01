@@ -17,6 +17,7 @@ import {
   sizes,
   titles,
 } from "@/app/lib/data";
+import { emailValidation } from "@/app/lib/form";
 import { useFetchPerson } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Person, PersonInStorage } from "@/app/lib/interfaces";
@@ -46,6 +47,7 @@ import {
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import {
   IconBalloon,
   IconBasketPlus,
@@ -61,7 +63,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FormValues, getInitialValues, validateForm } from "./form";
+import { FormValues, getInitialValues } from "./form";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
@@ -79,7 +81,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const form = useForm<FormValues>({
     validateInputOnChange: true,
     initialValues: getInitialValues({} as Person),
-    validate: (values: FormValues) => validateForm(values),
+    validate: (values) => {
+      return {
+        email: emailValidation(String(values.email), locale),
+      };
+    },
   });
 
   useEffect(() => {
@@ -272,6 +278,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 getPerson();
                 setB2bPassword("");
                 setEdit(false);
+              } else {
+                notifications.show({
+                  title: `Error ${response.status}`,
+                  message: (await response.text()) || "",
+                });
               }
             })}
           >

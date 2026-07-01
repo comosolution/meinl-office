@@ -6,10 +6,11 @@ import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_DEALERS_URL } from "@/app/lib/config";
 import { brands } from "@/app/lib/data";
+import { notEmptyValidation } from "@/app/lib/form";
 import { useFetchResults } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Campaign, CampaignProduct, Dealer } from "@/app/lib/interfaces";
-import { notEmptyValidation, safeLocaleCompare } from "@/app/lib/utils";
+import { safeLocaleCompare } from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -25,6 +26,7 @@ import {
 } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import {
   IconCalendarEvent,
   IconCalendarWeek,
@@ -67,8 +69,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const form = useForm<Campaign>({
     initialValues: getInitialValues({} as Campaign),
     validate: {
-      title: (value) =>
-        notEmptyValidation(value, t(locale, "pleaseEnterTitle")),
+      title: (value) => notEmptyValidation(value, t(locale, "title"), locale),
     },
     validateInputOnChange: true,
   });
@@ -96,6 +97,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       method: "POST",
       body: JSON.stringify({ source, salt: id }),
     });
+
+    if (!response.ok) {
+      notifications.show({
+        title: `Error ${response.status}`,
+        message: (await response.text()) || "",
+      });
+      return;
+    }
+
     const data = await response.json();
     setCampaign(data[0]);
   };
@@ -200,6 +210,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           if (response.ok) {
             getCampaign();
             setEdit(false);
+          } else {
+            notifications.show({
+              title: `Error ${response.status}`,
+              message: (await response.text()) || "",
+            });
           }
         })}
         className="grid md:grid-cols-2 gap-4"

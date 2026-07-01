@@ -66,7 +66,6 @@ export default function Page({
           id: `error-${id}`,
           title: `Error ${response.status}`,
           message: (await response.text()) || "",
-          autoClose: false,
         });
         return;
       }

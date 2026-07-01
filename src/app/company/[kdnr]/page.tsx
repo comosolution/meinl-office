@@ -29,6 +29,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import {
   IconBasket,
   IconBasketPlus,
@@ -80,7 +81,7 @@ export default function Page({
   const form = useForm<Company>({
     initialValues: getInitialValues({} as Company),
     validateInputOnChange: true,
-    validate: validateForm,
+    validate: (values) => validateForm(values, locale),
   });
 
   useEffect(() => {
@@ -306,6 +307,11 @@ export default function Page({
             if (response.ok) {
               getCompany();
               setEdit(false);
+            } else {
+              notifications.show({
+                title: `Error ${response.status}`,
+                message: (await response.text()) || "",
+              });
             }
           })}
         >
