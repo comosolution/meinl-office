@@ -1,3 +1,7 @@
+---
+hidden: OFFGUT
+---
+
 # Order Entry
 
 ## Start Page
@@ -94,7 +98,7 @@ Clicking the select checkbox (✓) shows details for the selected item:
 
 All added items will appear in the shopping cart:
 
-![Shopping cart showing Reload cart, Empty cart and Send order buttons, a table with columns POS, Item-No., Qty, LIST, % discounts, NET, Free, You sold, Comment, and a sum total](/docs/order/AE_10.png)
+![Shopping cart showing Reload cart, Empty cart and Send order buttons, a table with columns POS, Item-No., Qty, LIST, % discounts, NET, Free, You sold, Comment, and a sum total](/docs/order/AE_11.png)
 
 You can:
 
@@ -107,7 +111,7 @@ You can:
 
 Offers the possibility to enter multiple items at once. These items will be added via the "Add to Cart" button to the shopping cart and can be edited there afterwards.
 
-![Bulk / Multi-Order view with a text area for entering product number and quantity pairs, Clear Form and Add to Cart buttons, and an instruction panel on the right showing valid delimiters and examples](/docs/order/AE_11.png)
+![Bulk / Multi-Order view with a text area for entering product number and quantity pairs, Clear Form and Add to Cart buttons, and an instruction panel on the right showing valid delimiters and examples](/docs/order/AE_12.png)
 
 The input format is compatible with common Excel table formats, so you can copy & paste a selection of 2 columns.
 

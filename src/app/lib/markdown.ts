@@ -31,6 +31,34 @@ export interface DocFile {
   title: string;
   html: string;
   headings: DocHeading[];
+  hidden: string[];
+}
+
+function extractFrontmatter(content: string): {
+  hidden: string[];
+  body: string;
+} {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+  if (!match) {
+    return { hidden: [], body: content };
+  }
+
+  const hidden: string[] = [];
+  for (const line of match[1].split("\n")) {
+    const separatorIndex = line.indexOf(":");
+    if (separatorIndex === -1) continue;
+    const key = line.slice(0, separatorIndex).trim();
+    if (key !== "hidden") continue;
+    hidden.push(
+      ...line
+        .slice(separatorIndex + 1)
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    );
+  }
+
+  return { hidden, body: content.slice(match[0].length) };
 }
 
 export async function getDocsFiles(): Promise<DocFile[]> {
@@ -49,7 +77,8 @@ export async function getDocsFiles(): Promise<DocFile[]> {
 
   for (const filename of filenames) {
     const filePath = path.join(docsPath, filename);
-    const content = fs.readFileSync(filePath, "utf-8");
+    const rawContent = fs.readFileSync(filePath, "utf-8");
+    const { hidden, body: content } = extractFrontmatter(rawContent);
     const tree = unified().use(remarkParse).use(remarkGfm).parse(content);
 
     let title = "";
@@ -93,6 +122,7 @@ export async function getDocsFiles(): Promise<DocFile[]> {
       title: title || filename.replace(".md", ""),
       html,
       headings,
+      hidden,
     });
   }
 
