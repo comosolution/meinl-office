@@ -71,6 +71,7 @@ export default function OrderTable({
   const [sortBy, setSortBy] = useState<SortKey>("auftragsDatum");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [target, setTarget] = useState<OrderTarget | "">("");
+  const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState({
     kdnr: kdnr ?? "",
     name1: "",
@@ -124,8 +125,9 @@ export default function OrderTable({
   };
 
   useEffect(() => {
+    if (!filtersReady) return;
     fetchOrders();
-  }, [target, filters.dateRange]);
+  }, [filtersReady, target, filters.dateRange]);
 
   const getOptions = (key: OrderKey) =>
     Array.from(new Set(orders.map((o) => o[key]).filter(Boolean)))
@@ -240,10 +242,16 @@ export default function OrderTable({
   }, [filters, search]);
 
   useEffect(() => {
-    if (kdnr) return;
+    if (kdnr) {
+      setFiltersReady(true);
+      return;
+    }
 
     const stored = loadOrderFilter();
-    if (!stored) return;
+    if (!stored) {
+      setFiltersReady(true);
+      return;
+    }
 
     setTarget(stored.target);
 
@@ -256,6 +264,7 @@ export default function OrderTable({
           ? [defaultStartDate.toDate(), new Date()]
           : [d0, d1],
     }));
+    setFiltersReady(true);
   }, []);
 
   useEffect(() => {
