@@ -215,23 +215,13 @@ export default function OrderTable({
         const matchesClerk = filters.sachbearbeiterName
           ? getSortValue(o, clerkSortKey) === filters.sachbearbeiterName
           : true;
-        const matchesDateRange = (() => {
-          const [start, end] = filters.dateRange;
-          if (!start && !end) return true;
-          if (!o.auftragsDatum) return false;
-          const d = dayjs(o.auftragsDatum);
-          if (start && d.isBefore(start, "day")) return false;
-          if (d.isAfter(end ?? start, "day")) return false;
-          return true;
-        })();
 
         return (
           matchesSearch &&
           matchesKdnr &&
           matchesName1 &&
           matchesLand &&
-          matchesClerk &&
-          matchesDateRange
+          matchesClerk
         );
       }),
     [orders, filters, search],
@@ -348,7 +338,10 @@ export default function OrderTable({
       label: t(locale, "country"),
       key: "company.land",
       render: (o) => (
-        <ReactCountryFlag countryCode={o.company?.land ?? ""} svg />
+        <ReactCountryFlag
+          countryCode={normalizeAlpha2CountryCode(o.company?.land) ?? ""}
+          svg
+        />
       ),
     },
     {

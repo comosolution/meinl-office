@@ -92,7 +92,7 @@ export default function Sidebar({
       name: t(locale, "orders"),
       href: "/order",
       icon: <IconBasket size={20} />,
-      hidden: source !== "OFFUSA",
+      hidden: source === "OFFGUT" && !isPreview,
     },
   ];
 

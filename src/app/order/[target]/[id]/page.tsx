@@ -12,7 +12,7 @@ import {
   getOrderTargets,
   OrderTarget,
 } from "@/app/lib/order";
-import { parseCreatedDate, parseOrderDate } from "@/app/lib/utils";
+import { isPreview, parseCreatedDate, parseOrderDate } from "@/app/lib/utils";
 import {
   Avatar,
   Badge,
@@ -83,7 +83,8 @@ export default function Page({
   }, []);
 
   if (!order || loading) return <Loader />;
-  if (source === "OFFGUT") return <SourceRequired requiredSource="OFFUSA" />;
+  if (source === "OFFGUT" && !isPreview)
+    return <SourceRequired requiredSource="OFFUSA" />;
 
   const grouped = order.positionen
     ? order.positionen.reduce<Record<string, OrderPosition[]>>((acc, pos) => {
