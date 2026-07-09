@@ -283,7 +283,7 @@ export default function Page({
             >
               {t(locale, "employees")}
             </Tabs.Tab>
-            {source === "OFFUSA" && (
+            {(source === "OFFUSA" || isPreview) && (
               <Tabs.Tab value="orders" leftSection={<IconBasket size={16} />}>
                 {t(locale, "orders")}
               </Tabs.Tab>
