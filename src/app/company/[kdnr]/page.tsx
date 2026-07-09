@@ -659,9 +659,11 @@ export default function Page({
           </div>
         </Tabs.Panel>
 
-        <Tabs.Panel value="orders" className="py-4">
-          <OrderTable kdnr={kdnr} />
-        </Tabs.Panel>
+        {(source === "OFFUSA" || isPreview) && (
+          <Tabs.Panel value="orders" className="py-4">
+            <OrderTable kdnr={kdnr} />
+          </Tabs.Panel>
+        )}
 
         <DistributorTab company={company} />
         <EmployeesTab company={company} />
