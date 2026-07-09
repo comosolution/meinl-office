@@ -30,7 +30,7 @@ import {
   OrderTarget,
 } from "../lib/order";
 import { loadOrderFilter, saveOrderFilter } from "../lib/orderFilter";
-import { getDatePresets, parseOrderDate } from "../lib/utils";
+import { getDatePresets, getErrorMessage, parseOrderDate } from "../lib/utils";
 import Loader from "./loader";
 import Pagination from "./pagination";
 
@@ -113,7 +113,7 @@ export default function OrderTable({
       } else {
         notifications.show({
           title: `Error ${response.status}`,
-          message: (await response.text()) || "",
+          message: getErrorMessage(await response.text()),
         });
       }
     } catch (error) {

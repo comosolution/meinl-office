@@ -3,6 +3,7 @@ import { useOffice } from "@/app/context/officeContext";
 import { notEmptyValidation } from "@/app/lib/form";
 import { t } from "@/app/lib/i18n";
 import { Campaign } from "@/app/lib/interfaces";
+import { getErrorMessage } from "@/app/lib/utils";
 import { Button, Paper, Select, Textarea, TextInput } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -73,7 +74,7 @@ export default function Page() {
             } else {
               notifications.show({
                 title: `Error ${response.status}`,
-                message: (await response.text()) || "",
+                message: getErrorMessage(await response.text()),
               });
             }
           })}

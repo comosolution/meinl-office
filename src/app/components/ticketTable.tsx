@@ -21,7 +21,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useOffice } from "../context/officeContext";
 import { DATE_FORMAT } from "../lib/config";
 import { t } from "../lib/i18n";
-import { exportXLSX, getDatePresets } from "../lib/utils";
+import { exportXLSX, getDatePresets, getErrorMessage } from "../lib/utils";
 import Pagination from "./pagination";
 
 type TicketKey = keyof TicketSummary | "viewed";
@@ -271,8 +271,8 @@ export default function TicketTable({
         onUpdate();
       } else {
         notifications.show({
-          title: `Error ${response.status}`,
-          message: (await response.text()) || "",
+          title: `Error ${res.status}`,
+          message: getErrorMessage(await res.text()),
         });
       }
     } catch (error) {

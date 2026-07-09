@@ -12,7 +12,12 @@ import {
   getOrderTargets,
   OrderTarget,
 } from "@/app/lib/order";
-import { isPreview, parseCreatedDate, parseOrderDate } from "@/app/lib/utils";
+import {
+  getErrorMessage,
+  isPreview,
+  parseCreatedDate,
+  parseOrderDate,
+} from "@/app/lib/utils";
 import {
   Avatar,
   Badge,
@@ -65,7 +70,7 @@ export default function Page({
         notifications.show({
           id: `error-${id}`,
           title: `Error ${response.status}`,
-          message: (await response.text()) || "",
+          message: getErrorMessage(await response.text()),
         });
         return;
       }

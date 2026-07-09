@@ -4,6 +4,7 @@ import { normalizeAlpha2CountryCode } from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
 import { sendResendMail } from "@/app/lib/resend";
+import { getErrorMessage } from "@/app/lib/utils";
 import { Button, Drawer, NumberInput, Paper, TextInput } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { notifications } from "@mantine/notifications";
@@ -137,7 +138,7 @@ export function GlsReturnDrawer({
         } else {
           notifications.show({
             title: `Error ${response.status}`,
-            message: (await response.text()) || "",
+            message: getErrorMessage(await response.text()),
           });
         }
       } else {

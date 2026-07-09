@@ -11,7 +11,7 @@ import {
 import { useFetchCompany } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
-import { isPreview } from "@/app/lib/utils";
+import { getErrorMessage, isPreview } from "@/app/lib/utils";
 import {
   Button,
   Group,
@@ -230,9 +230,8 @@ export default function Page() {
       if (!res.ok) {
         notifications.show({
           title: t(locale, "error"),
-          message: await res.text(),
+          message: getErrorMessage(await res.text()),
         });
-        console.error(await res.text());
         return;
       }
 

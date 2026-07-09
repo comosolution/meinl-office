@@ -15,7 +15,12 @@ import { customerTypes } from "@/app/lib/data";
 import { useFetchCompany } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Company, CompanyInStorage } from "@/app/lib/interfaces";
-import { getAvatarColor, isPreview, parseUrl } from "@/app/lib/utils";
+import {
+  getAvatarColor,
+  getErrorMessage,
+  isPreview,
+  parseUrl,
+} from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -310,7 +315,7 @@ export default function Page({
             } else {
               notifications.show({
                 title: `Error ${response.status}`,
-                message: (await response.text()) || "",
+                message: getErrorMessage(await response.text()),
               });
             }
           })}

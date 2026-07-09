@@ -16,7 +16,7 @@ import { MEINL_RMA_VIEW_KEY } from "../lib/config";
 import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
 import { RecentTickets, getRecentTickets } from "../lib/recentTickets";
-import { parseDb2Date } from "../lib/utils";
+import { getErrorMessage, parseDb2Date } from "../lib/utils";
 
 export default function Page() {
   const { data: session } = useSession();
@@ -52,7 +52,7 @@ export default function Page() {
       } else {
         notifications.show({
           title: `Error ${response.status}`,
-          message: (await response.text()) || "",
+          message: getErrorMessage(await response.text()),
         });
       }
     } catch (error) {

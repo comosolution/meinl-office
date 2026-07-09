@@ -10,7 +10,7 @@ import { notEmptyValidation } from "@/app/lib/form";
 import { useFetchResults } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Campaign, CampaignProduct, Dealer } from "@/app/lib/interfaces";
-import { safeLocaleCompare } from "@/app/lib/utils";
+import { getErrorMessage, safeLocaleCompare } from "@/app/lib/utils";
 import {
   ActionIcon,
   Avatar,
@@ -101,7 +101,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (!response.ok) {
       notifications.show({
         title: `Error ${response.status}`,
-        message: (await response.text()) || "",
+        message: getErrorMessage(await response.text()),
       });
       return;
     }
@@ -213,7 +213,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           } else {
             notifications.show({
               title: `Error ${response.status}`,
-              message: (await response.text()) || "",
+              message: getErrorMessage(await response.text()),
             });
           }
         })}

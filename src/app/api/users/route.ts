@@ -36,12 +36,7 @@ export async function GET() {
     );
 
     if (!tokenRes.ok) {
-      const err = await tokenRes.text();
-      console.error("Failed to get Graph token:", err);
-      return Response.json(
-        { error: "Failed to get access token" },
-        { status: 502 },
-      );
+      return new Response(await tokenRes.text(), { status: tokenRes.status });
     }
 
     const { access_token } = await tokenRes.json();
@@ -54,12 +49,7 @@ export async function GET() {
     );
 
     if (!usersRes.ok) {
-      const err = await usersRes.text();
-      console.error("Failed to fetch Graph users:", err);
-      return Response.json(
-        { error: "Failed to fetch users" },
-        { status: usersRes.status },
-      );
+      return new Response(await usersRes.text(), { status: usersRes.status });
     }
 
     const data = await usersRes.json();

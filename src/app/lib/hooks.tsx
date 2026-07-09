@@ -1,5 +1,6 @@
 import { useOffice } from "@/app/context/officeContext";
 import { Company, Person } from "@/app/lib/interfaces";
+import { getErrorMessage } from "@/app/lib/utils";
 import { notifications } from "@mantine/notifications";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -17,7 +18,7 @@ export function useFetchCompany() {
       notifications.show({
         id: `error-${kdnr}`,
         title: `Error ${response.status}`,
-        message: (await response.text()) || "",
+        message: getErrorMessage(await response.text()),
       });
       return;
     }
@@ -40,7 +41,7 @@ export function useFetchPerson() {
       notifications.show({
         id: `error-${id}`,
         title: `Error ${response.status}`,
-        message: (await response.text()) || "",
+        message: getErrorMessage(await response.text()),
       });
       return;
     }

@@ -3,7 +3,7 @@ import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
 import { Ticket } from "@/app/lib/interfaces";
 import { sendResendMail } from "@/app/lib/resend";
-import { fileToBase64 } from "@/app/lib/utils";
+import { fileToBase64, getErrorMessage } from "@/app/lib/utils";
 import {
   ActionIcon,
   Button,
@@ -163,7 +163,7 @@ export default function TicketHistory({
       } else {
         notifications.show({
           title: `Error ${response.status}`,
-          message: (await response.text()) || "",
+          message: getErrorMessage(await response.text()),
         });
       }
     } catch (error) {

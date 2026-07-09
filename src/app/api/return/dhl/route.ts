@@ -43,6 +43,11 @@ export async function POST(request: Request) {
       body: JSON.stringify(body),
     };
     const response = await fetch(DHL_API_RETURN_LABEL, options);
+
+    if (!response.ok) {
+      return new Response(await response.text(), { status: response.status });
+    }
+
     const data = await response.json();
 
     return Response.json({

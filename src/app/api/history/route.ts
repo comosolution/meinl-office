@@ -35,10 +35,7 @@ export async function POST(request: Request) {
     );
 
     if (!response.ok) {
-      return Response.json(
-        { error: await response.text() },
-        { status: response.status },
-      );
+      return new Response(await response.text(), { status: response.status });
     }
 
     const data = await response.json();

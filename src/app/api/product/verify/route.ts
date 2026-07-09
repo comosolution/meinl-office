@@ -25,12 +25,7 @@ export async function POST(request: Request) {
     });
 
     if (!res.ok) {
-      return Response.json(
-        "Es ist ein Fehler aufgetreten." + (await res.text()),
-        {
-          status: res.status,
-        },
-      );
+      return new Response(await res.text(), { status: res.status });
     }
 
     if (res.status === 204) {

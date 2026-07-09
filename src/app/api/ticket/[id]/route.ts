@@ -26,10 +26,7 @@ export async function GET(
     });
 
     if (!response.ok) {
-      return Response.json(
-        { error: (await response.text()) || "Failed to fetch ticket details" },
-        { status: response.status },
-      );
+      return new Response(await response.text(), { status: response.status });
     }
 
     const data = await response.json();

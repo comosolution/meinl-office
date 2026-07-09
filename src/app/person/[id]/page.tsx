@@ -27,6 +27,7 @@ import {
   generatePassword,
   getAvatarColor,
   isPreview,
+  getErrorMessage,
 } from "@/app/lib/utils";
 import {
   ActionIcon,
@@ -281,7 +282,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               } else {
                 notifications.show({
                   title: `Error ${response.status}`,
-                  message: (await response.text()) || "",
+                  message: getErrorMessage(await response.text()),
                 });
               }
             })}

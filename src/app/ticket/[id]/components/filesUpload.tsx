@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { DATE_FORMAT } from "../../../lib/config";
 import { Attachment } from "../../../lib/interfaces";
-import { fileToBase64, parseDb2Date } from "../../../lib/utils";
+import { fileToBase64, getErrorMessage, parseDb2Date } from "../../../lib/utils";
 
 export default function FilesUpload({
   ticketnr,
@@ -63,7 +63,7 @@ export default function FilesUpload({
         } else {
           notifications.show({
             title: `Error ${res.status}`,
-            message: (await res.text()) || "",
+            message: getErrorMessage(await res.text()),
           });
         }
       }

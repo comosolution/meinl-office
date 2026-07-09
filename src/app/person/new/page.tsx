@@ -18,6 +18,7 @@ import {
   dateParser,
   formatDateToString,
   generatePassword,
+  getErrorMessage,
 } from "@/app/lib/utils";
 import {
   ActionIcon,
@@ -138,9 +139,8 @@ export default function NewPersonPage() {
                 notifications.show({
                   id: `error-new-person`,
                   title: `Error ${res.status}`,
-                  message: resText ?? "",
+                  message: getErrorMessage(resText),
                 });
-                console.error(resText);
               }
             } catch (err) {
               console.error("Error saving person", err);

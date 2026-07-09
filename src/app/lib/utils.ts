@@ -307,3 +307,16 @@ export const formatDateToString = (date: Date | string | null): string => {
 export const getAvatarColor = (input: string | number) => {
   return +input > 59 ? "yellow" : "red";
 };
+
+export const getErrorMessage = (rawText: string): string => {
+  if (!rawText) return "";
+
+  try {
+    const parsed = JSON.parse(rawText);
+    console.error("API error:", parsed);
+    return parsed.ExceptionMessage || parsed.error || rawText;
+  } catch {
+    console.error("API error:", rawText);
+    return rawText;
+  }
+};

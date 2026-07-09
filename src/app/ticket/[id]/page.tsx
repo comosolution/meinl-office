@@ -12,7 +12,7 @@ import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
 import { trackTicket } from "@/app/lib/recentTickets";
 import { states } from "@/app/lib/rma";
-import { parseDb2Date } from "@/app/lib/utils";
+import { getErrorMessage, parseDb2Date } from "@/app/lib/utils";
 import FilesUpload from "@/app/ticket/[id]/components/filesUpload";
 import TicketHistory from "@/app/ticket/[id]/components/ticketHistory";
 import {
@@ -165,7 +165,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       } else {
         notifications.show({
           title: `Error ${response.status}`,
-          message: (await response.text()) || "",
+          message: getErrorMessage(await response.text()),
         });
       }
     } catch (error) {
@@ -220,7 +220,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       } else {
         notifications.show({
           title: `Error ${res.status}`,
-          message: (await res.text()) || "",
+          message: getErrorMessage(await res.text()),
         });
       }
     } catch (error) {
@@ -303,7 +303,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     } else {
       notifications.show({
         title: `Error ${res.status}`,
-        message: (await res.text()) || "",
+        message: getErrorMessage(await res.text()),
       });
     }
   };

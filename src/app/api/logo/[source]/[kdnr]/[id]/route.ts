@@ -20,10 +20,7 @@ export async function POST(
       );
 
       if (!response.ok) {
-        return NextResponse.json(
-          { error: "Löschen fehlgeschlagen." },
-          { status: 500 },
-        );
+        return new Response(await response.text(), { status: response.status });
       }
 
       return NextResponse.json({
@@ -43,10 +40,7 @@ export async function POST(
     );
 
     if (!response.ok) {
-      return NextResponse.json(
-        { error: "Upload fehlgeschlagen." },
-        { status: 500 },
-      );
+      return new Response(await response.text(), { status: response.status });
     }
 
     return NextResponse.json({
