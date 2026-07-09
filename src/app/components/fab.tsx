@@ -14,24 +14,24 @@ import { t } from "../lib/i18n";
 import { isPreview } from "../lib/utils";
 
 export default function FAB() {
-  const { locale, source } = useOffice();
+  const { locale, source, sourcePrefix } = useOffice();
 
   const data = [
     {
       label: t(locale, "newPerson"),
-      href: "/person/new",
+      href: `/${sourcePrefix}/person/new`,
       icon: <IconUser size={16} />,
       hidden: !isPreview && source === "OFFGUT",
     },
     {
       label: t(locale, "newCampaign"),
-      href: "/campaign/new",
+      href: `/${sourcePrefix}/campaign/new`,
       icon: <IconNews size={16} />,
       hidden: source !== "OFFGUT",
     },
     {
       label: t(locale, "newTicket"),
-      href: "/ticket/new",
+      href: `/${sourcePrefix}/ticket/new`,
       icon: <IconTicket size={16} />,
       hidden: source !== "OFFGUT",
     },

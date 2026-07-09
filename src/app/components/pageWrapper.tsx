@@ -23,7 +23,7 @@ export default function PageWrapper({
   children: React.ReactNode;
 }) {
   const { data: session, status } = useSession();
-  const { locale } = useOffice();
+  const { locale, sourcePrefix } = useOffice();
 
   const [showWelcome, setShowWelcome] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -77,7 +77,7 @@ export default function PageWrapper({
           >
             <IconMenu3 />
           </ActionIcon>
-          <Link href="/">
+          <Link href={`/${sourcePrefix}`}>
             <Logo />
           </Link>
           <Search />

@@ -27,7 +27,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { useOffice } from "../context/officeContext";
@@ -45,7 +45,7 @@ export default function Sidebar({
   onClose?: () => void;
 }) {
   const { data: session } = useSession();
-  const { source, setSource, locale, setLocale } = useOffice();
+  const { source, sourcePrefix, setSource, locale, setLocale } = useOffice();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -55,7 +55,6 @@ export default function Sidebar({
     getInitialValueInEffect: true,
   });
 
-  const router = useRouter();
   const path = usePathname();
 
   const collapsed = asDrawer ? false : isCollapsed;
@@ -63,34 +62,34 @@ export default function Sidebar({
   const nav = [
     {
       name: t(locale, "startPage"),
-      href: "/",
+      href: `/${sourcePrefix}`,
       icon: <IconLayoutDashboard size={20} />,
     },
     {
       name: t(locale, "companies"),
-      href: "/company",
+      href: `/${sourcePrefix}/company`,
       icon: <IconBuildings size={20} />,
     },
     {
       name: t(locale, "people"),
-      href: "/person",
+      href: `/${sourcePrefix}/person`,
       icon: <IconUsersGroup size={20} />,
     },
     {
       name: t(locale, "campaigns"),
-      href: "/campaign",
+      href: `/${sourcePrefix}/campaign`,
       icon: <IconNews size={20} />,
       hidden: source !== "OFFGUT",
     },
     {
       name: t(locale, "tickets"),
-      href: "/ticket",
+      href: `/${sourcePrefix}/ticket`,
       icon: <IconTicket size={20} />,
       hidden: source !== "OFFGUT",
     },
     {
       name: t(locale, "orders"),
-      href: "/order",
+      href: `/${sourcePrefix}/order`,
       icon: <IconBasket size={20} />,
       hidden: source === "OFFGUT" && !isPreview,
     },
@@ -125,7 +124,6 @@ export default function Sidebar({
         }}
         onClick={() => {
           setSource(source === "OFFGUT" ? "OFFUSA" : "OFFGUT");
-          router.push("/");
           onClose?.();
         }}
       />
@@ -203,7 +201,7 @@ export default function Sidebar({
         } items-center gap-2 px-2`}
       >
         <Link
-          href="/"
+          href={`/${sourcePrefix}`}
           className="flex justify-center items-center cursor-pointer hover:opacity-80"
           onClick={() => onClose?.()}
         >
@@ -238,9 +236,10 @@ export default function Sidebar({
           {nav
             .filter((e) => !e.hidden)
             .map((e, i) => {
+              const homeHref = `/${sourcePrefix}`;
               const active =
-                (path.includes(e.href) && e.href !== "/") ||
-                (path === "/" && e.href === "/");
+                (path.includes(e.href) && e.href !== homeHref) ||
+                (path === homeHref && e.href === homeHref);
 
               return (
                 <NavLink
@@ -296,7 +295,7 @@ export default function Sidebar({
               <Menu.Item
                 leftSection={<IconUserCircle size={14} />}
                 component={Link}
-                href="/settings/profile"
+                href={`/${sourcePrefix}/settings/profile`}
                 onClick={() => onClose?.()}
               >
                 {t(locale, "profile")}
@@ -304,7 +303,7 @@ export default function Sidebar({
               <Menu.Item
                 leftSection={<IconHelp size={14} />}
                 component={Link}
-                href="/settings/help"
+                href={`/${sourcePrefix}/settings/help`}
                 onClick={() => onClose?.()}
               >
                 {t(locale, "documentation")}
@@ -312,7 +311,7 @@ export default function Sidebar({
               <Menu.Item
                 leftSection={<IconHistory size={14} />}
                 component={Link}
-                href="/settings/changelog"
+                href={`/${sourcePrefix}/settings/changelog`}
                 onClick={() => onClose?.()}
               >
                 {t(locale, "changelog")}

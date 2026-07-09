@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function DistributorTab({ company }: { company: Company }) {
-  const { locale } = useOffice();
+  const { locale, sourcePrefix } = useOffice();
 
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
@@ -56,7 +56,7 @@ export default function DistributorTab({ company }: { company: Company }) {
                     key={i}
                     className="cursor-pointer"
                     onClick={() =>
-                      router.push(`/company/${company.kdnr}/${company.id}`)
+                      router.push(`/${sourcePrefix}/company/${company.kdnr}/${company.id}`)
                     }
                   >
                     <Table.Td>

@@ -26,7 +26,6 @@ export const GLS_API = isPreview
   : "https://shipit-wbm-de02.gls-group.eu/backend/rs/shipments";
 
 export const MEINL_OFFICE_SIDEBAR_KEY = "meinl.office.sidebar.collapsed";
-export const MEINL_OFFICE_SOURCE_KEY = "meinl.office.source";
 export const MEINL_OFFICE_SERVICE_KEY = "meinl.office.service";
 export const MEINL_OFFICE_LOCALE_KEY = "meinl.office.locale";
 export const MEINL_OFFICE_LIMIT_KEY = "meinl.office.limit";

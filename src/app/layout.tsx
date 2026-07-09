@@ -9,8 +9,6 @@ import "@mantine/spotlight/styles.css";
 import "dayjs/locale/de";
 import type { Metadata } from "next";
 import { Titillium_Web } from "next/font/google";
-import App from "./components/app";
-import { OfficeProvider } from "./context/officeContext";
 import "./globals.css";
 import { isPreview } from "./lib/utils";
 
@@ -87,11 +85,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body className={`${titillium.className}`}>
-        <MantineProvider theme={theme}>
-          <OfficeProvider>
-            <App>{children}</App>
-          </OfficeProvider>
-        </MantineProvider>
+        <MantineProvider theme={theme}>{children}</MantineProvider>
       </body>
     </html>
   );

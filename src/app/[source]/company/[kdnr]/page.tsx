@@ -1,0 +1,680 @@
+"use client";
+import LogoPreview from "@/app/components/company/logoPreview";
+import LogoUpload from "@/app/components/company/logoUpload";
+import Map from "@/app/components/company/map";
+import Contact from "@/app/components/contact";
+import Loader from "@/app/components/loader";
+import OrderTable from "@/app/components/order/orderTable";
+import { useOffice } from "@/app/context/officeContext";
+import {
+  MEINL_AE_URL,
+  MEINL_AE_USA_URL,
+  MEINL_OFFICE_COMPANY_HISTORY_KEY,
+} from "@/app/lib/config";
+import { customerTypes } from "@/app/lib/data";
+import { useFetchCompany } from "@/app/lib/hooks";
+import { t } from "@/app/lib/i18n";
+import { Company, CompanyInStorage } from "@/app/lib/interfaces";
+import {
+  getAvatarColor,
+  getErrorMessage,
+  isPreview,
+  parseUrl,
+} from "@/app/lib/utils";
+import {
+  ActionIcon,
+  Avatar,
+  Button,
+  Checkbox,
+  Fieldset,
+  NumberInput,
+  Scroller,
+  Table,
+  Tabs,
+  TextInput,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+import {
+  IconBasket,
+  IconBasketPlus,
+  IconBrandFacebook,
+  IconBrandInstagram,
+  IconBrandYoutube,
+  IconBuildingEstate,
+  IconBuildings,
+  IconBuildingWarehouse,
+  IconChevronLeft,
+  IconCircleCheck,
+  IconCircleX,
+  IconCreditCard,
+  IconDeviceFloppy,
+  IconEdit,
+  IconExternalLink,
+  IconNote,
+  IconPhoto,
+  IconPlus,
+  IconShoppingCartPin,
+  IconUsersGroup,
+} from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import DistributorTab from "../../../components/company/distributorTab";
+import EmployeesTab from "../../../components/company/employeesTab";
+import NotesTab from "../../../components/company/notesTab";
+import { getInitialValues, validateForm } from "./form";
+
+export default function Page({
+  params,
+}: {
+  params: Promise<{ kdnr: string }>;
+}) {
+  const { kdnr } = React.use(params);
+  const { data: session } = useSession();
+  const { source, sourcePrefix, locale } = useOffice();
+  const fetchCompany = useFetchCompany();
+
+  const [company, setCompany] = useState<Company>();
+  const [activeTab, setActiveTab] = useState<string | null>("company");
+  const [edit, setEdit] = useState(false);
+
+  const router = useRouter();
+
+  const form = useForm<Company>({
+    initialValues: getInitialValues({} as Company),
+    validateInputOnChange: true,
+    validate: (values) => validateForm(values, locale),
+  });
+
+  useEffect(() => {
+    getCompany();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [kdnr]);
+
+  useEffect(() => {
+    if (!company) return;
+    updateHistory();
+    form.setValues(getInitialValues(company));
+
+    const query = new URLSearchParams(window.location.search);
+    const tab = query.get("tab");
+    if (tab) setActiveTab(tab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [company]);
+
+  const getCompany = async () => {
+    const c = await fetchCompany(kdnr);
+    setCompany(c);
+  };
+
+  const updateHistory = () => {
+    if (!company) return;
+
+    const newEntry: CompanyInStorage = {
+      kdnr: company.kdnr,
+      kundenart: company.kundenart,
+      name: company.name1,
+      source,
+    };
+
+    const history: CompanyInStorage[] = JSON.parse(
+      localStorage.getItem(MEINL_OFFICE_COMPANY_HISTORY_KEY) || "[]",
+    );
+
+    const filteredHistory = history.filter(
+      (item) => item.kdnr !== newEntry.kdnr,
+    );
+
+    const updatedHistory = [newEntry, ...filteredHistory];
+    localStorage.setItem(
+      MEINL_OFFICE_COMPANY_HISTORY_KEY,
+      JSON.stringify(updatedHistory),
+    );
+  };
+
+  if (!company) return <Loader />;
+
+  const actions = (
+    <div className="md:col-span-2 flex justify-end gap-2">
+      {edit ? (
+        <div className="flex gap-2">
+          <Button
+            color="dark"
+            variant="transparent"
+            onClick={async () => {
+              await getCompany();
+              setEdit(false);
+            }}
+          >
+            {t(locale, "discard")}
+          </Button>
+          <Button
+            type="submit"
+            color="dark"
+            leftSection={<IconDeviceFloppy size={16} />}
+            disabled={!form.isValid()}
+          >
+            {t(locale, "saveChanges")}
+          </Button>
+        </div>
+      ) : (
+        <Button
+          color="dark"
+          variant="transparent"
+          leftSection={<IconEdit size={16} />}
+          onClick={() => setEdit(true)}
+        >
+          {t(locale, "editData")}
+        </Button>
+      )}
+    </div>
+  );
+
+  return (
+    <main className="flex flex-col gap-4 p-4">
+      <div className="flex flex-col md:flex-row justify-between gap-2">
+        <Button
+          variant="light"
+          color="gray"
+          leftSection={<IconChevronLeft size={16} />}
+          component={Link}
+          href={`/${sourcePrefix}/company`}
+        >
+          {t(locale, "allCompanies")}
+        </Button>
+        <div className="flex flex-col md:flex-row gap-2">
+          <Contact email={company.mailadr} phone={company.telefon} />
+          {(isPreview || source === "OFFUSA") && (
+            <Button
+              variant="light"
+              component={Link}
+              href={`/${sourcePrefix}/person/new?kdnr=${company.kdnr}`}
+              leftSection={<IconPlus size={16} />}
+            >
+              {t(locale, "addEmployee")}
+            </Button>
+          )}
+          {(isPreview || source === "OFFUSA") && (
+            <Button
+              component="a"
+              href={`${source === "OFFGUT" ? MEINL_AE_URL : MEINL_AE_USA_URL}?kdnr=${company.kdnr}`}
+              target="_blank"
+              leftSection={<IconBasketPlus size={16} />}
+            >
+              {t(locale, "newOrder")}
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <header className="flex items-center gap-4 py-4">
+        <Avatar
+          size={72}
+          variant="filled"
+          color={getAvatarColor(company.kundenart)}
+        >
+          <IconBuildings size={40} stroke={2} />
+        </Avatar>
+        <div className="flex flex-col gap-1 w-full">
+          <h1>
+            {company.name1}
+            <span className="font-normal"> {company.name2}</span>
+            <span className="font-normal italic"> {company.name3}</span>
+          </h1>
+          <p>
+            <b>{company.kdnr}</b> – {company.kundenartText} ({company.kundenart}
+            ) –{" "}
+            {company.distributor ? "Distributor" : customerTypes[company.type]}
+          </p>
+        </div>
+        {company.logo && company.logo !== "" && (
+          <Image
+            src={company.logo}
+            width={72}
+            height={72}
+            alt={`${company.name1} Logo`}
+            className="object-contain"
+          />
+        )}
+      </header>
+
+      <Tabs value={activeTab} onChange={setActiveTab}>
+        <Tabs.List>
+          <Scroller>
+            <Tabs.Tab
+              value="company"
+              leftSection={<IconBuildingEstate size={16} />}
+            >
+              {t(locale, "companyInfo")}
+            </Tabs.Tab>
+            <Tabs.Tab
+              value="details"
+              leftSection={<IconCreditCard size={16} />}
+            >
+              {t(locale, "details")}
+            </Tabs.Tab>
+            <Tabs.Tab value="logo" leftSection={<IconPhoto size={16} />}>
+              {t(locale, "companyLogo")}
+            </Tabs.Tab>
+            {source === "OFFGUT" && (
+              <Tabs.Tab
+                value="storelocator"
+                leftSection={<IconShoppingCartPin size={16} />}
+                rightSection={
+                  company.dealerloc ? (
+                    <IconCircleCheck size={16} color="gray" />
+                  ) : (
+                    <IconCircleX size={16} color="gray" />
+                  )
+                }
+              >
+                {t(locale, "dealerLocator")}
+              </Tabs.Tab>
+            )}
+            {company.distributor && (
+              <Tabs.Tab
+                value="distributor"
+                leftSection={<IconBuildingWarehouse size={16} />}
+              >
+                {t(locale, "dealer")}
+              </Tabs.Tab>
+            )}
+            <Tabs.Tab
+              value="employees"
+              leftSection={<IconUsersGroup size={16} />}
+            >
+              {t(locale, "employees")}
+            </Tabs.Tab>
+            {(source === "OFFUSA" || isPreview) && (
+              <Tabs.Tab value="orders" leftSection={<IconBasket size={16} />}>
+                {t(locale, "orders")}
+              </Tabs.Tab>
+            )}
+            <Tabs.Tab value="notes" leftSection={<IconNote size={16} />}>
+              {t(locale, "notes")}
+            </Tabs.Tab>
+          </Scroller>
+        </Tabs.List>
+
+        <form
+          onSubmit={form.onSubmit(async (values) => {
+            const response = await fetch("/api/company/save", {
+              method: "POST",
+              body: JSON.stringify({
+                ...values,
+                source,
+                user: session?.user?.email,
+              }),
+            });
+            if (response.ok) {
+              getCompany();
+              setEdit(false);
+            } else {
+              notifications.show({
+                title: `Error ${response.status}`,
+                message: getErrorMessage(await response.text()),
+              });
+            }
+          })}
+        >
+          <Tabs.Panel value="company" className="py-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              {actions}
+              <Fieldset>
+                <h2>{t(locale, "company")}</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <TextInput
+                    label={t(locale, "nameLabel")}
+                    {...form.getInputProps("name1")}
+                    readOnly={!edit || source === "OFFUSA"}
+                    className="md:col-span-2"
+                  />
+                  <TextInput
+                    label={t(locale, "nameLabel") + " 2"}
+                    {...form.getInputProps("name2")}
+                    readOnly={!edit || source === "OFFUSA"}
+                  />
+                  <TextInput
+                    label={t(locale, "nameLabel") + " 3"}
+                    {...form.getInputProps("name3")}
+                    readOnly={!edit || source === "OFFUSA"}
+                  />
+                  <TextInput
+                    label={t(locale, "matchcode")}
+                    {...form.getInputProps("matchcode")}
+                    readOnly
+                  />
+                  <NumberInput
+                    label={t(locale, "customerNumber")}
+                    {...form.getInputProps("kdnr")}
+                    readOnly
+                  />
+                </div>
+              </Fieldset>
+              <Fieldset>
+                <h2>{t(locale, "address")}</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <TextInput
+                    label={t(locale, "country")}
+                    {...form.getInputProps("land")}
+                    readOnly={!edit || source === "OFFUSA"}
+                  />
+                  <TextInput
+                    label={t(locale, "streetPostbox")}
+                    {...form.getInputProps("strasse")}
+                    readOnly={!edit || source === "OFFUSA"}
+                  />
+                  <TextInput
+                    label={t(locale, "postalCode")}
+                    {...form.getInputProps("plz")}
+                    readOnly={!edit || source === "OFFUSA"}
+                  />
+                  <TextInput
+                    label={t(locale, "city")}
+                    {...form.getInputProps("ort")}
+                    readOnly={!edit || source === "OFFUSA"}
+                  />
+                </div>
+              </Fieldset>
+              <Fieldset>
+                <h2>{t(locale, "communication")}</h2>
+                <TextInput
+                  label={t(locale, "phone")}
+                  {...form.getInputProps("telefon")}
+                  readOnly
+                />
+                <TextInput
+                  label={t(locale, "fax")}
+                  {...form.getInputProps("fax")}
+                  readOnly
+                />
+                <TextInput
+                  label={t(locale, "email")}
+                  {...form.getInputProps("mailadr")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label={t(locale, "websiteUrl")}
+                  {...form.getInputProps("www")}
+                  readOnly={!edit}
+                  rightSection={
+                    <div className="flex">
+                      <ActionIcon
+                        size="sm"
+                        variant="transparent"
+                        color="dark"
+                        component="a"
+                        href={parseUrl(company.www)}
+                        target="_blank"
+                      >
+                        <IconExternalLink size={16} />
+                      </ActionIcon>
+                    </div>
+                  }
+                />
+              </Fieldset>
+              <Fieldset>
+                <h2>{t(locale, "socialMedia")}</h2>
+                <TextInput
+                  label="Facebook"
+                  rightSection={<IconBrandFacebook size={16} />}
+                  {...form.getInputProps("facebook")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label="Instagram"
+                  rightSection={<IconBrandInstagram size={16} />}
+                  {...form.getInputProps("instagram")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label="YouTube"
+                  rightSection={<IconBrandYoutube size={16} />}
+                  {...form.getInputProps("youtube")}
+                  readOnly={!edit}
+                />
+              </Fieldset>
+            </div>
+          </Tabs.Panel>
+
+          <Tabs.Panel value="details" className="py-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              {actions}
+              <Fieldset>
+                <h2>{t(locale, "details")}</h2>
+                <TextInput
+                  label={t(locale, "paymentMethod")}
+                  {...form.getInputProps("zahlart")}
+                  readOnly
+                />
+              </Fieldset>
+              <Fieldset>
+                <h2>{t(locale, "information")}</h2>
+                <TextInput
+                  label={t(locale, "comment")}
+                  {...form.getInputProps("kommentar")}
+                  readOnly={!edit}
+                />
+                <TextInput
+                  label={t(locale, "comment") + " DB2"}
+                  {...form.getInputProps("kommentardb2")}
+                  readOnly
+                />
+              </Fieldset>
+              {/* TODO: show sales infos only for selected users */}
+              {/*  {source === "OFFUSA" && company.salesVolume && (
+                <Fieldset>
+                  <h2>{t(locale, "salesVolume")}</h2>
+                  <Table variant="vertical">
+                    <Table.Tbody>
+                      {[
+                        company.salesVolume.openEntriesUSD,
+                        company.salesVolume.LJ,
+                        company.salesVolume.VJ,
+                        company.salesVolume.VVJ,
+                      ].map((entry, index) => (
+                        <Table.Tr key={index}>
+                          <Table.Th w={160}>
+                            {entry.label?.replace(" USD", "")}
+                          </Table.Th>
+                          <Table.Td>
+                            <NumberFormatter
+                              prefix="$"
+                              value={Number(entry.value).toFixed(2)}
+                              thousandSeparator
+                            />
+                          </Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Fieldset>
+              )} 
+              {source === "OFFUSA" && company.discount && (
+                <Fieldset>
+                  <h2>{t(locale, "discount")}</h2>
+                  <Table variant="vertical">
+                    <Table.Tbody>
+                      {[
+                        company.discount.days,
+                        company.discount.percent,
+                        company.discount.netDays,
+                      ].map((entry, index) => (
+                        <Table.Tr key={index}>
+                          <Table.Th w={160}>{entry.label}</Table.Th>
+                          <Table.Td>{entry.value}</Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Fieldset>
+              )}*/}
+            </div>
+          </Tabs.Panel>
+
+          <Tabs.Panel value="storelocator" className="py-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              {actions}
+
+              <Checkbox
+                size="md"
+                className="md:col-span-2"
+                label={`${company.name1} ${t(locale, "showInDealerLocator")}.`}
+                {...form.getInputProps("dealerloc", { type: "checkbox" })}
+                disabled={!edit}
+              />
+
+              <Fieldset>
+                <h2>{t(locale, "details")}</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <TextInput
+                    label={t(locale, "websiteUrl")}
+                    {...form.getInputProps("www")}
+                    readOnly={!edit}
+                    rightSection={
+                      <div className="flex">
+                        <ActionIcon
+                          size="sm"
+                          variant="transparent"
+                          color="dark"
+                          component="a"
+                          href={parseUrl(company.www)}
+                          target="_blank"
+                        >
+                          <IconExternalLink size={16} />
+                        </ActionIcon>
+                      </div>
+                    }
+                  />
+                  <TextInput
+                    label={t(locale, "customerType")}
+                    {...form.getInputProps("type")}
+                    readOnly
+                  />
+                  <TextInput
+                    label={t(locale, "latitude")}
+                    {...form.getInputProps("latitude")}
+                    readOnly
+                  />
+                  <TextInput
+                    label={t(locale, "longitude")}
+                    {...form.getInputProps("longitude")}
+                    readOnly
+                  />
+                </div>
+                <Checkbox
+                  size="md"
+                  className="mt-4"
+                  label={`${company.name1} ${t(locale, "isExperienceCenter")}.`}
+                  {...form.getInputProps("expCenter", { type: "checkbox" })}
+                  disabled={!edit}
+                />
+              </Fieldset>
+              {company.latitude !== null && company.longitude !== null && (
+                <Map company={company} />
+              )}
+              <Fieldset>
+                <h2>{t(locale, "brands")}</h2>
+                <div className="flex flex-col gap-4">
+                  {form.values.brands
+                    .sort((a, b) => a.sort - b.sort)
+                    .map((brand, index) => (
+                      <TextInput
+                        label={
+                          <div className="flex items-center gap-2">
+                            <Image
+                              src={`/brands/${brand.title
+                                .replaceAll(" ", "-")
+                                .toUpperCase()}.png`}
+                              width={20}
+                              height={20}
+                              alt={`${brand.title} Logo`}
+                              className="inverted opacity-70 object-contain"
+                            />
+                            <p>{brand.title}</p>
+                          </div>
+                        }
+                        placeholder="Enter brand URL"
+                        rightSection={
+                          <div className="flex">
+                            <ActionIcon
+                              size="sm"
+                              variant="transparent"
+                              color="dark"
+                              component="a"
+                              href={parseUrl(brand.url || company.www)}
+                              target="_blank"
+                            >
+                              <IconExternalLink size={16} />
+                            </ActionIcon>
+                          </div>
+                        }
+                        key={brand.title}
+                        {...form.getInputProps(`brands.${index}.url`)}
+                        readOnly={!edit}
+                      />
+                    ))}
+                </div>
+              </Fieldset>
+              {source === "OFFGUT" && (
+                <Fieldset>
+                  <h2>Kampagnen</h2>
+                  <Table highlightOnHover>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>{t(locale, "idLabel")}</Table.Th>
+                        <Table.Th>{t(locale, "nameLabel")}</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {company.campagnen
+                        .sort((a, b) => a.id - b.id)
+                        .map((campaign, index) => (
+                          <Table.Tr
+                            key={index}
+                            className="cursor-pointer"
+                            onClick={() =>
+                              router.push(`/${sourcePrefix}/campaign/${campaign.id}`)
+                            }
+                          >
+                            <Table.Td>{campaign.id}</Table.Td>
+                            <Table.Td>{campaign.title}</Table.Td>
+                          </Table.Tr>
+                        ))}
+                    </Table.Tbody>
+                  </Table>
+                </Fieldset>
+              )}
+            </div>
+          </Tabs.Panel>
+        </form>
+
+        <Tabs.Panel value="logo" className="py-4">
+          <div className="grid md:grid-cols-2 gap-4">
+            <LogoPreview company={company} onDelete={() => getCompany()} />
+            <LogoUpload company={company} onSuccess={() => getCompany()} />
+          </div>
+        </Tabs.Panel>
+
+        {(source === "OFFUSA" || isPreview) && (
+          <Tabs.Panel value="orders" className="py-4">
+            <OrderTable kdnr={kdnr} />
+          </Tabs.Panel>
+        )}
+
+        <DistributorTab company={company} />
+        <EmployeesTab company={company} />
+        <NotesTab
+          company={company}
+          onCompanySave={async () => {
+            await getCompany();
+            setActiveTab("notes");
+          }}
+        />
+      </Tabs>
+    </main>
+  );
+}

@@ -27,7 +27,7 @@ export default function Search({
   collapsed?: boolean;
 }) {
   const router = useRouter();
-  const { source, locale, service } = useOffice();
+  const { source, sourcePrefix, locale, service } = useOffice();
   const fetchResults = useFetchResults();
 
   const [query, setQuery] = useState("");
@@ -87,7 +87,7 @@ export default function Search({
       }`,
       onClick: () => {
         router.push(
-          `/company/${c.kdnr}${c.id === 0 || source === "OFFUSA" ? "" : `/${c.id}`}`,
+          `/${sourcePrefix}/company/${c.kdnr}${c.id === 0 || source === "OFFUSA" ? "" : `/${c.id}`}`,
         );
       },
       rightSection: (
@@ -121,7 +121,7 @@ export default function Search({
       label: `${p.nachname}, ${p.vorname}`,
       description: `${p.jobpos || t(locale, "employee")} – ${p.name1}`,
       onClick: () => {
-        router.push(`/person/${p.b2bnr}`);
+        router.push(`/${sourcePrefix}/person/${p.b2bnr}`);
       },
       rightSection: <p className="text-xs dimmed">{p.b2bnr}</p>,
       leftSection: (

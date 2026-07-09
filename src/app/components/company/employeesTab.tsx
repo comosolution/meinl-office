@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function EmployeesTab({ company }: { company: Company }) {
-  const { locale } = useOffice();
+  const { locale, sourcePrefix } = useOffice();
 
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
@@ -50,7 +50,7 @@ export default function EmployeesTab({ company }: { company: Company }) {
                     <Table.Tr
                       key={i}
                       className="cursor-pointer"
-                      onClick={() => router.push(`/person/${e.b2bnr}`)}
+                      onClick={() => router.push(`/${sourcePrefix}/person/${e.b2bnr}`)}
                     >
                       <Table.Td>
                         <Avatar

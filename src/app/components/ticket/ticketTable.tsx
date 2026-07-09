@@ -44,7 +44,7 @@ export default function TicketTable({
   onUpdate: () => Promise<void>;
 }) {
   const { data: session } = useSession();
-  const { locale } = useOffice();
+  const { locale, sourcePrefix } = useOffice();
 
   const initialValues = {
     kdnr: "",
@@ -501,7 +501,7 @@ export default function TicketTable({
             {currentPageData.map((ticket, index) => (
               <Table.Tr
                 key={index}
-                onClick={() => router.push(`/ticket/${ticket.nr}`)}
+                onClick={() => router.push(`/${sourcePrefix}/ticket/${ticket.nr}`)}
                 className="cursor-pointer"
               >
                 {view === "new" ? (

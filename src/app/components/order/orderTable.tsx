@@ -65,7 +65,7 @@ export default function OrderTable({
   kdnr?: string;
 }) {
   const { data: session } = useSession();
-  const { locale, source } = useOffice();
+  const { locale, source, sourcePrefix } = useOffice();
 
   const router = useRouter();
   const defaultStartDate = dayjs().subtract(13, "day");
@@ -551,7 +551,7 @@ export default function OrderTable({
                     key={index}
                     onClick={() =>
                       router.push(
-                        `/order/${target !== "" ? target : order.source}/${order.unid}`,
+                        `/${sourcePrefix}/order/${target !== "" ? target : order.source}/${order.unid}`,
                       )
                     }
                     className="cursor-pointer"
