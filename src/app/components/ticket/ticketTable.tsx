@@ -18,11 +18,11 @@ import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
-import { useOffice } from "../context/officeContext";
-import { DATE_FORMAT } from "../lib/config";
-import { t } from "../lib/i18n";
-import { exportXLSX, getDatePresets, getErrorMessage } from "../lib/utils";
-import Pagination from "./pagination";
+import { useOffice } from "../../context/officeContext";
+import { DATE_FORMAT } from "../../lib/config";
+import { t } from "../../lib/i18n";
+import { exportXLSX, getDatePresets, getErrorMessage } from "../../lib/utils";
+import Pagination from "../pagination";
 
 type TicketKey = keyof TicketSummary | "viewed";
 

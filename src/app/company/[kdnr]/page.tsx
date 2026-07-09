@@ -1,10 +1,10 @@
 "use client";
+import LogoPreview from "@/app/components/company/logoPreview";
+import LogoUpload from "@/app/components/company/logoUpload";
+import Map from "@/app/components/company/map";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
-import Map from "@/app/components/map";
-import OrderTable from "@/app/components/orderTable";
-import LogoPreview from "@/app/components/preview";
-import FileUploader from "@/app/components/upload";
+import OrderTable from "@/app/components/order/orderTable";
 import { useOffice } from "@/app/context/officeContext";
 import {
   MEINL_AE_URL,
@@ -62,9 +62,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import DistributorTab from "../tabs/distributorTab";
-import EmployeesTab from "../tabs/employeesTab";
-import NotesTab from "../tabs/notesTab";
+import DistributorTab from "../../components/company/distributorTab";
+import EmployeesTab from "../../components/company/employeesTab";
+import NotesTab from "../../components/company/notesTab";
 import { getInitialValues, validateForm } from "./form";
 
 export default function Page({
@@ -655,7 +655,7 @@ export default function Page({
         <Tabs.Panel value="logo" className="py-4">
           <div className="grid md:grid-cols-2 gap-4">
             <LogoPreview company={company} onDelete={() => getCompany()} />
-            <FileUploader company={company} onSuccess={() => getCompany()} />
+            <LogoUpload company={company} onSuccess={() => getCompany()} />
           </div>
         </Tabs.Panel>
 

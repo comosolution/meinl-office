@@ -4,7 +4,7 @@ import { useDebounce, useFetchResults } from "@/app/lib/hooks";
 import { Company } from "@/app/lib/interfaces";
 import { Loader, Select, SelectProps, Text } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
-import { t } from "../lib/i18n";
+import { t } from "../../lib/i18n";
 
 type CustomerOption = {
   label: string;

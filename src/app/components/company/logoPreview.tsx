@@ -2,9 +2,9 @@ import { Button } from "@mantine/core";
 import { IconCheck, IconTrash, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
-import { useOffice } from "../context/officeContext";
-import { t } from "../lib/i18n";
-import { Company } from "../lib/interfaces";
+import { useOffice } from "../../context/officeContext";
+import { t } from "../../lib/i18n";
+import { Company } from "../../lib/interfaces";
 
 export default function LogoPreview({
   company,

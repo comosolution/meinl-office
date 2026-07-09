@@ -1,5 +1,5 @@
 "use client";
-import { FileDropzone } from "@/app/components/fileDropzone";
+import { FileDropzone } from "@/app/components/ticket/fileDropzone";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
 import { ActionIcon, Button, Paper } from "@mantine/core";
@@ -8,9 +8,9 @@ import { notifications } from "@mantine/notifications";
 import { IconDownload, IconUpload } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useState } from "react";
-import { DATE_FORMAT } from "../../../lib/config";
-import { Attachment } from "../../../lib/interfaces";
-import { fileToBase64, getErrorMessage, parseDb2Date } from "../../../lib/utils";
+import { DATE_FORMAT } from "../../lib/config";
+import { Attachment } from "../../lib/interfaces";
+import { fileToBase64, getErrorMessage, parseDb2Date } from "../../lib/utils";
 
 export default function FilesUpload({
   ticketnr,

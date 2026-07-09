@@ -6,7 +6,7 @@ import { safeLocaleCompare } from "@/app/lib/utils";
 import { ActionIcon, Loader, TextInput } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { t } from "../lib/i18n";
+import { t } from "../../lib/i18n";
 
 export default function DealerSelect({
   value,

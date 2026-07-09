@@ -1,11 +1,11 @@
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { IconPhoto } from "@tabler/icons-react";
-import { useOffice } from "../context/officeContext";
-import { t } from "../lib/i18n";
-import { Company } from "../lib/interfaces";
+import { useOffice } from "../../context/officeContext";
+import { t } from "../../lib/i18n";
+import { Company } from "../../lib/interfaces";
 
-export default function FileUploader({
+export default function LogoUpload({
   company,
   onSuccess,
 }: {

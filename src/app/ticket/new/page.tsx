@@ -1,8 +1,8 @@
 "use client";
-import { CustomerSelect } from "@/app/components/customerSelect";
-import { FileDropzone } from "@/app/components/fileDropzone";
 import SourceRequired from "@/app/components/sourceRequired";
-import { ProductSelect } from "@/app/components/productSelect";
+import { CustomerSelect } from "@/app/components/ticket/customerSelect";
+import { FileDropzone } from "@/app/components/ticket/fileDropzone";
+import { ProductSelect } from "@/app/components/ticket/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import {
   countryCodes,

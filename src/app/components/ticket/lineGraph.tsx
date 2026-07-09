@@ -2,10 +2,10 @@
 import { LineChart } from "@mantine/charts";
 import { Paper, SegmentedControl, Select } from "@mantine/core";
 import { useMemo, useState } from "react";
-import { useOffice } from "../context/officeContext";
-import { t } from "../lib/i18n";
-import { Order, TicketSummary } from "../lib/interfaces";
-import { getReturnsData } from "../lib/utils";
+import { useOffice } from "../../context/officeContext";
+import { t } from "../../lib/i18n";
+import { Order, TicketSummary } from "../../lib/interfaces";
+import { getReturnsData } from "../../lib/utils";
 
 export default function LineGraph({
   tickets,

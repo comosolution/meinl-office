@@ -1,6 +1,6 @@
 import { GoogleMap, OverlayView, useLoadScript } from "@react-google-maps/api";
-import { Company } from "../lib/interfaces";
-import { mapStyles } from "../lib/map";
+import { Company } from "../../lib/interfaces";
+import { mapStyles } from "../../lib/map";
 
 const mapContainerStyle = {
   width: "100%",

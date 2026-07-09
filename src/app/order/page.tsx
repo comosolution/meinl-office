@@ -3,7 +3,7 @@ import { Button, TextInput } from "@mantine/core";
 import { IconBasketPlus, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from "react";
-import OrderTable from "../components/orderTable";
+import OrderTable from "../components/order/orderTable";
 import SourceRequired from "../components/sourceRequired";
 import { useOffice } from "../context/officeContext";
 import { MEINL_AE_USA_URL } from "../lib/config";

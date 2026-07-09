@@ -1,6 +1,6 @@
 "use client";
-import { CustomerSelect } from "@/app/components/customerSelect";
 import SourceRequired from "@/app/components/sourceRequired";
+import { CustomerSelect } from "@/app/components/ticket/customerSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { countryCodes } from "@/app/lib/countryCodes";
 import {

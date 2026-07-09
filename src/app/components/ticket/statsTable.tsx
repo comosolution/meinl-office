@@ -1,7 +1,7 @@
 import { Paper, Table } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import { useOffice } from "../context/officeContext";
-import { t } from "../lib/i18n";
+import { useOffice } from "../../context/officeContext";
+import { t } from "../../lib/i18n";
 
 interface Entry {
   key: string;

@@ -5,7 +5,7 @@ import { useOffice } from "../context/officeContext";
 import { t } from "../lib/i18n";
 import { Order, TicketSummary } from "../lib/interfaces";
 import { getTop10Customers, getTop10Items } from "../lib/utils";
-import StatsTable from "./statsTable";
+import StatsTable from "./ticket/statsTable";
 
 export default function StatsOverview({
   tickets,

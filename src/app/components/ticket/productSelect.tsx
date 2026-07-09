@@ -1,10 +1,10 @@
 "use client";
+import { useOffice } from "@/app/context/officeContext";
 import { useDebounce } from "@/app/lib/hooks";
+import { t } from "@/app/lib/i18n";
+import { Product } from "@/app/lib/interfaces";
 import { Loader, Select, SelectProps } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
-import { useOffice } from "../context/officeContext";
-import { t } from "../lib/i18n";
-import { Product } from "../lib/interfaces";
 
 export function ProductSelect({
   value,

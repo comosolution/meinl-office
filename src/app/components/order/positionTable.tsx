@@ -1,8 +1,8 @@
 import { NumberFormatter, Table } from "@mantine/core";
 import { IconCheck } from "@tabler/icons-react";
-import { useOffice } from "../context/officeContext";
-import { t } from "../lib/i18n";
-import { OrderPosition } from "../lib/interfaces";
+import { useOffice } from "../../context/officeContext";
+import { t } from "../../lib/i18n";
+import { OrderPosition } from "../../lib/interfaces";
 
 export function PositionsTable({ positions }: { positions: OrderPosition[] }) {
   const { locale } = useOffice();

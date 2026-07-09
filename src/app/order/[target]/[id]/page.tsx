@@ -1,7 +1,7 @@
 "use client";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
-import { PositionsTable } from "@/app/components/positionTable";
+import { PositionsTable } from "@/app/components/order/positionTable";
 import SourceRequired from "@/app/components/sourceRequired";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_AE_USA_URL } from "@/app/lib/config";

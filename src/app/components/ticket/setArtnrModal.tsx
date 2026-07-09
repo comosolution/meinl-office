@@ -1,5 +1,5 @@
 "use client";
-import { ProductSelect } from "@/app/components/productSelect";
+import { ProductSelect } from "@/app/components/ticket/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
 import { Button, Modal } from "@mantine/core";

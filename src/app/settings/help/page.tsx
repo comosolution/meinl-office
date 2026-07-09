@@ -1,6 +1,6 @@
 import { getDocsFiles } from "@/app/lib/markdown";
 import { Suspense } from "react";
-import { DocContent } from "./DocContent";
+import { DocContent } from "../../components/help/docContent";
 
 export default async function Page() {
   const docs = await getDocsFiles();

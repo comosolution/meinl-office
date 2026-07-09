@@ -1,4 +1,5 @@
-import { FileDropzone } from "@/app/components/fileDropzone";
+import { EmailAutocomplete } from "@/app/components/ticket/emailAutocomplete";
+import { FileDropzone } from "@/app/components/ticket/fileDropzone";
 import { useOffice } from "@/app/context/officeContext";
 import { t } from "@/app/lib/i18n";
 import { Ticket } from "@/app/lib/interfaces";
@@ -14,7 +15,6 @@ import {
   SegmentedControl,
   Switch,
   Textarea,
-  TextInput,
   Timeline,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -36,8 +36,8 @@ import {
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { DATE_FORMAT, DHL_TRACKING_URL } from "../../../lib/config";
-import { handleDownload, parseDb2Date } from "../../../lib/utils";
+import { DATE_FORMAT, DHL_TRACKING_URL } from "../../lib/config";
+import { handleDownload, parseDb2Date } from "../../lib/utils";
 
 export default function TicketHistory({
   ticket,
@@ -340,7 +340,7 @@ export default function TicketHistory({
               {form.values.public === "0" && form.values.withMail && (
                 <div className="flex flex-col gap-2">
                   {(form.values.emails ?? [""]).map((_, index) => (
-                    <TextInput
+                    <EmailAutocomplete
                       key={index}
                       {...form.getInputProps(`emails.${index}`)}
                       rightSection={

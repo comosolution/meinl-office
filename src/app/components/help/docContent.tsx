@@ -3,7 +3,7 @@ import { useOffice } from "@/app/context/officeContext";
 import { DocFile } from "@/app/lib/markdown";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { DocTableOfContents } from "./DocTableOfContents";
+import { DocTableOfContents } from "./docTableOfContents";
 
 export function DocContent({ docs }: { docs: DocFile[] }) {
   const { source } = useOffice();

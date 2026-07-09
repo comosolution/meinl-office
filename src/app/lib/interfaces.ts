@@ -1,5 +1,10 @@
 import { OrderTarget } from "./order";
 
+export interface AdUser {
+  displayName: string;
+  mail: string;
+}
+
 export interface Dealer {
   id: number;
   matchcode: string;

@@ -2,8 +2,8 @@
 import { ActionIcon, Paper } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { IconFileTypePdf, IconPaperclip, IconX } from "@tabler/icons-react";
-import { useOffice } from "../context/officeContext";
-import { t } from "../lib/i18n";
+import { useOffice } from "../../context/officeContext";
+import { t } from "../../lib/i18n";
 
 export function FileDropzone({
   files,

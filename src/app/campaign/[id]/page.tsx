@@ -1,8 +1,8 @@
 "use client";
-import DealerSelect from "@/app/components/dealerSelect";
+import DealerSelect from "@/app/components/campaign/dealerSelect";
 import Loader from "@/app/components/loader";
-import { ProductSelect } from "@/app/components/productSelect";
 import SourceRequired from "@/app/components/sourceRequired";
+import { ProductSelect } from "@/app/components/ticket/productSelect";
 import { useOffice } from "@/app/context/officeContext";
 import { MEINL_DEALERS_URL } from "@/app/lib/config";
 import { brands } from "@/app/lib/data";

@@ -1,6 +1,8 @@
 "use client";
 import Loader from "@/app/components/loader";
 import SourceRequired from "@/app/components/sourceRequired";
+import FilesUpload from "@/app/components/ticket/filesUpload";
+import TicketHistory from "@/app/components/ticket/ticketHistory";
 import { useOffice } from "@/app/context/officeContext";
 import { DATE_FORMAT } from "@/app/lib/config";
 import {
@@ -13,8 +15,6 @@ import { Person, Ticket } from "@/app/lib/interfaces";
 import { trackTicket } from "@/app/lib/recentTickets";
 import { states } from "@/app/lib/rma";
 import { getErrorMessage, parseDb2Date } from "@/app/lib/utils";
-import FilesUpload from "@/app/ticket/[id]/components/filesUpload";
-import TicketHistory from "@/app/ticket/[id]/components/ticketHistory";
 import {
   ActionIcon,
   Avatar,
@@ -50,11 +50,11 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import QRCode from "qrcode";
 import React, { useEffect, useState } from "react";
-import { CloseTicketModal } from "./components/closeTicketModal";
-import { DhlReturnDrawer } from "./components/dhlReturnDrawer";
-import { GlsReturnDrawer } from "./components/glsReturnDrawer";
-import { SetArtnrModal } from "./components/setArtnrModal";
-import Tracking from "./components/tracking";
+import { CloseTicketModal } from "../../components/ticket/closeTicketModal";
+import { DhlReturnDrawer } from "../../components/ticket/dhlReturnDrawer";
+import { GlsReturnDrawer } from "../../components/ticket/glsReturnDrawer";
+import { SetArtnrModal } from "../../components/ticket/setArtnrModal";
+import Tracking from "../../components/ticket/tracking";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);

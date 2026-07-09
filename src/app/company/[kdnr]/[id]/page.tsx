@@ -1,9 +1,9 @@
 "use client";
+import LogoPreview from "@/app/components/company/logoPreview";
+import LogoUpload from "@/app/components/company/logoUpload";
+import Map from "@/app/components/company/map";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
-import Map from "@/app/components/map";
-import LogoPreview from "@/app/components/preview";
-import FileUploader from "@/app/components/upload";
 import { useOffice } from "@/app/context/officeContext";
 import {
   MEINL_AE_URL,
@@ -497,10 +497,7 @@ export default function Page({
         <Tabs.Panel value="logo" className="py-4">
           <div className="grid md:grid-cols-2 gap-4">
             <LogoPreview company={distributor} onDelete={() => getCompany()} />
-            <FileUploader
-              company={distributor}
-              onSuccess={() => getCompany()}
-            />
+            <LogoUpload company={distributor} onSuccess={() => getCompany()} />
           </div>
         </Tabs.Panel>
       </Tabs>

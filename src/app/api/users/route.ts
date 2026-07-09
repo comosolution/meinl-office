@@ -1,4 +1,4 @@
-type AdUser = { displayName: string; mail: string };
+import { AdUser } from "@/app/lib/interfaces";
 
 let cache: AdUser[] | null = null;
 let cacheTime = 0;
