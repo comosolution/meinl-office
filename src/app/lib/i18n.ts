@@ -267,6 +267,7 @@ export type TranslationKey =
   | "sortBy"
   | "by"
   | "newAddress"
+  | "billingAddress"
   | "b2b"
   | "b2bAccess"
   | "b2bPassword"
@@ -588,6 +589,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     sortBy: "Sortieren nach",
     by: "von",
     newAddress: "Neue Adresse",
+    billingAddress: "Rechnungsadresse",
     b2b: "B2B",
     b2bAccess: "B2B-Zugriff",
     b2bPassword: "B2B-Passwort",
@@ -911,6 +913,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     sortBy: "Sort by",
     by: "by",
     newAddress: "New Address",
+    billingAddress: "Billing Address",
     b2b: "B2B",
     b2bAccess: "B2B Access",
     b2bPassword: "B2B Password",

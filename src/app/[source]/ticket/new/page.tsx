@@ -216,7 +216,7 @@ export default function Page() {
         menge: values.menge,
         source: "OF",
         versandadresse: {
-          vanr: values.vanr,
+          vanr: values.vanr === "0" ? "0000" : values.vanr,
           vaname: values.vaname,
           vaname2: values.vaname2,
           vaname3: values.vaname3,
@@ -282,12 +282,12 @@ export default function Page() {
   useEffect(() => {
     if (!company) return;
 
-    const va = company.versandadressen[0];
+    const va = company.versandadressen.find((a) => a.vanr === company.kveanr);
 
     if (va) {
-      form.setFieldValue("vanr", va.vanr ?? "0000");
+      form.setFieldValue("vanr", va.vanr ?? "0");
     } else {
-      form.setFieldValue("vanr", "0000");
+      form.setFieldValue("vanr", "0");
     }
   }, [company]);
 
@@ -298,7 +298,7 @@ export default function Page() {
       (a) => a.vanr === form.values.vanr,
     );
 
-    if (!address) {
+    if (form.values.vanr === "0000") {
       form.setFieldValue("vaname", "");
       form.setFieldValue("vaname2", "");
       form.setFieldValue("vaname3", "");
@@ -306,6 +306,18 @@ export default function Page() {
       form.setFieldValue("vaplz", "");
       form.setFieldValue("vaort", "");
       form.setFieldValue("valand", "");
+      form.setFieldValue("zusatz", "");
+    } else if (!address || form.values.vanr === "0") {
+      form.setFieldValue("vaname", company.name1 ?? "");
+      form.setFieldValue("vaname2", company.name2 ?? "");
+      form.setFieldValue("vaname3", company.name3 ?? "");
+      form.setFieldValue("vastrasse", company.strasse ?? "");
+      form.setFieldValue("vaplz", company.plz ?? "");
+      form.setFieldValue("vaort", company.ort ?? "");
+      form.setFieldValue(
+        "valand",
+        normalizeAlpha2CountryCode(company.land) ?? "",
+      );
       form.setFieldValue("zusatz", "");
     } else {
       form.setFieldValue("vaname", address.vaname ?? "");
@@ -385,7 +397,14 @@ export default function Page() {
                       label={t(locale, "shippingAddress")}
                       data={[
                         ...addresses,
-                        { label: t(locale, "newAddress"), value: "0000" },
+                        {
+                          label: `${t(locale, "shippingAddress")} = ${t(locale, "billingAddress")}`,
+                          value: "0",
+                        },
+                        {
+                          label: `${t(locale, "newAddress")}`,
+                          value: "0000",
+                        },
                       ]}
                       renderOption={({ option }) => {
                         const highlighted = option.value === "0000";
@@ -411,30 +430,36 @@ export default function Page() {
                           className="md:col-span-2"
                           {...form.getInputProps("vaname")}
                           withAsterisk
+                          readOnly={form.values.vanr !== "0000"}
                         />
                         <TextInput
                           label="Name 2"
                           {...form.getInputProps("vaname2")}
+                          readOnly={form.values.vanr !== "0000"}
                         />
                         <TextInput
                           label="Name 3"
                           {...form.getInputProps("vaname3")}
+                          readOnly={form.values.vanr !== "0000"}
                         />
                         <TextInput
                           label={t(locale, "streetAndNumber")}
                           className="md:col-span-2"
                           {...form.getInputProps("vastrasse")}
                           withAsterisk
+                          readOnly={form.values.vanr !== "0000"}
                         />
                         <TextInput
                           label={t(locale, "postalCode")}
                           {...form.getInputProps("vaplz")}
                           withAsterisk
+                          readOnly={form.values.vanr !== "0000"}
                         />
                         <TextInput
                           label={t(locale, "city")}
                           {...form.getInputProps("vaort")}
                           withAsterisk
+                          readOnly={form.values.vanr !== "0000"}
                         />
                         <Select
                           label={t(locale, "country")}
@@ -443,10 +468,12 @@ export default function Page() {
                           checkIconPosition="right"
                           {...form.getInputProps("valand")}
                           withAsterisk
+                          readOnly={form.values.vanr !== "0000"}
                         />
                         <TextInput
                           label={t(locale, "extra")}
                           {...form.getInputProps("zusatz")}
+                          readOnly={form.values.vanr !== "0000"}
                         />
                       </div>
                     </Paper>

@@ -37,6 +37,7 @@ export const getInitialValues = (company: Company) => {
     personen: company.personen || [],
     campagnen: company.campagnen || [],
     haendler: company.haendler || [],
+    kveanr: company.kveanr || "",
     versandadressen: company.versandadressen || [],
     salesVolume: company.salesVolume ? company.salesVolume : undefined,
     discount: company.discount ? company.discount : undefined,

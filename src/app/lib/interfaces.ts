@@ -61,6 +61,7 @@ export interface Company {
   campagnen: Campaign[];
   haendler: Company[];
   versandadressen: Versandadresse[];
+  kveanr: string;
   salesVolume?: SalesVolume;
   discount?: Discount;
   zahlart: string;
