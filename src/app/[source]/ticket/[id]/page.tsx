@@ -1,6 +1,7 @@
 "use client";
 import Loader from "@/app/components/loader";
 import SourceRequired from "@/app/components/sourceRequired";
+import { EmailAutocomplete } from "@/app/components/ticket/emailAutocomplete";
 import FilesUpload from "@/app/components/ticket/filesUpload";
 import TicketHistory from "@/app/components/ticket/ticketHistory";
 import { useOffice } from "@/app/context/officeContext";
@@ -87,6 +88,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       descr: "",
       menge: 1,
       auftr_art: "",
+      optemail: "",
       versandadresse: {
         vanr: "",
         vaname: "",
@@ -138,6 +140,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           descr: transformed.descr || "",
           menge: transformed.menge || 1,
           auftr_art: transformed.auftr_art || "",
+          optemail: transformed.optemail || "",
           versandadresse: transformed.versandadresse
             ? {
                 vanr: transformed.versandadresse.vanr || "",
@@ -201,6 +204,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         descr: values.descr || ticket!.descr,
         menge: values.menge || ticket!.menge,
         auftr_art: values.auftr_art || ticket!.auftr_art,
+        optemail: values.optemail || "",
         source: "OF",
         versandadresse: values.versandadresse || ticket!.versandadresse,
         files: null,
@@ -239,6 +243,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         descr: ticket.descr || "",
         menge: ticket.menge || 1,
         auftr_art: ticket.auftr_art || "",
+        optemail: ticket.optemail || "",
         versandadresse: ticket.versandadresse || {
           vanr: "",
           vaname: "",
@@ -728,6 +733,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 {...form.getInputProps("nr_kunde")}
                 readOnly={!editing}
               />
+              <EmailAutocomplete
+                label={t(locale, "optEmail")}
+                {...form.getInputProps("optemail")}
+                readOnly={!editing}
+              />
               <Textarea
                 label={t(locale, "description")}
                 rows={4}
@@ -756,11 +766,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 />
                 <TextInput
                   label={t(locale, "name2")}
+                  className="md:col-span-2"
                   {...form.getInputProps("versandadresse.vaname2")}
                   readOnly={!editing}
                 />
                 <TextInput
                   label={t(locale, "name3")}
+                  className="md:col-span-2"
                   {...form.getInputProps("versandadresse.vaname3")}
                   readOnly={!editing}
                 />

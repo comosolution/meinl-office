@@ -409,6 +409,7 @@ export interface HistoryEntry {
   source: string;
   public: number;
   prio: number;
+  email: string;
 }
 
 export interface Person {
@@ -441,6 +442,7 @@ export interface TicketFormValues {
   vaort: string;
   valand: string;
   zusatz?: string;
+  optemail: string;
   newPersonFirstName?: string;
   newPersonLastName?: string;
   newPersonEmail?: string;

@@ -1,6 +1,7 @@
 "use client";
 import SourceRequired from "@/app/components/sourceRequired";
 import { CustomerSelect } from "@/app/components/ticket/customerSelect";
+import { EmailAutocomplete } from "@/app/components/ticket/emailAutocomplete";
 import { FileDropzone } from "@/app/components/ticket/fileDropzone";
 import { ProductSelect } from "@/app/components/ticket/productSelect";
 import { useOffice } from "@/app/context/officeContext";
@@ -8,6 +9,7 @@ import {
   countryCodes,
   normalizeAlpha2CountryCode,
 } from "@/app/lib/countryCodes";
+import { emailValidation } from "@/app/lib/form";
 import { useFetchCompany } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { Company, type TicketFormValues } from "@/app/lib/interfaces";
@@ -75,6 +77,7 @@ export default function Page() {
       vaort: "",
       valand: "",
       zusatz: "",
+      optemail: "",
       newPersonFirstName: "",
       newPersonLastName: "",
       newPersonEmail: "",
@@ -95,6 +98,10 @@ export default function Page() {
           kdnr_full: values.kdnr_full
             ? null
             : `${t(locale, "contactPerson")} ${t(locale, "invalidRequired")}`,
+          optemail:
+            values.optemail.trim().length > 0
+              ? emailValidation(values.optemail, locale)
+              : null,
           ...(values.kdnr_full === "NEW"
             ? {
                 newPersonFirstName: values.newPersonFirstName
@@ -103,9 +110,10 @@ export default function Page() {
                 newPersonLastName: values.newPersonLastName
                   ? null
                   : `${t(locale, "lastName")} ${t(locale, "invalidRequired")}`,
-                newPersonEmail: values.newPersonEmail
-                  ? null
-                  : `${t(locale, "email")} ${t(locale, "invalidRequired")}`,
+                newPersonEmail: emailValidation(
+                  values.newPersonEmail ?? "",
+                  locale,
+                ),
               }
             : {}),
         };
@@ -200,6 +208,7 @@ export default function Page() {
         kdnr_full: values.kdnr_full === "NEW" ? b2bnr : values.kdnr_full,
         updatedby: session?.user?.name,
         createdby: session?.user?.name,
+        optemail: values.optemail,
         artnr_ku: values.artnr_ku,
         sernr_ku: values.sernr_ku,
         nr_kunde: values.nr_kunde,
@@ -498,6 +507,10 @@ export default function Page() {
                     </div>
                   </Paper>
                 )}
+                <EmailAutocomplete
+                  label={t(locale, "optEmail")}
+                  {...form.getInputProps("optemail")}
+                />
               </Stack>
             </Stepper.Step>
 

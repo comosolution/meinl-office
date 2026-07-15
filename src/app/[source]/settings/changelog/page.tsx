@@ -1,6 +1,6 @@
 import { getMarkdownContent } from "@/app/lib/markdown";
 import { defaultBorder } from "@/app/lib/styles";
-import { Badge } from "@mantine/core";
+import { Badge, Tooltip } from "@mantine/core";
 import { formatDistance } from "date-fns";
 
 export default async function ChangelogPage() {
@@ -16,11 +16,17 @@ export default async function ChangelogPage() {
               <Badge size="xl" variant="light" color="yellow">
                 {section.version}
               </Badge>
-              <p className="dimmed text-xs">
-                {formatDistance(new Date(section.date), new Date(), {
-                  addSuffix: true,
-                })}
-              </p>
+              <Tooltip
+                label={new Date(section.date).toLocaleDateString()}
+                position="right"
+                withArrow
+              >
+                <p className="dimmed text-xs">
+                  {formatDistance(new Date(section.date), new Date(), {
+                    addSuffix: true,
+                  })}
+                </p>
+              </Tooltip>
             </div>
 
             <article

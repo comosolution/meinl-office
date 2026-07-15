@@ -16,6 +16,7 @@ import {
   Switch,
   Textarea,
   Timeline,
+  Tooltip,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -28,6 +29,7 @@ import {
   IconExternalLink,
   IconLock,
   IconLockOpen,
+  IconMail,
   IconPlus,
   IconTruckReturn,
   IconUserMinus,
@@ -98,6 +100,7 @@ export default function TicketHistory({
         prio: values.prio ? 1 : 0,
         source: "OF",
         tracknr: "",
+        email: values.withMail ? values.emails.join(",") : "",
       };
 
       const response = await fetch(`/api/history`, {
@@ -211,7 +214,7 @@ export default function TicketHistory({
                       ) : undefined
                     }
                   >
-                    <Paper p="sm" shadow="sm" bg="var(--background)">
+                    <Paper p="sm" bg="var(--background)" withBorder>
                       <div
                         className="flex flex-col gap-1"
                         style={{
@@ -222,7 +225,39 @@ export default function TicketHistory({
                         }}
                       >
                         <div className="flex justify-between items-center gap-2">
-                          <p className="text-sm">{entry.createdBy}</p>
+                          <div className="flex items-center gap-1">
+                            <p className="text-sm">{entry.createdBy}</p>
+                            <Tooltip
+                              label={
+                                Number(entry.public) === 1
+                                  ? t(locale, "public")
+                                  : t(locale, "private")
+                              }
+                              position="right"
+                              withArrow
+                            >
+                              {Number(entry.public) === 1 ? (
+                                <IconLockOpen
+                                  size={16}
+                                  color="var(--mantine-color-yellow-6)"
+                                />
+                              ) : (
+                                <IconLock
+                                  size={16}
+                                  color="var(--mantine-color-blue-6)"
+                                />
+                              )}
+                            </Tooltip>
+                            {entry.email && (
+                              <Tooltip
+                                label={entry.email}
+                                position="right"
+                                withArrow
+                              >
+                                <IconMail size={16} />
+                              </Tooltip>
+                            )}
+                          </div>
                           <p className="text-sm dimmed">
                             {format(parseDb2Date(entry.created), DATE_FORMAT)}
                           </p>
@@ -305,7 +340,10 @@ export default function TicketHistory({
                 {
                   label: (
                     <div className="flex justify-center items-center gap-1">
-                      <IconLockOpen size={20} />
+                      <IconLockOpen
+                        size={20}
+                        color="var(--mantine-color-yellow-6)"
+                      />
                       <p>{t(locale, "public")}</p>
                     </div>
                   ),
@@ -314,7 +352,7 @@ export default function TicketHistory({
                 {
                   label: (
                     <div className="flex justify-center items-center gap-1">
-                      <IconLock size={20} />
+                      <IconLock size={20} color="var(--mantine-color-blue-6)" />
                       <p>{t(locale, "private")}</p>
                     </div>
                   ),

@@ -8,11 +8,12 @@ import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
 import { sendResendMail } from "@/app/lib/resend";
 import { isPreview } from "@/app/lib/utils";
-import { Button, Drawer, NumberInput, Paper, TextInput } from "@mantine/core";
+import { ActionIcon, Button, Drawer, NumberInput, Paper } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck, IconUserMinus, IconUserPlus } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { EmailAutocomplete } from "./emailAutocomplete";
 import { getReturnAddress, ReturnAddress } from "./returnAddress";
 
 export function DhlReturnDrawer({
@@ -33,12 +34,21 @@ export function DhlReturnDrawer({
   const { locale } = useOffice();
   const { data: session } = useSession();
 
-  const [email, setEmail] = useState(owner?.email ?? "");
+  const getInitialEmails = () => {
+    const result = [owner?.email ?? ""];
+    if (ticket.optemail && !result.includes(ticket.optemail)) {
+      result.push(ticket.optemail);
+    }
+    return result;
+  };
+
+  const [emails, setEmails] = useState<string[]>(getInitialEmails());
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    setEmail(owner?.email ?? "");
-  }, [owner]);
+    setEmails(getInitialEmails());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [owner, ticket.optemail]);
 
   const handleClose = () => {
     onClose();
@@ -115,7 +125,7 @@ export function DhlReturnDrawer({
           shipmentNumbers.push(shipmentNo);
 
           await sendResendMail({
-            receiver: email,
+            receiver: emails.filter(Boolean).join(","),
             subject: `Meinl RMA ${id} - DHL Rücksendung`,
             content: `Ihre DHL Rücksendung wurde erfolgreich erstellt.\n\nSendungsnummer: ${shipmentNo}\n\nBitte beachten Sie das angehängte Rückgabeetikett.`,
             attachment: {
@@ -164,11 +174,37 @@ export function DhlReturnDrawer({
         <Paper p="md" shadow="xl" bg="var(--background)">
           <ReturnAddress ticket={ticket} owner={owner} />
         </Paper>
-        <TextInput
-          label={t(locale, "email")}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="flex flex-col gap-2">
+          {emails.map((value, index) => (
+            <EmailAutocomplete
+              key={index}
+              label={index === 0 ? t(locale, "email") : undefined}
+              value={value}
+              onChange={(v) =>
+                setEmails(emails.map((e, i) => (i === index ? v : e)))
+              }
+              rightSection={
+                <ActionIcon
+                  variant="light"
+                  color="red"
+                  onClick={() =>
+                    setEmails(emails.filter((_, i) => i !== index))
+                  }
+                  disabled={emails.length === 1}
+                >
+                  <IconUserMinus size={16} />
+                </ActionIcon>
+              }
+            />
+          ))}
+          <Button
+            variant="transparent"
+            leftSection={<IconUserPlus size={16} />}
+            onClick={() => setEmails([...emails, ""])}
+          >
+            {t(locale, "addReceiver")}
+          </Button>
+        </div>
         <NumberInput
           label={t(locale, "quantity")}
           value={quantity}
@@ -186,7 +222,7 @@ export function DhlReturnDrawer({
               handleCreateDhlReturn();
             }}
             leftSection={<IconCheck size={16} />}
-            disabled={!email || quantity < 1 || quantity > 10}
+            disabled={!emails.some(Boolean) || quantity < 1 || quantity > 10}
           >
             {t(locale, "createReturn")}
           </Button>

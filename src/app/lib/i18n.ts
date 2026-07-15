@@ -135,6 +135,7 @@ export type TranslationKey =
   | "longitude"
   | "phone"
   | "email"
+  | "optEmail"
   | "salutation"
   | "title"
   | "lastName"
@@ -444,6 +445,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     longitude: "Längengrad",
     phone: "Telefon",
     email: "E-Mail",
+    optEmail: "Optionaler Empfänger",
     personalData: "Persönliche Daten",
     salutation: "Anrede",
     title: "Titel",
@@ -757,6 +759,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     longitude: "Longitude",
     phone: "Phone",
     email: "Email",
+    optEmail: "Optional Recipient",
     salutation: "Salutation",
     title: "Title",
     lastName: "Last Name",

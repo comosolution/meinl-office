@@ -7,6 +7,7 @@ export type ResendAttachment = {
 };
 
 export type MailRequest = {
+  /** One email address, or multiple comma-separated addresses. */
   receiver: string;
   subject?: string;
   content: string;

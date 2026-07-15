@@ -35,9 +35,21 @@ export async function POST(request: Request) {
     );
   }
 
+  const receivers = receiver
+    .split(",")
+    .map((r) => r.trim())
+    .filter(Boolean);
+
+  if (receivers.length === 0) {
+    return Response.json(
+      { error: "receiver and content are required" },
+      { status: 400 },
+    );
+  }
+
   const payload: ResendPayload = {
     from: RESEND_FROM_EMAIL,
-    to: receiver,
+    to: receivers.length === 1 ? receivers[0] : receivers,
     subject: subject || "Sendungsbestätigung",
     text: content,
   };

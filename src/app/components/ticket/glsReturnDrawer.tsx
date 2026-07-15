@@ -4,14 +4,25 @@ import { normalizeAlpha2CountryCode } from "@/app/lib/countryCodes";
 import { t } from "@/app/lib/i18n";
 import { Person, Ticket } from "@/app/lib/interfaces";
 import { sendResendMail } from "@/app/lib/resend";
-import { getErrorMessage } from "@/app/lib/utils";
-import { Button, Drawer, NumberInput, Paper, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Drawer,
+  NumberInput,
+  Paper,
+  TextInput,
+} from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { notifications } from "@mantine/notifications";
-import { IconCalendarCheck } from "@tabler/icons-react";
+import {
+  IconCalendarCheck,
+  IconUserMinus,
+  IconUserPlus,
+} from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { EmailAutocomplete } from "./emailAutocomplete";
 import { getReturnAddress, ReturnAddress } from "./returnAddress";
 
 export function GlsReturnDrawer({
@@ -32,15 +43,24 @@ export function GlsReturnDrawer({
   const { locale } = useOffice();
   const { data: session } = useSession();
 
-  const [email, setEmail] = useState(owner?.email ?? "");
+  const getInitialEmails = () => {
+    const result = [owner?.email ?? ""];
+    if (ticket.optemail && !result.includes(ticket.optemail)) {
+      result.push(ticket.optemail);
+    }
+    return result;
+  };
+
+  const [emails, setEmails] = useState<string[]>(getInitialEmails());
   const [phone, setPhone] = useState(owner?.phone ?? "");
   const [quantity, setQuantity] = useState(1);
   const [pickupDateGls, setPickupDateGls] = useState<string | null>(null);
 
   useEffect(() => {
-    setEmail(owner?.email ?? "");
+    setEmails(getInitialEmails());
     setPhone(owner?.phone ?? "");
-  }, [owner]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [owner, ticket.optemail]);
 
   const handleClose = () => {
     onClose();
@@ -69,7 +89,7 @@ export function GlsReturnDrawer({
         City: city,
         Street: street,
         ContactPerson: ticket.kdnr_name,
-        eMail: email,
+        eMail: emails.find(Boolean) ?? "",
         FixedLinePhonenumber: phone,
       },
       Quantity: quantity,
@@ -120,6 +140,7 @@ export function GlsReturnDrawer({
             source: "OF",
             tracknr: shipmentNo,
             public: 1,
+            email: emails.filter(Boolean).join(", "),
           };
 
           await fetch("/api/history", {
@@ -129,7 +150,7 @@ export function GlsReturnDrawer({
           });
 
           await sendResendMail({
-            receiver: email,
+            receiver: emails.filter(Boolean).join(","),
             subject: `Meinl RMA ${id} - GLS Pickup`,
             content: `Ihre GLS Abholung wurde erfolgreich angemeldet.\n\nSendungsnummer: ${shipmentNo}\nAbholdatum: ${pickupDateFormatted}\n\nBitte halten Sie das Paket zum vereinbarten Datum bereit.`,
           });
@@ -137,8 +158,8 @@ export function GlsReturnDrawer({
           onSuccess();
         } else {
           notifications.show({
-            title: `Error ${response.status}`,
-            message: getErrorMessage(await response.text()),
+            title: `Error ${uploadRes.status}`,
+            message: await uploadRes.text(),
           });
         }
       } else {
@@ -173,11 +194,37 @@ export function GlsReturnDrawer({
         <Paper p="md" shadow="xl" bg="var(--background)">
           <ReturnAddress ticket={ticket} owner={owner} />
         </Paper>
-        <TextInput
-          label={t(locale, "email")}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="flex flex-col gap-2">
+          {emails.map((value, index) => (
+            <EmailAutocomplete
+              key={index}
+              label={index === 0 ? t(locale, "email") : undefined}
+              value={value}
+              onChange={(v) =>
+                setEmails(emails.map((e, i) => (i === index ? v : e)))
+              }
+              rightSection={
+                <ActionIcon
+                  variant="light"
+                  color="red"
+                  onClick={() =>
+                    setEmails(emails.filter((_, i) => i !== index))
+                  }
+                  disabled={emails.length === 1}
+                >
+                  <IconUserMinus size={16} />
+                </ActionIcon>
+              }
+            />
+          ))}
+          <Button
+            variant="transparent"
+            leftSection={<IconUserPlus size={16} />}
+            onClick={() => setEmails([...emails, ""])}
+          >
+            {t(locale, "addReceiver")}
+          </Button>
+        </div>
         <TextInput
           label={t(locale, "phone")}
           value={phone}
@@ -204,7 +251,7 @@ export function GlsReturnDrawer({
             leftSection={<IconCalendarCheck size={16} />}
             disabled={
               !pickupDateGls ||
-              !email ||
+              !emails.some(Boolean) ||
               !phone ||
               quantity < 1 ||
               quantity > 10
