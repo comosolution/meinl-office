@@ -11,15 +11,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### RMA Tickets
 
-- The default shipping address gets selected during ticket creation
+- The company's default shipping address gets selected during ticket creation
 
 ## [1.1.0] - 2026-07-13
 
-### Improved
+### Changed
 
 #### Overall
 
 - All URLs now include the locale to avoid broken links
+
+### Added
+
+#### RMA Tickets
+
+- Email autocompletion
+- History entries now display if posted public / private and to whom it was send by email
+- The optional recipient is now available and editable
 
 ## [1.0.0] - 2026-06-22
 
