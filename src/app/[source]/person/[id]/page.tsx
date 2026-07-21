@@ -1,6 +1,7 @@
 "use client";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
+import TicketTab from "@/app/components/person/ticketTab";
 import { useOffice } from "@/app/context/officeContext";
 import {
   MEINL_AE_URL,
@@ -58,6 +59,7 @@ import {
   IconEdit,
   IconIdBadge2,
   IconLockQuestion,
+  IconTicket,
   IconUser,
   IconWand,
 } from "@tabler/icons-react";
@@ -98,6 +100,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (!person) return;
     updateHistory();
     form.setValues(getInitialValues(person));
+
+    const query = new URLSearchParams(window.location.search);
+    const tab = query.get("tab");
+    if (tab) setActiveTab(tab);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [person]);
 
@@ -204,6 +210,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               phone={person.phone}
               mobile={person.mobil}
             />
+            {source === "OFFGUT" && (
+              <Button
+                variant="light"
+                component={Link}
+                href={`/${sourcePrefix}/ticket/new?kdnr=${person.kdnr}`}
+                leftSection={<IconTicket size={16} />}
+              >
+                {t(locale, "newTicket")}
+              </Button>
+            )}
             {(isPreview || source === "OFFUSA") && (
               <Button
                 component="a"
@@ -249,6 +265,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Tabs.Tab value="private" leftSection={<IconBalloon size={16} />}>
                 {t(locale, "privateSection")}
               </Tabs.Tab>
+              {source === "OFFGUT" && (
+                <Tabs.Tab
+                  value="tickets"
+                  leftSection={<IconTicket size={16} />}
+                >
+                  {t(locale, "tickets")}
+                </Tabs.Tab>
+              )}
             </Scroller>
           </Tabs.List>
 
@@ -535,6 +559,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </div>
             </Tabs.Panel>
           </form>
+          {source === "OFFGUT" && <TicketTab kdnr={id} />}
         </Tabs>
       </main>
       <Modal

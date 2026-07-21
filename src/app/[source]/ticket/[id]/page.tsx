@@ -515,7 +515,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               variant="transparent"
               color="gray"
               component={Link}
-              href={`/${sourcePrefix}/company/${ticket.kdnr}`}
+              href={`/${sourcePrefix}/company/${ticket.kdnr}?tab=tickets`}
               leftSection={<IconChevronLeft size={16} />}
             >
               {ticket.firma}
@@ -583,7 +583,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </div>
           </div>
           <Link
-            href={`/${sourcePrefix}/person/${ticket.kdnr_full}`}
+            href={`/${sourcePrefix}/person/${ticket.kdnr_full}?tab=tickets`}
             className="flex flex-row-reverse lg:flex-row justify-end items-center gap-2 hover:text-(--main) transition-all"
           >
             <div className="flex flex-col lg:items-end">

@@ -332,136 +332,146 @@ export default function TicketTable({
     }
   }, [!!recentlyViewed]);
 
+  if (tickets.length < 1) {
+    return (
+      <p className="text-xs dimmed text-center p-4">
+        {t(locale, "ticketNotFound")}
+      </p>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid md:grid-cols-5 items-end gap-2 md:gap-y-0">
-        <Select
-          label={t(locale, "createdBy")}
-          searchable
-          clearable
-          placeholder={t(locale, "filter")}
-          data={createdByOptions}
-          value={filters.createdBy || null}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, createdBy: value || "" }))
-          }
-          checkIconPosition="right"
-          disabled={createdBy !== undefined}
-        />
-        <Select
-          label={t(locale, "status")}
-          searchable
-          clearable
-          placeholder={t(locale, "filter")}
-          data={statusOptions}
-          value={filters.status_int || null}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, status_int: value || "" }))
-          }
-          checkIconPosition="right"
-          disabled={status !== undefined}
-        />
-        <Select
-          label={t(locale, "company")}
-          searchable
-          clearable
-          placeholder={t(locale, "filter")}
-          data={firmaOptions}
-          value={filters.firma}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, firma: value || "" }))
-          }
-          checkIconPosition="right"
-        />
-        <Select
-          label={t(locale, "customerNumber")}
-          searchable
-          clearable
-          placeholder={t(locale, "filter")}
-          data={kdnrOptions}
-          value={filters.kdnr}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, kdnr: value || "" }))
-          }
-          checkIconPosition="right"
-        />
-        <Select
-          label={t(locale, "nameLabel")}
-          searchable
-          clearable
-          placeholder={t(locale, "filter")}
-          data={kdnrNameOptions}
-          value={filters.kdnr_name}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, kdnr_name: value || "" }))
-          }
-          checkIconPosition="right"
-        />
-        <Select
-          label={t(locale, "articleNumber")}
-          searchable
-          clearable
-          placeholder={t(locale, "filter")}
-          data={artnrOptions}
-          value={filters.artnr}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, artnr: value || "" }))
-          }
-          checkIconPosition="right"
-        />
-        <DatePickerInput
-          type="range"
-          allowSingleDateInRange
-          highlightToday
-          label={t(locale, "created")}
-          placeholder={t(locale, "filter")}
-          value={filters.createdRange}
-          onChange={(value) =>
-            setFilters((prev) => ({
-              ...prev,
-              createdRange: value as [Date | null, Date | null],
-            }))
-          }
-          valueFormat="DD.MM.YYYY"
-          presets={getDatePresets(locale)}
-          rightSection={<IconCalendarWeek size={16} />}
-          rightSectionPointerEvents="none"
-          clearable
-        />
-        <Select
-          label={t(locale, "customerType")}
-          allowDeselect={false}
-          data={[
-            { label: t(locale, "all"), value: "all" },
-            { label: t(locale, "withoutExport"), value: "withoutExport" },
-            { label: t(locale, "onlyExport"), value: "export" },
-          ]}
-          value={filters.kundenart}
-          onChange={(value) =>
-            setFilters((prev) => ({ ...prev, kundenart: value || "" }))
-          }
-          checkIconPosition="right"
-        />
-        <Button
-          variant="light"
-          onClick={() => {
-            setFilters(initialValues);
-          }}
-          leftSection={<IconFilterOff size={16} />}
-          disabled={JSON.stringify(filters) === JSON.stringify(initialValues)}
-        >
-          {t(locale, "clearFilters")}
-        </Button>
-        <Button
-          color="dark"
-          onClick={async () => {
-            await exportXLSX(JSON.stringify(sortedTickets));
-          }}
-          leftSection={<IconTableExport size={16} />}
-        >
-          {t(locale, "export")}
-        </Button>
-      </div>
+      {view !== "person" && (
+        <div className="grid md:grid-cols-5 items-end gap-2 md:gap-y-0">
+          <Select
+            label={t(locale, "createdBy")}
+            searchable
+            clearable
+            placeholder={t(locale, "filter")}
+            data={createdByOptions}
+            value={filters.createdBy || null}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, createdBy: value || "" }))
+            }
+            checkIconPosition="right"
+            disabled={createdBy !== undefined}
+          />
+          <Select
+            label={t(locale, "status")}
+            searchable
+            clearable
+            placeholder={t(locale, "filter")}
+            data={statusOptions}
+            value={filters.status_int || null}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, status_int: value || "" }))
+            }
+            checkIconPosition="right"
+            disabled={status !== undefined}
+          />
+          <Select
+            label={t(locale, "company")}
+            searchable
+            clearable
+            placeholder={t(locale, "filter")}
+            data={firmaOptions}
+            value={filters.firma}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, firma: value || "" }))
+            }
+            checkIconPosition="right"
+          />
+          <Select
+            label={t(locale, "customerNumber")}
+            searchable
+            clearable
+            placeholder={t(locale, "filter")}
+            data={kdnrOptions}
+            value={filters.kdnr}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, kdnr: value || "" }))
+            }
+            checkIconPosition="right"
+          />
+          <Select
+            label={t(locale, "nameLabel")}
+            searchable
+            clearable
+            placeholder={t(locale, "filter")}
+            data={kdnrNameOptions}
+            value={filters.kdnr_name}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, kdnr_name: value || "" }))
+            }
+            checkIconPosition="right"
+          />
+          <Select
+            label={t(locale, "articleNumber")}
+            searchable
+            clearable
+            placeholder={t(locale, "filter")}
+            data={artnrOptions}
+            value={filters.artnr}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, artnr: value || "" }))
+            }
+            checkIconPosition="right"
+          />
+          <DatePickerInput
+            type="range"
+            allowSingleDateInRange
+            highlightToday
+            label={t(locale, "created")}
+            placeholder={t(locale, "filter")}
+            value={filters.createdRange}
+            onChange={(value) =>
+              setFilters((prev) => ({
+                ...prev,
+                createdRange: value as [Date | null, Date | null],
+              }))
+            }
+            valueFormat="DD.MM.YYYY"
+            presets={getDatePresets(locale)}
+            rightSection={<IconCalendarWeek size={16} />}
+            rightSectionPointerEvents="none"
+            clearable
+          />
+          <Select
+            label={t(locale, "customerType")}
+            allowDeselect={false}
+            data={[
+              { label: t(locale, "all"), value: "all" },
+              { label: t(locale, "withoutExport"), value: "withoutExport" },
+              { label: t(locale, "onlyExport"), value: "export" },
+            ]}
+            value={filters.kundenart}
+            onChange={(value) =>
+              setFilters((prev) => ({ ...prev, kundenart: value || "" }))
+            }
+            checkIconPosition="right"
+          />
+          <Button
+            variant="light"
+            onClick={() => {
+              setFilters(initialValues);
+            }}
+            leftSection={<IconFilterOff size={16} />}
+            disabled={JSON.stringify(filters) === JSON.stringify(initialValues)}
+          >
+            {t(locale, "clearFilters")}
+          </Button>
+          <Button
+            color="dark"
+            onClick={async () => {
+              await exportXLSX(JSON.stringify(sortedTickets));
+            }}
+            leftSection={<IconTableExport size={16} />}
+          >
+            {t(locale, "export")}
+          </Button>
+        </div>
+      )}
 
       <Pagination
         page={page}
@@ -501,7 +511,9 @@ export default function TicketTable({
             {currentPageData.map((ticket, index) => (
               <Table.Tr
                 key={index}
-                onClick={() => router.push(`/${sourcePrefix}/ticket/${ticket.nr}`)}
+                onClick={() =>
+                  router.push(`/${sourcePrefix}/ticket/${ticket.nr}`)
+                }
                 className="cursor-pointer"
               >
                 {view === "new" ? (

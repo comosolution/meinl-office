@@ -256,6 +256,14 @@ export default function Page() {
   };
 
   useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const kdnrFromQuery = query.get("kdnr");
+    if (kdnrFromQuery) {
+      form.setFieldValue("kdnr", kdnrFromQuery);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!form.values.kdnr) return;
     if (form.values.kdnr === loadedKdnr) return;
 

@@ -5,6 +5,7 @@ import Map from "@/app/components/company/map";
 import Contact from "@/app/components/contact";
 import Loader from "@/app/components/loader";
 import OrderTable from "@/app/components/order/orderTable";
+import TicketTab from "@/app/components/person/ticketTab";
 import { useOffice } from "@/app/context/officeContext";
 import {
   MEINL_AE_URL,
@@ -55,6 +56,7 @@ import {
   IconPhoto,
   IconPlus,
   IconShoppingCartPin,
+  IconTicket,
   IconUsersGroup,
 } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
@@ -197,6 +199,16 @@ export default function Page({
               {t(locale, "addEmployee")}
             </Button>
           )}
+          {source === "OFFGUT" && (
+            <Button
+              variant="light"
+              component={Link}
+              href={`/${sourcePrefix}/ticket/new?kdnr=${kdnr}`}
+              leftSection={<IconTicket size={16} />}
+            >
+              {t(locale, "newTicket")}
+            </Button>
+          )}
           {(isPreview || source === "OFFUSA") && (
             <Button
               component="a"
@@ -288,6 +300,11 @@ export default function Page({
             >
               {t(locale, "employees")}
             </Tabs.Tab>
+            {source === "OFFGUT" && (
+              <Tabs.Tab value="tickets" leftSection={<IconTicket size={16} />}>
+                {t(locale, "tickets")}
+              </Tabs.Tab>
+            )}
             {(source === "OFFUSA" || isPreview) && (
               <Tabs.Tab value="orders" leftSection={<IconBasket size={16} />}>
                 {t(locale, "orders")}
@@ -637,7 +654,9 @@ export default function Page({
                             key={index}
                             className="cursor-pointer"
                             onClick={() =>
-                              router.push(`/${sourcePrefix}/campaign/${campaign.id}`)
+                              router.push(
+                                `/${sourcePrefix}/campaign/${campaign.id}`,
+                              )
                             }
                           >
                             <Table.Td>{campaign.id}</Table.Td>
@@ -658,6 +677,8 @@ export default function Page({
             <LogoUpload company={company} onSuccess={() => getCompany()} />
           </div>
         </Tabs.Panel>
+
+        {source === "OFFGUT" && <TicketTab kdnr={kdnr} />}
 
         {(source === "OFFUSA" || isPreview) && (
           <Tabs.Panel value="orders" className="py-4">
