@@ -1,5 +1,6 @@
 "use client";
 import { Avatar, Button, MultiSelect, Table, TextInput } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { IconChevronUp, IconTableExport } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -24,6 +25,7 @@ export default function Page() {
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [sortBy, setSortBy] = useState<keyof Person>("nachname");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [filters, setFilters] = useState({
@@ -113,8 +115,56 @@ export default function Page() {
     { label: t(locale, "name"), key: "nachname", sortable: true },
     { label: t(locale, "company"), key: "name1", sortable: true },
     { label: t(locale, "position"), key: "jobpos", sortable: true },
+    { label: t(locale, "email"), key: "email", sortable: true },
     { label: t(locale, "b2b"), key: "b2bnr", sortable: true },
   ] as const;
+
+  const handleExportToCleverReach = async () => {
+    setExporting(true);
+    try {
+      const response = await fetch("/api/mailing/cleverreach", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: `Meinl Office Mailing ${new Date().toLocaleString("de-DE")}`,
+          persons: filteredData.map((p) => ({
+            email: p.email,
+            vorname: p.vorname,
+            nachname: p.nachname,
+            name1: p.name1,
+          })),
+        }),
+      });
+
+      if (!response.ok) {
+        console.error(
+          "Failed to export to CleverReach:",
+          await response.text(),
+        );
+        notifications.show({
+          title: t(locale, "error"),
+          message: t(locale, "exportFailedMessage"),
+          color: "red",
+        });
+        return;
+      }
+
+      notifications.show({
+        title: t(locale, "exportSuccessful"),
+        message: t(locale, "exportSuccessMessage"),
+        color: "dark",
+      });
+    } catch (error) {
+      console.error("Error exporting to CleverReach:", error);
+      notifications.show({
+        title: t(locale, "error"),
+        message: t(locale, "exportFailedMessage"),
+        color: "red",
+      });
+    } finally {
+      setExporting(false);
+    }
+  };
 
   if (loading) return <Loader />;
 
@@ -156,14 +206,12 @@ export default function Page() {
           }}
         />
         <Button
-          onClick={() => {
-            console.log(
-              JSON.stringify(persons.map((e) => e.email).filter(Boolean)),
-            );
-          }}
+          onClick={handleExportToCleverReach}
+          loading={exporting}
+          disabled={filteredData.length === 0}
           leftSection={<IconTableExport size={16} />}
         >
-          Empfängerliste nach CleverReach exportieren
+          {t(locale, "exportToCleverReach")}
         </Button>
       </div>
 
@@ -233,6 +281,7 @@ export default function Page() {
                 </Table.Td>
                 <Table.Td>{e.name1}</Table.Td>
                 <Table.Td>{e.jobpos}</Table.Td>
+                <Table.Td>{e.email}</Table.Td>
                 <Table.Td>{e.b2bnr}</Table.Td>
               </Table.Tr>
             ))}

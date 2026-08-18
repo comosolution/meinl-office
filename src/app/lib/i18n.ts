@@ -14,6 +14,10 @@ export type TranslationKey =
   | "allCompanies"
   | "allPeople"
   | "mailing"
+  | "exportToCleverReach"
+  | "exportSuccessful"
+  | "exportSuccessMessage"
+  | "exportFailedMessage"
   | "searchCompanies"
   | "searchPeople"
   | "searchCompaniesOrPeople"
@@ -336,6 +340,11 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     allCompanies: "Alle Firmen",
     allPeople: "Alle Personen",
     mailing: "Mailing",
+    exportToCleverReach: "Empfängerliste nach CleverReach exportieren",
+    exportSuccessful: "Export erfolgreich",
+    exportSuccessMessage: "Empfänger wurden an CleverReach übermittelt.",
+    exportFailedMessage:
+      "Die Empfängerliste konnte nicht an CleverReach übermittelt werden.",
     searchCompanies: "Firma suchen ...",
     searchPeople: "Person suchen ...",
     searchCompaniesOrPeople: "Firma oder Person suchen ...",
@@ -662,6 +671,11 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     allCompanies: "All Companies",
     allPeople: "All People",
     mailing: "Mailing",
+    exportToCleverReach: "Export recipient list to CleverReach",
+    exportSuccessful: "Export successful",
+    exportSuccessMessage: "Recipients were submitted to CleverReach.",
+    exportFailedMessage:
+      "The recipient list could not be submitted to CleverReach.",
     searchCompanies: "Search companies ...",
     searchPeople: "Search people ...",
     searchCompaniesOrPeople: "Search companies or people ...",

@@ -25,6 +25,10 @@ export const GLS_API = isPreview
   ? "https://shipit-wbm-test01.gls-group.eu:8443/backend/rs/shipments"
   : "https://shipit-wbm-de02.gls-group.eu/backend/rs/shipments";
 
+export const CLEVERREACH_API = "https://rest.cleverreach.com/v3";
+export const CLEVERREACH_TOKEN_URL =
+  "https://rest.cleverreach.com/oauth/token.php";
+
 export const MEINL_OFFICE_SIDEBAR_KEY = "meinl.office.sidebar.collapsed";
 export const MEINL_OFFICE_SERVICE_KEY = "meinl.office.service";
 export const MEINL_OFFICE_LOCALE_KEY = "meinl.office.locale";
