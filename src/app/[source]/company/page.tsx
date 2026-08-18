@@ -173,9 +173,11 @@ export default function Page() {
     return Array.from(
       new Set(
         companies
-          .map((c) => (c.ort.includes(",") ? c.ort.split(",")[0] : c.ort))
+          .map((c) => (c.ort?.includes(",") ? c.ort.split(",")[0] : c.ort))
           .map((ort) =>
-            ort.toLowerCase().replace(/\b\w/g, (ch) => ch.toUpperCase()),
+            ort
+              ? ort.toLowerCase().replace(/\b\w/g, (ch) => ch.toUpperCase())
+              : "",
           )
           .filter(Boolean),
       ),
@@ -359,7 +361,9 @@ export default function Page() {
               <Table.Tr
                 key={i}
                 className="cursor-pointer"
-                onClick={() => router.push(`/${sourcePrefix}/company/${company.kdnr}`)}
+                onClick={() =>
+                  router.push(`/${sourcePrefix}/company/${company.kdnr}`)
+                }
               >
                 <Table.Td>
                   <Avatar

@@ -1,7 +1,8 @@
 import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function POST(request: Request) {
-  const { type, search, source, service, user } = await request.json();
+  const { type, search, zustaendig, source, service, user } =
+    await request.json();
 
   if (!type || !search) {
     return new Response("Options missing in body", { status: 400 });
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ search, source, service, user }),
+    body: JSON.stringify({ search, zustaendig, source, service, user }),
   });
 
   if (!res.ok) {

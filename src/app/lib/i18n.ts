@@ -13,6 +13,7 @@ export type TranslationKey =
   | "all"
   | "allCompanies"
   | "allPeople"
+  | "mailing"
   | "searchCompanies"
   | "searchPeople"
   | "searchCompaniesOrPeople"
@@ -334,6 +335,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     all: "Alle",
     allCompanies: "Alle Firmen",
     allPeople: "Alle Personen",
+    mailing: "Mailing",
     searchCompanies: "Firma suchen ...",
     searchPeople: "Person suchen ...",
     searchCompaniesOrPeople: "Firma oder Person suchen ...",
@@ -659,6 +661,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     all: "All",
     allCompanies: "All Companies",
     allPeople: "All People",
+    mailing: "Mailing",
     searchCompanies: "Search companies ...",
     searchPeople: "Search people ...",
     searchCompaniesOrPeople: "Search companies or people ...",

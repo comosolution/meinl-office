@@ -17,6 +17,7 @@ import {
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
   IconLogout,
+  IconMail,
   IconMoon,
   IconNews,
   IconSun,
@@ -74,6 +75,12 @@ export default function Sidebar({
       name: t(locale, "people"),
       href: `/${sourcePrefix}/person`,
       icon: <IconUsersGroup size={20} />,
+    },
+    {
+      name: t(locale, "mailing"),
+      href: `/${sourcePrefix}/mailing`,
+      icon: <IconMail size={20} />,
+      hidden: !isPreview,
     },
     {
       name: t(locale, "campaigns"),
