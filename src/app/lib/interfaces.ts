@@ -480,3 +480,21 @@ export interface CreateTicketPayload {
   };
   Files: FileUpload[] | null;
 }
+
+export interface MailingFilter {
+  unid: string | null;
+  name: string;
+  user: string;
+  search: string;
+  source: string;
+  zustaendig: string;
+  land: string;
+}
+
+export interface MailingFilterRecord {
+  json: MailingFilter;
+  created: string;
+  modified: string;
+  updatedby: string;
+  createdby: string;
+}

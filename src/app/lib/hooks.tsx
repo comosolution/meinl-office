@@ -82,6 +82,56 @@ export function useFetchResults() {
   };
 }
 
+interface CleverReachPerson {
+  email: string;
+  vorname?: string;
+  nachname?: string;
+  name1?: string;
+}
+
+export function useCleverReachExport() {
+  const [exporting, setExporting] = useState(false);
+
+  const exportToCleverReach = async (
+    name: string,
+    persons: CleverReachPerson[],
+  ): Promise<boolean> => {
+    setExporting(true);
+    try {
+      const response = await fetch("/api/mailing/cleverreach", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          persons: persons.map((p) => ({
+            email: p.email,
+            vorname: p.vorname,
+            nachname: p.nachname,
+            name1: p.name1,
+          })),
+        }),
+      });
+
+      if (!response.ok) {
+        console.error(
+          "Failed to export to CleverReach:",
+          await response.text(),
+        );
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error exporting to CleverReach:", error);
+      return false;
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  return { exporting, exportToCleverReach };
+}
+
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
 

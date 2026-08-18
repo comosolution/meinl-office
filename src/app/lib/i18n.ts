@@ -18,6 +18,16 @@ export type TranslationKey =
   | "exportSuccessful"
   | "exportSuccessMessage"
   | "exportFailedMessage"
+  | "savedFilters"
+  | "createFilter"
+  | "allFilters"
+  | "saveFilter"
+  | "filterName"
+  | "filterSaved"
+  | "filterSavedMessage"
+  | "filterSaveFailedMessage"
+  | "filterDeleteFailedMessage"
+  | "mine"
   | "searchCompanies"
   | "searchPeople"
   | "searchCompaniesOrPeople"
@@ -345,6 +355,16 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     exportSuccessMessage: "Empfänger wurden an CleverReach übermittelt.",
     exportFailedMessage:
       "Die Empfängerliste konnte nicht an CleverReach übermittelt werden.",
+    savedFilters: "Gespeicherte Filter",
+    createFilter: "Filter erstellen",
+    allFilters: "Alle Filter",
+    saveFilter: "Filter speichern",
+    filterName: "Filtername",
+    filterSaved: "Filter gespeichert",
+    filterSavedMessage: "Der Filter wurde erfolgreich gespeichert.",
+    filterSaveFailedMessage: "Der Filter konnte nicht gespeichert werden.",
+    filterDeleteFailedMessage: "Der Filter konnte nicht gelöscht werden.",
+    mine: "Meine",
     searchCompanies: "Firma suchen ...",
     searchPeople: "Person suchen ...",
     searchCompaniesOrPeople: "Firma oder Person suchen ...",
@@ -676,6 +696,16 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     exportSuccessMessage: "Recipients were submitted to CleverReach.",
     exportFailedMessage:
       "The recipient list could not be submitted to CleverReach.",
+    savedFilters: "Saved Filters",
+    createFilter: "Create Filter",
+    allFilters: "All Filters",
+    saveFilter: "Save Filter",
+    filterName: "Filter Name",
+    filterSaved: "Filter Saved",
+    filterSavedMessage: "The filter was saved successfully.",
+    filterSaveFailedMessage: "The filter could not be saved.",
+    filterDeleteFailedMessage: "The filter could not be deleted.",
+    mine: "Mine",
     searchCompanies: "Search companies ...",
     searchPeople: "Search people ...",
     searchCompaniesOrPeople: "Search companies or people ...",
