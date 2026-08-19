@@ -32,7 +32,7 @@ export default function Page() {
   const router = useRouter();
 
   const [persons, setPersons] = useState<Person[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
@@ -47,7 +47,6 @@ export default function Page() {
   const debouncedSearch = useDebounce(filters.search, 500);
 
   const fetchData = async () => {
-    setLoading(true);
     const res = await fetchResults<Person>("persons", debouncedSearch, {
       zustaendig: filters.competences.join("#"),
       land: filters.land.join("#"),
@@ -59,6 +58,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     source,
     service,

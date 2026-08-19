@@ -119,6 +119,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     if (loading) return;
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     source,
     service,
@@ -126,7 +127,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     filters.land,
     filters.kundenart,
     debouncedSearch,
-    loading,
   ]);
 
   const handleSaveFilter = async () => {
