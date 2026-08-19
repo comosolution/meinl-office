@@ -36,6 +36,9 @@ export function MailingPersonsPanel({
   const [kundenartOptions, setKundenartOptions] = useState<
     { label: string; value: string }[]
   >([]);
+  const [kdnrInput, setKdnrInput] = useState(
+    filters.kdnr.split("#").filter(Boolean).join(" "),
+  );
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<keyof Person>("nachname");
@@ -77,6 +80,10 @@ export function MailingPersonsPanel({
     fetchFilterOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
+
+  useEffect(() => {
+    setKdnrInput(filters.kdnr.split("#").filter(Boolean).join(" "));
+  }, [filters.kdnr]);
 
   const sortedData = useMemo(() => {
     const collator = new Intl.Collator(undefined, {
@@ -159,6 +166,19 @@ export function MailingPersonsPanel({
           onChange={(e) => {
             const value = e.currentTarget.value;
             setFilters((prev) => ({ ...prev, search: value }));
+          }}
+          readOnly={readOnly}
+        />
+        <TextInput
+          label={t(locale, "kdnr")}
+          value={kdnrInput}
+          onChange={(e) => {
+            const value = e.currentTarget.value;
+            setKdnrInput(value);
+            setFilters((prev) => ({
+              ...prev,
+              kdnr: value.trim().split(/\s+/).filter(Boolean).join("#"),
+            }));
           }}
           readOnly={readOnly}
         />

@@ -64,6 +64,7 @@ export function useFetchResults() {
       zustaendig?: string;
       land?: string;
       kundenart?: string;
+      kdnr?: string;
     },
     signal?: AbortSignal,
   ): Promise<T[]> => {
@@ -75,6 +76,7 @@ export function useFetchResults() {
         zustaendig: filters?.zustaendig,
         land: filters?.land,
         kundenart: filters?.kundenart,
+        kdnr: filters?.kdnr,
         source,
         service,
         user,

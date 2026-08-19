@@ -39,18 +39,21 @@ export default function Page() {
     competences: [] as string[],
     land: [] as string[],
     kundenart: [] as string[],
+    kdnr: "",
   });
 
   const [saveModalOpened, { open: openSaveModal, close: closeSaveModal }] =
     useDisclosure(false);
 
   const debouncedSearch = useDebounce(filters.search, 500);
+  const debouncedKdnr = useDebounce(filters.kdnr, 500);
 
   const fetchData = async () => {
     const res = await fetchResults<Person>("persons", debouncedSearch, {
       zustaendig: filters.competences.join("#"),
       land: filters.land.join("#"),
       kundenart: filters.kundenart.join("#"),
+      kdnr: debouncedKdnr,
     });
     setPersons(res);
     setLoading(false);
@@ -65,6 +68,7 @@ export default function Page() {
     filters.competences,
     filters.land,
     filters.kundenart,
+    debouncedKdnr,
     debouncedSearch,
   ]);
 

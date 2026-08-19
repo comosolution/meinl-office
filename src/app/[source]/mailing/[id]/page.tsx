@@ -44,6 +44,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     competences: [] as string[],
     land: [] as string[],
     kundenart: [] as string[],
+    kdnr: "",
   });
   const [savedState, setSavedState] = useState({
     name: "",
@@ -52,10 +53,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       competences: [] as string[],
       land: [] as string[],
       kundenart: [] as string[],
+      kdnr: "",
     },
   });
 
   const debouncedSearch = useDebounce(filters.search, 500);
+  const debouncedKdnr = useDebounce(filters.kdnr, 500);
 
   const fetchFilter = async () => {
     try {
@@ -84,6 +87,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           kundenart: filter?.kundenart
             ? filter.kundenart.split("#").filter(Boolean)
             : [],
+          kdnr: filter?.kdnr ?? "",
         };
 
         setName(loadedName);
@@ -107,6 +111,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       zustaendig: filters.competences.join("#"),
       land: filters.land.join("#"),
       kundenart: filters.kundenart.join("#"),
+      kdnr: debouncedKdnr,
     });
     setPersons(res);
   };
@@ -126,6 +131,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     filters.competences,
     filters.land,
     filters.kundenart,
+    debouncedKdnr,
     debouncedSearch,
   ]);
 
@@ -144,6 +150,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           zustaendig: filters.competences.join("#"),
           land: filters.land.join("#"),
           kundenart: filters.kundenart.join("#"),
+          kdnr: filters.kdnr,
         }),
       });
 

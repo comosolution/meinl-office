@@ -487,6 +487,7 @@ export interface MailingFilters {
   competences: string[];
   land: string[];
   kundenart: string[];
+  kdnr: string;
 }
 
 export interface MailingFilter {
@@ -498,6 +499,7 @@ export interface MailingFilter {
   zustaendig: string;
   land: string;
   kundenart: string;
+  kdnr: string;
 }
 
 export interface MailingFilterRecord {
