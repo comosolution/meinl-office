@@ -1,15 +1,19 @@
 "use client";
 import Pagination from "@/app/components/pagination";
 import { useOffice } from "@/app/context/officeContext";
-import { countryCodes } from "@/app/lib/countryCodes";
+import {
+  countryCodes,
+  normalizeAlpha2CountryCode,
+} from "@/app/lib/countryCodes";
 import { competences } from "@/app/lib/data";
+import { useFetchResults } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
-import { Person } from "@/app/lib/interfaces";
+import { Company, Person } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import { Avatar, MultiSelect, Table, TextInput } from "@mantine/core";
 import { IconChevronUp } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 
 interface MailingFilters {
   search: string;
@@ -30,11 +34,39 @@ export function MailingPersonsPanel({
 }) {
   const { locale, sourcePrefix } = useOffice();
   const router = useRouter();
+  const fetchResults = useFetchResults();
 
+  const [countryOptions, setCountryOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<keyof Person>("nachname");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
+  useEffect(() => {
+    const fetchCountryOptions = async () => {
+      const companies = await fetchResults<Company>("companies");
+      const options = Array.from(
+        new Set(
+          companies
+            .map((c) => normalizeAlpha2CountryCode(c.land) || "")
+            .filter(Boolean),
+        ),
+      )
+        .map((value) => ({
+          label:
+            countryCodes(locale).find((c) => c.value === value)?.label ?? value,
+          value,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label));
+
+      setCountryOptions(options);
+    };
+
+    fetchCountryOptions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale]);
 
   const sortedData = useMemo(() => {
     const collator = new Intl.Collator(undefined, {
@@ -92,7 +124,7 @@ export function MailingPersonsPanel({
           searchable
           clearable
           placeholder={t(locale, "filter")}
-          data={countryCodes(locale)}
+          data={countryOptions}
           value={filters.land}
           onChange={(value) => setFilters((prev) => ({ ...prev, land: value }))}
           readOnly={readOnly}

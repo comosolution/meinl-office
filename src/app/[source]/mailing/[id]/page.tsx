@@ -21,7 +21,6 @@ import {
   useDebounce,
   useFetchResults,
 } from "../../../lib/hooks";
-import { toAliasCountryCode } from "../../../lib/countryCodes";
 import { t } from "../../../lib/i18n";
 import { MailingFilter, Person } from "../../../lib/interfaces";
 import { getErrorMessage } from "../../../lib/utils";
@@ -103,7 +102,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       "persons",
       debouncedSearch,
       filters.competences.join("#"),
-      filters.land.map(toAliasCountryCode).join("#"),
+      filters.land.join("#"),
     );
     setPersons(res);
   };

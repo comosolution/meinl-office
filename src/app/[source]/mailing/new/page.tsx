@@ -15,7 +15,6 @@ import Loader from "../../../components/loader";
 import { MailingPersonsPanel } from "../../../components/mailing/personsPanel";
 import { SaveFilterModal } from "../../../components/mailing/saveFilterModal";
 import { useOffice } from "../../../context/officeContext";
-import { toAliasCountryCode } from "../../../lib/countryCodes";
 import {
   useCleverReachExport,
   useDebounce,
@@ -52,7 +51,7 @@ export default function Page() {
       "persons",
       debouncedSearch,
       filters.competences.join("#"),
-      filters.land.map(toAliasCountryCode).join("#"),
+      filters.land.join("#"),
     );
     setPersons(res);
     setLoading(false);
