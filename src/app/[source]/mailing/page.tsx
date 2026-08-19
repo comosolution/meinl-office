@@ -122,7 +122,7 @@ export default function Page() {
       </header>
 
       <div className="overflow-x-auto">
-        <Table highlightOnHover>
+        <Table highlightOnHover layout="fixed">
           <Table.Thead>
             <Table.Tr>
               {columns.map((col, index) => (
