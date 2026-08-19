@@ -86,6 +86,7 @@ export function useFetchResults() {
 
 interface CleverReachPerson {
   email: string;
+  anrede?: string;
   vorname?: string;
   nachname?: string;
   name1?: string;
@@ -107,6 +108,7 @@ export function useCleverReachExport() {
           name,
           persons: persons.map((p) => ({
             email: p.email,
+            anrede: p.anrede,
             vorname: p.vorname,
             nachname: p.nachname,
             name1: p.name1,

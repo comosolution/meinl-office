@@ -2,6 +2,7 @@ import { CLEVERREACH_API, CLEVERREACH_TOKEN_URL } from "@/app/lib/config";
 
 interface CleverReachPerson {
   email: string;
+  anrede?: string;
   vorname?: string;
   nachname?: string;
   name1?: string;
@@ -81,10 +82,11 @@ export async function POST(request: Request) {
       registered: now,
       activated: now,
       source: "Meinl Office Mailing",
-      attributes: {
-        firstname: p.vorname || "",
-        lastname: p.nachname || "",
-        company: p.name1 || "",
+      global_attributes: {
+        anrede: p.anrede || "",
+        vorname: p.vorname || "",
+        nachname: p.nachname || "",
+        firma: p.name1 || "",
       },
     }));
 
