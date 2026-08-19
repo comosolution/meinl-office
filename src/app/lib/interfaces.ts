@@ -81,6 +81,7 @@ export interface Person {
   id: number;
   kdnr: string;
   kundenart: number;
+  kundenartText: string;
   vorname: string;
   nachname: string;
   name1: string;
@@ -481,6 +482,13 @@ export interface CreateTicketPayload {
   Files: FileUpload[] | null;
 }
 
+export interface MailingFilters {
+  search: string;
+  competences: string[];
+  land: string[];
+  kundenart: string[];
+}
+
 export interface MailingFilter {
   unid: string | null;
   name: string;
@@ -489,6 +497,7 @@ export interface MailingFilter {
   source: string;
   zustaendig: string;
   land: string;
+  kundenart: string;
 }
 
 export interface MailingFilterRecord {

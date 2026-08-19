@@ -43,6 +43,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     search: "",
     competences: [] as string[],
     land: [] as string[],
+    kundenart: [] as string[],
   });
   const [savedState, setSavedState] = useState({
     name: "",
@@ -50,6 +51,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       search: "",
       competences: [] as string[],
       land: [] as string[],
+      kundenart: [] as string[],
     },
   });
 
@@ -79,6 +81,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             ? filter.zustaendig.split("#").filter(Boolean)
             : [],
           land: filter?.land ? filter.land.split("#").filter(Boolean) : [],
+          kundenart: filter?.kundenart
+            ? filter.kundenart.split("#").filter(Boolean)
+            : [],
         };
 
         setName(loadedName);
@@ -98,12 +103,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   const fetchData = async () => {
-    const res = await fetchResults<Person>(
-      "persons",
-      debouncedSearch,
-      filters.competences.join("#"),
-      filters.land.join("#"),
-    );
+    const res = await fetchResults<Person>("persons", debouncedSearch, {
+      zustaendig: filters.competences.join("#"),
+      land: filters.land.join("#"),
+      kundenart: filters.kundenart.join("#"),
+    });
     setPersons(res);
   };
 
@@ -120,6 +124,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     service,
     filters.competences,
     filters.land,
+    filters.kundenart,
     debouncedSearch,
     loading,
   ]);
@@ -138,6 +143,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           source,
           zustaendig: filters.competences.join("#"),
           land: filters.land.join("#"),
+          kundenart: filters.kundenart.join("#"),
         }),
       });
 

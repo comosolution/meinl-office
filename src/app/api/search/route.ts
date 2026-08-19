@@ -1,7 +1,7 @@
 import { MEINL_WEB_API } from "@/app/lib/config";
 
 export async function POST(request: Request) {
-  const { type, search, zustaendig, land, source, service, user } =
+  const { type, search, zustaendig, land, kundenart, source, service, user } =
     await request.json();
 
   if (!type || !search) {
@@ -13,7 +13,15 @@ export async function POST(request: Request) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ search, zustaendig, land, source, service, user }),
+    body: JSON.stringify({
+      search,
+      zustaendig,
+      land,
+      kundenart,
+      source,
+      service,
+      user,
+    }),
   });
 
   if (!res.ok) {

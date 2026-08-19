@@ -38,6 +38,7 @@ export default function Page() {
     search: "",
     competences: [] as string[],
     land: [] as string[],
+    kundenart: [] as string[],
   });
 
   const [saveModalOpened, { open: openSaveModal, close: closeSaveModal }] =
@@ -47,19 +48,25 @@ export default function Page() {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetchResults<Person>(
-      "persons",
-      debouncedSearch,
-      filters.competences.join("#"),
-      filters.land.join("#"),
-    );
+    const res = await fetchResults<Person>("persons", debouncedSearch, {
+      zustaendig: filters.competences.join("#"),
+      land: filters.land.join("#"),
+      kundenart: filters.kundenart.join("#"),
+    });
     setPersons(res);
     setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
-  }, [source, service, filters.competences, filters.land, debouncedSearch]);
+  }, [
+    source,
+    service,
+    filters.competences,
+    filters.land,
+    filters.kundenart,
+    debouncedSearch,
+  ]);
 
   const handleExportToCleverReach = async () => {
     const success = await exportToCleverReach(
@@ -96,6 +103,7 @@ export default function Page() {
           source,
           zustaendig: filters.competences.join("#"),
           land: filters.land.join("#"),
+          kundenart: filters.kundenart.join("#"),
         }),
       });
 

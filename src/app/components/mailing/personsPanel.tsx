@@ -8,18 +8,12 @@ import {
 import { competences } from "@/app/lib/data";
 import { useFetchResults } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
-import { Company, Person } from "@/app/lib/interfaces";
+import { MailingFilters, Person } from "@/app/lib/interfaces";
 import { getAvatarColor } from "@/app/lib/utils";
 import { Avatar, MultiSelect, Table, TextInput } from "@mantine/core";
 import { IconChevronUp } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
-
-interface MailingFilters {
-  search: string;
-  competences: string[];
-  land: string[];
-}
 
 export function MailingPersonsPanel({
   filters,
@@ -39,32 +33,48 @@ export function MailingPersonsPanel({
   const [countryOptions, setCountryOptions] = useState<
     { label: string; value: string }[]
   >([]);
+  const [kundenartOptions, setKundenartOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<keyof Person>("nachname");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
+  const fetchFilterOptions = async () => {
+    const allPersons = await fetchResults<Person>("persons");
+
+    const countryOptions = Array.from(
+      new Set(
+        allPersons
+          .map((p) => normalizeAlpha2CountryCode(p.land) || "")
+          .filter(Boolean),
+      ),
+    )
+      .map((value) => ({
+        label:
+          countryCodes(locale).find((c) => c.value === value)?.label ?? value,
+        value,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+
+    const kundenartOptions = Array.from(
+      new Map(
+        allPersons.map((p) => [
+          String(p.kundenart),
+          p.kundenartText || String(p.kundenart),
+        ]),
+      ),
+    )
+      .map(([value, label]) => ({ label, value }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+
+    setCountryOptions(countryOptions);
+    setKundenartOptions(kundenartOptions);
+  };
+
   useEffect(() => {
-    const fetchCountryOptions = async () => {
-      const companies = await fetchResults<Company>("companies");
-      const options = Array.from(
-        new Set(
-          companies
-            .map((c) => normalizeAlpha2CountryCode(c.land) || "")
-            .filter(Boolean),
-        ),
-      )
-        .map((value) => ({
-          label:
-            countryCodes(locale).find((c) => c.value === value)?.label ?? value,
-          value,
-        }))
-        .sort((a, b) => a.label.localeCompare(b.label));
-
-      setCountryOptions(options);
-    };
-
-    fetchCountryOptions();
+    fetchFilterOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
 
@@ -105,7 +115,20 @@ export function MailingPersonsPanel({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-y-0">
+      <div className="flex flex-col gap-1">
+        <MultiSelect
+          label={t(locale, "customerType")}
+          searchable
+          clearable
+          placeholder={t(locale, "filter")}
+          data={kundenartOptions}
+          value={filters.kundenart}
+          onChange={(value) =>
+            setFilters((prev) => ({ ...prev, kundenart: value }))
+          }
+          readOnly={readOnly}
+          checkIconPosition="right"
+        />
         <MultiSelect
           label={t(locale, "responsibilities")}
           searchable
