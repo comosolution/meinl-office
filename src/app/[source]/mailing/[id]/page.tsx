@@ -12,7 +12,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Loader from "../../../components/loader";
 import { MailingPersonsPanel } from "../../../components/mailing/personsPanel";
 import { useOffice } from "../../../context/officeContext";
@@ -23,6 +23,7 @@ import {
 } from "../../../lib/hooks";
 import { t } from "../../../lib/i18n";
 import { MailingFilter, Person } from "../../../lib/interfaces";
+import { filterPersons } from "../../../lib/mailingFilters";
 import { getErrorMessage } from "../../../lib/utils";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -58,7 +59,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   });
 
   const debouncedSearch = useDebounce(filters.search, 500);
-  const debouncedKdnr = useDebounce(filters.kdnr, 500);
 
   const fetchFilter = async () => {
     try {
@@ -109,9 +109,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const fetchData = async () => {
     const res = await fetchResults<Person>("persons", debouncedSearch, {
       zustaendig: filters.competences.join("#"),
-      land: filters.land.join("#"),
-      kundenart: filters.kundenart.join("#"),
-      kdnr: debouncedKdnr,
     });
     setPersons(res);
   };
@@ -125,15 +122,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (loading) return;
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    source,
-    service,
-    filters.competences,
-    filters.land,
-    filters.kundenart,
-    debouncedKdnr,
-    debouncedSearch,
-  ]);
+  }, [source, service, filters.competences, debouncedSearch]);
+
+  const filteredPersons = useMemo(
+    () => filterPersons(persons, filters),
+    [persons, filters],
+  );
 
   const handleSaveFilter = async () => {
     setSaving(true);
@@ -222,7 +216,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const handleExportToCleverReach = async () => {
     const success = await exportToCleverReach(
       name || `Meinl Office Mailing ${new Date().toLocaleString("de-DE")}`,
-      persons,
+      filteredPersons,
     );
 
     notifications.show(
@@ -309,7 +303,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Button
                 onClick={handleExportToCleverReach}
                 loading={exporting}
-                disabled={persons.length === 0}
+                disabled={filteredPersons.length === 0}
                 leftSection={<IconTableExport size={16} />}
               >
                 {t(locale, "exportToCleverReach")}

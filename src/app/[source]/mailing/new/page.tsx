@@ -10,7 +10,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Loader from "../../../components/loader";
 import { MailingPersonsPanel } from "../../../components/mailing/personsPanel";
 import { SaveFilterModal } from "../../../components/mailing/saveFilterModal";
@@ -22,6 +22,7 @@ import {
 } from "../../../lib/hooks";
 import { t } from "../../../lib/i18n";
 import { Person } from "../../../lib/interfaces";
+import { filterPersons } from "../../../lib/mailingFilters";
 import { getErrorMessage } from "../../../lib/utils";
 
 export default function Page() {
@@ -46,14 +47,10 @@ export default function Page() {
     useDisclosure(false);
 
   const debouncedSearch = useDebounce(filters.search, 500);
-  const debouncedKdnr = useDebounce(filters.kdnr, 500);
 
   const fetchData = async () => {
     const res = await fetchResults<Person>("persons", debouncedSearch, {
       zustaendig: filters.competences.join("#"),
-      land: filters.land.join("#"),
-      kundenart: filters.kundenart.join("#"),
-      kdnr: debouncedKdnr,
     });
     setPersons(res);
     setLoading(false);
@@ -62,20 +59,17 @@ export default function Page() {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    source,
-    service,
-    filters.competences,
-    filters.land,
-    filters.kundenart,
-    debouncedKdnr,
-    debouncedSearch,
-  ]);
+  }, [source, service, filters.competences, debouncedSearch]);
+
+  const filteredPersons = useMemo(
+    () => filterPersons(persons, filters),
+    [persons, filters],
+  );
 
   const handleExportToCleverReach = async () => {
     const success = await exportToCleverReach(
       `Meinl Office Mailing ${new Date().toLocaleString("de-DE")}`,
-      persons,
+      filteredPersons,
     );
 
     notifications.show(
@@ -108,6 +102,7 @@ export default function Page() {
           zustaendig: filters.competences.join("#"),
           land: filters.land.join("#"),
           kundenart: filters.kundenart.join("#"),
+          kdnr: filters.kdnr,
         }),
       });
 
@@ -153,14 +148,14 @@ export default function Page() {
             variant="transparent"
             onClick={handleExportToCleverReach}
             loading={exporting}
-            disabled={persons.length === 0}
+            disabled={filteredPersons.length === 0}
             leftSection={<IconTableExport size={16} />}
           >
             {t(locale, "exportToCleverReach")}
           </Button>
           <Button
             onClick={openSaveModal}
-            disabled={persons.length === 0}
+            disabled={filteredPersons.length === 0}
             leftSection={<IconDeviceFloppy size={16} />}
           >
             {t(locale, "saveFilter")}

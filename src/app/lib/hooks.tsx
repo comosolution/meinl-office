@@ -62,9 +62,6 @@ export function useFetchResults() {
     query?: string,
     filters?: {
       zustaendig?: string;
-      land?: string;
-      kundenart?: string;
-      kdnr?: string;
     },
     signal?: AbortSignal,
   ): Promise<T[]> => {
@@ -74,9 +71,6 @@ export function useFetchResults() {
         type,
         search: query?.replaceAll("'", " ") || " ",
         zustaendig: filters?.zustaendig,
-        land: filters?.land,
-        kundenart: filters?.kundenart,
-        kdnr: filters?.kdnr,
         source,
         service,
         user,

@@ -9,6 +9,7 @@ import { competences } from "@/app/lib/data";
 import { useFetchResults } from "@/app/lib/hooks";
 import { t } from "@/app/lib/i18n";
 import { MailingFilters, Person } from "@/app/lib/interfaces";
+import { filterPersons } from "@/app/lib/mailingFilters";
 import { getAvatarColor } from "@/app/lib/utils";
 import { Avatar, MultiSelect, Table, TextInput } from "@mantine/core";
 import { IconChevronUp } from "@tabler/icons-react";
@@ -85,12 +86,17 @@ export function MailingPersonsPanel({
     setKdnrInput(filters.kdnr.split("#").filter(Boolean).join(" "));
   }, [filters.kdnr]);
 
+  const filteredPersons = useMemo(
+    () => filterPersons(persons, filters),
+    [persons, filters],
+  );
+
   const sortedData = useMemo(() => {
     const collator = new Intl.Collator(undefined, {
       numeric: true,
       sensitivity: "base",
     });
-    return [...persons].sort((a, b) => {
+    return [...filteredPersons].sort((a, b) => {
       const aVal = a[sortBy];
       const bVal = b[sortBy];
 
@@ -105,7 +111,7 @@ export function MailingPersonsPanel({
         ? collator.compare(aStr, bStr)
         : collator.compare(bStr, aStr);
     });
-  }, [persons, sortBy, sortDirection]);
+  }, [filteredPersons, sortBy, sortDirection]);
 
   const pageSize = pageLimit ? +pageLimit : 25;
   const startIndex = (page - 1) * pageSize;
@@ -189,7 +195,7 @@ export function MailingPersonsPanel({
         setPage={setPage}
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
-        results={persons.length}
+        results={filteredPersons.length}
       />
 
       <div className="overflow-x-auto">
