@@ -12,7 +12,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../../../components/loader";
 import { MailingPersonsPanel } from "../../../components/mailing/personsPanel";
 import { useOffice } from "../../../context/officeContext";
@@ -21,9 +21,9 @@ import {
   useDebounce,
   useFetchResults,
 } from "../../../lib/hooks";
+import { toAliasCountryCode } from "../../../lib/countryCodes";
 import { t } from "../../../lib/i18n";
 import { MailingFilter, Person } from "../../../lib/interfaces";
-import { filterPersonsByLand, getLandOptions } from "../../../lib/mailing";
 import { getErrorMessage } from "../../../lib/utils";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -103,19 +103,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       "persons",
       debouncedSearch,
       filters.competences.join("#"),
+      filters.land.map(toAliasCountryCode).join("#"),
     );
     setPersons(res);
   };
-
-  const filteredData = useMemo(
-    () => filterPersonsByLand(persons, filters.land),
-    [persons, filters.land],
-  );
-
-  const landOptions = useMemo(
-    () => getLandOptions(persons, locale),
-    [persons, locale],
-  );
 
   useEffect(() => {
     fetchFilter();
@@ -125,7 +116,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     if (loading) return;
     fetchData();
-  }, [source, service, filters.competences, debouncedSearch, loading]);
+  }, [
+    source,
+    service,
+    filters.competences,
+    filters.land,
+    debouncedSearch,
+    loading,
+  ]);
 
   const handleSaveFilter = async () => {
     setSaving(true);
@@ -212,7 +210,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const handleExportToCleverReach = async () => {
     const success = await exportToCleverReach(
       name || `Meinl Office Mailing ${new Date().toLocaleString("de-DE")}`,
-      filteredData,
+      persons,
     );
 
     notifications.show(
@@ -299,7 +297,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Button
                 onClick={handleExportToCleverReach}
                 loading={exporting}
-                disabled={filteredData.length === 0}
+                disabled={persons.length === 0}
                 leftSection={<IconTableExport size={16} />}
               >
                 {t(locale, "exportToCleverReach")}
@@ -323,9 +321,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <MailingPersonsPanel
         filters={filters}
         setFilters={setFilters}
-        landOptions={landOptions}
         readOnly={!editing}
-        persons={filteredData}
+        persons={persons}
       />
     </main>
   );

@@ -5,21 +5,19 @@ import { Button, Modal, TextInput } from "@mantine/core";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
-interface SaveFilterModalProps {
-  opened: boolean;
-  onClose: () => void;
-  initialName?: string;
-  saving?: boolean;
-  onConfirm: (name: string) => void;
-}
-
 export function SaveFilterModal({
   opened,
   onClose,
   initialName,
   saving,
   onConfirm,
-}: SaveFilterModalProps) {
+}: {
+  opened: boolean;
+  onClose: () => void;
+  initialName?: string;
+  saving?: boolean;
+  onConfirm: (name: string) => void;
+}) {
   const { locale } = useOffice();
   const [name, setName] = useState(initialName ?? "");
 

@@ -1,26 +1,30 @@
 "use client";
 import Pagination from "@/app/components/pagination";
 import { useOffice } from "@/app/context/officeContext";
+import { countryCodes } from "@/app/lib/countryCodes";
 import { competences } from "@/app/lib/data";
 import { t } from "@/app/lib/i18n";
 import { Person } from "@/app/lib/interfaces";
-import { MailingFilters } from "@/app/lib/mailing";
 import { getAvatarColor } from "@/app/lib/utils";
 import { Avatar, MultiSelect, Table, TextInput } from "@mantine/core";
 import { IconChevronUp } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 
+interface MailingFilters {
+  search: string;
+  competences: string[];
+  land: string[];
+}
+
 export function MailingPersonsPanel({
   filters,
   setFilters,
-  landOptions,
   readOnly,
   persons,
 }: {
   filters: MailingFilters;
   setFilters: Dispatch<SetStateAction<MailingFilters>>;
-  landOptions: { label: string; value: string }[];
   readOnly?: boolean;
   persons: Person[];
 }) {
@@ -69,7 +73,7 @@ export function MailingPersonsPanel({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 items-end gap-2 md:gap-y-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-y-0">
         <MultiSelect
           label={t(locale, "responsibilities")}
           searchable
@@ -88,7 +92,7 @@ export function MailingPersonsPanel({
           searchable
           clearable
           placeholder={t(locale, "filter")}
-          data={landOptions}
+          data={countryCodes(locale)}
           value={filters.land}
           onChange={(value) => setFilters((prev) => ({ ...prev, land: value }))}
           readOnly={readOnly}

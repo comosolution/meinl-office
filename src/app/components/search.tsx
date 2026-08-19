@@ -58,11 +58,12 @@ export default function Search({
             source === "OFFGUT" ? "dealers" : "companies",
             debouncedQuery,
             "",
+            "",
             signal,
           ),
           service === "B2C"
             ? []
-            : fetchResults<Person>("persons", debouncedQuery, "", signal),
+            : fetchResults<Person>("persons", debouncedQuery, "", "", signal),
         ]);
 
         setCompanies(allCompanies);

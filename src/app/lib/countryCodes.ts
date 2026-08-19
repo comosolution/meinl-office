@@ -8,6 +8,17 @@ const aliasToIso2: Record<string, string> = {
   UK: "GB",
 };
 
+const iso2ToAlias: Record<string, string> = {
+  DE: "D",
+  AT: "A",
+};
+
+export const toAliasCountryCode = (input: string): string => {
+  const code = input.trim().toUpperCase();
+
+  return iso2ToAlias[code] ?? code;
+};
+
 const alpha2ToReceiverId: Record<string, string> = {
   AT: "Lager_AT_CB1",
   BE: "Lager_BE_CB1",

@@ -61,6 +61,7 @@ export function useFetchResults() {
     type: "companies" | "persons" | "dealers",
     query?: string,
     zustaendig?: string,
+    land?: string,
     signal?: AbortSignal,
   ): Promise<T[]> => {
     const res = await fetch("/api/search", {
@@ -69,6 +70,7 @@ export function useFetchResults() {
         type,
         search: query?.replaceAll("'", " ") || " ",
         zustaendig,
+        land,
         source,
         service,
         user,

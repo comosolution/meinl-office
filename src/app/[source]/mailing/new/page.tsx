@@ -10,11 +10,12 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../../components/loader";
 import { MailingPersonsPanel } from "../../../components/mailing/personsPanel";
 import { SaveFilterModal } from "../../../components/mailing/saveFilterModal";
 import { useOffice } from "../../../context/officeContext";
+import { toAliasCountryCode } from "../../../lib/countryCodes";
 import {
   useCleverReachExport,
   useDebounce,
@@ -22,7 +23,6 @@ import {
 } from "../../../lib/hooks";
 import { t } from "../../../lib/i18n";
 import { Person } from "../../../lib/interfaces";
-import { filterPersonsByLand, getLandOptions } from "../../../lib/mailing";
 import { getErrorMessage } from "../../../lib/utils";
 
 export default function Page() {
@@ -52,29 +52,20 @@ export default function Page() {
       "persons",
       debouncedSearch,
       filters.competences.join("#"),
+      filters.land.map(toAliasCountryCode).join("#"),
     );
     setPersons(res);
     setLoading(false);
   };
 
-  const filteredData = useMemo(
-    () => filterPersonsByLand(persons, filters.land),
-    [persons, filters.land],
-  );
-
-  const landOptions = useMemo(
-    () => getLandOptions(persons, locale),
-    [persons, locale],
-  );
-
   useEffect(() => {
     fetchData();
-  }, [source, service, filters.competences, debouncedSearch]);
+  }, [source, service, filters.competences, filters.land, debouncedSearch]);
 
   const handleExportToCleverReach = async () => {
     const success = await exportToCleverReach(
       `Meinl Office Mailing ${new Date().toLocaleString("de-DE")}`,
-      filteredData,
+      persons,
     );
 
     notifications.show(
@@ -151,14 +142,14 @@ export default function Page() {
             variant="transparent"
             onClick={handleExportToCleverReach}
             loading={exporting}
-            disabled={filteredData.length === 0}
+            disabled={persons.length === 0}
             leftSection={<IconTableExport size={16} />}
           >
             {t(locale, "exportToCleverReach")}
           </Button>
           <Button
             onClick={openSaveModal}
-            disabled={filteredData.length === 0}
+            disabled={persons.length === 0}
             leftSection={<IconDeviceFloppy size={16} />}
           >
             {t(locale, "saveFilter")}
@@ -166,11 +157,12 @@ export default function Page() {
         </div>
       </header>
 
+      <h1>{t(locale, "createFilter")}</h1>
+
       <MailingPersonsPanel
         filters={filters}
         setFilters={setFilters}
-        landOptions={landOptions}
-        persons={filteredData}
+        persons={persons}
       />
 
       <SaveFilterModal
